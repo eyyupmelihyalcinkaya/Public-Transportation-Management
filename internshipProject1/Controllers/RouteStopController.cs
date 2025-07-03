@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using internshipProject1.Models;
+using internshipProject1.Services.RedisService;
 namespace internshipProject1.Controllers
 {
 
@@ -14,10 +15,12 @@ namespace internshipProject1.Controllers
     {
         private readonly AppDbContext _dbContext;
         private readonly IConfiguration _configuration;
-        public RouteStopController(AppDbContext dbContext, IConfiguration configuration)
+        private readonly RedisService _cacheService;
+        public RouteStopController(AppDbContext dbContext, IConfiguration configuration,RedisService cacheService)
         {
             _dbContext = dbContext;
             _configuration = configuration;
+            _cacheService = cacheService;
         }
 
 

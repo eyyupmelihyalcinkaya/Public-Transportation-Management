@@ -5,6 +5,8 @@ using System;
 using System.Text;
 using internshipProject1.Data;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
+using internshipProject1.Services.RedisService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+//Redis
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp => ConnectionMultiplexer.Connect(builder.Configuration.GetValue<string>("Redis:ConnectionString")));
+
+builder.Services.AddSingleton<RedisService>();
+
+builder.Services.AddScoped<RedisCacheHelper>();
+//Swagger Authentication
 builder.Services.AddSwaggerGen(options => {
     options.AddSecurityDefinition(name: JwtBearerDefaults.AuthenticationScheme,
         securityScheme: new OpenApiSecurityScheme
@@ -37,9 +47,9 @@ builder.Services.AddSwaggerGen(options => {
       }
     });
 });
-
+//DB
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+//JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
     options =>
     {
