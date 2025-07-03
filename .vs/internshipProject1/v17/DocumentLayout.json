@@ -1,0 +1,92 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Melih\\Desktop\\Asis\\internshipProject1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.csproj|c:\\users\\melih\\desktop\\asis\\internshipproject1\\internshipproject1\\controllers\\routestopcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.csproj|solutionrelative:internshipproject1\\controllers\\routestopcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.csproj|c:\\users\\melih\\desktop\\asis\\internshipproject1\\internshipproject1\\controllers\\routescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.csproj|solutionrelative:internshipproject1\\controllers\\routescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.csproj|c:\\users\\melih\\desktop\\asis\\internshipproject1\\internshipproject1\\controllers\\tripscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.csproj|solutionrelative:internshipproject1\\controllers\\tripscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.csproj|c:\\users\\melih\\desktop\\asis\\internshipproject1\\internshipproject1\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.csproj|solutionrelative:internshipproject1\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RoutesController.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\internshipProject1\\internshipProject1\\Controllers\\RoutesController.cs",
+              "RelativeDocumentMoniker": "internshipProject1\\Controllers\\RoutesController.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\internshipProject1\\internshipProject1\\Controllers\\RoutesController.cs",
+              "RelativeToolTip": "internshipProject1\\Controllers\\RoutesController.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAQwCYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T12:21:23.054Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\internshipProject1\\internshipProject1\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "internshipProject1\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\internshipProject1\\internshipProject1\\Controllers\\UserController.cs",
+              "RelativeToolTip": "internshipProject1\\Controllers\\UserController.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAQwCUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T10:45:55.784Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RouteStopController.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\internshipProject1\\internshipProject1\\Controllers\\RouteStopController.cs",
+              "RelativeDocumentMoniker": "internshipProject1\\Controllers\\RouteStopController.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\internshipProject1\\internshipProject1\\Controllers\\RouteStopController.cs",
+              "RelativeToolTip": "internshipProject1\\Controllers\\RouteStopController.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAYwDYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T10:09:52.995Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TripsController.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\internshipProject1\\internshipProject1\\Controllers\\TripsController.cs",
+              "RelativeDocumentMoniker": "internshipProject1\\Controllers\\TripsController.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\internshipProject1\\internshipProject1\\Controllers\\TripsController.cs",
+              "RelativeToolTip": "internshipProject1\\Controllers\\TripsController.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAYwDEAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-03T10:09:45.851Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
