@@ -32,7 +32,7 @@ dotnet run
 
 ## API Endpoints
 
-### Public (No Auth Required / Kimlik Doğrulama Gerektirmez)
+## Public (No Auth Required / Kimlik Doğrulama Gerektirmez)
 
 | Method | Endpoint | Description / Açıklama |
 |--------|----------|------------------------|
@@ -44,7 +44,7 @@ dotnet run
 | `POST` | `/api/user/register` | User registration / Kullanıcı kaydı |
 | `POST` | `/api/user/login` | User login / Kullanıcı girişi |
 
-### 🔐 Admin (JWT Token Required / JWT Token Gerekli)
+## Admin (JWT Token Required / JWT Token Gerekli)
 
 | Method | Endpoint | Description / Açıklama |
 |--------|----------|------------------------|
@@ -65,7 +65,7 @@ User (Id, userName, passwordHash, passwordSalt)
 
 ## Usage Example / Kullanım Örneği
 
-### Authentication / Kimlik Doğrulama
+## Authentication / Kimlik Doğrulama
 ```json
 POST /api/user/login
 {
@@ -74,7 +74,7 @@ POST /api/user/login
 }
 ```
 
-### Add Stop / Durak Ekle
+## Add Stop / Durak Ekle
 ```json
 POST /api/stops
 Authorization: Bearer {token}
@@ -85,12 +85,12 @@ Authorization: Bearer {token}
 }
 ```
 
-### Query Trips / Sefer Sorgula
+## Query Trips / Sefer Sorgula
 ```
 GET /api/trips?routeId=1&day=weekday
 ```
 
-## ⚙Configuration / Yapılandırma
+## Configuration / Yapılandırma
 
 Update `appsettings.json`:  
 `appsettings.json` dosyasını güncelleyin:
