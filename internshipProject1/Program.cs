@@ -19,7 +19,7 @@ builder.Services.AddEndpointsApiExplorer();
 //Redis
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp => ConnectionMultiplexer.Connect(builder.Configuration.GetValue<string>("Redis:ConnectionString")));
 
-builder.Services.AddSingleton<RedisService>();
+builder.Services.AddSingleton<RedisCacheService>();
 
 builder.Services.AddScoped<RedisCacheHelper>();
 //Swagger Authentication

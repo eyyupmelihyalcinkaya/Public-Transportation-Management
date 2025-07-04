@@ -16,11 +16,11 @@ namespace internshipProject1.Controllers
 
         private readonly AppDbContext _dbContext;
         private readonly IConfiguration _configuration;
-        private readonly RedisService _cacheService;
+        private readonly RedisCacheService _cacheService;
         private readonly RedisCacheHelper _cacheHelper;
 
 
-        public RoutesController(AppDbContext dbContext, IConfiguration configuration, RedisService cacheService,RedisCacheHelper cacheHelper) {
+        public RoutesController(AppDbContext dbContext, IConfiguration configuration, RedisCacheService cacheService,RedisCacheHelper cacheHelper) {
 
             _dbContext = dbContext;
             _configuration = configuration;
@@ -60,17 +60,32 @@ namespace internshipProject1.Controllers
         [HttpGet("{id}/stops")]
         public async Task<ActionResult> getStops(int id)
         {
-            var route = await _dbContext.Route.Include(r => r.RouteStops).
-                ThenInclude(rs => rs.Stop).
-                FirstOrDefaultAsync(r => r.Id == id);
+            var cacheKey = $"stops:route:Route-{id}";
 
-            if (route == null) { return BadRequest("There is no Stops on the selected Route"); };
+            var stops = await _cacheHelper.GetOrSetCacheAsync(cacheKey, async () =>
+            {
+                var route = await _dbContext.Route
+                    .Include(r => r.RouteStops)
+                    .ThenInclude(rs => rs.Stop)
+                    .FirstOrDefaultAsync(r => r.Id == id);
 
-            var stops = route.RouteStops.OrderBy(rs => rs.Order).Select(rs => new { rs.Stop.Id, rs.Stop.Name });
+                if (route == null)
+                    return null;
+
+                var stopList = route.RouteStops
+                    .OrderBy(rs => rs.Order)
+                    .Select(rs => new { rs.Stop.Id, rs.Stop.Name })
+                    .ToList();
+
+                return stopList;
+            }, TimeSpan.FromMinutes(15));
+
+            if (stops == null)
+                return BadRequest("There is no Stops on the selected Route");
 
             return Ok(stops);
-
         }
+
 
 
 

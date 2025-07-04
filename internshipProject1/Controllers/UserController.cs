@@ -46,6 +46,9 @@ namespace internshipProject1.Controllers
                 passwordHash = hash,
                 passwordSalt = salt
             };
+            if (_dbContext.Users.Any(u => u.userName == request.userName)) {
+                return BadRequest("UserName Already Used !");
+            }
             _dbContext.Add(user);
             await _dbContext.SaveChangesAsync();
             return Ok(
@@ -54,8 +57,7 @@ namespace internshipProject1.Controllers
                     Id = user.Id,
                     userName = user.userName
                 }
-
-                );
+            );
         }
         [HttpPost("login")]
         public async Task<ActionResult> Login(UserLoginDTO request) { 

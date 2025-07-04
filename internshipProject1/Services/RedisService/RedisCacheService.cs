@@ -1,15 +1,18 @@
-﻿using StackExchange.Redis;
+﻿using internshipProject1.Interfaces;
+using StackExchange.Redis;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace internshipProject1.Services.RedisService
 {
-    public class RedisService
+    public class RedisCacheService
     {
         private readonly IDatabase _database;
+        private readonly IConnectionMultiplexer _redisConnection;
 
-        public RedisService(IConnectionMultiplexer connectionMultiplexer)
+        public RedisCacheService(IConnectionMultiplexer connectionMultiplexer)
         {
+            _redisConnection = connectionMultiplexer;
             _database = connectionMultiplexer.GetDatabase();
         }
 
@@ -30,6 +33,19 @@ namespace internshipProject1.Services.RedisService
             }
 
             return JsonSerializer.Deserialize<T>(jsonData);
+        }
+
+        //Cache temizleme
+        public async Task Clear(string key) { 
+            await _database.KeyDeleteAsync(key);
+        }
+
+        public void ClearAll() {
+            var redisEndPoints = _redisConnection.GetEndPoints(true);
+            foreach (var redisEndPoint in redisEndPoints) { 
+                var redisServer = _redisConnection.GetServer(redisEndPoint);
+                redisServer.FlushAllDatabases();
+            }
         }
     }
 }

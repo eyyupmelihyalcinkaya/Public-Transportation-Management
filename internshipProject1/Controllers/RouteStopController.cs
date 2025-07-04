@@ -15,8 +15,8 @@ namespace internshipProject1.Controllers
     {
         private readonly AppDbContext _dbContext;
         private readonly IConfiguration _configuration;
-        private readonly RedisService _cacheService;
-        public RouteStopController(AppDbContext dbContext, IConfiguration configuration,RedisService cacheService)
+        private readonly RedisCacheService _cacheService;
+        public RouteStopController(AppDbContext dbContext, IConfiguration configuration,RedisCacheService cacheService)
         {
             _dbContext = dbContext;
             _configuration = configuration;
