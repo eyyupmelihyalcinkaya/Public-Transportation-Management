@@ -1,11 +1,11 @@
-﻿using internshipProject1.Data;
-using internshipProject1.DTOs;
+﻿using internshipproject1.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using internshipProject1.Models;
-using internshipProject1.Services.RedisService;
-namespace internshipProject1.Controllers
+using internshipproject1.Domain.Entities;
+using internshipproject1.Application.Interfaces;
+using internshipProject1.Infrastructure.Data.Context;
+namespace WebAPI.Controllers
 {
 
     [Authorize]

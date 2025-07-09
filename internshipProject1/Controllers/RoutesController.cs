@@ -1,11 +1,12 @@
-﻿using internshipProject1.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-using internshipProject1.Models;
-using internshipProject1.DTOs;
-using internshipProject1.Services.RedisService;
-namespace internshipProject1.Controllers
+using internshipproject1.Domain.Entities;
+using internshipproject1.Application.DTOs;
+using internshipproject1.Application.Interface;
+
+
+namespace WebAPI.Controllers
 {
     [Authorize]
     [ApiController]
@@ -17,15 +18,14 @@ namespace internshipProject1.Controllers
         private readonly AppDbContext _dbContext;
         private readonly IConfiguration _configuration;
         private readonly RedisCacheService _cacheService;
-        private readonly RedisCacheHelper _cacheHelper;
 
 
-        public RoutesController(AppDbContext dbContext, IConfiguration configuration, RedisCacheService cacheService,RedisCacheHelper cacheHelper) {
+        public RoutesController(AppDbContext dbContext, IConfiguration configuration, RedisCacheService cacheService) {
 
             _dbContext = dbContext;
             _configuration = configuration;
             _cacheService = cacheService;
-            _cacheHelper = cacheHelper;
+            
         }
 
 

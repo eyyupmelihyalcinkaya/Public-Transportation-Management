@@ -1,12 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
-using internshipProject1.Data;
-using internshipProject1.DTOs;
-using internshipProject1.Models;
+using Core.DTOs;
+using Core.Entities;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using internshipProject1.Security;
-namespace internshipProject1.Controllers
+using Infrastructure.Auth;
+using internshipProject1.Infrastructure.Data.Context;
+using internshipproject1.Application.DTOs;
+using internshipproject1.Application.Features.User.Commands.Register;
+using internshipproject1.Application.Features.User;
+using Microsoft.Extensions.Configuration;
+
+namespace WebAPI.Controllers
 {
 
     [ApiController]
@@ -16,11 +21,13 @@ namespace internshipProject1.Controllers
     {
        private readonly AppDbContext _dbContext;
        private readonly IConfiguration _configuration;
+        private readonly UserRegisterHandler _userRegisterHandler;
 
-        public UserController(AppDbContext dbContext, IConfiguration configuration) {
+        public UserController(AppDbContext dbContext, IConfiguration configuration, UserRegisterHandler userRegisterHandler) {
 
             _dbContext = dbContext;
             _configuration = configuration;
+            _userRegisterHandler = userRegisterHandler;
             
         }
         // Password Hash üretme fonksiyonu
@@ -38,26 +45,16 @@ namespace internshipProject1.Controllers
 
         [HttpPost("register")]
         public async Task<ActionResult> Register(UserRegisterDTO request) {
-
-            CreatePasswordHash(request.password, out var hash, out var salt);
-
-            var user = new User { 
+            var command = new UserRegisterCommand
+            {
                 userName = request.userName,
-                passwordHash = hash,
-                passwordSalt = salt
+                password = request.password
             };
-            if (_dbContext.Users.Any(u => u.userName == request.userName)) {
-                return BadRequest("UserName Already Used !");
+            if(string.IsNullOrEmpty(command.userName) || string.IsNullOrEmpty(command.password)) {
+                return BadRequest("Username and Password cannot be empty");
             }
-            _dbContext.Add(user);
-            await _dbContext.SaveChangesAsync();
-            return Ok(
-                new UserResponseDTO
-                {
-                    Id = user.Id,
-                    userName = user.userName
-                }
-            );
+            var result = await _userRegisterHandler.Handle(command);
+            return Ok(result);
         }
         [HttpPost("login")]
         public async Task<ActionResult> Login(UserLoginDTO request) { 

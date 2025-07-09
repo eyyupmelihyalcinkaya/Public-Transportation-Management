@@ -1,6 +1,6 @@
 [
   {
-    "ContainingType": "internshipProject1.Controllers.RoutesController",
+    "ContainingType": "WebAPI.Controllers.RoutesController",
     "Method": "getRoutes",
     "RelativePath": "api/Routes",
     "HttpMethod": "GET",
@@ -10,7 +10,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "internshipProject1.Controllers.RoutesController",
+    "ContainingType": "WebAPI.Controllers.RoutesController",
     "Method": "addRoute",
     "RelativePath": "api/Routes",
     "HttpMethod": "POST",
@@ -19,7 +19,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "internshipProject1.DTOs.RouteCreateDTO",
+        "Type": "Core.DTOs.RouteCreateDTO",
         "IsRequired": true
       }
     ],
@@ -36,7 +36,7 @@
     ]
   },
   {
-    "ContainingType": "internshipProject1.Controllers.RoutesController",
+    "ContainingType": "WebAPI.Controllers.RoutesController",
     "Method": "getRoutesFromId",
     "RelativePath": "api/Routes/{id}",
     "HttpMethod": "GET",
@@ -52,7 +52,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "internshipProject1.Controllers.RoutesController",
+    "ContainingType": "WebAPI.Controllers.RoutesController",
     "Method": "getStops",
     "RelativePath": "api/Routes/{id}/stops",
     "HttpMethod": "GET",
@@ -68,7 +68,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "internshipProject1.Controllers.RouteStopController",
+    "ContainingType": "WebAPI.Controllers.RouteStopController",
     "Method": "addStop",
     "RelativePath": "api/RouteStop",
     "HttpMethod": "POST",
@@ -77,13 +77,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "internshipProject1.DTOs.RouteStopCreateDTO",
+        "Type": "Core.DTOs.RouteStopCreateDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "internshipProject1.Models.RouteStop",
+        "Type": "Core.Entities.RouteStop",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -94,7 +94,7 @@
     ]
   },
   {
-    "ContainingType": "internshipProject1.Controllers.StopsController",
+    "ContainingType": "WebAPI.Controllers.StopsController",
     "Method": "getStop",
     "RelativePath": "api/Stops/{id}",
     "HttpMethod": "GET",
@@ -110,7 +110,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "internshipProject1.Controllers.StopsController",
+    "ContainingType": "WebAPI.Controllers.StopsController",
     "Method": "addStop",
     "RelativePath": "api/Stops/Create",
     "HttpMethod": "POST",
@@ -119,13 +119,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "internshipProject1.DTOs.StopCreateDTO",
+        "Type": "Core.DTOs.StopCreateDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "internshipProject1.Models.Stop",
+        "Type": "Core.Entities.Stop",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -136,7 +136,7 @@
     ]
   },
   {
-    "ContainingType": "internshipProject1.Controllers.StopsController",
+    "ContainingType": "WebAPI.Controllers.StopsController",
     "Method": "nearbyStops",
     "RelativePath": "api/Stops/nearby",
     "HttpMethod": "GET",
@@ -156,7 +156,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[internshipProject1.Models.Stop, internshipProject1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Core.Entities.Stop, internshipProject1.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -167,7 +167,7 @@
     ]
   },
   {
-    "ContainingType": "internshipProject1.Controllers.TripsController",
+    "ContainingType": "WebAPI.Controllers.TripsController",
     "Method": "GetTrip",
     "RelativePath": "api/Trips",
     "HttpMethod": "GET",
@@ -187,7 +187,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[internshipProject1.Models.Trip, internshipProject1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Core.Entities.Trip, internshipProject1.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -198,7 +198,7 @@
     ]
   },
   {
-    "ContainingType": "internshipProject1.Controllers.TripsController",
+    "ContainingType": "WebAPI.Controllers.TripsController",
     "Method": "addStop",
     "RelativePath": "api/Trips",
     "HttpMethod": "POST",
@@ -207,13 +207,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "internshipProject1.DTOs.TripCreateDTO",
+        "Type": "Core.DTOs.TripCreateDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "internshipProject1.Models.Trip",
+        "Type": "Core.Entities.Trip",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -224,7 +224,7 @@
     ]
   },
   {
-    "ContainingType": "internshipProject1.Controllers.UserController",
+    "ContainingType": "WebAPI.Controllers.UserController",
     "Method": "Login",
     "RelativePath": "api/User/login",
     "HttpMethod": "POST",
@@ -233,14 +233,14 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "internshipProject1.DTOs.UserLoginDTO",
+        "Type": "Core.DTOs.UserLoginDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "internshipProject1.Controllers.UserController",
+    "ContainingType": "WebAPI.Controllers.UserController",
     "Method": "Register",
     "RelativePath": "api/User/register",
     "HttpMethod": "POST",
@@ -249,31 +249,10 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "internshipProject1.DTOs.UserRegisterDTO",
+        "Type": "Core.DTOs.UserRegisterDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
-  },
-  {
-    "ContainingType": "internshipProject1.Controllers.WeatherForecastController",
-    "Method": "Get",
-    "RelativePath": "WeatherForecast",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[internshipProject1.WeatherForecast, internshipProject1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ],
-    "EndpointName": "GetWeatherForecast"
   }
 ]

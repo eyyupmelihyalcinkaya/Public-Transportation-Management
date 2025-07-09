@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using internshipproject1.Application.Interfaces.Repositories;
+using MediatR;
+namespace internshipproject1.Application.Features.Route.Commands.updateRoute
+{
+    public class updateRouteCommandHandler : IRequestHandler<updateRouteCommandRequest, updateRouteCommandResponse>
+    {
+        private readonly IRouteRepository _routeRepository;
+
+        public updateRouteCommandHandler(IRouteRepository routeRepository)
+        {
+            _routeRepository = routeRepository;
+        }
+
+        public async Task<updateRouteCommandResponse> Handle(updateRouteCommandRequest request, CancellationToken cancellationToken) {
+            var route = await _routeRepository.GetByIdAsync(request.Id);
+            if(route == null)
+            {
+                throw new KeyNotFoundException($"Route with ID {request.Id} not found.");
+            }
+            route.Name = request.Name;
+            route.Description = request.Description;
+            route.StartLocation = request.StartLocation;
+            route.EndLocation = request.EndLocation;
+
+            var updatedRoute = await _routeRepository.UpdateAsync(route);
+
+            return new updateRouteCommandResponse
+            {
+                Id = updatedRoute.Id,
+                Name = updatedRoute.Name,
+                Description = updatedRoute.Description,
+                StartLocation = updatedRoute.StartLocation,
+                EndLocation = updatedRoute.EndLocation
+            };
+        }
+    }
+}

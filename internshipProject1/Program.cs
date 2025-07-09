@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
-using internshipProject1.Data;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
-using internshipProject1.Services.RedisService;
+using Core.Services.RedisService;
+using internshipProject1.Infrastructure.Data.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,6 +67,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
     }
     );
+//CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") 
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();     
+    });
+});
 
 var app = builder.Build();
 
@@ -81,7 +92,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors("AllowFrontend");
 app.MapControllers();
 
 app.Run();
