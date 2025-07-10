@@ -28,7 +28,7 @@ namespace internshipproject1.Application.Features.User.Commands.Login
         public async Task<UserLoginCommandResponse> Handle(UserLoginCommand command,CancellationToken cancellationToken)
         {
 
-            var user = await _userRepository.GetByUsernameAsync(command.UserName);
+            var user = await _userRepository.GetByUsernameAsync(command.UserName,cancellationToken);
             
             if (user == null)
             {

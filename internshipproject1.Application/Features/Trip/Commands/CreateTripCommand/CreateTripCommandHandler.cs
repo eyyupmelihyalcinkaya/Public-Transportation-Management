@@ -25,7 +25,7 @@ namespace internshipproject1.Application.Features.Trip.Commands.CreateTripComman
                 DayType = request.DayType
             };
 
-            await _tripRepository.AddAsync(newTrip);
+            await _tripRepository.AddAsync(newTrip,cancellationToken);
 
             return new CreateTripCommandResponse
             {

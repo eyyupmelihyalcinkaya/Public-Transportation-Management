@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace internshipproject1.Application.Features.Route.Commands.createRoute
+namespace internshipproject1.Application.Features.Route.Commands.CreateRoute
 {
-    public class CreateRouteCommandHandler : IRequestHandler<createRouteCommand, createRouteCommandResponse>
+    public class CreateRouteCommandHandler : IRequestHandler<CreateRouteCommand, CreateRouteCommandResponse>
     {
         private readonly IRouteRepository _routeRepository;
 
@@ -17,9 +17,9 @@ namespace internshipproject1.Application.Features.Route.Commands.createRoute
             _routeRepository = routeRepository;
         }
 
-        public async Task<createRouteCommandResponse> Handle(createRouteCommand request, CancellationToken cancellationToken)
+        public async Task<CreateRouteCommandResponse> Handle(CreateRouteCommand request, CancellationToken cancellationToken)
         {
-            var route = new myRoute
+            var route = new RouteToCreate
             {
                 Name = request.Name,
                 Description = request.Description,
@@ -27,9 +27,9 @@ namespace internshipproject1.Application.Features.Route.Commands.createRoute
                 EndLocation = request.EndLocation
 
             };
-            var createdRoute = await _routeRepository.AddAsync(route);
+            var createdRoute = await _routeRepository.AddAsync(route, cancellationToken); //cancellationToken
             
-            return new createRouteCommandResponse
+            return new CreateRouteCommandResponse
             {
                 Id = createdRoute.Id,
                 Name = createdRoute.Name,

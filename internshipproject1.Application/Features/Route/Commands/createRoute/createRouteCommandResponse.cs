@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MediatR;
-namespace internshipproject1.Application.Features.Route.Commands.createRoute
+
+namespace internshipproject1.Application.Features.Route.Commands.CreateRoute
 {
-    public class createRouteCommandResponse
+    public class CreateRouteCommandResponse
     {
         public int Id { get; set; }
         public string Name { get; set; }

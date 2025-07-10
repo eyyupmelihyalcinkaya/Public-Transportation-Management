@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace internshipproject1.Application.Features.User.Queries.getAllUsers
+namespace internshipproject1.Application.Features.User.Queries.GetAllUsers
 {
-    public class getAllUsersQueryResponse
+    public class GetAllUsersQueryResponse
     {
         public int id { get; set; }
         public string userName { get; set; } = string.Empty;

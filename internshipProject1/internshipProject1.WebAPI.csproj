@@ -15,6 +15,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.6" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     <PackageReference Include="StackExchange.Redis" Version="2.8.41" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
@@ -27,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\internshipproject1.Application\internshipproject1.Application.csproj" />
+    <ProjectReference Include="..\internshipProject1.Infrastructure\internshipProject1.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

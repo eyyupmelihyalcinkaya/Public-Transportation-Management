@@ -9,12 +9,12 @@ namespace internshipproject1.Application.Interfaces.Repositories
 {
     public interface IUserRepository : IGenericRepository<User>
     {
-        Task<User> GetByIdAsync(int id);
-        Task<User> GetByUsernameAsync(string username);
-        Task<IEnumerable<User>> GetAllAsync();
-        Task<User> AddAsync(User user);
-        Task<User> UpdateAsync(User user);
-        Task DeleteAsync(int id);
-        Task<bool> UserExistsAsync(string username);
+        Task<User> GetByIdAsync(int id,CancellationToken cancellationToken);
+        Task<User> GetByUsernameAsync(string username, CancellationToken cancellationToken);
+        Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken);
+        Task<User> AddAsync(User user,CancellationToken cancellationToken);
+        Task<User> UpdateAsync(User user,CancellationToken cancellationToken);
+        Task DeleteAsync(int id, CancellationToken cancellationToken);
+        Task<bool> UserExistsAsync(string username, CancellationToken cancellationToken);
     }
 }

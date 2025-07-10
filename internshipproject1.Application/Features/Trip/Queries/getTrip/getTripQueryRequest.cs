@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using MediatR;
 using internshipproject1.Domain.Entities;
 
-namespace internshipproject1.Application.Features.Trip.Queries.getTrip
+namespace internshipproject1.Application.Features.Trip.Queries.GetTrip
 {
-    public class getTripQueryRequest
+    public class GetTripQueryRequest : IRequest<List<GetTripQueryResponse>>
     {
         public int Id { get; set; }
         public int RouteId { get; set; }

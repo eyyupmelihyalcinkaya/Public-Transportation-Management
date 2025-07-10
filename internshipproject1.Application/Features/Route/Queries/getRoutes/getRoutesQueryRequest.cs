@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace internshipproject1.Application.Features.Route.Queries.getRoutes
+namespace internshipproject1.Application.Features.Route.Queries.GetRoutes
 {
-    public class getRoutesQueryRequest : IRequest<List<getRoutesQueryResponse>>
+    public class GetRoutesQueryRequest : IRequest<List<GetRoutesQueryResponse>>
     {
        
     }

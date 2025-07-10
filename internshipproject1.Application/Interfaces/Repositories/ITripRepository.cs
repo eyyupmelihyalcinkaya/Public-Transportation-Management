@@ -9,11 +9,11 @@ namespace internshipproject1.Application.Interfaces.Repositories
 {
     public interface ITripRepository : IGenericRepository<Trip>
     {
-        public Task<Trip> GetByIdAsync(int id);
-        public Task<Trip> GetByRouteIdAsync(int routeId);
-        public Task<IReadOnlyList<Trip>> GetAllAsync();
-        public Task<Trip> AddAsync(Trip trip);
-        public Task<Trip> UpdateAsync(Trip trip);
-        public Task<Trip> DeleteAsync(int id);
+        public Task<Trip> GetByIdAsync(int id,CancellationToken cancellationToken);
+        public Task<Trip> GetByRouteIdAsync(int routeId,CancellationToken cancellationToken);
+        public Task<IReadOnlyList<Trip>> GetAllAsync(CancellationToken cancellationToken);
+        public Task<Trip> AddAsync(Trip trip,CancellationToken cancellationToken);
+        public Task<Trip> UpdateAsync(Trip trip,CancellationToken cancellationToken);
+        public Task<Trip> DeleteAsync(int id, CancellationToken cancellationToken);
     }
 }

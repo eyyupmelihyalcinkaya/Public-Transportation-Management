@@ -19,18 +19,18 @@ namespace internshipProject1.Infrastructure.Data.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<RouteStop> AddAsync(RouteStop routeStop)
+        public async Task<RouteStop> AddAsync(RouteStop routeStop, CancellationToken cancellationToken)
         {
             if(routeStop == null)
             {
                 throw new ArgumentNullException(nameof(routeStop));
             }
             await _dbContext.RouteStop.AddAsync(routeStop);
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync(cancellationToken);
             return routeStop;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
             if (id <= 0)
             {
@@ -38,53 +38,53 @@ namespace internshipProject1.Infrastructure.Data.Repository
             }
             var routeStop = await _dbContext.RouteStop.FindAsync(id);
             _dbContext.RouteStop.Remove(routeStop);
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public Task DeleteAsync(RouteStop entity)
+        public Task DeleteAsync(RouteStop entity, CancellationToken cancellationToken)
         {
              if(entity == null)
              {
                 throw new ArgumentNullException(nameof(entity));
              }
              _dbContext.RouteStop.Remove(entity);
-             return _dbContext.SaveChangesAsync();
+             return _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IReadOnlyList<RouteStop>> GetAllAsync()
+        public async Task<IReadOnlyList<RouteStop>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var routeStops = await _dbContext.RouteStop.ToListAsync();
+            var routeStops = await _dbContext.RouteStop.ToListAsync(cancellationToken);
             return routeStops;
         }
 
-        public async Task<IReadOnlyList<RouteStop>> GetAllByRouteIdAsync(int routeId)
+        public async Task<IReadOnlyList<RouteStop>> GetAllByRouteIdAsync(int routeId, CancellationToken cancellationToken)
         {
             if(routeId <= 0)
             {
                 throw new ArgumentException("Invalid route ID", nameof(routeId));
             }
-            var routeStop = await _dbContext.RouteStop.Where(r=> r.RouteId == routeId).ToListAsync();
+            var routeStop = await _dbContext.RouteStop.Where(r=> r.RouteId == routeId).ToListAsync(cancellationToken);
             return routeStop;
         }
 
-        public async Task<IReadOnlyList<RouteStop>> GetAllByStopIdAsync(int stopId)
+        public async Task<IReadOnlyList<RouteStop>> GetAllByStopIdAsync(int stopId,CancellationToken cancellationToken)
         {
             if (stopId <= 0)
             {
                 throw new ArgumentException("Invalid route ID", nameof(stopId));
             }
-            var routeStop = await _dbContext.RouteStop.Where(r => r.StopId == stopId).ToListAsync();
+            var routeStop = await _dbContext.RouteStop.Where(r => r.StopId == stopId).ToListAsync(cancellationToken);
             return routeStop;
 
         }
 
-        public async Task<RouteStop> GetByIdAsync(int id)
+        public async Task<RouteStop> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             if (id <= 0)
             {
                 throw new ArgumentException("Invalid route stop ID", nameof(id));
             }
-            var routeStop = await _dbContext.RouteStop.FirstOrDefaultAsync(rs => rs.Id == id);
+            var routeStop = await _dbContext.RouteStop.FirstOrDefaultAsync(rs => rs.Id == id, cancellationToken);
             if(routeStop == null)
             {
                 throw new KeyNotFoundException($"RouteStop with ID {id} not found.");
@@ -92,12 +92,12 @@ namespace internshipProject1.Infrastructure.Data.Repository
             return routeStop;
         }
 
-        public async Task<RouteStop> GetByRouteIdAndStopIdAsync(int routeId, int stopId)
+        public async Task<RouteStop> GetByRouteIdAndStopIdAsync(int routeId, int stopId,CancellationToken cancellationToken)
         {
             if (routeId <= 0 || stopId <= 0) { 
                 throw new ArgumentException("Invalid route or stop ID");
             }
-            var routeStop = await _dbContext.RouteStop.Where(rs => rs.RouteId == routeId && rs.StopId == stopId).FirstOrDefaultAsync();
+            var routeStop = await _dbContext.RouteStop.Where(rs => rs.RouteId == routeId && rs.StopId == stopId).FirstOrDefaultAsync(cancellationToken);
             if (routeStop == null)
             {
                 throw new KeyNotFoundException($"RouteStop with RouteId {routeId} and StopId {stopId} not found.");
@@ -105,24 +105,24 @@ namespace internshipProject1.Infrastructure.Data.Repository
             return routeStop;
         }
 
-        public async Task<bool> RouteStopExistsAsync(int routeId, int stopId)
+        public async Task<bool> RouteStopExistsAsync(int routeId, int stopId, CancellationToken cancellationToken)
         {
             if(routeId <= 0 || stopId <= 0)
             {
                 throw new ArgumentException("Invalid route or stop ID");
             }
-            return await _dbContext.RouteStop.AnyAsync(rs => rs.RouteId == routeId && rs.StopId == stopId);
+            return await _dbContext.RouteStop.AnyAsync(rs => rs.RouteId == routeId && rs.StopId == stopId, cancellationToken);
 
         }
 
-        public Task<RouteStop> UpdateAsync(RouteStop routeStop)
+        public Task<RouteStop> UpdateAsync(RouteStop routeStop,CancellationToken cancellationToken)
         {
-            return UpdateAsync(routeStop);
+            return UpdateAsync(routeStop,cancellationToken);
         }
 
-        Task IGenericRepository<RouteStop>.UpdateAsync(RouteStop entity)
+        Task IGenericRepository<RouteStop>.UpdateAsync(RouteStop entity, CancellationToken cancellationToken)
         {
-            return UpdateAsync(entity);
+            return UpdateAsync(entity, cancellationToken);
         }
     }
 }

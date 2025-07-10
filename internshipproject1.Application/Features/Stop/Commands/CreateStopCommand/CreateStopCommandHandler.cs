@@ -24,7 +24,7 @@ namespace internshipproject1.Application.Features.Stop.Commands.CreateStopComman
                 Latitude = request.Latitude,
                 Longitude = request.Longitude
             };
-            await _stopRepository.AddAsync(stop);
+            await _stopRepository.AddAsync(stop, cancellationToken);
             return new CreateStopCommandResponse
             {
                 StopName = stop.Name,

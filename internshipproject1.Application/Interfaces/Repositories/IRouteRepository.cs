@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using internshipproject1.Domain.Entities;
+using MediatR;
 
 namespace internshipproject1.Application.Interfaces.Repositories
 {
-    public interface IRouteRepository : IGenericRepository<myRoute>
+    public interface IRouteRepository : IGenericRepository<RouteToCreate>
     {
-        Task<myRoute> GetByIdAsync(int id);
-        Task<myRoute> GetByRouteNameAsync(string routeName);
-        Task<myRoute> AddAsync(myRoute route);
-        Task<myRoute> UpdateAsync(myRoute route);
-        Task DeleteAsync(int id);
-        Task<bool> RouteExistsAsync(string routeName);
+        Task<RouteToCreate> GetByIdAsync(int id,CancellationToken cancellationToken);
+        Task<RouteToCreate> GetByRouteNameAsync(string routeName, CancellationToken cancellationToken);
+        Task<RouteToCreate> AddAsync(RouteToCreate route, CancellationToken cancellationToken);
+        Task<RouteToCreate> UpdateAsync(RouteToCreate route, CancellationToken cancellationToken);
+        Task DeleteAsync(int id, CancellationToken cancellationToken);
+        Task<bool> RouteExistsAsync(string routeName, CancellationToken cancellationToken);
     }
 }

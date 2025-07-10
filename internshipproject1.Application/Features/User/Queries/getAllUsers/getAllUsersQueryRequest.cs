@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace internshipproject1.Application.Features.User.Queries.getAllUsers
+namespace internshipproject1.Application.Features.User.Queries.GetAllUsers
 {
-    public class getAllUsersQueryRequest : IRequest<List<getAllUsersQueryResponse>>
+    public class GetAllUsersQueryRequest : IRequest<List<GetAllUsersQueryResponse>>
     {
     }
 }

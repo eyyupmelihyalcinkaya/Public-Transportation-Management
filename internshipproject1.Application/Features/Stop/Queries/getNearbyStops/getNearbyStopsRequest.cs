@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace internshipproject1.Application.Features.Stop.Queries.getNearbyStops
+namespace internshipproject1.Application.Features.Stop.Queries.GetNearbyStops
 {
-    public class getNearbyStopsRequest : IRequest<List<getNearbyStopsResponse>>
+    public class GetNearbyStopsRequest : IRequest<List<GetNearbyStopsResponse>>
     {
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public getNearbyStopsRequest(double latitude, double longitude)
+        public GetNearbyStopsRequest(double latitude, double longitude)
         {
             Latitude = latitude;
             Longitude = longitude;

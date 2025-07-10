@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MediatR;
-namespace internshipproject1.Application.Features.Route.Commands.updateRoute
+namespace internshipproject1.Application.Features.Route.Commands.UpdateRoute
 {
-    public class updateRouteCommandRequest : IRequest<updateRouteCommandResponse>
+    public class UpdateRouteCommandRequest : IRequest<UpdateRouteCommandResponse>
     {
         public int Id { get; set; }
         public string Name { get; set; }

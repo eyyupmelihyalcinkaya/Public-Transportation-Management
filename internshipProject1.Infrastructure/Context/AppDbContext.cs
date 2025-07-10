@@ -10,7 +10,7 @@ namespace internshipProject1.Infrastructure.Context
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Stop> Stop { get; set; }
-        public DbSet<myRoute> Route { get; set; }
+        public DbSet<RouteToCreate> Route { get; set; }
         public DbSet<RouteStop> RouteStop { get; set; }
         public DbSet<Trip> Trip { get; set; }
 

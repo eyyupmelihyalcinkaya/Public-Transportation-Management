@@ -1,12 +1,14 @@
+using internshipproject1.Application;
+using internshipProject1.Infrastructure;
+using internshipProject1.Infrastructure.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Text;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
-using Core.Services.RedisService;
-using internshipProject1.Infrastructure.Data.Context;
+using System;
+using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,9 +21,8 @@ builder.Services.AddEndpointsApiExplorer();
 //Redis
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp => ConnectionMultiplexer.Connect(builder.Configuration.GetValue<string>("Redis:ConnectionString")));
 
-builder.Services.AddSingleton<RedisCacheService>();
 
-builder.Services.AddScoped<RedisCacheHelper>();
+
 //Swagger Authentication
 builder.Services.AddSwaggerGen(options => {
     options.AddSecurityDefinition(name: JwtBearerDefaults.AuthenticationScheme,
@@ -48,8 +49,13 @@ builder.Services.AddSwaggerGen(options => {
     });
 });
 //DB
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 //JWT
+
+
+builder.Services.AddApplication();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
     options =>
     {

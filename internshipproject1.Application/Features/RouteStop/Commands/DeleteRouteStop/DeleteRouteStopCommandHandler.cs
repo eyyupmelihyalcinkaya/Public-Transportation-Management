@@ -17,12 +17,12 @@ namespace internshipproject1.Application.Features.RouteStop.Commands.DeleteRoute
         }
 
         public async Task<DeleteRouteStopCommandResponse> Handle(DeleteRouteStopCommandRequest request, CancellationToken cancellationToken) { 
-            var routeStop = await _routeStopRepository.GetByIdAsync(request.Id);
+            var routeStop = await _routeStopRepository.GetByIdAsync(request.Id, cancellationToken);
             if (routeStop == null)
             {
                 throw new KeyNotFoundException("RouteStop not found.");
             }
-            await _routeStopRepository.DeleteAsync(request.Id);
+            await _routeStopRepository.DeleteAsync(request.Id, cancellationToken);
             return new DeleteRouteStopCommandResponse
             {
                 Id = request.Id,

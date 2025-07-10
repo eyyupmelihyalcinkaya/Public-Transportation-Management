@@ -7,20 +7,20 @@ using MediatR;
 using internshipproject1.Domain.Entities;
 using internshipproject1.Application.Interfaces.Repositories;
 
-namespace internshipproject1.Application.Features.Trip.Queries.getTrip
+namespace internshipproject1.Application.Features.Trip.Queries.GetTrip
 {
-    public class getTripQueryHandler : IRequestHandler<getTripQueryRequest, List<getTripQueryResponse>>
+    public class GetTripQueryHandler : IRequestHandler<GetTripQueryRequest, List<GetTripQueryResponse>>
     {
         private readonly ITripRepository _tripRepository;
 
-        public getTripQueryHandler(ITripRepository tripRepository) { 
+        public GetTripQueryHandler(ITripRepository tripRepository) { 
             _tripRepository = tripRepository;
         }
 
-        public async Task<List<getTripQueryResponse>> Handle(getTripQueryRequest request, CancellationToken cancellationToken) { 
-            var trips = await _tripRepository.GetAllAsync();
+        public async Task<List<GetTripQueryResponse>> Handle(GetTripQueryRequest request, CancellationToken cancellationToken) { 
+            var trips = await _tripRepository.GetAllAsync(cancellationToken);
 
-            var response = trips.Select(t=> new getTripQueryResponse
+            var response = trips.Select(t=> new GetTripQueryResponse
             { 
                 Id = t.Id,
                 RouteId = t.RouteId,

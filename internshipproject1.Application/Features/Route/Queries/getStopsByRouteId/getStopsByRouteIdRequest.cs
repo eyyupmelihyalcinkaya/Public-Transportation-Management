@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MediatR;
-namespace internshipproject1.Application.Features.Route.Queries.getStopsByRouteId
+namespace internshipproject1.Application.Features.Route.Queries.GetStopsByRouteId
 {
-    public class getStopsByRouteIdRequest : IRequest<List<getStopsByRouteIdResponse>>
+    public class GetStopsByRouteIdRequest : IRequest<List<GetStopsByRouteIdResponse>>
     {
         public int RouteId { get; set; }
-        public getStopsByRouteIdRequest(int routeId)
+        public GetStopsByRouteIdRequest(int routeId)
         {
             RouteId = routeId;
         }

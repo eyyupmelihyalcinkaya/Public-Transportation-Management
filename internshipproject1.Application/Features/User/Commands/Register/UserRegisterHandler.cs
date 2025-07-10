@@ -29,7 +29,7 @@ namespace internshipproject1.Application.Features.User.Commands.Register
                 passwordHash = hash,
                 passwordSalt = salt
             };
-            await _userRepository.AddAsync(user);
+            await _userRepository.AddAsync(user, cancellationToken);
             return new UserRegisterCommandResponse { 
             
                 Id = user.Id,

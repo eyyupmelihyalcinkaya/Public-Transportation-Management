@@ -19,7 +19,7 @@ namespace internshipproject1.Application.Features.User.Commands.ChangePassword
         }
 
         public async Task<ChangePasswordCommandResponse> Handle(ChangePasswordCommand request, CancellationToken cancellationToken) {
-            var user = await _userRepository.GetByUsernameAsync(request.UserName);
+            var user = await _userRepository.GetByUsernameAsync(request.UserName,cancellationToken);
             if (user == null) {
                 throw new KeyNotFoundException($"User '{request.UserName}' does not exist.");
             }
@@ -30,7 +30,7 @@ namespace internshipproject1.Application.Features.User.Commands.ChangePassword
             _passwordHashingService.CreatePasswordHash(request.newPassword, out var hash, out var salt);
             user.passwordHash = hash;
             user.passwordSalt = salt;
-            await _userRepository.UpdateAsync(user);
+            await _userRepository.UpdateAsync(user, cancellationToken);
             return new ChangePasswordCommandResponse
             {
                 UserName = user.userName,

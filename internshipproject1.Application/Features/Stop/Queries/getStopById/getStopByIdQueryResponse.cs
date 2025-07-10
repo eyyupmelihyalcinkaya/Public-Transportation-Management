@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MediatR;
-namespace internshipproject1.Application.Features.Stop.Queries.getStopById
+namespace internshipproject1.Application.Features.Stop.Queries.GetStopById
 {
-    public class getStopByIdQueryResponse : IRequest<getStopByIdQueryResponse>
+    public class GetStopByIdQueryResponse : IRequest<GetStopByIdQueryResponse>
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -9,13 +9,13 @@ namespace internshipproject1.Application.Interfaces.Repositories
     public interface IStopRepository : IGenericRepository<Stop>
     {
 
-        Task<Stop> GetByIdAsync(int id);
-        Task<Stop> GetByStopNameAsync(string stopName);
-        Task<Stop> AddAsync(Stop stop);
-        Task<Stop> UpdateAsync(Stop stop);
-        Task DeleteAsync(int id);
-        Task<bool> StopExistsAsync(string stopName);
-        Task<IReadOnlyList<Stop>> GetAllAsync();
+        Task<Stop> GetByIdAsync(int id,CancellationToken cancellationToken);
+        Task<Stop> GetByStopNameAsync(string stopName,CancellationToken cancellationToken);
+        Task<Stop> AddAsync(Stop stop,CancellationToken cancellationToken);
+        Task<Stop> UpdateAsync(Stop stop,CancellationToken cancellationToken);
+        Task DeleteAsync(int id, CancellationToken cancellationToken);
+        Task<bool> StopExistsAsync(string stopName, CancellationToken cancellationToken);
+        Task<IReadOnlyList<Stop>> GetAllAsync(CancellationToken cancellationToken);
 
     }
 }

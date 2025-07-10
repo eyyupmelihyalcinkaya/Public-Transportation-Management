@@ -24,12 +24,12 @@ namespace internshipproject1.Application.Features.RouteStop.Commands.AddRouteSto
                 StopId = request.StopId,
                 Order = request.Order
             };
-            var existingRouteStop = await _routeStopRepository.GetByRouteIdAndStopIdAsync(request.RouteId, request.StopId);
+            var existingRouteStop = await _routeStopRepository.GetByRouteIdAndStopIdAsync(request.RouteId, request.StopId,cancellationToken);
             if (existingRouteStop is null)
             {
                 throw new KeyNotFoundException("RouteStop already exists for this RouteId and StopId.");
             }
-            await _routeStopRepository.AddAsync(routeStop);
+            await _routeStopRepository.AddAsync(routeStop, cancellationToken);
             return new AddRouteStopCommandResponse(routeStop.RouteId, routeStop.StopId, routeStop.Order);
         }
     }

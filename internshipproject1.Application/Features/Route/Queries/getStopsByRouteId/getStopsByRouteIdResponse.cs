@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MediatR;
-namespace internshipproject1.Application.Features.Route.Queries.getStopsByRouteId
+namespace internshipproject1.Application.Features.Route.Queries.GetStopsByRouteId
 {
-    public class getStopsByRouteIdResponse
+    public class GetStopsByRouteIdResponse
     {
         public int Id { get; set; }
         public string Name { get; set; }

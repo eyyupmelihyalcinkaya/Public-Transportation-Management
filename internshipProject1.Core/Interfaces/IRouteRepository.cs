@@ -10,10 +10,10 @@ namespace internshipProject1.Core.Interfaces
     internal interface IRouteRepository
     {
 
-        Task<myRoute> GetByIdAsync(int id);
-        Task<IEnumerable<myRoute>> GetAllAsync();
-        Task<myRoute> AddAsync(myRoute route);
-        Task<myRoute> UpdateAsync(myRoute route);
+        Task<RouteToCreate> GetByIdAsync(int id);
+        Task<IEnumerable<RouteToCreate>> GetAllAsync();
+        Task<RouteToCreate> AddAsync(RouteToCreate route);
+        Task<RouteToCreate> UpdateAsync(RouteToCreate route);
         Task DeleteAsync(int id);
         Task<IEnumerable<Stop>> GetRouteStopAsync(int routeId);
 

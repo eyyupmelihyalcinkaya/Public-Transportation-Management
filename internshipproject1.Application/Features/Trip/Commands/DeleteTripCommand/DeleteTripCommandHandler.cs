@@ -17,8 +17,8 @@ namespace internshipproject1.Application.Features.Trip.Commands.DeleteTripComman
         }
 
         public async Task<DeleteTripCommandResponse> Handle(DeleteTripCommandRequest request, CancellationToken cancellationToken) {
-            var trip = await _tripRepository.GetByIdAsync(request.Id);
-            await _tripRepository.DeleteAsync(trip);
+            var trip = await _tripRepository.GetByIdAsync(request.Id,cancellationToken);
+            await _tripRepository.DeleteAsync(trip, cancellationToken);
             return new DeleteTripCommandResponse
             {
                 Id = trip.Id,

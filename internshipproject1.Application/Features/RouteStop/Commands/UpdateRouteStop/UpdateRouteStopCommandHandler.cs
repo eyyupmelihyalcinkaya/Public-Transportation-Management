@@ -17,7 +17,7 @@ namespace internshipproject1.Application.Features.RouteStop.Commands.UpdateRoute
         }
 
         public async Task<UpdateRouteStopCommandResponse> Handle(UpdateRouteStopCommandRequest request, CancellationToken cancellationToken) { 
-            var routeStop = await _routeStopRepository.GetByIdAsync(request.RouteStopId);
+            var routeStop = await _routeStopRepository.GetByIdAsync(request.RouteStopId, cancellationToken);
 
             if(routeStop == null)
             {
@@ -26,7 +26,7 @@ namespace internshipproject1.Application.Features.RouteStop.Commands.UpdateRoute
             routeStop.RouteId = request.RouteId;
             routeStop.StopId = request.StopId;
             routeStop.Order = request.Order;
-            await _routeStopRepository.UpdateAsync(routeStop);
+            await _routeStopRepository.UpdateAsync(routeStop, cancellationToken);
 
             return new UpdateRouteStopCommandResponse
             {

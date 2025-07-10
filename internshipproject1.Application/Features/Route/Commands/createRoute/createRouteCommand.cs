@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using internshipproject1.Application.Interfaces.Repositories;
 using internshipproject1.Domain.Entities;
 using MediatR;
-namespace internshipproject1.Application.Features.Route.Commands.createRoute
+namespace internshipproject1.Application.Features.Route.Commands.CreateRoute
 {
-    public class createRouteCommand : IRequest<createRouteCommandResponse>
+    public class CreateRouteCommand : IRequest<CreateRouteCommandResponse>
     {
        public string Name { get; set; }
        public string Description { get; set; }

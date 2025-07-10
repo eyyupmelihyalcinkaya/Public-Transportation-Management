@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using internshipproject1.Application.Interfaces.Repositories;
 using MediatR;
-namespace internshipproject1.Application.Features.Route.Commands.deleteRoute
+namespace internshipproject1.Application.Features.Route.Commands.DeleteRoute
 {
-    public class deleteRouteCommandHandler : IRequestHandler<deleteRouteCommandRequest, deleteRouteCommandResponse>
+    public class deleteRouteCommandHandler : IRequestHandler<DeleteRouteCommandRequest, DeleteRouteCommandResponse>
     {
         private readonly IRouteRepository _routeRepository;
 
@@ -16,14 +16,14 @@ namespace internshipproject1.Application.Features.Route.Commands.deleteRoute
             _routeRepository = routeRepository;
         }
 
-        public async Task<deleteRouteCommandResponse> Handle(deleteRouteCommandRequest request, CancellationToken cancellationToken) { 
-            var route = await _routeRepository.GetByIdAsync(request.Id);
+        public async Task<DeleteRouteCommandResponse> Handle(DeleteRouteCommandRequest request, CancellationToken cancellationToken) { 
+            var route = await _routeRepository.GetByIdAsync(request.Id,cancellationToken);
             if (route == null)
             {
                 throw new Exception("The route with the specified ID could not be found.");
             }
-            await _routeRepository.DeleteAsync(route);
-            return new deleteRouteCommandResponse
+            await _routeRepository.DeleteAsync(route, cancellationToken);
+            return new DeleteRouteCommandResponse
             {
                 Id = route.Id,
                 Name = route.Name,

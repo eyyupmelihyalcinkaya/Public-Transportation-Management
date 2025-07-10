@@ -3,20 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.application\\features\\route\\queries\\getroutes\\getroutesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|solutionrelative:internshipproject1.application\\features\\route\\queries\\getroutes\\getroutesqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.application\\interfaces\\repositories\\irouterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|solutionrelative:internshipproject1.application\\interfaces\\repositories\\irouterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.infrastructure\\data\\repository\\routestoprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|solutionrelative:internshipproject1.infrastructure\\data\\repository\\routestoprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.infrastructure\\data\\repository\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|solutionrelative:internshipproject1.infrastructure\\data\\repository\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.infrastructure\\data\\repository\\routerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|solutionrelative:internshipproject1.infrastructure\\data\\repository\\routerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.application\\interfaces\\repositories\\iroutestoprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|solutionrelative:internshipproject1.application\\interfaces\\repositories\\iroutestoprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{87F082D7-3566-4D51-A5E3-F14F6194FFEC}|internshipproject1.Domain\\internshipproject1.Domain.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.domain\\entities\\routestop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,64 +26,33 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "getRoutesQueryHandler.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Features\\Route\\Queries\\getRoutes\\getRoutesQueryHandler.cs",
-              "RelativeDocumentMoniker": "internshipproject1.Application\\Features\\Route\\Queries\\getRoutes\\getRoutesQueryHandler.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Features\\Route\\Queries\\getRoutes\\getRoutesQueryHandler.cs",
-              "RelativeToolTip": "internshipproject1.Application\\Features\\Route\\Queries\\getRoutes\\getRoutesQueryHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAsAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Repository\\UserRepository.cs",
+              "RelativeDocumentMoniker": "internshipProject1.Infrastructure\\Data\\Repository\\UserRepository.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Repository\\UserRepository.cs",
+              "RelativeToolTip": "internshipProject1.Infrastructure\\Data\\Repository\\UserRepository.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAA8wCYAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-08T13:57:20.074Z",
+              "WhenOpened": "2025-07-09T14:54:57.253Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "RouteStopRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Repository\\RouteStopRepository.cs",
-              "RelativeDocumentMoniker": "internshipProject1.Infrastructure\\Data\\Repository\\RouteStopRepository.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Repository\\RouteStopRepository.cs",
-              "RelativeToolTip": "internshipProject1.Infrastructure\\Data\\Repository\\RouteStopRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHkAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "IRouteRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Interfaces\\Repositories\\IRouteRepository.cs",
+              "RelativeDocumentMoniker": "internshipproject1.Application\\Interfaces\\Repositories\\IRouteRepository.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Interfaces\\Repositories\\IRouteRepository.cs",
+              "RelativeToolTip": "internshipproject1.Application\\Interfaces\\Repositories\\IRouteRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-08T13:43:19.713Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "IRouteStopRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Interfaces\\Repositories\\IRouteStopRepository.cs",
-              "RelativeDocumentMoniker": "internshipproject1.Application\\Interfaces\\Repositories\\IRouteStopRepository.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Interfaces\\Repositories\\IRouteStopRepository.cs",
-              "RelativeToolTip": "internshipproject1.Application\\Interfaces\\Repositories\\IRouteStopRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-08T13:39:31.237Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "RouteStop.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Domain\\Entities\\RouteStop.cs",
-              "RelativeDocumentMoniker": "internshipproject1.Domain\\Entities\\RouteStop.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Domain\\Entities\\RouteStop.cs",
-              "RelativeToolTip": "internshipproject1.Domain\\Entities\\RouteStop.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-08T13:40:00.37Z"
+              "WhenOpened": "2025-07-09T14:53:55.362Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -97,9 +62,31 @@
               "RelativeDocumentMoniker": "internshipProject1.Infrastructure\\Data\\Repository\\RouteRepository.cs",
               "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Repository\\RouteRepository.cs",
               "RelativeToolTip": "internshipProject1.Infrastructure\\Data\\Repository\\RouteRepository.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAYwDMAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-08T11:43:00.49Z"
+              "WhenOpened": "2025-07-09T14:53:42.202Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RouteStop.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Domain\\Entities\\RouteStop.cs",
+              "RelativeDocumentMoniker": "internshipproject1.Domain\\Entities\\RouteStop.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Domain\\Entities\\RouteStop.cs",
+              "RelativeToolTip": "internshipproject1.Domain\\Entities\\RouteStop.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T14:53:25.733Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             }
           ]
         }

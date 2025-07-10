@@ -1,6 +1,6 @@
 ﻿namespace internshipproject1.Domain.Entities
 {
-    public class myRoute
+    public class RouteToCreate //RouteToCreate
     {
         public int Id { get; set; }
         public string Name { get; set; }

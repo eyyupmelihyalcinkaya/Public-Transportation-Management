@@ -15,16 +15,16 @@ namespace internshipproject1.Application.Features.Stop.Commands.UpdateStopComman
             _stopRepository = stopRepository;
         }
 
-        public async Task<UpdateStopCommandResponse> Handle(UpdateStopCommandRequest request, CancellationToken cancellation) {
-            var stop = await _stopRepository.GetByIdAsync(request.Id);
+        public async Task<UpdateStopCommandResponse> Handle(UpdateStopCommandRequest request, CancellationToken cancellationToken) {
+            var stop = await _stopRepository.GetByIdAsync(request.Id,cancellationToken);
             if (stop == null)
             {
-                throw new KeyNotFoundException($"Stop with ID {request.Id} cannot be found.")
+                throw new KeyNotFoundException($"Stop with ID {request.Id} cannot be found.");
             }
             stop.Name = request.Name;
             stop.Latitude = request.Latitude;
             stop.Longitude = request.Longitude;
-            await _stopRepository.UpdateAsync(stop);
+            await _stopRepository.UpdateAsync(stop,cancellationToken);
             return new UpdateStopCommandResponse {
                 Id = request.Id,
                 Name = request.Name,

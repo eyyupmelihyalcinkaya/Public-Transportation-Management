@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using internshipproject1.Application.Interfaces.Repositories;
 using MediatR;
-namespace internshipproject1.Application.Features.Route.Queries.getStopsByRouteId
+namespace internshipproject1.Application.Features.Route.Queries.GetStopsByRouteId
 {
-    public class getStopsByRouteIdHandler : IRequestHandler<getStopsByRouteIdRequest, List<getStopsByRouteIdResponse>?>
+    public class getStopsByRouteIdHandler : IRequestHandler<GetStopsByRouteIdRequest, List<GetStopsByRouteIdResponse>?>
     {
         private readonly IRouteStopRepository _routeStopRepository;
 
@@ -16,10 +16,10 @@ namespace internshipproject1.Application.Features.Route.Queries.getStopsByRouteI
             _routeStopRepository = routeStopRepository;
         }
 
-        public async Task<List<getStopsByRouteIdResponse>?> Handle(getStopsByRouteIdRequest request, CancellationToken cancellationToken) { 
+        public async Task<List<GetStopsByRouteIdResponse>?> Handle(GetStopsByRouteIdRequest request, CancellationToken cancellationToken) { 
         
-            var routeStops = await _routeStopRepository.GetAllByRouteIdAsync(request.RouteId);
-            var orderedStops = routeStops.OrderBy(rs => rs.Order).Select(rs => new getStopsByRouteIdResponse 
+            var routeStops = await _routeStopRepository.GetAllByRouteIdAsync(request.RouteId, cancellationToken);
+            var orderedStops = routeStops.OrderBy(rs => rs.Order).Select(rs => new GetStopsByRouteIdResponse 
             {
                 Id = rs.Stop.Id,
                 Name = rs.Stop.Name,

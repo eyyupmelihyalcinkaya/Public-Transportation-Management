@@ -18,12 +18,12 @@ namespace internshipproject1.Application.Features.Trip.Commands.UpdateTripComman
         }
 
         public async Task<UpdateTripCommandResponse> Handle(UpdateTripCommandRequest request, CancellationToken cancellationToken) { 
-            var trip = await _tripRepository.GetByIdAsync(request.Id);
+            var trip = await _tripRepository.GetByIdAsync(request.Id, cancellationToken);
             trip.RouteId = request.RouteId;
             trip.StartTime = request.StartTime;
             trip.EndTime = request.EndTime;
             trip.DayType = request.DayType;
-            await _tripRepository.UpdateAsync(trip);
+            await _tripRepository.UpdateAsync(trip, cancellationToken);
 
             return new UpdateTripCommandResponse
             {

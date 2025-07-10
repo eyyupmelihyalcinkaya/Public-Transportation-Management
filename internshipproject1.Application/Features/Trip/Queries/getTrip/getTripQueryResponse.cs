@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace internshipproject1.Application.Features.Trip.Queries.getTrip
+namespace internshipproject1.Application.Features.Trip.Queries.GetTrip
 {
-    public class getTripQueryResponse
+    public class GetTripQueryResponse
     {
         public int Id { get; set; }
         public int RouteId { get; set; }

@@ -6,25 +6,25 @@ using System.Threading.Tasks;
 using internshipproject1.Application.Interfaces.Repositories;
 using MediatR;
 
-namespace internshipproject1.Application.Features.Stop.Queries.getNearbyStops
+namespace internshipproject1.Application.Features.Stop.Queries.GetNearbyStops
 {
-    public class getNearbyStopsHandler : IRequestHandler<getNearbyStopsRequest, List<getNearbyStopsResponse>>
+    public class GetNearbyStopsHandler : IRequestHandler<GetNearbyStopsRequest, List<GetNearbyStopsResponse>>
     {
         private readonly IStopRepository _stopRepository;
 
-        public getNearbyStopsHandler(IStopRepository stopRepository)
+        public GetNearbyStopsHandler(IStopRepository stopRepository)
         {
             _stopRepository = stopRepository;
         }
 
-        public async Task<List<getNearbyStopsResponse>> Handle(getNearbyStopsRequest request, CancellationToken cancellationToken) { 
+        public async Task<List<GetNearbyStopsResponse>> Handle(GetNearbyStopsRequest request, CancellationToken cancellationToken) { 
         
-            var stops = await _stopRepository.GetAllAsync();
+            var stops = await _stopRepository.GetAllAsync(cancellationToken);
             var nearbyStops = stops.Select(stops => new
             {
                 Stop = stops,
                 Distance = CalculateDistance(request.Latitude, request.Longitude, stops.Latitude, stops.Longitude)
-            }).OrderBy(x => x.Distance).Select(x => new getNearbyStopsResponse
+            }).OrderBy(x => x.Distance).Select(x => new GetNearbyStopsResponse
             {
                 Id = x.Stop.Id,
                 Name = x.Stop.Name,

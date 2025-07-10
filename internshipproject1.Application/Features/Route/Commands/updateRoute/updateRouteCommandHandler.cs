@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using internshipproject1.Application.Interfaces.Repositories;
 using MediatR;
-namespace internshipproject1.Application.Features.Route.Commands.updateRoute
+namespace internshipproject1.Application.Features.Route.Commands.UpdateRoute
 {
-    public class updateRouteCommandHandler : IRequestHandler<updateRouteCommandRequest, updateRouteCommandResponse>
+    public class updateRouteCommandHandler : IRequestHandler<UpdateRouteCommandRequest, UpdateRouteCommandResponse>
     {
         private readonly IRouteRepository _routeRepository;
 
@@ -16,8 +16,8 @@ namespace internshipproject1.Application.Features.Route.Commands.updateRoute
             _routeRepository = routeRepository;
         }
 
-        public async Task<updateRouteCommandResponse> Handle(updateRouteCommandRequest request, CancellationToken cancellationToken) {
-            var route = await _routeRepository.GetByIdAsync(request.Id);
+        public async Task<UpdateRouteCommandResponse> Handle(UpdateRouteCommandRequest request, CancellationToken cancellationToken) {
+            var route = await _routeRepository.GetByIdAsync(request.Id, cancellationToken);
             if(route == null)
             {
                 throw new KeyNotFoundException($"Route with ID {request.Id} not found.");
@@ -27,9 +27,9 @@ namespace internshipproject1.Application.Features.Route.Commands.updateRoute
             route.StartLocation = request.StartLocation;
             route.EndLocation = request.EndLocation;
 
-            var updatedRoute = await _routeRepository.UpdateAsync(route);
+            var updatedRoute = await _routeRepository.UpdateAsync(route, cancellationToken);
 
-            return new updateRouteCommandResponse
+            return new UpdateRouteCommandResponse
             {
                 Id = updatedRoute.Id,
                 Name = updatedRoute.Name,

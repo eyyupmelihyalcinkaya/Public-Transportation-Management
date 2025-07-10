@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace internshipproject1.Application.Features.Route.Queries.getRoutes
+namespace internshipproject1.Application.Features.Route.Queries.GetRoutes
 {
-    public class getRoutesQueryResponse
+    public class GetRoutesQueryResponse
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

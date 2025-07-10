@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using internshipproject1.Domain.Entities;
 using MediatR;
-namespace internshipproject1.Application.Features.Stop.Queries.getStopById
+namespace internshipproject1.Application.Features.Stop.Queries.GetStopById
 {
-    public class getStopByIdQueryRequest : IRequest<List<getStopByIdQueryResponse>>
+    public class GetStopByIdQueryRequest : IRequest<List<GetStopByIdQueryResponse>>
     {
         public int Id { get; set; }
 
-        public getStopByIdQueryRequest(int id) { 
+        public GetStopByIdQueryRequest(int id) { 
             Id = id;
         }
 

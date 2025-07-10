@@ -16,11 +16,11 @@ namespace internshipproject1.Application.Features.Stop.Commands.DeleteStopComman
         }
 
         public async Task<DeleteStopCommandResponse> Handle(DeleteStopCommandRequest request, CancellationToken cancellationToken) {
-            var stop = await _stopRepository.GetByIdAsync(request.Id);
+            var stop = await _stopRepository.GetByIdAsync(request.Id,cancellationToken);
             if (stop == null) {
                 throw new KeyNotFoundException($"Stop with ID {request.Id} cannot be found.");
             }
-            await _stopRepository.DeleteAsync(stop.Id);
+            await _stopRepository.DeleteAsync(stop.Id, cancellationToken);
             return new DeleteStopCommandResponse { 
                 Id = stop.Id,
                 Name = stop.Name,

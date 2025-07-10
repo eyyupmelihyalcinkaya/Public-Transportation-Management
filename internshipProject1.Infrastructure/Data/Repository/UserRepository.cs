@@ -17,48 +17,48 @@ namespace internshipProject1.Infrastructure.Data.Repository
         {
             _dbContext = dbContext;
         }
-        public async Task<User> AddAsync(User user)
+        public async Task<User> AddAsync(User user, CancellationToken cancellationToken)
         {
             if(user == null)
             {
                 throw new ArgumentNullException(nameof(user));
             }
-            await _dbContext.Users.AddAsync(user);
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.Users.AddAsync(user, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
             return user;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
-            var user = _dbContext.Users.FirstOrDefault(r=>r.Id == id);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(r=>r.Id == id,cancellationToken);
             if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
             }
-            _dbContext.Users.Where(r => r.Id == id).ExecuteDeleteAsync();
-            await _dbContext.SaveChangesAsync();
+            _dbContext.Users.Where(r => r.Id == id).ExecuteDeleteAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
         }
 
-        public Task DeleteAsync(User entity)
+        public Task DeleteAsync(User entity, CancellationToken cancellationToken)
         {
-            if(entitiy == null)
+            if(entity == null)
             {
                 throw new ArgumentNullException(nameof(entity));
             }
             _dbContext.Users.Remove(entity);
-            return _dbContext.SaveChangesAsync();
+            return _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var users = await _dbContext.Users.ToListAsync();
+            var users = await _dbContext.Users.ToListAsync(cancellationToken);
             return users;
         }
 
-        public Task<User> GetByIdAsync(int id)
+        public async Task<User> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var user = _dbContext.Users.FirstOrDefaultAsync(r => r.Id == id);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
             if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
@@ -66,9 +66,9 @@ namespace internshipProject1.Infrastructure.Data.Repository
             return user;
         }
 
-        public Task<User> GetByUsernameAsync(string username)
+        public async Task<User> GetByUsernameAsync(string username,CancellationToken cancellationToken)
         {
-            var user = _dbContext.Users.FirstOrDefaultAsync(r => r.userName == username);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(r => r.userName == username,cancellationToken);
             if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
@@ -76,31 +76,32 @@ namespace internshipProject1.Infrastructure.Data.Repository
             return user;
         }
 
-        public Task<User> UpdateAsync(User user)
+        public  Task<User> UpdateAsync(User user,CancellationToken cancellationToken)
         {
-            var existingUser = _dbContext.Users.FirstOrDefaultAsync(r => r.Id == user.Id);
+            var existingUser =  _dbContext.Users.FirstOrDefaultAsync(r => r.Id == user.Id,cancellationToken);
             if (existingUser == null)
             {
                 throw new ArgumentNullException(nameof(existingUser));
             }
             _dbContext.Users.Update(user);
-            return _dbContext.SaveChangesAsync().ContinueWith(_ => user);
+            return _dbContext.SaveChangesAsync(cancellationToken).ContinueWith(_ => user);
         }
 
-        public Task<bool> UserExistsAsync(string username)
+        public Task<bool> UserExistsAsync(string username, CancellationToken cancellationToken)
         {
-            var existingUser = _dbContext.Users.AnyAsync(r => r.userName == username);
+            var existingUser = _dbContext.Users.AnyAsync(r => r.userName == username,cancellationToken);
             return existingUser;
         }
 
-        Task<IReadOnlyList<User>> IGenericRepository<User>.GetAllAsync()
+        async Task<IReadOnlyList<User>> IGenericRepository<User>.GetAllAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var users = await _dbContext.Users.ToListAsync(cancellationToken);
+            return users.AsReadOnly();
         }
 
-        Task IGenericRepository<User>.UpdateAsync(User entity)
+        Task IGenericRepository<User>.UpdateAsync(User entity, CancellationToken cancellationToken)
         {
-            return UpdateAsync(entity);
+            return UpdateAsync(entity,cancellationToken);
         }
     }
 }
