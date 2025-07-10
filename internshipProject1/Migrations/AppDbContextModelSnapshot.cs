@@ -124,7 +124,7 @@ namespace internshipProject1.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("internshipProject1.Models.myRoute", b =>
+            modelBuilder.Entity("internshipproject1.Domain.Entities.RouteToCreate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -147,7 +147,7 @@ namespace internshipProject1.Migrations
 
             modelBuilder.Entity("internshipProject1.Models.RouteStop", b =>
                 {
-                    b.HasOne("internshipProject1.Models.myRoute", "Route")
+                    b.HasOne("internshipproject1.Domain.Entities.RouteToCreate", "Route")
                         .WithMany("RouteStops")
                         .HasForeignKey("RouteId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -166,7 +166,7 @@ namespace internshipProject1.Migrations
 
             modelBuilder.Entity("internshipProject1.Models.Trip", b =>
                 {
-                    b.HasOne("internshipProject1.Models.myRoute", "Route")
+                    b.HasOne("internshipproject1.Domain.Entities.RouteToCreate", "Route")
                         .WithMany("Trips")
                         .HasForeignKey("RouteId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -180,7 +180,7 @@ namespace internshipProject1.Migrations
                     b.Navigation("RouteStops");
                 });
 
-            modelBuilder.Entity("internshipProject1.Models.myRoute", b =>
+            modelBuilder.Entity("internshipproject1.Domain.Entities.RouteToCreate", b =>
                 {
                     b.Navigation("RouteStops");
 

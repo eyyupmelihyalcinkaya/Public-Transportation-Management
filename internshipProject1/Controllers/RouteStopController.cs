@@ -1,54 +1,85 @@
-﻿using internshipProject1.Data;
-using internshipProject1.DTOs;
+﻿using internshipproject1.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using internshipProject1.Models;
-namespace internshipProject1.Controllers
+using internshipproject1.Domain.Entities;
+using internshipproject1.Application.Interfaces;
+using MediatR;
+using internshipproject1.Application.Features.RouteStop.Commands.AddRouteStop;
+using internshipproject1.Application.Features.RouteStop.Queries.GetRouteStopById;
+using internshipproject1.Application.Features.RouteStop.Commands.DeleteRouteStop;
+using internshipproject1.Application.Features.RouteStop.Commands.UpdateRouteStop;
+namespace WebAPI.Controllers
 {
 
-    [Authorize]
+    
     [ApiController]
     [Route("api/[controller]")]
     public class RouteStopController : ControllerBase
     {
-        private readonly AppDbContext _dbContext;
-        private readonly IConfiguration _configuration;
-        public RouteStopController(AppDbContext dbContext, IConfiguration configuration)
+        private readonly IMediator _mediator;
+
+        public RouteStopController(IMediator mediator)
         {
-            _dbContext = dbContext;
-            _configuration = configuration;
+            _mediator = mediator;
         }
 
 
-        // Public APIs
+        // Public API's
 
 
-        //Private APIs
-
-        [HttpPost]
-        public async Task<ActionResult<RouteStop>> addStop([FromBody] RouteStopCreateDTO dto)
-        {
-            var routeStop = new RouteStop
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetRouteStopById(int id) { 
+            var response = await _mediator.Send(new GetRouteStopByIdQueryRequest(id));
+            if(response == null)
             {
-                RouteId = dto.RouteId,
-                StopId =dto.StopId,
-                Order = dto.Order
-            };
-           /* if (routeStop.Stop == null) {
-                return BadRequest("The Stop cannot found");
+                return NotFound();
             }
-            if (routeStop.Route == null)
-            {
-                return BadRequest("The Route cannot found");
-            }*/
-            if (routeStop == null) { return BadRequest("Stop informations cannot be null"); }
-
-            _dbContext.RouteStop.Add(routeStop);
-            await _dbContext.SaveChangesAsync();
-            return Ok(routeStop);
-
+            return Ok(response);
         }
 
+
+        // Private API's
+
+        //POST Create RouteStop
+        //[Authorize]
+        [HttpPost]
+        public async Task<IActionResult> CreateRouteStop(AddRouteStopCommandRequest request) {
+            var response = await _mediator.Send(request);
+
+            if (response == null)
+            {
+                return BadRequest("Failed to create route stop.");
+            }
+            return Ok(response);
+        }
+
+        //PUT Delete RouteStop
+        //[Authorize]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteRouteStop(int id)
+        {
+            var response = await _mediator.Send(new DeleteRouteStopCommandRequest() { Id = id });
+
+            if (response == null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        //PUT Update RouteStop
+        //[Authorize]
+        [HttpPut]
+        public async Task<ActionResult> UpdateRouteStop(UpdateRouteStopCommandRequest request) {
+            var response = await _mediator.Send(request);
+            if (response == null)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+
+        }
     }
 }

@@ -1,10 +1,11 @@
-﻿using internshipProject1.Data;
-using internshipProject1.DTOs;
+﻿using Core.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using internshipProject1.Models;
-namespace internshipProject1.Controllers
+using Core.Entities;
+using Core.Services.RedisService;
+using internshipProject1.Infrastructure.Data.Context;
+namespace WebAPI.Controllers
 {
 
     [Authorize]
@@ -14,27 +15,37 @@ namespace internshipProject1.Controllers
     {
         private readonly AppDbContext _dbContext;
         private readonly IConfiguration _configuration;
-        public TripsController(AppDbContext dbContext, IConfiguration configuration)
+        private readonly RedisCacheService _cacheService;
+        private readonly RedisCacheHelper _redisCacheHelper;
+        public TripsController(AppDbContext dbContext, IConfiguration configuration,RedisCacheHelper redisCacheHelper,RedisCacheService redisCacheService)
         {
             _dbContext = dbContext;
             _configuration = configuration;
+            _redisCacheHelper = redisCacheHelper;
+            _cacheService = redisCacheService;
         }
 
 
         // Public APIs
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Trip>>> GetTrip([FromQuery] int routeId , string day){
-            if(routeId < 0 || string.IsNullOrEmpty(day)){
+        public async Task<ActionResult<IEnumerable<Trip>>> GetTrip([FromQuery] int routeId, string day) {
+            if (routeId < 0 || string.IsNullOrEmpty(day)) {
                 return BadRequest("Please enter a valid routeId and day");
             }
-            var trips = await _dbContext.Trip.Where(t => t.RouteId == routeId && t.DayType.ToLower() == day.ToLower())
-                .ToListAsync();
-            if(trips == null || trips.Count == 0){
+            string cacheString = $"Trip:Trips-{routeId}";
+            var cachedTrips = await _redisCacheHelper.GetOrSetCacheAsync(cacheString, async () =>
+                {
+                    var trips = await _dbContext.Trip.Where(t => t.RouteId == routeId && t.DayType.ToLower() == day.ToLower())
+                    .ToListAsync();
+                    return trips;
+                }, TimeSpan.FromMinutes(15)
+            );
+            if (cachedTrips == null)
+            {
                 return NotFound("Trip cannot found");
             }
-            return Ok(trips);
-
+            return Ok(cachedTrips);
         }
 
 
