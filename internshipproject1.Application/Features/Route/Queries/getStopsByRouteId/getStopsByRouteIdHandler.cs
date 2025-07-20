@@ -19,7 +19,10 @@ namespace internshipproject1.Application.Features.Route.Queries.GetStopsByRouteI
         public async Task<List<GetStopsByRouteIdResponse>?> Handle(GetStopsByRouteIdRequest request, CancellationToken cancellationToken) { 
         
             var routeStops = await _routeStopRepository.GetAllByRouteIdAsync(request.RouteId, cancellationToken);
-            var orderedStops = routeStops.OrderBy(rs => rs.Order).Select(rs => new GetStopsByRouteIdResponse 
+            var orderedStops = routeStops
+                .Where(rs=> rs.Stop != null)
+                .OrderBy(rs => rs.Order)
+                .Select(rs => new GetStopsByRouteIdResponse 
             {
                 Id = rs.Stop.Id,
                 Name = rs.Stop.Name,

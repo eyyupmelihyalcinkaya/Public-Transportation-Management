@@ -5,6 +5,40 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/ErrorLog": {
+      "get": {
+        "tags": [
+          "ErrorLog"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ErrorLog/{id}": {
+      "get": {
+        "tags": [
+          "ErrorLog"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Routes": {
       "get": {
         "tags": [
@@ -24,47 +58,113 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RouteCreateDTO"
+                "$ref": "#/components/schemas/CreateRouteCommand"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RouteCreateDTO"
+                "$ref": "#/components/schemas/CreateRouteCommand"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RouteCreateDTO"
+                "$ref": "#/components/schemas/CreateRouteCommand"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Route"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Route"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Route"
-                }
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Routes/id": {
+      "get": {
+        "tags": [
+          "Routes"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Routes"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRouteCommandRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRouteCommandRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRouteCommandRequest"
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Routes/id/stops": {
+      "get": {
+        "tags": [
+          "Routes"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
     },
     "/api/Routes/{id}": {
-      "get": {
+      "delete": {
         "tags": [
           "Routes"
         ],
@@ -86,16 +186,15 @@
         }
       }
     },
-    "/api/Routes/{id}/stops": {
+    "/api/RouteStop/id": {
       "get": {
         "tags": [
-          "Routes"
+          "RouteStop"
         ],
         "parameters": [
           {
             "name": "id",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -118,41 +217,76 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RouteStopCreateDTO"
+                "$ref": "#/components/schemas/AddRouteStopCommandRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RouteStopCreateDTO"
+                "$ref": "#/components/schemas/AddRouteStopCommandRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RouteStopCreateDTO"
+                "$ref": "#/components/schemas/AddRouteStopCommandRequest"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/RouteStop"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RouteStop"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RouteStop"
-                }
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "RouteStop"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRouteStopCommandRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRouteStopCommandRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRouteStopCommandRequest"
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/RouteStop/{id}": {
+      "delete": {
+        "tags": [
+          "RouteStop"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -178,6 +312,108 @@
             "description": "OK"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Stops"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Stops"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStopCommandRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStopCommandRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStopCommandRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Stops": {
+      "get": {
+        "tags": [
+          "Stops"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Stops"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStopCommandRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStopCommandRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStopCommandRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/Stops/nearby": {
@@ -187,7 +423,7 @@
         ],
         "parameters": [
           {
-            "name": "lat",
+            "name": "latitude",
             "in": "query",
             "schema": {
               "type": "number",
@@ -195,7 +431,7 @@
             }
           },
           {
-            "name": "lon",
+            "name": "longitude",
             "in": "query",
             "schema": {
               "type": "number",
@@ -205,81 +441,91 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Stop"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Stop"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Stop"
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
     },
-    "/api/Stops/Create": {
-      "post": {
+    "/api/Trips/{id}": {
+      "get": {
         "tags": [
-          "Stops"
+          "Trips"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Trips"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Trips"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StopCreateDTO"
+                "$ref": "#/components/schemas/UpdateTripCommandRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/StopCreateDTO"
+                "$ref": "#/components/schemas/UpdateTripCommandRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/StopCreateDTO"
+                "$ref": "#/components/schemas/UpdateTripCommandRequest"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Stop"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Stop"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Stop"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -289,52 +535,9 @@
         "tags": [
           "Trips"
         ],
-        "parameters": [
-          {
-            "name": "routeId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "day",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Trip"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Trip"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Trip"
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       },
@@ -346,65 +549,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TripCreateDTO"
+                "$ref": "#/components/schemas/CreateTripCommandRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/TripCreateDTO"
+                "$ref": "#/components/schemas/CreateTripCommandRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/TripCreateDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Trip"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Trip"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Trip"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/User/register": {
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserRegisterDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserRegisterDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserRegisterDTO"
+                "$ref": "#/components/schemas/CreateTripCommandRequest"
               }
             }
           }
@@ -425,17 +580,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserLoginDTO"
+                "$ref": "#/components/schemas/UserLoginCommand"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserLoginDTO"
+                "$ref": "#/components/schemas/UserLoginCommand"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UserLoginDTO"
+                "$ref": "#/components/schemas/UserLoginCommand"
               }
             }
           }
@@ -446,59 +601,121 @@
           }
         }
       }
+    },
+    "/api/User/register": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRegisterCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRegisterCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRegisterCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/User/update": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/User/all": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "IRouteConstraint": {
-        "type": "object",
-        "additionalProperties": false
-      },
-      "InlineConstraint": {
+      "AddRouteStopCommandRequest": {
         "type": "object",
         "properties": {
-          "constraint": {
+          "routeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stopId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ChangePasswordCommand": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "oldPassword": {
+            "type": "string",
+            "nullable": true
+          },
+          "newPassword": {
             "type": "string",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "Route": {
-        "type": "object",
-        "properties": {
-          "constraints": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/IRouteConstraint"
-            },
-            "nullable": true
-          },
-          "dataTokens": {
-            "type": "object",
-            "additionalProperties": { },
-            "nullable": true
-          },
-          "defaults": {
-            "type": "object",
-            "additionalProperties": { },
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "parsedTemplate": {
-            "$ref": "#/components/schemas/RouteTemplate"
-          },
-          "routeTemplate": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RouteCreateDTO": {
+      "CreateRouteCommand": {
         "type": "object",
         "properties": {
           "name": {
@@ -508,124 +725,22 @@
           "description": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RouteStop": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
           },
-          "routeId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "route": {
-            "$ref": "#/components/schemas/myRoute"
-          },
-          "stopId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "stop": {
-            "$ref": "#/components/schemas/Stop"
-          },
-          "order": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "RouteStopCreateDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "routeId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "stopId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "order": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "RouteTemplate": {
-        "type": "object",
-        "properties": {
-          "templateText": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "parameters": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TemplatePart"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "segments": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TemplateSegment"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Stop": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
+          "startLocation": {
             "type": "string",
             "nullable": true
           },
-          "latitude": {
-            "type": "number",
-            "format": "double"
-          },
-          "longitude": {
-            "type": "number",
-            "format": "double"
-          },
-          "routeStops": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RouteStop"
-            },
+          "endLocation": {
+            "type": "string",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "StopCreateDTO": {
+      "CreateStopCommandRequest": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
+          "stopName": {
             "type": "string",
             "nullable": true
           },
@@ -640,84 +755,12 @@
         },
         "additionalProperties": false
       },
-      "TemplatePart": {
+      "CreateTripCommandRequest": {
         "type": "object",
         "properties": {
-          "isCatchAll": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "isLiteral": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "isParameter": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "isOptional": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "isOptionalSeperator": {
-            "type": "boolean"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "text": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
-          },
-          "defaultValue": {
-            "nullable": true,
-            "readOnly": true
-          },
-          "inlineConstraints": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/InlineConstraint"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TemplateSegment": {
-        "type": "object",
-        "properties": {
-          "isSimple": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "parts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TemplatePart"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Trip": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
           "routeId": {
             "type": "integer",
             "format": "int32"
-          },
-          "route": {
-            "$ref": "#/components/schemas/myRoute"
           },
           "startTime": {
             "type": "string",
@@ -734,7 +777,77 @@
         },
         "additionalProperties": false
       },
-      "TripCreateDTO": {
+      "UpdateRouteCommandRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "startLocation": {
+            "type": "string",
+            "nullable": true
+          },
+          "endLocation": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateRouteStopCommandRequest": {
+        "type": "object",
+        "properties": {
+          "routeStopId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "routeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stopId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateStopCommandRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateTripCommandRequest": {
         "type": "object",
         "properties": {
           "id": {
@@ -760,7 +873,7 @@
         },
         "additionalProperties": false
       },
-      "UserLoginDTO": {
+      "UserLoginCommand": {
         "type": "object",
         "properties": {
           "userName": {
@@ -774,7 +887,7 @@
         },
         "additionalProperties": false
       },
-      "UserRegisterDTO": {
+      "UserRegisterCommand": {
         "type": "object",
         "properties": {
           "userName": {
@@ -783,38 +896,6 @@
           },
           "password": {
             "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "myRoute": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "routeStops": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RouteStop"
-            },
-            "nullable": true
-          },
-          "trips": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Trip"
-            },
             "nullable": true
           }
         },

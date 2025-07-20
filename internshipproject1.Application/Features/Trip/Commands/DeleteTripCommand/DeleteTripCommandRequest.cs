@@ -9,5 +9,10 @@ namespace internshipproject1.Application.Features.Trip.Commands.DeleteTripComman
     public class DeleteTripCommandRequest : IRequest<DeleteTripCommandResponse>
     {
         public int Id { get; set; }
+
+        public DeleteTripCommandRequest(int id)
+        {
+            Id = id;
+        }
     }
 }

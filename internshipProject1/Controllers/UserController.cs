@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
-using Core.DTOs;
-using Core.Entities;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
-using Infrastructure.Auth;
-using internshipProject1.Infrastructure.Data.Context;
 using internshipproject1.Application.DTOs;
 using internshipproject1.Application.Features.User.Commands.Register;
 using internshipproject1.Application.Features.User;
 using Microsoft.Extensions.Configuration;
+using MediatR;
+using internshipproject1.Application.Features.User.Commands.Login;
+using internshipproject1.Application.Features.User.Commands.ChangePassword;
+using internshipproject1.Application.Features.User.Queries.GetAllUsers;
 
 namespace WebAPI.Controllers
 {
@@ -19,51 +17,62 @@ namespace WebAPI.Controllers
     public class UserController : ControllerBase
 
     {
-       private readonly AppDbContext _dbContext;
-       private readonly IConfiguration _configuration;
-        private readonly UserRegisterHandler _userRegisterHandler;
+        private readonly IMediator _mediator;
 
-        public UserController(AppDbContext dbContext, IConfiguration configuration, UserRegisterHandler userRegisterHandler) {
-
-            _dbContext = dbContext;
-            _configuration = configuration;
-            _userRegisterHandler = userRegisterHandler;
-            
-        }
-        // Password Hash üretme fonksiyonu
-        private static void CreatePasswordHash(string password, out byte[] hash, out byte[] salt) { 
-            using var hmac = new HMACSHA512();
-            salt = hmac.Key;
-            hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-        }
-        // Hash kontrolü
-        private static bool VerifyPasswordHash(string password, byte[] hash, byte[] salt) {
-            using var hmac = new HMACSHA512(salt);
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return computedHash.SequenceEqual(hash);
+        public UserController(IMediator mediator)
+        {
+            _mediator = mediator;
         }
 
-        [HttpPost("register")]
-        public async Task<ActionResult> Register(UserRegisterDTO request) {
-            var command = new UserRegisterCommand
-            {
-                userName = request.userName,
-                password = request.password
-            };
-            if(string.IsNullOrEmpty(command.userName) || string.IsNullOrEmpty(command.password)) {
-                return BadRequest("Username and Password cannot be empty");
-            }
-            var result = await _userRegisterHandler.Handle(command);
-            return Ok(result);
-        }
+        // Public API
+
+        //POST Login
         [HttpPost("login")]
-        public async Task<ActionResult> Login(UserLoginDTO request) { 
-            
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.userName == request.userName);
-            if (user == null) { return BadRequest("Username cannot be empty"); };
-            if (!VerifyPasswordHash(request.password, user.passwordHash, user.passwordSalt)) { return BadRequest("Wrong UserName or Password"); };
-            Token token = TokenHandler.CreateToken(_configuration, request.userName);
-            return Ok(new { message = "Login Successfully", token = token });  
+        public async Task<ActionResult> Login(UserLoginCommand request, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(request, cancellationToken);
+            if (response == null)
+            {
+                return Unauthorized("Invalid username or password.");
+            }
+            return Ok(response);
+        }
+
+        //POST Register
+        [HttpPost("register")]
+        public async Task<ActionResult> Register(UserRegisterCommand request, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(request, cancellationToken);
+            if (response == null)
+            {
+                return BadRequest("User registration failed.");
+            }
+            return Ok(response);
+        }
+
+        //PUT Update User
+        [HttpPut("update")]
+        public async Task<ActionResult> UpdatePassword(ChangePasswordCommand request, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(request, cancellationToken);
+            if (response == null)
+            {
+                return BadRequest("Password update failed.");
+            }
+            return Ok(response);
+        }
+        // Private API
+
+        //GET Get All Users
+        [HttpGet("all")]
+        public async Task<ActionResult> GetAllUsers(CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new GetAllUsersQueryRequest(), cancellationToken);
+            if (response == null || !response.Any())
+            {
+                return NotFound("No users found.");
+            }
+            return Ok(response);
         }
     }
 }

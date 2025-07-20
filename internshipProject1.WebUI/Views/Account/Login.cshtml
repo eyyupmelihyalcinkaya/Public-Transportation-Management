@@ -1,0 +1,28 @@
+﻿@model internshipProject1.WebUI.Views.Account.LoginModel
+@{
+	ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+
+<div class = "login-container">	
+	<h2>Login</h2>
+
+<form method="post" action="/Account/Login">
+	<div>
+		<label>
+			Username:</label>
+		<input type="text" name="Username" required />
+	</div>
+	<div>
+		<label>Password</label>
+		<input type="password" name="Password" required />
+	</div>
+	<div>
+		<button type="submit">Login</button>
+	</div>
+</form>
+
+
+<link rel="stylesheet" href="~/css/site.css" />
+<script src="~/js/site.js"></script>

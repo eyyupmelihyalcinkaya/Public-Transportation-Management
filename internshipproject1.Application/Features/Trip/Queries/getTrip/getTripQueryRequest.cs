@@ -11,10 +11,10 @@ namespace internshipproject1.Application.Features.Trip.Queries.GetTrip
     public class GetTripQueryRequest : IRequest<List<GetTripQueryResponse>>
     {
         public int Id { get; set; }
-        public int RouteId { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan EndTime { get; set; }
-        public string DayType { get; set; }
-
+      
+        public GetTripQueryRequest(int id)
+        {
+            Id = id;
+        }
     }
 }

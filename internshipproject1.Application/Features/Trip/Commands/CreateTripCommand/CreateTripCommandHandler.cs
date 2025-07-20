@@ -16,7 +16,9 @@ namespace internshipproject1.Application.Features.Trip.Commands.CreateTripComman
         }
 
         public async Task<CreateTripCommandResponse> Handle(CreateTripCommandRequest request, CancellationToken cancellationToken) {
-
+            if (request.StartTime > request.EndTime) {
+                throw new Exception("Invalid time range: start time cannot be after end time !");
+            }
             var newTrip = new Domain.Entities.Trip
             {
                 RouteId = request.RouteId,

@@ -17,18 +17,23 @@ namespace internshipproject1.Application.Features.RouteStop.Commands.AddRouteSto
             _routeStopRepository = routeStopRepository;
         }
 
-        public async Task<AddRouteStopCommandResponse> Handle(AddRouteStopCommandRequest request, CancellationToken cancellationToken) { 
+        public async Task<AddRouteStopCommandResponse> Handle(AddRouteStopCommandRequest request, CancellationToken cancellationToken) {
+
+            bool a = await _routeStopRepository.RouteStopExistsAsync(request.RouteId, request.StopId, cancellationToken);
+            if (a) {
+                throw new Exception("RouteStop is Already Added");
+            }
             var routeStop = new Domain.Entities.RouteStop
             {
                 RouteId = request.RouteId,
                 StopId = request.StopId,
                 Order = request.Order
             };
-            var existingRouteStop = await _routeStopRepository.GetByRouteIdAndStopIdAsync(request.RouteId, request.StopId,cancellationToken);
+            /*var existingRouteStop = await _routeStopRepository.GetByRouteIdAndStopIdAsync(request.RouteId, request.StopId,cancellationToken);
             if (existingRouteStop is null)
             {
                 throw new KeyNotFoundException("RouteStop already exists for this RouteId and StopId.");
-            }
+            }*/
             await _routeStopRepository.AddAsync(routeStop, cancellationToken);
             return new AddRouteStopCommandResponse(routeStop.RouteId, routeStop.StopId, routeStop.Order);
         }

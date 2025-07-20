@@ -30,6 +30,14 @@ namespace internshipProject1.Infrastructure.Context
                 .HasOne(rs => rs.Stop)
                 .WithMany(s=>s.RouteStops)
                 .HasForeignKey(rs => rs.StopId);
+            modelBuilder.Entity<RouteStop>()
+                .HasIndex(rs => new { rs.RouteId, rs.StopId })
+                .IsUnique();
+            modelBuilder.Entity<RouteStop>()
+                .HasIndex(rs => new { rs.RouteId, rs.Order})
+                .IsUnique();
+            
+
         }
             
     }
