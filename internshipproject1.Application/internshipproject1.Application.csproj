@@ -20,4 +20,10 @@
     <ProjectReference Include="..\internshipproject1.Domain\internshipproject1.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Customer\" />
+    <Folder Include="Features\Card\" />
+    <Folder Include="Features\CardTransaction\" />
+  </ItemGroup>
+
 </Project>
