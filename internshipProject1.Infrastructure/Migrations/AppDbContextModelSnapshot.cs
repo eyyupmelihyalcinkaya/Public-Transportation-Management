@@ -22,6 +22,113 @@ namespace internshipProject1.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("internshipproject1.Domain.Entities.Card", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
+
+                    b.ToTable("Card");
+                });
+
+            modelBuilder.Entity("internshipproject1.Domain.Entities.CardTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("CardId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("VehicleType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardId");
+
+                    b.ToTable("CardTransaction");
+                });
+
+            modelBuilder.Entity("internshipproject1.Domain.Entities.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsStudent")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customer");
+                });
+
             modelBuilder.Entity("internshipproject1.Domain.Entities.RouteStop", b =>
                 {
                     b.Property<int>("Id")
@@ -41,9 +148,13 @@ namespace internshipProject1.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RouteId");
-
                     b.HasIndex("StopId");
+
+                    b.HasIndex("RouteId", "Order")
+                        .IsUnique();
+
+                    b.HasIndex("RouteId", "StopId")
+                        .IsUnique();
 
                     b.ToTable("RouteStop");
                 });
@@ -55,6 +166,9 @@ namespace internshipProject1.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -73,6 +187,8 @@ namespace internshipProject1.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
 
                     b.ToTable("Route");
                 });
@@ -153,6 +269,28 @@ namespace internshipProject1.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("internshipproject1.Domain.Entities.Card", b =>
+                {
+                    b.HasOne("internshipproject1.Domain.Entities.Customer", "Customer")
+                        .WithOne("Card")
+                        .HasForeignKey("internshipproject1.Domain.Entities.Card", "CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("internshipproject1.Domain.Entities.CardTransaction", b =>
+                {
+                    b.HasOne("internshipproject1.Domain.Entities.Card", "Card")
+                        .WithMany("CardTransactions")
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Card");
+                });
+
             modelBuilder.Entity("internshipproject1.Domain.Entities.RouteStop", b =>
                 {
                     b.HasOne("internshipproject1.Domain.Entities.RouteToCreate", "Route")
@@ -172,6 +310,15 @@ namespace internshipProject1.Infrastructure.Migrations
                     b.Navigation("Stop");
                 });
 
+            modelBuilder.Entity("internshipproject1.Domain.Entities.RouteToCreate", b =>
+                {
+                    b.HasOne("internshipproject1.Domain.Entities.User", "CreatedBy")
+                        .WithMany("CreatedRoutes")
+                        .HasForeignKey("CreatedById");
+
+                    b.Navigation("CreatedBy");
+                });
+
             modelBuilder.Entity("internshipproject1.Domain.Entities.Trip", b =>
                 {
                     b.HasOne("internshipproject1.Domain.Entities.RouteToCreate", "Route")
@@ -181,6 +328,17 @@ namespace internshipProject1.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Route");
+                });
+
+            modelBuilder.Entity("internshipproject1.Domain.Entities.Card", b =>
+                {
+                    b.Navigation("CardTransactions");
+                });
+
+            modelBuilder.Entity("internshipproject1.Domain.Entities.Customer", b =>
+                {
+                    b.Navigation("Card")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("internshipproject1.Domain.Entities.RouteToCreate", b =>
@@ -193,6 +351,11 @@ namespace internshipProject1.Infrastructure.Migrations
             modelBuilder.Entity("internshipproject1.Domain.Entities.Stop", b =>
                 {
                     b.Navigation("RouteStops");
+                });
+
+            modelBuilder.Entity("internshipproject1.Domain.Entities.User", b =>
+                {
+                    b.Navigation("CreatedRoutes");
                 });
 #pragma warning restore 612, 618
         }

@@ -17,8 +17,74 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+body.light {
+    background: linear-gradient(135deg, #f0f0f0, #c0c0c0);
+    color: black;
+    transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+body.dark {
+    background: linear-gradient(135deg, #2c2c2c, #000000);
+    color: white;
+    transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Tema geçiş overlay animasyonu */
+.theme-transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.1), transparent);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+
+.theme-transition-overlay.active {
+    opacity: 1;
+}
+
+/* Tema değişimi sırasında elementlerin geçiş animasyonu */
+body * {
+    transition: color 0.5s cubic-bezier(0.4, 0.0, 0.2, 1), 
+                background-color 0.5s cubic-bezier(0.4, 0.0, 0.2, 1),
+                border-color 0.5s cubic-bezier(0.4, 0.0, 0.2, 1),
+                box-shadow 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Card border'larını tamamen kaldır */
+.card,
+.card *,
+.card-body,
+.card-header,
+.card-footer {
+    border: none !important;
+    outline: none !important;
+}
+
+/* Bootstrap card border'larını override et */
+.card.border,
+.card.border-primary,
+.card.border-secondary,
+.card.border-success,
+.card.border-danger,
+.card.border-warning,
+.card.border-info,
+.card.border-light,
+.card.border-dark {
+    border: none !important;
+}
+
+body.light .login-container {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+body.dark .login-container {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .login-container {
@@ -35,7 +101,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
-.login-containter h2 {
+.login-container h2 {
     text-align: center;
     margin-bottom: 20px;
 }
@@ -47,9 +113,9 @@ body {
 }
 .login-container input {
     width: 100%;
-    padding =8px;
+    padding: 8px;
     margin-bottom: 15px;
-    box-sizing = border-box;
+    box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
@@ -68,3 +134,627 @@ body {
         background-color: #0056b3;
     }
 
+
+/* Bu stiller artık gerekli değil - glass-navbar ile değiştirildi */
+
+/* Default ve açık tema navbar */
+.glass-navbar,
+body.light .glass-navbar,
+body:not(.dark) .glass-navbar {
+    background: rgba(255, 255, 255, 0.90); /* açık beyaz, daha opak */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Koyu tema navbar */
+body.dark .glass-navbar {
+    background: #1a1a1a !important; /* solid koyu gri */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+#theme-toggle i {
+    transition: transform 0.3s;
+}
+
+#theme-toggle:hover i {
+    transform: rotate(20deg);
+}
+#theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #333; /* Default koyu renk */
+}
+
+/* Açık tema theme toggle */
+body.light #theme-toggle,
+body:not(.dark) #theme-toggle {
+    color: #333;
+}
+
+/* Koyu tema theme toggle */
+body.dark #theme-toggle {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+body.light .btn-custom {
+    background-color: rgba(0, 0, 0, 0.05); /* hafif gri zemin */
+    border: 1px solid rgba(0, 0, 0, 0.2); /* koyu gri kenar */
+    color: black;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+    body.light .btn-custom:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        color: black;
+    }
+
+/* Koyu tema (dark) için buton */
+/* Navbar beyaz kalacak, o yüzden butonlar koyu tema olunca da siyah arka planda değil, beyaz arka planda gibi davranmalı */
+body.dark .btn-custom {
+    background-color: rgba(255, 255, 255, 0.8); /* neredeyse beyaz, transparan */
+    border: 1px solid rgba(0, 0, 0, 0.1); /* açık gri kenar */
+    color: black;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+    body.dark .btn-custom:hover {
+        background-color: rgba(255, 255, 255, 1);
+        color: black;
+    }
+
+
+.btn-custom {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+/* Navbar buton stilleri */
+.btn-auth {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+    font-size: 14px;
+    min-width: 100px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.btn-auth::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-auth:hover::before {
+    left: 100%;
+}
+
+/* Login butonu - Açık tema */
+.btn-auth-login,
+body.light.btn-auth-login,
+body:not(.dark).btn-auth-login {
+    background: rgba(0, 123, 255, 0.15);
+    border-color: #007bff;
+    color: #007bff;
+    box-shadow: 0 2px 10px rgba(0, 123, 255, 0.3);
+}
+
+.btn-auth-login:hover,
+body.light.btn-auth-login:hover,
+body:not(.dark).btn-auth-login:hover {
+    background: rgba(0, 123, 255, 0.25);
+    color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+}
+
+/* Register butonu - Açık tema */
+.btn-auth-register,
+body.light.btn-auth-register,
+body:not(.dark).btn-auth-register {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    border-color: #28a745;
+    color: white;
+    box-shadow: 0 2px 10px rgba(40, 167, 69, 0.3);
+}
+
+.btn-auth-register:hover,
+body.light.btn-auth-register:hover,
+body:not(.dark).btn-auth-register:hover {
+    background: linear-gradient(135deg, #218838, #1ea383);
+    color: white;
+    border-color: #1e7e34;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+
+/* Theme toggle butonu - Açık tema */
+.btn-theme-toggle,
+body.light.btn-theme-toggle,
+body:not(.dark).btn-theme-toggle {
+    background: rgba(108, 117, 125, 0.15);
+    border: 2px solid #6c757d;
+    color: #6c757d;
+    padding: 8px 12px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.btn-theme-toggle:hover,
+body.light.btn-theme-toggle:hover,
+body:not(.dark).btn-theme-toggle:hover {
+    background: rgba(108, 117, 125, 0.25);
+    border-color: #495057;
+    color: #495057;
+    transform: scale(1.1);
+    box-shadow: 0 3px 12px rgba(108, 117, 125, 0.4);
+}
+
+.btn-theme-toggle:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+}
+
+/* Navbar ayırıcı */
+.navbar-divider {
+    width: 1px;
+    height: 30px;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.3), transparent);
+    margin: 0 8px;
+}
+
+/* Dark tema için buton stilleri */
+body.dark.btn-auth-login {
+    background: rgba(100, 200, 255, 0.15);
+    border-color: #64c8ff;
+    color: #64c8ff;
+    box-shadow: 0 2px 10px rgba(100, 200, 255, 0.3);
+}
+
+body.dark.btn-auth-login:hover {
+    background: rgba(100, 200, 255, 0.25);
+    color: #4db8ff;
+    border-color: #4db8ff;
+}
+
+body.dark.btn-auth-register {
+    background: linear-gradient(135deg, #32d74b, #30d158);
+    border-color: #32d74b;
+    box-shadow: 0 2px 10px rgba(50, 215, 75, 0.3);
+}
+
+body.dark .btn-auth-register:hover {
+    background: linear-gradient(135deg, #28cd41, #2bc248);
+    border-color: #28cd41;
+    box-shadow: 0 4px 15px rgba(50, 215, 75, 0.4);
+}
+
+/* Profile butonu stilleri */
+.btn-profile {
+    background: linear-gradient(135deg, #6f42c1, #563d7c);
+    border-color: #6f42c1;
+    color: white;
+    box-shadow: 0 2px 10px rgba(111, 66, 193, 0.3);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    min-width: 120px;
+}
+
+.btn-profile:hover {
+    background: linear-gradient(135deg, #5a32a3, #4c2a6b);
+    color: white;
+    border-color: #5a32a3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(111, 66, 193, 0.4);
+}
+
+.btn-profile:focus,
+.btn-profile.show {
+    background: linear-gradient(135deg, #5a32a3, #4c2a6b);
+    color: white;
+    border-color: #5a32a3;
+    box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+}
+
+/* Koyu tema profile butonu */
+body.dark .btn-profile {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    border-color: #8b5cf6;
+    color: white;
+    box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+}
+
+body.dark .btn-profile:hover {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    color: white;
+    border-color: #7c3aed;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+}
+
+body.dark .btn-profile:focus,
+body.dark .btn-profile.show {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    color: white;
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 0.2rem rgba(139, 92, 246, 0.25);
+}
+
+/* Dropdown menu stilleri */
+.dropdown-menu {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    padding: 8px 0;
+    min-width: 200px;
+}
+
+.dropdown-item {
+    padding: 10px 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    margin: 2px 8px;
+}
+
+.dropdown-item:hover {
+    background: rgba(0, 123, 255, 0.1);
+    color: #007bff;
+    transform: translateX(4px);
+}
+
+.dropdown-item i {
+    width: 16px;
+    margin-right: 8px;
+}
+
+.dropdown-divider {
+    margin: 8px 16px;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Koyu tema dropdown */
+body.dark .dropdown-menu {
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #f8f9fa;
+}
+
+body.dark .dropdown-item {
+    color: #f8f9fa;
+}
+
+body.dark .dropdown-item:hover {
+    background: rgba(100, 200, 255, 0.15);
+    color: #64c8ff;
+}
+
+body.dark .dropdown-divider {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark .btn-theme-toggle {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+body.dark .btn-theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: white;
+    transform: scale(1.1);
+}
+
+body.dark .btn-theme-toggle:active {
+    transform: scale(0.95);
+}
+
+body.dark .navbar-divider {
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.2), transparent);
+}
+
+/* Navbar brand stilleri */
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    color: #007bff !important; /* Default koyu renk */
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+    color: #0056b3 !important;
+}
+
+.navbar-brand i {
+    margin-right: 8px;
+    color: #28a745; /* Default yeşil */
+}
+
+/* Açık tema navbar brand renkleri */
+body.light .navbar-brand,
+body:not(.dark) .navbar-brand {
+    color: #007bff !important;
+}
+
+body.light .navbar-brand:hover,
+body:not(.dark) .navbar-brand:hover {
+    color: #0056b3 !important;
+}
+
+body.light .navbar-brand i,
+body:not(.dark) .navbar-brand i {
+    color: #28a745;
+}
+
+/* Koyu tema navbar brand renkleri */
+body.dark .navbar-brand {
+    color: #64c8ff !important;
+}
+
+body.dark .navbar-brand:hover {
+    color: #4db8ff !important;
+}
+
+body.dark .navbar-brand i {
+    color: #32d74b;
+}
+
+/* Nav-link stilleri */
+.navbar-nav .nav-link {
+    font-weight: 500;
+    padding: 8px 16px !important;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    margin: 0 4px;
+    color: #333 !important; /* Açık temada koyu renk */
+}
+
+.navbar-nav .nav-link:hover {
+    background: rgba(0, 123, 255, 0.1);
+    color: #007bff !important;
+    transform: translateY(-1px);
+}
+
+/* Açık tema nav-link renkleri */
+body.light .navbar-nav .nav-link,
+body:not(.dark) .navbar-nav .nav-link {
+    color: #333 !important;
+}
+
+body.light .navbar-nav .nav-link:hover,
+body:not(.dark) .navbar-nav .nav-link:hover {
+    background: rgba(0, 123, 255, 0.1);
+    color: #007bff !important;
+}
+
+/* Koyu tema nav-link renkleri */
+body.dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+body.dark .navbar-nav .nav-link:hover {
+    background: rgba(100, 200, 255, 0.15);
+    color: #64c8ff !important;
+}
+
+/* ============ GENEL KOYU TEMA METİN RENKLERİ - GÜÇLENDİRİLMİŞ ============ */
+
+/* KUVVETLI GLOBAL KURAL - Tüm elemanları zorla açık renk yap */
+body.dark,
+body.dark *:not(.btn):not(.badge):not(.alert) {
+    color: #f8f9fa !important;
+}
+
+/* Tüm başlıklar - çoklu selector */
+body.dark h1, 
+body.dark h2, 
+body.dark h3, 
+body.dark h4, 
+body.dark h5, 
+body.dark h6,
+body.dark .h1,
+body.dark .h2,
+body.dark .h3,
+body.dark .h4,
+body.dark .h5,
+body.dark .h6 {
+    color: #f8f9fa !important;
+}
+
+/* Tüm temel metin elemanları */
+body.dark p,
+body.dark span,
+body.dark div,
+body.dark td,
+body.dark th,
+body.dark li,
+body.dark label,
+body.dark strong,
+body.dark em,
+body.dark small,
+body.dark code {
+    color: #f8f9fa !important;
+}
+
+/* Bootstrap metin sınıfları */
+body.dark .text-muted {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+body.dark .text-primary {
+    color: #64c8ff !important;
+}
+
+body.dark .text-secondary {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+body.dark .text-success {
+    color: #32d74b !important;
+}
+
+body.dark .text-info {
+    color: #5dbeaa !important;
+}
+
+body.dark .text-warning {
+    color: #ffcc02 !important;
+}
+
+body.dark .text-danger {
+    color: #ff6b7a !important;
+}
+
+body.dark .text-dark {
+    color: #f8f9fa !important;
+}
+
+body.dark .text-light {
+    color: #f8f9fa !important;
+}
+
+/* Linkler */
+body.dark a {
+    color: #64c8ff !important;
+}
+
+body.dark a:hover {
+    color: #4db8ff !important;
+}
+
+/* Genel container'lar */
+body.dark .container, body.dark .container-fluid {
+    color: #f8f9fa;
+}
+
+/* Footer */
+body.dark .footer {
+    color: rgba(255, 255, 255, 0.7) !important;
+    background-color: rgba(20, 20, 20, 0.9) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark .footer a {
+    color: #64c8ff !important;
+}
+
+body.dark .footer a:hover {
+    color: #4db8ff !important;
+}
+
+/* ============ NAVBAR DROPDOWN Z-INDEX FİX ============ */
+
+/* Navbar'ın kendisi */
+.navbar {
+    z-index: 1000 !important;
+    position: relative !important;
+}
+
+/* Profile dropdown container */
+#profile-menu {
+    position: relative !important;
+    z-index: 999999 !important;
+}
+
+/* Profile dropdown menu - ULTRA HIGH Z-INDEX */
+#profile-menu .dropdown-menu {
+    z-index: 9999999 !important;
+    position: absolute !important;
+    top: 100% !important;
+    right: 0 !important;
+    margin-top: 5px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    border: none !important;
+    border-radius: 12px !important;
+}
+
+/* Tüm navbar dropdown'ları */
+.navbar .dropdown-menu {
+    z-index: 9999999 !important;
+    position: absolute !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Bootstrap dropdown override - MAXIMUM Z-INDEX */
+.dropdown-menu {
+    z-index: 9999999 !important;
+}
+
+/* Admin panel card'larının z-index'ini düşük tut */
+.card {
+    z-index: 1 !important;
+    position: relative;
+}
+
+/* Admin container'ın z-index'ini düşük tut */
+.admin-container {
+    z-index: 1 !important;
+    position: relative;
+}
+
+/* Container'ların z-index'ini düşük tut */
+.container, .container-fluid {
+    z-index: 1 !important;
+    position: relative;
+}
+
+/* Modal z-index fix */
+.modal {
+    z-index: 1050 !important;
+    position: fixed !important;
+}
+.modal-backdrop {
+    z-index: 1040 !important;
+    position: fixed !important;
+}
+
+/* Stacking context reset */
+.container, .container-fluid, .admin-container, .card, .table, .dropdown-menu {
+    z-index: 1 !important;
+    position: relative !important;
+}
+.navbar {
+    z-index: 1000 !important;
+    position: relative !important;
+}
+.modal {
+    z-index: 1050 !important;
+    position: fixed !important;
+}
+.modal-backdrop {
+    z-index: 1040 !important;
+    position: fixed !important;
+}

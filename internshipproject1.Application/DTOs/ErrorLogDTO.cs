@@ -10,6 +10,7 @@ namespace internshipproject1.Application.DTOs
     {
         public string Id { get; set; } = null!;
         public string ErrorMessage { get; set; } = null!;
+        public string UserFriendlyMessage { get; set; } = null!;
         public string Path { get; set; } = null!;
         public string Method { get; set; } = null!;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

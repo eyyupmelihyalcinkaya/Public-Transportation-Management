@@ -60,6 +60,7 @@ namespace internshipProject1.WebAPI.Middlewares
             {
                 Id = Guid.NewGuid().ToString(),
                 ErrorMessage = exception.Message,
+                UserFriendlyMessage = GetUserFriendlyMessage(exception),
                 Path = context.Request.Path,
                 Method = context.Request.Method,
                 CreatedAt = DateTime.UtcNow

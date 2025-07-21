@@ -13,6 +13,10 @@ namespace internshipProject1.Infrastructure.Context
         public DbSet<RouteToCreate> Route { get; set; }
         public DbSet<RouteStop> RouteStop { get; set; }
         public DbSet<Trip> Trip { get; set; }
+        public DbSet<Card> Card { get; set; }
+        public DbSet<CardTransaction> CardTransaction { get; set; }
+        public DbSet<Customer> Customer { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,7 +40,43 @@ namespace internshipProject1.Infrastructure.Context
             modelBuilder.Entity<RouteStop>()
                 .HasIndex(rs => new { rs.RouteId, rs.Order})
                 .IsUnique();
-            
+            modelBuilder.Entity<RouteToCreate>(entity =>
+            {
+                entity.HasKey(r => r.Id);
+                entity.Property(r => r.Name).IsRequired().HasMaxLength(100);
+                entity.Property(r => r.Description).HasMaxLength(500);
+                entity.Property(r => r.StartLocation).IsRequired().HasMaxLength(100);
+                entity.Property(r => r.EndLocation).IsRequired().HasMaxLength(100);
+                entity.HasOne(e => e.CreatedBy)
+                  .WithMany(u => u.CreatedRoutes)
+                  .HasForeignKey("CreatedById")
+                  .IsRequired(false);
+
+            });
+            modelBuilder.Entity<Customer>(entity =>
+            {
+                entity.HasKey(c => c.Id);
+                entity.Property(c => c.Name).IsRequired().HasMaxLength(100);
+                entity.Property(c => c.Email).IsRequired().HasMaxLength(100);
+                entity.Property(c => c.PhoneNumber).IsRequired().HasMaxLength(15);
+                entity.HasOne(e => e.Card)
+                    .WithOne(c => c.Customer)
+                    .HasForeignKey<Card>(c => c.CustomerId);
+            });
+            modelBuilder.Entity<Card>(entity => { 
+                entity.HasKey(c => c.Id);
+                entity.Property(c => c.Balance).HasColumnType("decimal(18,2)");
+                entity.Property(c => c.ExpirationDate).IsRequired();
+                entity.Property(c => c.IsActive).IsRequired();
+                entity.HasMany(c => c.CardTransactions)
+                    .WithOne(ct => ct.Card)
+                    .HasForeignKey(ct => ct.CardId);
+            });
+            modelBuilder.Entity<CardTransaction>(entity => {
+                entity.HasKey(ct => ct.Id);
+                entity.Property(ct => ct.Amount).HasColumnType("decimal(18,2)");
+                entity.Property(ct => ct.TransactionDate).IsRequired();
+            });
 
         }
             

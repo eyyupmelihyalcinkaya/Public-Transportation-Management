@@ -5,15 +5,33 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - internshipProject1.WebUI</title>
+    
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    
+    <!-- Site CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/internshipProject1.WebUI.styles.css" asp-append-version="true" />
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Page specific styles -->
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
+    <!-- Background overlay -->
+    <div class="background-overlay"></div>
+    
+    <!-- Theme transition overlay -->
+    <div id="theme-transition-overlay" class="theme-transition-overlay"></div>
+    
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 glass-navbar" style="z-index: 999999 !important; position: relative !important;">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">internshipProject1.WebUI</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-bus"></i> Transport Manager
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -21,33 +39,184 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="fas fa-home"></i> Home
+                            </a>
+                        </li>
+                        <!-- Admin Panel - Sadece giriş yapılmışsa görünür -->
+                        <li class="nav-item" id="navbar-admin-link" style="display: none;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="AdminPanel" asp-action="AdminMainPage">
+                                <i class="fas fa-cogs"></i> Admin Panel
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">
+                                <i class="fas fa-shield-alt"></i> Privacy
+                            </a>
                         </li>
                     </ul>
-                </div>
-                <div style="text-align center; margin bottom : 10px;">
-                    <button id=" theme-tohhle ">🌙</button>
+                    <div class="d-flex gap-2 align-items-center">
+                        <!-- Login/Register Buttons (Giriş yapmamış kullanıcılar için) -->
+                        <div id="auth-buttons" class="d-flex gap-2 align-items-center">
+                            <a asp-controller="Account" asp-action="Login" class="btn btn-auth btn-auth-login">
+                                <i class="fas fa-sign-in-alt"></i> Giriş
+                            </a>
+                            <a asp-controller="Account" asp-action="Register" class="btn btn-auth btn-auth-register">
+                                <i class="fas fa-user-plus"></i> Kayıt Ol
+                            </a>
+                        </div>
+                        
+                        <!-- Profile Menu (Giriş yapmış kullanıcılar için) -->
+                        <div id="profile-menu" class="dropdown d-none">
+                            <button class="btn btn-auth btn-profile dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i> <span id="username-display">Kullanıcı</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="/AdminPanel/AdminMainPage">
+                                    <i class="fas fa-tachometer-alt"></i> Admin Panel
+                                </a></li>
+                                <li><a class="dropdown-item" href="#" onclick="showProfile()">
+                                    <i class="fas fa-user"></i> Profil
+                                </a></li>
+                                <li><a class="dropdown-item" href="#" onclick="showSettings()">
+                                    <i class="fas fa-cog"></i> Ayarlar
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" onclick="logout()">
+                                    <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                                </a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="navbar-divider"></div>
+                        <button id="theme-toggle" class="btn btn-theme-toggle" onclick="toggleTheme()">
+                            <i id="theme-icon" class="fas fa-moon"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted mt-5">
         <div class="container">
-            &copy; 2025 - internshipProject1.WebUI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row py-3">
+                <div class="col-md-6">
+                    &copy; 2025 - Transport Management System
+                </div>
+                <div class="col-md-6 text-end">
+                    <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-decoration-none">Privacy Policy</a>
+                </div>
+            </div>
         </div>
     </footer>
+    
+    <!-- JavaScript -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    <!-- Auth kontrolü -->
+    <script>
+        function updateNavbar() {
+            // Token kontrolü
+            const token = localStorage.getItem('token');
+            const authButtons = document.getElementById('auth-buttons');
+            const profileMenu = document.getElementById('profile-menu');
+            const usernameDisplay = document.getElementById('username-display');
+            const navbarAdminLink = document.getElementById('navbar-admin-link');
+            
+            console.log('updateNavbar called, token:', token);
+            
+            if (token && token !== 'null' && token !== '""' && token !== 'undefined') {
+                console.log('User is logged in - showing profile menu and admin link');
+                // Login durumu - Profile ve Admin link göster
+                if (authButtons) {
+                    authButtons.style.display = 'none !important';
+                    authButtons.classList.add('d-none');
+                }
+                if (profileMenu) {
+                    profileMenu.style.display = 'flex !important';
+                    profileMenu.classList.remove('d-none');
+                    profileMenu.classList.add('d-flex');
+                }
+                // Navbar'daki Admin Panel linkini göster
+                if (navbarAdminLink) {
+                    navbarAdminLink.style.display = 'block';
+                }
+                
+                // Username ayarla
+                try {
+                    const tokenData = JSON.parse(token);
+                    if (usernameDisplay && tokenData.username) {
+                        usernameDisplay.textContent = tokenData.username;
+                    }
+                } catch (e) {
+                    if (usernameDisplay) usernameDisplay.textContent = 'Kullanıcı';
+                }
+            } else {
+                console.log('User is logged out - showing auth buttons, hiding admin link');
+                // Logout durumu - Auth butonları göster, Admin link gizle
+                if (authButtons) {
+                    authButtons.style.display = 'flex !important';
+                    authButtons.classList.remove('d-none');
+                    authButtons.classList.add('d-flex');
+                }
+                if (profileMenu) {
+                    profileMenu.style.display = 'none !important';
+                    profileMenu.classList.add('d-none');
+                    profileMenu.classList.remove('d-flex');
+                }
+                // Navbar'daki Admin Panel linkini gizle
+                if (navbarAdminLink) {
+                    navbarAdminLink.style.display = 'none';
+                }
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            updateNavbar();
+        });
+        
+        // Global navbar update fonksiyonu
+        window.updateNavbar = updateNavbar;
+        
+        // Logout fonksiyonu
+        function logout() {
+            if (confirm('Çıkış yapmak istediğinize emin misiniz?')) {
+                localStorage.removeItem('token');
+                window.location.href = '/Account/Logout';
+            }
+        }
+        
+        // Profile sayfası göster
+        function showProfile() {
+            alert('Profil sayfası yakında eklenecek!');
+        }
+        
+        // Settings sayfası göster
+        function showSettings() {
+            alert('Ayarlar sayfası yakında eklenecek!');
+        }
+        
+        // Tema toggle fonksiyonu
+        function toggleTheme() {
+            if (window.setTheme) {
+                const currentTheme = document.body.classList.contains('dark') ? 'dark' : 'light';
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                window.setTheme(newTheme, true);
+            }
+        }
+    </script>
+    
+    <!-- Page specific scripts -->
     @await RenderSectionAsync("Scripts", required: false)
+    @RenderSection("Modals", required: false)
 </body>
 </html>
