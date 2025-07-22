@@ -88,27 +88,18 @@ namespace internshipProject1.Infrastructure.Data.Repository
         public async Task<IReadOnlyList<Customer>> GetAllByIsStudentAsync(bool isStudent, CancellationToken cancellationToken)
         {
              var students = await _context.Customer
-                .Where(c=>c.IsStudent && !c.IsDeleted)
+                .Where(c=>c.IsStudent == isStudent && !c.IsDeleted)
                 .ToListAsync(cancellationToken);
             return students;
         }
 
-        public async Task<IReadOnlyList<Customer>> GetAllByNameAsync(string name, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<Customer>> GetAllByNameAndSurnameAsync(string name, string surname, CancellationToken cancellationToken)
         {
-            var customerByName = await _context.Customer
-                .Where(c=>c.Name.Equals(name,StringComparison.OrdinalIgnoreCase) && !c.IsDeleted)
+            var customerByNameAndSurname = await _context.Customer
+                .Where(c => c.Name.Equals(name, StringComparison.OrdinalIgnoreCase) && !c.IsDeleted && c.Surname.Equals(surname, StringComparison.OrdinalIgnoreCase))
                 .ToListAsync(cancellationToken);
-            return customerByName;
+            return customerByNameAndSurname;
         }
-
-        public async Task<IReadOnlyList<Customer>> GetAllBySurnameAsync(string surname, CancellationToken cancellationToken)
-        {
-            var customerBySurname = await _context.Customer
-                .Where(c => c.Surname.Equals(surname, StringComparison.OrdinalIgnoreCase) && !c.IsDeleted)
-                .ToListAsync(cancellationToken);
-            return customerBySurname;
-        }
-
         public async Task<IReadOnlyList<Customer>> GetAllInactiveCustomersAsync(CancellationToken cancellationToken)
         {
             var inactiveCustomers = await _context.Customer

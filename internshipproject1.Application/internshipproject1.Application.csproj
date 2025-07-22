@@ -21,9 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Customer\" />
-    <Folder Include="Features\Card\" />
     <Folder Include="Features\CardTransaction\" />
+    <Folder Include="Features\Customer\Commands\" />
+    <Folder Include="Features\Customer\Queries\" />
   </ItemGroup>
 
 </Project>
