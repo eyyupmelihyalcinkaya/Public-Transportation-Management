@@ -1,0 +1,156 @@
+﻿@model internshipProject1.WebUI.Views.Account.LoginModel
+@{
+	ViewData["Title"] = "Login";
+	Layout = "_Layout";
+}
+
+<!-- Error Message Display -->
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="modern-alert mb-4" role="alert" id="auth-alert">
+        <div class="modern-alert-content">
+            <div class="modern-alert-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/>
+                </svg>
+            </div>
+            <div class="modern-alert-text">
+                <h6 class="modern-alert-title">Authentication Required</h6>
+                <p class="modern-alert-message">@TempData["ErrorMessage"]</p>
+            </div>
+            <button type="button" onclick="document.getElementById('auth-alert').style.display='none'" title="Close" 
+                    onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'; this.style.transform='scale(1.1)'" 
+                    onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'; this.style.transform='scale(1)'"
+                    style="background: rgba(255, 255, 255, 0.2); border: none; color: white; cursor: pointer; padding: 0; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; transition: all 0.2s ease;">
+                ✕
+            </button>
+        </div>
+    </div>
+
+    <style>
+        .modern-alert {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            border: none;
+            border-radius: 16px;
+            padding: 20px;
+            color: white;
+            box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
+            backdrop-filter: blur(10px);
+            margin-bottom: 24px;
+        }
+        .modern-alert-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        .modern-alert-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            opacity: 0.9;
+        }
+        .modern-alert-text {
+            flex: 1;
+        }
+        .modern-alert-title {
+            margin: 0 0 8px 0;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .modern-alert-message {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+    </style>
+}
+
+<div class = "login-container">	
+	<h2>Login</h2>
+
+<div>
+	<div>
+		<label>Username:</label>
+		<input type="text" id="username" required />
+	</div>
+	<div>
+		<label>Password:</label>
+		<input type="password" id="password" required />
+	</div>
+	<div>
+		<button type="button" onclick="login()">Login</button>
+	</div>
+</div>
+
+	<script>
+				function login() {
+		  const username = document.getElementById("username").value;
+		  const password = document.getElementById("password").value;
+
+		  fetch('https://localhost:7009/api/User/login', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ username, password })
+		  })
+		  .then(response => {
+			if (!response.ok) throw new Error("Login failed, status: " + response.status);
+			return response.json();
+		  })
+		  .then(data => {
+			console.log('Gelen veri:', data);
+			// Token'ı ve kullanıcı bilgilerini kaydet
+			const tokenData = {
+				token: data.token,
+				username: username, // Giriş yapan kullanıcı adı
+				loginTime: new Date().getTime()
+			};
+			localStorage.setItem('token', JSON.stringify(tokenData));
+			console.log('Token saved, localStorage token:', localStorage.getItem('token'));
+			
+			// Server-side session'a da kaydet (AdminPanel erişimi için)
+			fetch('/Account/SetSession', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					Token: data.token,
+					Username: username
+				})
+			})
+			.then(sessionResponse => sessionResponse.json())
+			.then(sessionResult => {
+				console.log('Session kaydedildi:', sessionResult);
+				
+				// Direkt navbar'ı güncelle
+				const authButtons = document.getElementById('auth-buttons');
+				const profileMenu = document.getElementById('profile-menu');
+				const usernameDisplay = document.getElementById('username-display');
+				
+				if (authButtons) authButtons.style.display = 'none';
+				if (profileMenu) {
+					profileMenu.style.display = 'flex';
+					profileMenu.classList.remove('d-none');
+				}
+				if (usernameDisplay) usernameDisplay.textContent = username;
+				
+				console.log('Navbar updated, redirecting...');
+				
+				// Admin Panel'e yönlendir
+				window.location.href = '/AdminPanel/AdminMainPage';
+			})
+			.catch(sessionError => {
+				console.error('Session kaydetme hatası:', sessionError);
+				// Session kaydedilemese bile devam et
+				window.location.href = '/AdminPanel/AdminMainPage';
+			});
+		  })
+		  .catch(error => {
+			console.error('Hata:', error);
+			alert(error.message || "Login Failed");
+		  });
+		}
+
+	</script>
+
+
+<!-- CSS ve JS zaten _Layout.cshtml'de yüklü -->

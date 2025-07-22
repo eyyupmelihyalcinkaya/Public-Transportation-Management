@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "internshipProject1\\internshipProject1.WebAPI.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "internshipProject1.WebUI\\internshipProject1.WebUI.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

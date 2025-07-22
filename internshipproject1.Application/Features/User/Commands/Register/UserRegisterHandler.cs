@@ -8,6 +8,7 @@ using internshipproject1.Application.Interfaces.Repositories;
 using internshipproject1.Application.DTOs;
 using internshipproject1.Domain.Entities;
 using MediatR;
+using internshipproject1.Application.Exceptions;
 namespace internshipproject1.Application.Features.User.Commands.Register
 {
     public class UserRegisterHandler : IRequestHandler<UserRegisterCommand,UserRegisterCommandResponse>
@@ -22,6 +23,9 @@ namespace internshipproject1.Application.Features.User.Commands.Register
         }
         public async Task<UserRegisterCommandResponse> Handle(UserRegisterCommand command, CancellationToken cancellationToken)
         {
+            if (await _userRepository.UserExistsAsync(command.userName, cancellationToken)) {
+                throw new UserAlreadyRegisteredException("User Already Registered");
+            }
             _passwordHashingService.CreatePasswordHash(command.password,out var hash, out var salt);
             var user = new internshipproject1.Domain.Entities.User
             {

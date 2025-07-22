@@ -1,71 +1,95 @@
-﻿using Core.DTOs;
+﻿using internshipproject1.Application.Features.Trip.Commands.CreateTripCommand;
+using internshipproject1.Application.Features.Trip.Commands.DeleteTripCommand;
+using internshipproject1.Application.Features.Trip.Commands.UpdateTripCommand;
+using internshipproject1.Application.Features.Trip.Queries.GetAllTrips;
+using internshipproject1.Application.Features.Trip.Queries.GetTrip;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Core.Entities;
-using Core.Services.RedisService;
-using internshipProject1.Infrastructure.Data.Context;
+
 namespace WebAPI.Controllers
 {
 
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class TripsController : ControllerBase
     {
-        private readonly AppDbContext _dbContext;
-        private readonly IConfiguration _configuration;
-        private readonly RedisCacheService _cacheService;
-        private readonly RedisCacheHelper _redisCacheHelper;
-        public TripsController(AppDbContext dbContext, IConfiguration configuration,RedisCacheHelper redisCacheHelper,RedisCacheService redisCacheService)
+        private readonly IMediator _mediator;
+        
+        public TripsController(IMediator mediator)
         {
-            _dbContext = dbContext;
-            _configuration = configuration;
-            _redisCacheHelper = redisCacheHelper;
-            _cacheService = redisCacheService;
+            _mediator = mediator;
         }
 
+        //Public API
 
-        // Public APIs
-        [AllowAnonymous]
+        //GET Trip By ID
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetTripById(int id, CancellationToken cancellationToken) {
+            var response = await _mediator.Send(new GetTripQueryRequest(id), cancellationToken);
+            if (response == null || !response.Any())
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
+
+        //GET All Trips
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Trip>>> GetTrip([FromQuery] int routeId, string day) {
-            if (routeId < 0 || string.IsNullOrEmpty(day)) {
-                return BadRequest("Please enter a valid routeId and day");
-            }
-            string cacheString = $"Trip:Trips-{routeId}";
-            var cachedTrips = await _redisCacheHelper.GetOrSetCacheAsync(cacheString, async () =>
-                {
-                    var trips = await _dbContext.Trip.Where(t => t.RouteId == routeId && t.DayType.ToLower() == day.ToLower())
-                    .ToListAsync();
-                    return trips;
-                }, TimeSpan.FromMinutes(15)
-            );
-            if (cachedTrips == null)
-            {
-                return NotFound("Trip cannot found");
-            }
-            return Ok(cachedTrips);
-        }
-
-
-        //Private APIs
-
-        [HttpPost]
-        public async Task<ActionResult<Trip>> addStop([FromBody] TripCreateDTO dto)
+        public async Task<ActionResult> GettAllTrips(CancellationToken cancellationToken)
         {
-            var trip = new Trip
+            var response = await _mediator.Send(new GetAllTripsQueryRequest(), cancellationToken);
+            if (response == null || !response.Any())
             {
-                RouteId = dto.RouteId,
-                StartTime = dto.StartTime,
-                EndTime = dto.EndTime,
-                DayType = dto.DayType
-        };
-            _dbContext.Trip.Add(trip);
-            await _dbContext.SaveChangesAsync();
-            return Ok(trip);
-
+                return NotFound();
+            }
+            return Ok(response);
         }
+
+
+        // Private API's
+
+        //POST Create Trip
+        [HttpPost]
+        public async Task<ActionResult> CreateTrip(CreateTripCommandRequest request, CancellationToken cancellationToken)
+        { 
+            var response = await _mediator.Send(request, cancellationToken);
+            if (response == null)
+            {
+                return BadRequest("Trip creation failed.");
+            }
+            return CreatedAtAction(nameof(GetTripById), new { id = response.Id }, response);
+        }
+
+        //DELETE Delete Trip By ID
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteTripById(int id, CancellationToken cancellationToken)
+        { 
+            var response = await _mediator.Send(new DeleteTripCommandRequest(id), cancellationToken);
+            if (response == null)
+            {
+                return NotFound("Trip not found.");
+            }
+            return NoContent();
+        }
+
+        //PUT Update Trip
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateTrip(int id,UpdateTripCommandRequest request, CancellationToken cancellationToken)
+        { 
+            if (id != request.Id)
+            {
+                return BadRequest("Trip ID mismatch.");
+            }
+            var response = await _mediator.Send(request,cancellationToken);
+            if (response == null)
+            {
+                return NotFound("Trip not found.");
+            }
+            return Ok(response);
+        }
+
 
     }
 }

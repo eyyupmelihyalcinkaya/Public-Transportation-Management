@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using internshipproject1.Application.Interfaces.Repositories;
 using internshipproject1.Domain.Services;
 using MediatR;
-using internshipproject1.Domain.Exceptions;
+using internshipproject1.Application.Exceptions;
 namespace internshipproject1.Application.Features.User.Commands.ChangePassword
 {
     public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand,ChangePasswordCommandResponse>

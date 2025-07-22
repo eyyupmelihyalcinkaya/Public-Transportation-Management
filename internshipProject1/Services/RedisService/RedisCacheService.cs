@@ -1,5 +1,4 @@
-﻿using internshipProject1.Interfaces;
-using StackExchange.Redis;
+﻿using StackExchange.Redis;
 using System.Text.Json;
 using System.Threading.Tasks;
 

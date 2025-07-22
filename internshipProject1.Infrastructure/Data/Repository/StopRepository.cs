@@ -20,7 +20,7 @@ namespace internshipProject1.Infrastructure.Data.Repository
 
         public async Task<Stop> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var stop = await _dbContext.Stop.FirstOrDefaultAsync(s => s.Id == id,cancellationToken);
+            var stop = await _dbContext.Stop.FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
             if (stop == null)
             {
                 throw new KeyNotFoundException($"Stop with ID {id} not found.");
@@ -29,7 +29,7 @@ namespace internshipProject1.Infrastructure.Data.Repository
         }
         public async Task<Stop> GetByStopNameAsync(string stopName, CancellationToken cancellationToken)
         {
-            var stop = await _dbContext.Stop.FirstOrDefaultAsync(s => s.Name == stopName,cancellationToken);
+            var stop = await _dbContext.Stop.FirstOrDefaultAsync(s => s.Name == stopName, cancellationToken);
             if (stop == null)
             {
                 throw new Exception("Stop cannot found");
@@ -43,18 +43,18 @@ namespace internshipProject1.Infrastructure.Data.Repository
             {
                 throw new ArgumentNullException(nameof(stop));
             }
-            await _dbContext.Stop.AddAsync(stop,cancellationToken);
+            await _dbContext.Stop.AddAsync(stop, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return stop;
         }
 
-        public async Task<Stop> UpdateAsync(Stop stop,CancellationToken cancellationToken)
+        public async Task<Stop> UpdateAsync(Stop stop, CancellationToken cancellationToken)
         {
             if (stop == null)
             {
                 throw new ArgumentNullException(nameof(stop));
             }
-            var updatedStop = await _dbContext.Stop.FirstOrDefaultAsync(s => s.Id == stop.Id,cancellationToken);
+            var updatedStop = await _dbContext.Stop.FirstOrDefaultAsync(s => s.Id == stop.Id, cancellationToken);
 
             if (updatedStop == null)
             {
@@ -70,10 +70,10 @@ namespace internshipProject1.Infrastructure.Data.Repository
 
         }
 
-        public async Task DeleteAsync(int id,CancellationToken cancellationToken)
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
 
-            var stop = await _dbContext.Stop.FirstOrDefaultAsync(s => s.Id == id,cancellationToken);
+            var stop = await _dbContext.Stop.FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
             if (stop == null)
             {
                 throw new KeyNotFoundException($"Stop with ID {id} not found.");
@@ -104,7 +104,11 @@ namespace internshipProject1.Infrastructure.Data.Repository
 
         public Task DeleteAsync(Stop entitiy, CancellationToken cancellationToken)
         {
-            return DeleteAsync(entitiy.Id,cancellationToken);
+            return DeleteAsync(entitiy.Id, cancellationToken);
+        }
+        public async Task<bool> StopExistsByIdAsync(int stopId, CancellationToken cancellationToken)
+        {
+            return await _dbContext.Stop.AnyAsync(s => s.Id == stopId, cancellationToken);
         }
     }
 }

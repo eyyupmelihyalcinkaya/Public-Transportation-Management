@@ -63,7 +63,7 @@ namespace internshipProject1.Infrastructure.Data.Repository
             {
                 throw new ArgumentException("Invalid route ID", nameof(routeId));
             }
-            var routeStop = await _dbContext.RouteStop.Where(r=> r.RouteId == routeId).ToListAsync(cancellationToken);
+            var routeStop = await _dbContext.RouteStop.Include(rs=> rs.Stop).Where(r=> r.RouteId == routeId).ToListAsync(cancellationToken);
             return routeStop;
         }
 

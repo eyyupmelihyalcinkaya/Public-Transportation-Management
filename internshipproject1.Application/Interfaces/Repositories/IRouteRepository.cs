@@ -16,5 +16,6 @@ namespace internshipproject1.Application.Interfaces.Repositories
         Task<RouteToCreate> UpdateAsync(RouteToCreate route, CancellationToken cancellationToken);
         Task DeleteAsync(int id, CancellationToken cancellationToken);
         Task<bool> RouteExistsAsync(string routeName, CancellationToken cancellationToken);
+        Task<bool> RouteExistByIdAsync(int routeId,CancellationToken cancellationToken);
     }
 }

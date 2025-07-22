@@ -7,11 +7,11 @@ using internshipproject1.Application.Interfaces.Repositories;
 using MediatR;
 namespace internshipproject1.Application.Features.Route.Commands.UpdateRoute
 {
-    public class updateRouteCommandHandler : IRequestHandler<UpdateRouteCommandRequest, UpdateRouteCommandResponse>
+    public class UpdateRouteCommandHandler : IRequestHandler<UpdateRouteCommandRequest, UpdateRouteCommandResponse>
     {
         private readonly IRouteRepository _routeRepository;
 
-        public updateRouteCommandHandler(IRouteRepository routeRepository)
+        public UpdateRouteCommandHandler(IRouteRepository routeRepository)
         {
             _routeRepository = routeRepository;
         }

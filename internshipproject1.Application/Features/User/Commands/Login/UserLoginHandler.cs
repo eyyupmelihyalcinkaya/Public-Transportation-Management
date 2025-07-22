@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using internshipproject1.Domain.Auth;
 using Microsoft.Extensions.Configuration;
 using MediatR;
+using internshipproject1.Application.Exceptions;
 
 namespace internshipproject1.Application.Features.User.Commands.Login
 {
@@ -32,7 +33,7 @@ namespace internshipproject1.Application.Features.User.Commands.Login
             
             if (user == null)
             {
-                throw new UnauthorizedAccessException("Kullanıcı adı veya şifre hatalı");
+                throw new WrongUsernameOrPasswordException("Kullanıcı adı veya şifre hatalı");
             }
 
 
@@ -43,7 +44,7 @@ namespace internshipproject1.Application.Features.User.Commands.Login
 
             if (!isPasswordValid)
             {
-                throw new UnauthorizedAccessException("Kullanıcı adı veya şifre hatalı");
+                throw new WrongUsernameOrPasswordException("Kullanıcı adı veya şifre hatalı");
             }
 
             var token = TokenHandler.CreateToken(_configuration, user.userName);

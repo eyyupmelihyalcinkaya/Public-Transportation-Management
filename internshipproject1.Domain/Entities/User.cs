@@ -6,5 +6,7 @@
         public string userName { get; set; }
         public byte[] passwordHash { get; set; }
         public byte[] passwordSalt { get; set; }
+        public ICollection<RouteToCreate> CreatedRoutes { get; set; }
+
     }
 }
