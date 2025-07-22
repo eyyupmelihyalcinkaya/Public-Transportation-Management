@@ -30,7 +30,7 @@ namespace internshipproject1.Application.Features.Stop.Queries.GetNearbyStops
                 Name = x.Stop.Name,
                 Latitude = x.Stop.Latitude,
                 Longitude = x.Stop.Longitude,
-                Distance = x.Distance
+                Distance = double.Parse(x.Distance.ToString("F2")) // Format distance to 2 decimal places
             }).ToList();
             return nearbyStops;
         }

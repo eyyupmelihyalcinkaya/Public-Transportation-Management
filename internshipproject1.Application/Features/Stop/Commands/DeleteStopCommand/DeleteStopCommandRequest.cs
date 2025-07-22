@@ -10,5 +10,9 @@ namespace internshipproject1.Application.Features.Stop.Commands.DeleteStopComman
     {
         public int Id { get; set; }
 
+        public DeleteStopCommandRequest(int id)
+        {
+            Id = id;
+        }
     }
 }

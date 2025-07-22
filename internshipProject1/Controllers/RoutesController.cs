@@ -21,19 +21,22 @@ namespace internshipProject1.WebAPI.Controllers
             _mediator = mediator;
         }
 
+        // IRoutesService _routeService;
 
         // Public API's
         
         [HttpGet]
         public async Task<IActionResult> GetRoutes()
-        {
+         {
+            //var response = await _routeService.getRoutesDefinition();
+
             var response = await _mediator.Send(new GetRoutesQueryRequest());
 
             return Ok(response);
         }
         
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetRouteById(int id)
+        [HttpGet("id")]
+        public async Task<IActionResult> GetRouteById([FromQuery] int id)
         {
             var response = await _mediator.Send(new GetRoutesByIdRequest(id));
             if (response == null)
@@ -43,8 +46,8 @@ namespace internshipProject1.WebAPI.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{id}/stops")]
-        public async Task<IActionResult> GetStopsByRouteId(int id)
+        [HttpGet("id/stops")]
+        public async Task<IActionResult> GetStopsByRouteId([FromQuery]int id)
         {
             var response = await _mediator.Send(new GetStopsByRouteIdRequest(id));
             if (response == null)
@@ -67,8 +70,8 @@ namespace internshipProject1.WebAPI.Controllers
         }
 
         //[Authorize]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateRoute(int id, UpdateRouteCommandRequest command)
+        [HttpPut("id")]
+        public async Task<IActionResult> UpdateRoute([FromQuery] int id, UpdateRouteCommandRequest command)
         {
             if (id != command.Id)
             {

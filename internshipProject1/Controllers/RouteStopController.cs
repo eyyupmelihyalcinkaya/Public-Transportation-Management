@@ -27,9 +27,12 @@ namespace WebAPI.Controllers
 
         // Public API's
 
+        // binişler , pagecount index ,isActive, UI ın kontrolü Databasede , Raporlarda SP , Endtime Starttime
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetRouteStopById(int id) { 
+        //Burası düzeltilecek. id = 1 şeklinde endpoint girmem gerekiyor. Bu endpointe istek https://localhost:7009/api/RouteStop/?id=1
+
+        [HttpGet("id")]
+        public async Task<IActionResult> GetRouteStopById([FromQuery] int id) { 
             var response = await _mediator.Send(new GetRouteStopByIdQueryRequest(id));
             if(response == null)
             {
@@ -42,7 +45,7 @@ namespace WebAPI.Controllers
         // Private API's
 
         //POST Create RouteStop
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateRouteStop(AddRouteStopCommandRequest request) {
             var response = await _mediator.Send(request);

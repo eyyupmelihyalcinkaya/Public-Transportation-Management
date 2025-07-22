@@ -16,6 +16,7 @@ namespace internshipproject1.Application.Interfaces.Repositories
         Task DeleteAsync(int id, CancellationToken cancellationToken);
         Task<bool> StopExistsAsync(string stopName, CancellationToken cancellationToken);
         Task<IReadOnlyList<Stop>> GetAllAsync(CancellationToken cancellationToken);
+        Task<bool> StopExistsByIdAsync(int stopId, CancellationToken cancellationToken);
 
     }
 }

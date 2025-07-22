@@ -14,7 +14,7 @@ namespace internshipProject1.Infrastructure.Data.Repository
     public class RouteRepository : IRouteRepository
     {
         private readonly AppDbContext _dbContext;
-        
+
         public RouteRepository(AppDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -22,7 +22,7 @@ namespace internshipProject1.Infrastructure.Data.Repository
 
         public async Task<RouteToCreate> AddAsync(RouteToCreate route, CancellationToken cancellationToken)
         {
-            await _dbContext.Route.AddAsync(route,cancellationToken);
+            await _dbContext.Route.AddAsync(route, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             return route;
@@ -30,11 +30,11 @@ namespace internshipProject1.Infrastructure.Data.Repository
 
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
-            await _dbContext.Route.Where(r=> r.Id == id).ExecuteDeleteAsync(cancellationToken);
+            await _dbContext.Route.Where(r => r.Id == id).ExecuteDeleteAsync(cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public Task DeleteAsync(RouteToCreate entity,CancellationToken cancellationToken)
+        public Task DeleteAsync(RouteToCreate entity, CancellationToken cancellationToken)
         {
             if (entity == null)
             {
@@ -45,7 +45,7 @@ namespace internshipProject1.Infrastructure.Data.Repository
         }
 
         public async Task<IReadOnlyList<RouteToCreate>> GetAllAsync()
-        { 
+        {
             var routes = await _dbContext.Route.ToListAsync();
             return routes;
         }
@@ -56,18 +56,18 @@ namespace internshipProject1.Infrastructure.Data.Repository
             return route;
         }
 
-        public Task<RouteToCreate> GetByIdAsync(int id,CancellationToken cancellationToken)
+        public Task<RouteToCreate> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var route = _dbContext.Route.FirstOrDefaultAsync(r => r.Id == id,cancellationToken);
+            var route = _dbContext.Route.FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
 
             return route;
         }
 
         public Task<RouteToCreate> GetByRouteNameAsync(string routeName, CancellationToken cancellationToken)
         {
-            var route = _dbContext.Route.FirstOrDefaultAsync(r => r.Name == routeName,cancellationToken);
+            var route = _dbContext.Route.FirstOrDefaultAsync(r => r.Name == routeName, cancellationToken);
 
-            if(route == null)
+            if (route == null)
             {
                 throw new KeyNotFoundException($"Route with name {routeName} not found.");
             }
@@ -75,15 +75,15 @@ namespace internshipProject1.Infrastructure.Data.Repository
         }
         public Task<bool> RouteExistsAsync(string routeName, CancellationToken cancellationToken)
         {
-            var route = _dbContext.Route.FirstOrDefaultAsync(r => r.Name == routeName,cancellationToken);
-            if(route == null)
+            var route = _dbContext.Route.FirstOrDefaultAsync(r => r.Name == routeName, cancellationToken);
+            if (route == null)
             {
                 return Task.FromResult(false);
             }
             return Task.FromResult(true);
         }
 
-        public async Task<RouteToCreate> UpdateAsync(RouteToCreate route,CancellationToken cancellationToken)
+        public async Task<RouteToCreate> UpdateAsync(RouteToCreate route, CancellationToken cancellationToken)
         {
             var routeToUpdate = await _dbContext.Route.FirstOrDefaultAsync(r => r.Id == route.Id, cancellationToken);
             if (routeToUpdate == null)
@@ -100,9 +100,14 @@ namespace internshipProject1.Infrastructure.Data.Repository
             return routeToUpdate;
         }
 
-        Task IGenericRepository<RouteToCreate>.UpdateAsync(RouteToCreate entity,CancellationToken cancellationToken)
+        Task IGenericRepository<RouteToCreate>.UpdateAsync(RouteToCreate entity, CancellationToken cancellationToken)
         {
-            return UpdateAsync(entity,cancellationToken);
+            return UpdateAsync(entity, cancellationToken);
+        }
+        public async Task<bool> RouteExistByIdAsync(int routeId, CancellationToken cancellationToken)
+        {
+            var route = await _dbContext.Route.AnyAsync(r => r.Id == routeId, cancellationToken);
+            return route;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace internshipproject1.Domain.Auth
             Token token = new();
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Token:SecurityKey"]));
             SigningCredentials credentials = new SigningCredentials(securityKey,SecurityAlgorithms.HmacSha256);
-            token.Expiration = DateTime.Now.AddMinutes(Convert.ToInt16(configuration["Token:Expiration"]));
+            token.Expiration = DateTime.UtcNow.AddMinutes(Convert.ToInt16(configuration["Token:Expiration"]));
 
 
             var claims = new[] {
@@ -29,7 +29,7 @@ namespace internshipproject1.Domain.Auth
                 audience: configuration["Token:Audience"],
                 claims: claims,
                 expires: token.Expiration,
-                notBefore: DateTime.Now,
+                notBefore: DateTime.UtcNow,
                 signingCredentials: credentials
                 );
 

@@ -4,106 +4,104 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using internshipproject1.Domain.Entities;
 using internshipproject1.Application.Interfaces;
-using internshipProject1.Infrastructure.Data.Context;
+using MediatR;
+using internshipproject1.Application.Features.Stop.Queries.GetStopById;
+using internshipproject1.Application.Features.Stop.Queries.GetNearbyStops;
+using internshipproject1.Application.Features.Stop.Commands.CreateStopCommand;
+using internshipproject1.Application.Features.Stop.Commands.DeleteStopCommand;
+using internshipproject1.Application.Features.Stop.Commands.UpdateStopCommand;
+using internshipproject1.Application.Features.Stop.Queries.GetAllStops;
 namespace WebAPI.Controllers
 {
 
-    [Authorize]
+  
     [ApiController]
     [Route("api/[controller]")]
     public class StopsController : ControllerBase
     {
-        private readonly AppDbContext _dbContext;
-        private readonly IConfiguration _configuration;
-        private readonly RedisCacheHelper _redisCacheHelper;
-        public StopsController(AppDbContext dbContext, IConfiguration configuration,RedisCacheHelper redisCacheHelper)
+        private readonly IMediator _mediator;
+
+        public StopsController(IMediator mediator)
         {
-            _dbContext = dbContext;
-            _configuration = configuration;
-            _redisCacheHelper = redisCacheHelper;
+            _mediator = mediator;
         }
 
-        private static double CalculateDistance(double lat1, double lon1, double lat2, double lon2) {
-            var R = 6371; // Radius of the Earth in KM.
-            var dLat = ToRadians(lat2 - lat1);
-            var dLon = ToRadians(lon2 - lon1);
-            var a = Math.Pow(Math.Sin(dLat / 2), 2) + // Haversine Formula
-                    Math.Cos(ToRadians(lat1)) *
-                    Math.Cos(ToRadians(lat2)) *
-                    Math.Pow(Math.Sin(dLon / 2), 2);
-            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-            var d = R * c; //Distance in KM.
-            return d;
-        }
-        private static double ToRadians(double deg) => deg * (Math.PI / 180);
 
-        // Public APIs
-        [AllowAnonymous]
+        // Public API's
+
+        //GET Stop by Id
         [HttpGet("{id}")]
-        public async Task<ActionResult> getStop(int id) {
-            string cacheKey = $"stop:stop-{id}";
-               var cachedStop = await _redisCacheHelper.GetOrSetCacheAsync(cacheKey, async()=>
-                   {
-                       var stop = _dbContext.Stop.Find(id);
-                       return stop;
-                   },TimeSpan.FromMinutes(15)
-               );
-            if (cachedStop == null) {
-                return NotFound("The Stop cannot found");
-            }
-            return Ok(cachedStop);
-        }
-        [AllowAnonymous]
-        [HttpGet("nearby")]
-        public async Task<ActionResult<IEnumerable<Stop>>> nearbyStops([FromQuery] double lat, double lon) { 
-            string cacheKey = $"stop:nearbyStops-for-{lat}-{lon}";
-            var cachedNearbyStops = await _redisCacheHelper.GetOrSetCacheAsync(cacheKey, async () =>
-
-                {
-                    var stops = await _dbContext.Stop.ToListAsync();
-                    var nearbyStops = stops.Select(stop => new
-                    {
-                        Stop = stop,
-                        Distance = CalculateDistance(lat, lon, stop.Latitude, stop.Longitude)
-                    }).OrderBy(x => x.Distance).Select(x => new
-                    {
-                        x.Stop.Id,
-                        x.Stop.Name,
-                        x.Stop.Latitude,
-                        x.Stop.Longitude,
-                        DistanceInKm = x.Distance.ToString("F2")
-                    })
-                    .ToList();
-
-                    return nearbyStops;
-                }, TimeSpan.FromMinutes(15)
-            );
-            if (cachedNearbyStops == null)
-            {
-                return NotFound("NearbyStops cannot found");
-            }
-            
-            return Ok(cachedNearbyStops);
+        public async Task<ActionResult> GetStopById(int id) { 
         
+            var response = await _mediator.Send(new GetStopByIdQueryRequest(id));
+            if (response == null)
+            {
+                return NotFound();
+            }
+            return Ok(response);
         }
 
-        //Private APIs
-
-        [HttpPost("Create")]
-        public async Task<ActionResult<Stop>> addStop([FromBody] StopCreateDTO dto) {
-            var stop = new Stop
+        //GET All Stops
+        [HttpGet]
+        public async Task<ActionResult> GetAllStops()
+        {
+            var response = await _mediator.Send(new GetAllStopsQueryRequest());
+            if (response == null || !response.Any())
             {
-                Name = dto.Name,
-                Latitude = dto.Latitude,
-                Longitude = dto.Longitude
-            };
-            if (stop == null) { return BadRequest("Stop informations cannot be null");}
-
-            _dbContext.Stop.Add(stop);
-            await _dbContext.SaveChangesAsync();
-            return Ok(stop);
-
+                return NotFound();
+            }
+            return Ok(response);
         } 
-    
+        //GET Nearby Stops
+        [HttpGet("nearby")]
+        public async Task<ActionResult> GetNearbyStops([FromQuery] double latitude, [FromQuery] double longitude) {
+            var request = new GetNearbyStopsRequest(latitude, longitude);
+            var response = await _mediator.Send(request);
+            if (response == null || !response.Any())
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
+
+
+        // Private API's
+
+        // POST Create Stop
+        [HttpPost]
+        public async Task<ActionResult> CreateStop(CreateStopCommandRequest request) {
+            var response = await _mediator.Send(request);
+            if (response == null)
+            {
+                return BadRequest("Failed to create stop.");
+            }
+            return Ok(response);
+        }
+
+        //DELETE Stop By ID
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteStopById(int id) { 
+            var response = await _mediator.Send(new DeleteStopCommandRequest(id));
+            if (response == null)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
+
+        // PUT Update Stop
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateStop(int id, UpdateStopCommandRequest request)
+        {
+            if (id != request.Id) { 
+                return BadRequest("Stop ID mismatch.");
+            }
+            var response = await _mediator.Send(request);
+            if(response == null)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
     }
 }
