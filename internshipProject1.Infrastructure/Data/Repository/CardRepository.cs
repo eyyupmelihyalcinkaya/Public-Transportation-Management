@@ -103,7 +103,7 @@ namespace internshipProject1.Infrastructure.Data.Repository
         public async Task<Card> UpdateAsync(Card card, CancellationToken cancellationToken)
         {
             var existingCard = await _context.Card.FindAsync(card.Id, cancellationToken);
-            if (existingCard == null || existingCard.IsDeleted)
+            if (existingCard == null)
             {
                 throw new KeyNotFoundException($"Card with ID {card.Id} not found or has been deleted.");
             }

@@ -9,11 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-
-//                                                        IMPLEMENTE ETMEDİM EKSİK DURUYOR 
-//                                                             YAPILACAK ÇOK ŞEY VAR
-
-
 namespace internshipProject1.Infrastructure.Data.Repository
 {
     public class CustomerRepository : ICustomerRepository
@@ -22,6 +17,7 @@ namespace internshipProject1.Infrastructure.Data.Repository
         
         public CustomerRepository(AppDbContext context)
         {
+            // TODO: Melih class
             _context = context;
         }
         public async Task<Customer> AddAsync(Customer customer, CancellationToken cancellationToken)
@@ -111,9 +107,10 @@ namespace internshipProject1.Infrastructure.Data.Repository
         public async Task<Customer> GetByEmailAsync(string email, CancellationToken cancellationToken)
         {
             var customerByEmail = await _context.Customer
-                .FirstOrDefaultAsync(c => c.Email.Equals(email, StringComparison.OrdinalIgnoreCase) && !c.IsDeleted, cancellationToken);
+                .FirstOrDefaultAsync(c => c.Email.ToLower() == email.ToLower() && !c.IsDeleted, cancellationToken);
             return customerByEmail;
         }
+
 
         public async Task<Customer> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
@@ -143,7 +140,7 @@ namespace internshipProject1.Infrastructure.Data.Repository
         public async Task<Customer> UpdateAsync(Customer customer, CancellationToken cancellationToken)
         {
             var existingCustomer = await _context.Customer.FindAsync(customer.Id, cancellationToken);
-            if (existingCustomer == null || existingCustomer.IsDeleted)
+            if (existingCustomer == null)
             {
                 throw new KeyNotFoundException($"Customer with ID {customer.Id} not found or has been deleted.");
             }

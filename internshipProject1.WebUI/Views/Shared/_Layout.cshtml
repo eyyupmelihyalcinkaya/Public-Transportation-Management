@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -19,7 +19,7 @@
     <!-- Page specific styles -->
     @await RenderSectionAsync("Styles", required: false)
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Background overlay -->
     <div class="background-overlay"></div>
     
@@ -27,7 +27,7 @@
     <div id="theme-transition-overlay" class="theme-transition-overlay"></div>
     
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 glass-navbar" style="z-index: 999999 !important; position: relative !important;">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 glass-navbar" style="position: relative !important;">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <i class="fas fa-bus"></i> Transport Manager
@@ -98,13 +98,13 @@
         </nav>
     </header>
     
-    <div class="container-fluid">
-        <main role="main" class="pb-3">
+    <div class="container-fluid flex-grow-1 d-flex flex-column">
+        <main role="main" class="pb-3 flex-grow-1">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted mt-5">
+    <footer class="border-top footer text-muted mt-5" style="position: relative; z-index: 1; background-color: #f8f9fa;">
         <div class="container">
             <div class="row py-3">
                 <div class="col-md-6">

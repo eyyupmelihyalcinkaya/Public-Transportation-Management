@@ -490,7 +490,7 @@ body.dark .navbar-divider {
     font-size: 1.5rem;
     text-decoration: none;
     transition: all 0.3s ease;
-    color: #007bff !important; /* Default koyu renk */
+    color: #007bff !important; /* Default koyu renk  */
 }
 
 .navbar-brand:hover {
@@ -725,12 +725,6 @@ body.dark .footer a:hover {
     position: relative;
 }
 
-/* Container'ların z-index'ini düşük tut */
-.container, .container-fluid {
-    z-index: 1 !important;
-    position: relative;
-}
-
 /* Modal z-index fix */
 .modal {
     z-index: 1050 !important;
@@ -742,10 +736,6 @@ body.dark .footer a:hover {
 }
 
 /* Stacking context reset */
-.container, .container-fluid, .admin-container, .card, .table, .dropdown-menu {
-    z-index: 1 !important;
-    position: relative !important;
-}
 .navbar {
     z-index: 1000 !important;
     position: relative !important;
@@ -757,4 +747,19 @@ body.dark .footer a:hover {
 .modal-backdrop {
     z-index: 1040 !important;
     position: fixed !important;
+}
+
+body.dark .navbar {
+    background-color: #000000 !important; /* Tam siyah */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark .navbar-brand,
+body.dark .navbar-nav .nav-link {
+    color: #ffffff !important; /* Beyaz metin */
+}
+
+body.dark .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    color: #ffffff !important;
 }

@@ -50,6 +50,9 @@ builder.Services.AddApplication();
  *  $infraPath = "C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.Infrastructure\internshipProject1.Infrastructure.csproj"
     $webApiPath = "C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1\internshipProject1.WebAPI.csproj"
     dotnet ef migrations add InitialCreate --project $infraPath --startup-project $webApiPath 
+
+    dotnet ef database update --project $infraPath --startup-project $webApiPath
+
  */
 //JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(

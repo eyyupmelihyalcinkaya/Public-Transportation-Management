@@ -7,6 +7,16 @@ using System.Threading.Tasks;
 
 namespace internshipproject1.Application.Interfaces.Repositories
 {
+    /*
+            ICardRepository
+            Best Practice: CRUD ve ek fonksiyonlar (aktif/pasif kartlar, müşteri bazlı arama) var.
+            Eksik/Yanlış:
+            AddAsync, UpdateAsync ve DeleteAsync metotları hem burada hem generic interface’te olabilir, tekrar olabilir.
+            DeleteAsync gerçek silme mi yoksa soft delete mi? CQRS handler’da soft delete uygulanıyor, interface’de açıklama yok.
+            GetByCustomerIdAsync birden fazla kart dönebilir, tek kart dönüyor. Müşterinin birden fazla kartı olamaz mı?
+            İsimlendirme: Tutarlı ve anlaşılır.
+     
+     */
     public interface ICardRepository : IGenericRepository<Card>
     {
         Task<Card> GetByIdAsync(int id, CancellationToken cancellationToken);

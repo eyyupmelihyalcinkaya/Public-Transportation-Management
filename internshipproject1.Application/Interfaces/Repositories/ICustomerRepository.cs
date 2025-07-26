@@ -7,6 +7,13 @@ using System.Threading.Tasks;
 
 namespace internshipproject1.Application.Interfaces.Repositories
 {
+    /*
+        ICustomerRepository
+        Best Practice: Geniş kapsamlı arama ve filtreleme metotları var.
+        Eksik/Yanlış:
+        GetByIdAsync ve GetByEmailAsync null dönebilir, handler’larda exception handling olmalı.
+        GetPagedAsync tuple döndürüyor, best practice için özel bir response modeli tercih edilebilir.
+     */
     public interface ICustomerRepository : IGenericRepository<Customer>
     {
         public Task<Customer> GetByIdAsync(int id, CancellationToken cancellationToken); // query

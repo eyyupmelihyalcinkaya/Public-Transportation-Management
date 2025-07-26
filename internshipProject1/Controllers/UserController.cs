@@ -65,14 +65,17 @@ namespace WebAPI.Controllers
 
         //GET Get All Users
         [HttpGet("all")]
-        public async Task<ActionResult> GetAllUsers(CancellationToken cancellationToken)
+        public async Task<ActionResult> GetAllUsers(CancellationToken cancellationToken, int page = 1, int pageSize = 10)
         {
             var response = await _mediator.Send(new GetAllUsersQueryRequest(), cancellationToken);
             if (response == null || !response.Any())
             {
                 return NotFound("No users found.");
             }
-            return Ok(response);
+            int totalCount = response.Count();
+            int pageCount = (int)Math.Ceiling((double)totalCount / pageSize);
+            var pagedResponse = response.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            return Ok(pagedResponse);
         }
     }
 }

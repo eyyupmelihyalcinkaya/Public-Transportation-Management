@@ -48,6 +48,9 @@ namespace internshipProject1.Infrastructure
             services.AddScoped<ILogRepository, LogRepository>();
             services.AddScoped<ILogService, LogService>();
 
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<ICardRepository, CardRepository>();
+            services.AddScoped<ICardTransaction, CardTransactionRepository>();
             // Cache Service
             services.AddScoped<IRedisCacheService, RedisCacheService>();
 

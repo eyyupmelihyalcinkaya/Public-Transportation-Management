@@ -17,5 +17,6 @@ namespace internshipproject1.Application.Interfaces.Repositories
         Task DeleteAsync(int id, CancellationToken cancellationToken);
         Task<bool> RouteExistsAsync(string routeName, CancellationToken cancellationToken);
         Task<bool> RouteExistByIdAsync(int routeId,CancellationToken cancellationToken);
+        Task<int> TotalRoutesCount(CancellationToken cancellationToken);
     }
 }

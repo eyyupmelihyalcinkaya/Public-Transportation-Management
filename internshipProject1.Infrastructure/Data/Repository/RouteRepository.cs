@@ -109,5 +109,9 @@ namespace internshipProject1.Infrastructure.Data.Repository
             var route = await _dbContext.Route.AnyAsync(r => r.Id == routeId, cancellationToken);
             return route;
         }
+        public async Task<int> TotalRoutesCount(CancellationToken cancellationToken)
+        {
+            return await _dbContext.Route.CountAsync(cancellationToken);
+        }
     }
 }

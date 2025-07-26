@@ -19,6 +19,7 @@ namespace internshipproject1.Application.Interfaces.Repositories
         Task<IReadOnlyList<RouteStop>> GetAllByRouteIdAsync(int routeId, CancellationToken cancellationToken);
         Task<IReadOnlyList<RouteStop>> GetAllByStopIdAsync(int stopId, CancellationToken cancellationToken);
         Task<IReadOnlyList<RouteStop>> GetAllAsync(CancellationToken cancellationToken);
+        Task<int> TotalRouteStopsCount(CancellationToken cancellationToken);
 
     }
 }

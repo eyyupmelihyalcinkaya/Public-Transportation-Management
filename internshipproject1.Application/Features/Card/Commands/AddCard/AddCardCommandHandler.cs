@@ -18,16 +18,20 @@ namespace internshipproject1.Application.Features.Card.Commands.AddCard
             _customerRepository = customerRepository;
         }
         public async Task<AddCardCommandResponse> Handle(AddCardCommandRequest request, CancellationToken cancellationToken)
-        { 
+        {
+            // TODO: Melih
+            
             var customer = await _customerRepository.GetByEmailAsync(request.CustomerEmail, cancellationToken);
-            if(customer == null)
+            /*if (customer == null)
             {
                 return new AddCardCommandResponse
                 {
                     Success = false,
                     Message = "Customer not found."
                 };
-            }
+            }*/
+            
+
             var createdCard = new Domain.Entities.Card { 
                 CustomerId = customer.Id,
                 Balance = request.Balance,

@@ -13,7 +13,7 @@ namespace internshipproject1.Domain.Entities
         public DateTime TransactionDate { get; set; }
         public decimal Amount { get; set; }
         public string? VehicleType { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public Card Card { get; set; }
         public bool IsDeleted { get; set; }
 
