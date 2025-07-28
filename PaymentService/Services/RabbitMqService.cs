@@ -1,28 +1,51 @@
-﻿using RabbitMQ.Client;
+﻿using PaymentService.Events;
+using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
-using PaymentService.Events;
+
 namespace PaymentService.Services
 {
-    public class RabbitMqService
+    public class RabbitMqService : IDisposable
     {
-        //TODO: RabbitMq implemente edilecek
-
-        private readonly string _hostname = "localhost";
+        private readonly IConnection _connection;
+        private readonly IModel _channel;
         private readonly string _queueName = "boarding-events";
+
+        public RabbitMqService(string hostname = "localhost")
+        {
+            var factory = new ConnectionFactory()
+            {
+                HostName = hostname,
+                DispatchConsumersAsync = true
+            };
+
+            _connection = factory.CreateConnection();
+            _channel = _connection.CreateModel();
+
+            _channel.QueueDeclare(
+                queue: _queueName,
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+        }
+
         public void Publish(BoardingCompletedEvent evt)
         {
-            /*
-            var factory = new ConnectionFactory() { HostName = _hostname };
-            using var connection = factory.CreateConnection();
-            using var channel = connection.CreateModel();
-
-            channel.QueueDeclare(queue:_queueName,durable:false,exclusive:false,autoDelete:false , arguments:null);
             var json = JsonSerializer.Serialize(evt);
             var body = Encoding.UTF8.GetBytes(json);
 
-            channel.BasicPublish(exchange:"",routingKey: _queueName,basicProperties:null,body : body);
-        */
+            _channel.BasicPublish(
+                exchange: "",
+                routingKey: _queueName,
+                basicProperties: null,
+                body: body);
+        }
+
+        public void Dispose()
+        {
+            _channel?.Close();
+            _connection?.Close();
         }
     }
 }
