@@ -892,5 +892,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.ConsumerController",
+    "Method": "StartConsumer",
+    "RelativePath": "start-consumer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "queueName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

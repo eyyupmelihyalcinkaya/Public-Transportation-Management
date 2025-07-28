@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using Microsoft.Extensions.Configuration;
 using internshipProject1.Infrastructure.Settings;
+using Microsoft.Extensions.Hosting;
 namespace internshipProject1.Infrastructure
 {
     public static class Registration
@@ -54,6 +55,9 @@ namespace internshipProject1.Infrastructure
             // Cache Service
             services.AddScoped<IRedisCacheService, RedisCacheService>();
 
+            //RabbitMQ Service
+            services.AddSingleton<IRabbitMqConsumerService, RabbitMqConsumerService>();
+            services.AddHostedService<RabbitMqConsumerBackgroundService>();
             // Password Hashing Service
             services.AddScoped<IPasswordHashingService, PasswordHashingService>();
 

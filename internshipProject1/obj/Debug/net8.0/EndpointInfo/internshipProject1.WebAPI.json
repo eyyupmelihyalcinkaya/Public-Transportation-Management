@@ -321,6 +321,27 @@
         }
       }
     },
+    "/start-consumer": {
+      "post": {
+        "tags": [
+          "Consumer"
+        ],
+        "parameters": [
+          {
+            "name": "queueName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Customer/AllCustomers": {
       "get": {
         "tags": [

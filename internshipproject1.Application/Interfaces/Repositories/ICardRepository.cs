@@ -28,6 +28,11 @@ namespace internshipproject1.Application.Interfaces.Repositories
         Task<IReadOnlyList<Card>> GetAllAsync(CancellationToken cancellationToken);
         Task<IReadOnlyList<Card>> GetAllActiveCardsAsync(CancellationToken cancellationToken);
         Task<IReadOnlyList<Card>> GetAllInactiveCardsAsync(CancellationToken cancellationToken);
-
+        Task<Card> UpdateCardBalanceAsync(int cardId, decimal newBalance, CancellationToken cancellationToken);
+        Task<decimal> GetBalanceByIdAsync(int cardId, CancellationToken cancellationToken); //query
+        Task<Card> IncreaseBalanceAsync(int cardId,decimal amount , CancellationToken cancellationToken);
+        Task<Card> DecreaseBalanceAsync(int cardId,decimal amount, CancellationToken cancellationToken);
+        Task<IEnumerable<Card>> GetCardsOrderedByBalanceAsync(CancellationToken cancellationToken); //query
+        Task<IEnumerable<Card>> GetCardsByBalanceRangeAsync(decimal minRange, decimal maxRange, CancellationToken cancellationToken); //query
     }
 }

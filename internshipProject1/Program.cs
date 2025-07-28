@@ -1,14 +1,15 @@
 using internshipproject1.Application;
 using internshipProject1.Infrastructure;
+using internshipProject1.Infrastructure.Data.Services;
+using internshipProject1.WebAPI.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
 using System.Text;
-using internshipProject1.WebAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
-
+//TODO: Region kullan. Kullanımı #region bilmemne #endregion şeklinde
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -45,6 +46,8 @@ builder.Services.AddSwaggerGen(options => {
 // Infrastructure ve Application servislerini register et
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+builder.Services.AddHostedService<RabbitMqConsumerBackgroundService>();
+
 
 /* 
  *  $infraPath = "C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.Infrastructure\internshipProject1.Infrastructure.csproj"

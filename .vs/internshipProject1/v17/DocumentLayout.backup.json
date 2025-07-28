@@ -3,44 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\paymentservice\\features\\commands\\createboardingtransaction\\createboardingtransactioncommandrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|solutionrelative:paymentservice\\features\\commands\\createboardingtransaction\\createboardingtransactioncommandrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.infrastructure\\registration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|solutionrelative:internshipproject1.infrastructure\\registration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\paymentservice\\services\\rabbitmqpublisherservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|solutionrelative:paymentservice\\services\\rabbitmqpublisherservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.WebAPI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.WebAPI.csproj|solutionrelative:internshipproject1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\paymentservice\\events\\boardingcompletedevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|solutionrelative:paymentservice\\events\\boardingcompletedevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.infrastructure\\data\\services\\rabbitmqconsumerbackgroundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|solutionrelative:internshipproject1.infrastructure\\data\\services\\rabbitmqconsumerbackgroundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\paymentservice\\paymentservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|solutionrelative:paymentservice\\paymentservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.infrastructure\\data\\services\\rabbitmqconsumerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|solutionrelative:internshipproject1.infrastructure\\data\\services\\rabbitmqconsumerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\paymentservice\\features\\queries\\getbyid\\getbyidqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|solutionrelative:paymentservice\\features\\queries\\getbyid\\getbyidqueryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.application\\interfaces\\services\\irabbitmqconsumerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|solutionrelative:internshipproject1.application\\interfaces\\services\\irabbitmqconsumerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\paymentservice\\features\\queries\\getbyid\\getbyidqueryresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|solutionrelative:paymentservice\\features\\queries\\getbyid\\getbyidqueryresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\paymentservice\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|solutionrelative:paymentservice\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\paymentservice\\features\\queries\\getbyid\\getbyidqueryrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|solutionrelative:paymentservice\\features\\queries\\getbyid\\getbyidqueryrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\paymentservice\\interfaces\\iboardingtransactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|solutionrelative:paymentservice\\interfaces\\iboardingtransactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\paymentservice\\features\\commands\\createboardingtransaction\\createboardingtransactioncommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|solutionrelative:paymentservice\\features\\commands\\createboardingtransaction\\createboardingtransactioncommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\paymentservice\\features\\commands\\createboardingtransaction\\createboardingtransactioncommandresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|solutionrelative:paymentservice\\features\\commands\\createboardingtransaction\\createboardingtransactioncommandresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.WebAPI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1\\controllers\\consumercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.WebAPI.csproj|solutionrelative:internshipproject1\\controllers\\consumercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,132 +50,93 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "PaymentService.csproj",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\PaymentService.csproj",
-              "RelativeDocumentMoniker": "PaymentService\\PaymentService.csproj",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\PaymentService.csproj",
-              "RelativeToolTip": "PaymentService\\PaymentService.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-07-25T12:51:02.957Z",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1\\Program.cs",
+              "RelativeDocumentMoniker": "internshipProject1\\Program.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1\\Program.cs",
+              "RelativeToolTip": "internshipProject1\\Program.cs",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAAwF8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T13:29:36.275Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "BoardingCompletedEvent.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Events\\BoardingCompletedEvent.cs",
-              "RelativeDocumentMoniker": "PaymentService\\Events\\BoardingCompletedEvent.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Events\\BoardingCompletedEvent.cs",
-              "RelativeToolTip": "PaymentService\\Events\\BoardingCompletedEvent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAwAAAAAAAAAA==",
+              "Title": "RabbitMqConsumerBackgroundService.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Services\\RabbitMqConsumerBackgroundService.cs",
+              "RelativeDocumentMoniker": "internshipProject1.Infrastructure\\Data\\Services\\RabbitMqConsumerBackgroundService.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Services\\RabbitMqConsumerBackgroundService.cs",
+              "RelativeToolTip": "internshipProject1.Infrastructure\\Data\\Services\\RabbitMqConsumerBackgroundService.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAYwCYAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-25T12:21:39.608Z",
+              "WhenOpened": "2025-07-28T12:57:42.613Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "RabbitMqPublisherService.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Services\\RabbitMqPublisherService.cs",
-              "RelativeDocumentMoniker": "PaymentService\\Services\\RabbitMqPublisherService.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Services\\RabbitMqPublisherService.cs",
-              "RelativeToolTip": "PaymentService\\Services\\RabbitMqPublisherService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwBgAAAAKAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "RabbitMqConsumerService.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Services\\RabbitMqConsumerService.cs",
+              "RelativeDocumentMoniker": "internshipProject1.Infrastructure\\Data\\Services\\RabbitMqConsumerService.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Services\\RabbitMqConsumerService.cs",
+              "RelativeToolTip": "internshipProject1.Infrastructure\\Data\\Services\\RabbitMqConsumerService.cs",
+              "ViewState": "AgIAAPsAAAAAAAAAAADwvygBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-25T12:19:55.034Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "GetByIdQueryHandler.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Features\\Queries\\GetById\\GetByIdQueryHandler.cs",
-              "RelativeDocumentMoniker": "PaymentService\\Features\\Queries\\GetById\\GetByIdQueryHandler.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Features\\Queries\\GetById\\GetByIdQueryHandler.cs",
-              "RelativeToolTip": "PaymentService\\Features\\Queries\\GetById\\GetByIdQueryHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-25T12:01:07.413Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "GetByIdQueryRequest.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Features\\Queries\\GetById\\GetByIdQueryRequest.cs",
-              "RelativeDocumentMoniker": "PaymentService\\Features\\Queries\\GetById\\GetByIdQueryRequest.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Features\\Queries\\GetById\\GetByIdQueryRequest.cs",
-              "RelativeToolTip": "PaymentService\\Features\\Queries\\GetById\\GetByIdQueryRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-25T12:01:02.164Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "GetByIdQueryResponse.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Features\\Queries\\GetById\\GetByIdQueryResponse.cs",
-              "RelativeDocumentMoniker": "PaymentService\\Features\\Queries\\GetById\\GetByIdQueryResponse.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Features\\Queries\\GetById\\GetByIdQueryResponse.cs",
-              "RelativeToolTip": "PaymentService\\Features\\Queries\\GetById\\GetByIdQueryResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-25T12:00:50.149Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "CreateBoardingTransactionCommandHandler.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Features\\Commands\\CreateBoardingTransaction\\CreateBoardingTransactionCommandHandler.cs",
-              "RelativeDocumentMoniker": "PaymentService\\Features\\Commands\\CreateBoardingTransaction\\CreateBoardingTransactionCommandHandler.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Features\\Commands\\CreateBoardingTransaction\\CreateBoardingTransactionCommandHandler.cs",
-              "RelativeToolTip": "PaymentService\\Features\\Commands\\CreateBoardingTransaction\\CreateBoardingTransactionCommandHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAABoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-25T11:54:55.463Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "CreateBoardingTransactionCommandResponse.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Features\\Commands\\CreateBoardingTransaction\\CreateBoardingTransactionCommandResponse.cs",
-              "RelativeDocumentMoniker": "PaymentService\\Features\\Commands\\CreateBoardingTransaction\\CreateBoardingTransactionCommandResponse.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Features\\Commands\\CreateBoardingTransaction\\CreateBoardingTransactionCommandResponse.cs",
-              "RelativeToolTip": "PaymentService\\Features\\Commands\\CreateBoardingTransaction\\CreateBoardingTransactionCommandResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-25T11:54:48.257Z",
+              "WhenOpened": "2025-07-28T12:22:19.987Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CreateBoardingTransactionCommandRequest.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Features\\Commands\\CreateBoardingTransaction\\CreateBoardingTransactionCommandRequest.cs",
-              "RelativeDocumentMoniker": "PaymentService\\Features\\Commands\\CreateBoardingTransaction\\CreateBoardingTransactionCommandRequest.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Features\\Commands\\CreateBoardingTransaction\\CreateBoardingTransactionCommandRequest.cs",
-              "RelativeToolTip": "PaymentService\\Features\\Commands\\CreateBoardingTransaction\\CreateBoardingTransactionCommandRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAA7AAAAAAAAAA==",
+              "Title": "Registration.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Registration.cs",
+              "RelativeDocumentMoniker": "internshipProject1.Infrastructure\\Registration.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Registration.cs",
+              "RelativeToolTip": "internshipProject1.Infrastructure\\Registration.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAswDwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-25T11:54:39.398Z",
+              "WhenOpened": "2025-07-28T12:07:18.194Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "IBoardingTransactionRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Interfaces\\IBoardingTransactionRepository.cs",
-              "RelativeDocumentMoniker": "PaymentService\\Interfaces\\IBoardingTransactionRepository.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Interfaces\\IBoardingTransactionRepository.cs",
-              "RelativeToolTip": "PaymentService\\Interfaces\\IBoardingTransactionRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "PaymentController.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Controllers\\PaymentController.cs",
+              "RelativeDocumentMoniker": "PaymentService\\Controllers\\PaymentController.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Controllers\\PaymentController.cs",
+              "RelativeToolTip": "PaymentService\\Controllers\\PaymentController.cs",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-25T11:53:48.654Z",
+              "WhenOpened": "2025-07-28T12:05:35.175Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ConsumerController.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1\\Controllers\\ConsumerController.cs",
+              "RelativeDocumentMoniker": "internshipProject1\\Controllers\\ConsumerController.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1\\Controllers\\ConsumerController.cs",
+              "RelativeToolTip": "internshipProject1\\Controllers\\ConsumerController.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwCQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T12:03:42Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IRabbitMqConsumerService.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Interfaces\\Services\\IRabbitMqConsumerService.cs",
+              "RelativeDocumentMoniker": "internshipproject1.Application\\Interfaces\\Services\\IRabbitMqConsumerService.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Interfaces\\Services\\IRabbitMqConsumerService.cs",
+              "RelativeToolTip": "internshipproject1.Application\\Interfaces\\Services\\IRabbitMqConsumerService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T11:23:39.394Z",
               "EditorCaption": ""
             }
           ]
