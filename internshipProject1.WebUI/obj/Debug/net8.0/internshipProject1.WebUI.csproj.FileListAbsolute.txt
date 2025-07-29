@@ -1,4 +1,3 @@
-C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\internshipProject1.WebUI.dll
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\appsettings.json
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\internshipProject1.WebUI.staticwebassets.runtime.json
@@ -6,6 +5,8 @@ C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\internshipProject1.WebUI.exe
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\internshipProject1.WebUI.deps.json
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\internshipProject1.WebUI.runtimeconfig.json
+C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\internshipProject1.WebUI.dll
+C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\internshipProject1.WebUI.pdb
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\FluentValidation.dll
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\MediatR.dll
@@ -54,5 +55,15 @@ C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\obj\Debug\net8.0\refint\internshipProject1.WebUI.dll
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\obj\Debug\net8.0\internshipProject1.WebUI.pdb
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\obj\Debug\net8.0\internshipProject1.WebUI.genruntimeconfig.cache
-C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\internshipProject1.WebUI.pdb
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\obj\Debug\net8.0\ref\internshipProject1.WebUI.dll
+C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\Microsoft.AspNetCore.Authorization.dll
+C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\Microsoft.AspNetCore.Metadata.dll
+C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
+C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
+C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\Microsoft.Extensions.WebEncoders.dll
+C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll
+C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll

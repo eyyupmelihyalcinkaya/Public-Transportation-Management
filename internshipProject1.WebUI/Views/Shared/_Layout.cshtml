@@ -1,33 +1,33 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - internshipProject1.WebUI</title>
-    
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    
+
     <!-- Site CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/internshipProject1.WebUI.styles.css" asp-append-version="true" />
-    
+
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Page specific styles -->
     @await RenderSectionAsync("Styles", required: false)
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Background overlay -->
     <div class="background-overlay"></div>
-    
+
     <!-- Theme transition overlay -->
     <div id="theme-transition-overlay" class="theme-transition-overlay"></div>
-    
+
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 glass-navbar" style="z-index: 999999 !important; position: relative !important;">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 glass-navbar" style="position: relative !important;">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <i class="fas fa-bus"></i> Transport Manager
@@ -43,10 +43,16 @@
                                 <i class="fas fa-home"></i> Home
                             </a>
                         </li>
-                        <!-- Admin Panel - Sadece giriş yapılmışsa görünür -->
+                        <!-- Admin Panel - Sadece Admin rolündeki kullanıcılar için görünür -->
                         <li class="nav-item" id="navbar-admin-link" style="display: none;">
                             <a class="nav-link text-dark" asp-area="" asp-controller="AdminPanel" asp-action="AdminMainPage">
                                 <i class="fas fa-cogs"></i> Admin Panel
+                            </a>
+                        </li>
+                        <!-- User Panel - Sadece User rolündeki kullanıcılar için görünür -->
+                        <li class="nav-item" id="navbar-user-link" style="display: none;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Dashboard">
+                                <i class="fas fa-user"></i> Kullanıcı Paneli
                             </a>
                         </li>
                         <li class="nav-item">
@@ -65,29 +71,43 @@
                                 <i class="fas fa-user-plus"></i> Kayıt Ol
                             </a>
                         </div>
-                        
+
                         <!-- Profile Menu (Giriş yapmış kullanıcılar için) -->
                         <div id="profile-menu" class="dropdown d-none">
                             <button class="btn btn-auth btn-profile dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-user-circle"></i> <span id="username-display">Kullanıcı</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="/AdminPanel/AdminMainPage">
-                                    <i class="fas fa-tachometer-alt"></i> Admin Panel
-                                </a></li>
-                                <li><a class="dropdown-item" href="#" onclick="showProfile()">
-                                    <i class="fas fa-user"></i> Profil
-                                </a></li>
-                                <li><a class="dropdown-item" href="#" onclick="showSettings()">
-                                    <i class="fas fa-cog"></i> Ayarlar
-                                </a></li>
+                                <!-- Admin Panel - Sadece Admin rolündeki kullanıcılar için görünür -->
+                                <li id="dropdown-admin-link" style="display: none;">
+                                    <a class="dropdown-item" href="/AdminPanel/AdminMainPage">
+                                        <i class="fas fa-tachometer-alt"></i> Admin Panel
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/User/Dashboard">
+                                        <i class="fas fa-tachometer-alt"></i> Kullanıcı Paneli
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#" onclick="showProfile()">
+                                        <i class="fas fa-user"></i> Profil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#" onclick="showSettings()">
+                                        <i class="fas fa-cog"></i> Ayarlar
+                                    </a>
+                                </li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#" onclick="logout()">
-                                    <i class="fas fa-sign-out-alt"></i> Çıkış Yap
-                                </a></li>
+                                <li>
+                                    <a class="dropdown-item" href="#" onclick="logout()">
+                                        <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                                    </a>
+                                </li>
                             </ul>
                         </div>
-                        
+
                         <div class="navbar-divider"></div>
                         <button id="theme-toggle" class="btn btn-theme-toggle" onclick="toggleTheme()">
                             <i id="theme-icon" class="fas fa-moon"></i>
@@ -97,14 +117,14 @@
             </div>
         </nav>
     </header>
-    
-    <div class="container-fluid">
-        <main role="main" class="pb-3">
+
+    <div class="container-fluid flex-grow-1 d-flex flex-column">
+        <main role="main" class="pb-3 flex-grow-1">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted mt-5">
+    <footer class="border-top footer text-muted mt-5" style="position: relative; z-index: 1; background-color: #f8f9fa;">
         <div class="container">
             <div class="row py-3">
                 <div class="col-md-6">
@@ -116,27 +136,33 @@
             </div>
         </div>
     </footer>
-    
+
     <!-- JavaScript -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    
+
     <!-- Auth kontrolü -->
     <script>
-        function updateNavbar() {
+                function updateNavbar() {
             // Token kontrolü
             const token = localStorage.getItem('token');
             const authButtons = document.getElementById('auth-buttons');
             const profileMenu = document.getElementById('profile-menu');
             const usernameDisplay = document.getElementById('username-display');
             const navbarAdminLink = document.getElementById('navbar-admin-link');
+            const dropdownAdminLink = document.getElementById('dropdown-admin-link');
+            const navbarUserLink = document.getElementById('navbar-user-link');
             
             console.log('updateNavbar called, token:', token);
-            
+            console.log('navbarAdminLink element:', navbarAdminLink);
+            console.log('dropdownAdminLink element:', dropdownAdminLink);
+            console.log('authButtons element:', authButtons);
+            console.log('profileMenu element:', profileMenu);
+
             if (token && token !== 'null' && token !== '""' && token !== 'undefined') {
-                console.log('User is logged in - showing profile menu and admin link');
-                // Login durumu - Profile ve Admin link göster
+                console.log('User is logged in - showing profile menu');
+                // Login durumu - Profile göster
                 if (authButtons) {
                     authButtons.style.display = 'none !important';
                     authButtons.classList.add('d-none');
@@ -146,23 +172,97 @@
                     profileMenu.classList.remove('d-none');
                     profileMenu.classList.add('d-flex');
                 }
-                // Navbar'daki Admin Panel linkini göster
-                if (navbarAdminLink) {
-                    navbarAdminLink.style.display = 'block';
-                }
-                
+
                 // Username ayarla
                 try {
                     const tokenData = JSON.parse(token);
+                    console.log('Parsed token data:', tokenData);
+                    console.log('Token data keys:', Object.keys(tokenData));
+                    
                     if (usernameDisplay && tokenData.username) {
                         usernameDisplay.textContent = tokenData.username;
                     }
+
+                    // Rol kontrolü - Sadece Admin (role === 1) için Admin Panel göster
+                    const userRole = tokenData.role;
+                    console.log('User role:', userRole);
+                    console.log('User role type:', typeof userRole);
+                    console.log('Is admin?', userRole === 1);
+
+                    if (userRole === 1) {
+                        // Admin kullanıcı - Admin Panel linklerini göster, User Panel linklerini gizle
+                        console.log('Admin user - showing admin links, hiding user links');
+                        if (navbarAdminLink) {
+                            navbarAdminLink.style.display = 'block !important';
+                            navbarAdminLink.classList.remove('d-none');
+                            navbarAdminLink.classList.add('d-block');
+                            console.log('Navbar admin link set to block');
+                        } else {
+                            console.log('navbarAdminLink element not found!');
+                        }
+                        if (dropdownAdminLink) {
+                            dropdownAdminLink.style.display = 'block !important';
+                            dropdownAdminLink.classList.remove('d-none');
+                            dropdownAdminLink.classList.add('d-block');
+                            console.log('Dropdown admin link set to block');
+                        } else {
+                            console.log('dropdownAdminLink element not found!');
+                        }
+                        // User panel linklerini gizle
+                        if (navbarUserLink) {
+                            navbarUserLink.style.display = 'none !important';
+                            navbarUserLink.classList.add('d-none');
+                            navbarUserLink.classList.remove('d-block');
+                            console.log('Navbar user link set to none');
+                        }
+                    } else {
+                        // Normal kullanıcı - User Panel linklerini göster, Admin Panel linklerini gizle
+                        console.log('Normal user - showing user links, hiding admin links');
+                        if (navbarUserLink) {
+                            navbarUserLink.style.display = 'block !important';
+                            navbarUserLink.classList.remove('d-none');
+                            navbarUserLink.classList.add('d-block');
+                            console.log('Navbar user link set to block');
+                        } else {
+                            console.log('navbarUserLink element not found!');
+                        }
+                        // Admin panel linklerini gizle
+                        if (navbarAdminLink) {
+                            navbarAdminLink.style.display = 'none !important';
+                            navbarAdminLink.classList.add('d-none');
+                            navbarAdminLink.classList.remove('d-block');
+                            console.log('Navbar admin link set to none');
+                        }
+                        if (dropdownAdminLink) {
+                            dropdownAdminLink.style.display = 'none !important';
+                            dropdownAdminLink.classList.add('d-none');
+                            dropdownAdminLink.classList.remove('d-block');
+                            console.log('Dropdown admin link set to none');
+                        }
+                    }
                 } catch (e) {
+                    console.error('Token parse error:', e);
                     if (usernameDisplay) usernameDisplay.textContent = 'Kullanıcı';
+                    // Token parse edilemezse admin linklerini gizle
+                    if (navbarAdminLink) {
+                        navbarAdminLink.style.display = 'none !important';
+                        navbarAdminLink.classList.add('d-none');
+                        navbarAdminLink.classList.remove('d-block');
+                    }
+                    if (dropdownAdminLink) {
+                        dropdownAdminLink.style.display = 'none !important';
+                        dropdownAdminLink.classList.add('d-none');
+                        dropdownAdminLink.classList.remove('d-block');
+                    }
+                    if (navbarUserLink) {
+                        navbarUserLink.style.display = 'none !important';
+                        navbarUserLink.classList.add('d-none');
+                        navbarUserLink.classList.remove('d-block');
+                    }
                 }
             } else {
-                console.log('User is logged out - showing auth buttons, hiding admin link');
-                // Logout durumu - Auth butonları göster, Admin link gizle
+                console.log('User is logged out - showing auth buttons, hiding admin links');
+                // Logout durumu - Auth butonları göster, Admin linklerini gizle
                 if (authButtons) {
                     authButtons.style.display = 'flex !important';
                     authButtons.classList.remove('d-none');
@@ -173,20 +273,39 @@
                     profileMenu.classList.add('d-none');
                     profileMenu.classList.remove('d-flex');
                 }
-                // Navbar'daki Admin Panel linkini gizle
+                // Admin ve User linklerini gizle
                 if (navbarAdminLink) {
-                    navbarAdminLink.style.display = 'none';
+                    navbarAdminLink.style.display = 'none !important';
+                    navbarAdminLink.classList.add('d-none');
+                    navbarAdminLink.classList.remove('d-block');
+                }
+                if (dropdownAdminLink) {
+                    dropdownAdminLink.style.display = 'none !important';
+                    dropdownAdminLink.classList.add('d-none');
+                    dropdownAdminLink.classList.remove('d-block');
+                }
+                if (navbarUserLink) {
+                    navbarUserLink.style.display = 'none !important';
+                    navbarUserLink.classList.add('d-none');
+                    navbarUserLink.classList.remove('d-block');
                 }
             }
         }
-        
+
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, updating navbar...');
             updateNavbar();
         });
         
+        // Sayfa yüklendikten sonra da navbar'ı güncelle
+        window.addEventListener('load', function() {
+            console.log('Window loaded, updating navbar again...');
+            updateNavbar();
+        });
+
         // Global navbar update fonksiyonu
         window.updateNavbar = updateNavbar;
-        
+
         // Logout fonksiyonu
         function logout() {
             if (confirm('Çıkış yapmak istediğinize emin misiniz?')) {
@@ -194,17 +313,17 @@
                 window.location.href = '/Account/Logout';
             }
         }
-        
+
         // Profile sayfası göster
         function showProfile() {
             alert('Profil sayfası yakında eklenecek!');
         }
-        
+
         // Settings sayfası göster
         function showSettings() {
             alert('Ayarlar sayfası yakında eklenecek!');
         }
-        
+
         // Tema toggle fonksiyonu
         function toggleTheme() {
             if (window.setTheme) {
@@ -214,7 +333,7 @@
             }
         }
     </script>
-    
+
     <!-- Page specific scripts -->
     @await RenderSectionAsync("Scripts", required: false)
     @RenderSection("Modals", required: false)

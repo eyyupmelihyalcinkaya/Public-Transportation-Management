@@ -9,6 +9,10 @@
       {
         "Path": "internshipProject1.WebUI\\internshipProject1.WebUI.csproj",
         "Action": "Start"
+      },
+      {
+        "Path": "PaymentService\\PaymentService.csproj",
+        "Action": "Start"
       }
     ]
   }

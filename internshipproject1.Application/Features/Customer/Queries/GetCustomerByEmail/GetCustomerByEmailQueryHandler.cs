@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using internshipproject1.Application.Interfaces.Repositories;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace internshipproject1.Application.Features.Customer.Queries.GetCustomerBy
         }
         public async Task<GetCustomerByEmailQueryResponse> Handle(GetCustomerByEmailQueryRequest request, CancellationToken cancellationToken)
         { 
-            var customerByEmail = await _customerRepository.GetByEmailAsync(request.Email);
+            var customerByEmail = await _customerRepository.GetByEmailAsync(request.Email,cancellationToken);
             if (customerByEmail == null)
             {
                 throw new KeyNotFoundException($"Customer by {request.Email} not found");

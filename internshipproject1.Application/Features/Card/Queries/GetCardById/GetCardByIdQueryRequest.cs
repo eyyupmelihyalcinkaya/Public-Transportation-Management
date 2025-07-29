@@ -14,5 +14,8 @@ namespace internshipproject1.Application.Features.Card.Queries.GetCardById
         {
             Id = id;
         }
+        public GetCardByIdQueryRequest()
+        {
+        }
     }
 }

@@ -26,13 +26,24 @@ namespace internshipProject1.WebAPI.Controllers
         // Public API's
         
         [HttpGet]
-        public async Task<IActionResult> GetRoutes()
+        public async Task<IActionResult> GetRoutes(int page = 1, int pageSize = 10)
          {
             //var response = await _routeService.getRoutesDefinition();
 
             var response = await _mediator.Send(new GetRoutesQueryRequest());
+            int totalCount = response.Count;
+            int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            if (page < 1 || page > totalPages)
+            {
+                return BadRequest("Invalid page number.");
+            }
+            var pagedResponse = response
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
 
-            return Ok(response);
+
+            return Ok(pagedResponse);
         }
         
         [HttpGet("id")]
@@ -45,16 +56,27 @@ namespace internshipProject1.WebAPI.Controllers
             }
             return Ok(response);
         }
-
+        [HttpGet("TotalCount")]
+        public async Task<IActionResult> GetRoutesCount()
+        {
+            var response = await _mediator.Send(new GetRoutesQueryRequest());
+            return Ok(response.Count);
+        }
         [HttpGet("id/stops")]
-        public async Task<IActionResult> GetStopsByRouteId([FromQuery]int id)
+        public async Task<IActionResult> GetStopsByRouteId([FromQuery] int id, int page = 1, int pageSize = 10)
         {
             var response = await _mediator.Send(new GetStopsByRouteIdRequest(id));
             if (response == null)
             {
                 return NotFound();
             }
-            return Ok(response);
+            int totalCount = response.Count;
+            int totalPages = (int)(Math.Ceiling((decimal)totalCount / page));
+            var pagedResponse = response
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+            return Ok(pagedResponse);
         }
 
 

@@ -53,6 +53,7 @@ namespace internshipproject1.Application.Features.User.Commands.Login
             {
                 Id = user.Id,
                 UserName = user.userName,
+                Role = user.Role,
                 Message = $"Login Successfully, Welcome Back {user.userName} !",
                 Token = token
             };

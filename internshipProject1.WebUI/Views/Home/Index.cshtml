@@ -3,24 +3,24 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Hoş Geldiniz</h1>
-    <p>Transport Management System'e hoş geldiniz.</p>
+    <h1 class="display-4">Welcome</h1>
+    <p>Welcome to the Transport Management System ! </p>
     
     <!-- Giriş durumuna göre dinamik content -->
     <div id="home-auth-content">
         <!-- Giriş yapılmamışsa -->
         <div id="home-logged-out" class="mt-3">
-            <p>Sisteme erişmek için</p>
+            <p>To access the system</p>
             <div>
                 <a href="/Account/Login" class="btn btn-primary">Login</a>
-                &nbsp; veya &nbsp;
+                &nbsp; or &nbsp;
                 <a href="/Account/Register" class="btn btn-outline-secondary">Register</a>
             </div>
         </div>
         
         <!-- Giriş yapılmışsa -->
         <div id="home-logged-in" class="mt-3 d-none">
-            <p>Hoş geldiniz! <a href="/AdminPanel/AdminMainPage" class="btn btn-success">Admin Panel</a>'e erişebilirsiniz.</p>
+            <p>You can access to <a &nbsp; href="/AdminPanel/AdminMainPage" &nbps; class="btn btn-success">Admin Panel</a></p>
         </div>
     </div>
 </div>
