@@ -8,6 +8,7 @@ using MediatR;
 using internshipproject1.Application.Features.User.Commands.Login;
 using internshipproject1.Application.Features.User.Commands.ChangePassword;
 using internshipproject1.Application.Features.User.Queries.GetAllUsers;
+using internshipproject1.Application.Features.User.Commands.ChangeRole;
 
 namespace WebAPI.Controllers
 {
@@ -76,6 +77,17 @@ namespace WebAPI.Controllers
             int pageCount = (int)Math.Ceiling((double)totalCount / pageSize);
             var pagedResponse = response.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             return Ok(pagedResponse);
+        }
+
+        [HttpPost("ChangeRole")]
+        public async Task<ActionResult> RoleChange(int id)
+        { 
+            var user = await _mediator.Send(new ChangeRoleCommandRequest(id));
+            if (user == null)
+            {
+                return NotFound($"User with ID {id} not found.");
+            }
+            return Ok(user);
         }
     }
 }

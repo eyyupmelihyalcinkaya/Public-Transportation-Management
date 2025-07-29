@@ -103,6 +103,7 @@
 			const tokenData = {
 				token: data.token,
 				username: username, // Giriş yapan kullanıcı adı
+				Role:data.role,
 				loginTime: new Date().getTime()
 			};
 			localStorage.setItem('token', JSON.stringify(tokenData));
@@ -114,7 +115,8 @@
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
 					Token: data.token,
-					Username: username
+					Username: username,
+					Role: data.role
 				})
 			})
 			.then(sessionResponse => sessionResponse.json())
@@ -134,14 +136,19 @@
 				if (usernameDisplay) usernameDisplay.textContent = username;
 				
 				console.log('Navbar updated, redirecting...');
+				console.log('User Role:', data.Role);
+				if(data.role === 1)
+				{
+					window.location.href = '/AdminPanel/AdminMainPage';
+				}
+				else
+				{
+					window.location.href = '/Home/Index';
+				}
 				
-				// Admin Panel'e yönlendir
-				window.location.href = '/AdminPanel/AdminMainPage';
 			})
 			.catch(sessionError => {
 				console.error('Session kaydetme hatası:', sessionError);
-				// Session kaydedilemese bile devam et
-				window.location.href = '/AdminPanel/AdminMainPage';
 			});
 		  })
 		  .catch(error => {

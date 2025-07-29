@@ -1,4 +1,5 @@
-﻿using System;
+﻿using internshipproject1.Application.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace internshipproject1.Application.Interfaces.Services
 {
     public interface IPaymentService
     {
-        Task ProcessPaymentAsync(string message);
+        Task ProcessPaymentAsync(PaymentEventDTO dto, CancellationToken cancellationToken);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using internshipproject1.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,6 @@ namespace internshipproject1.Application.Features.User.Queries.GetAllUsers
     {
         public int id { get; set; }
         public string userName { get; set; } = string.Empty;
-
+        public UserRole Role { get; set; }
     }
 }

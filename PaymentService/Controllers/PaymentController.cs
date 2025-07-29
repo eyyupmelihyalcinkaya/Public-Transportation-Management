@@ -36,6 +36,7 @@ namespace PaymentService.Controllers
                 {
                     CardId = result.CardId,
                     Amount = result.Amount,
+                    TransactionType = result.TransactionType,
                     TransactionDate = result.TransactionDate,
                     VehicleType = result.VehicleType
                 };

@@ -82,9 +82,8 @@
             "type": "number",
             "format": "double"
           },
-          "balance": {
-            "type": "number",
-            "format": "double"
+          "transactionType": {
+            "$ref": "#/components/schemas/TransactionType"
           },
           "transactionDate": {
             "type": "string",
@@ -100,6 +99,15 @@
           }
         },
         "additionalProperties": false
+      },
+      "TransactionType": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
       }
     }
   }

@@ -9,6 +9,8 @@ using internshipproject1.Application.DTOs;
 using internshipproject1.Domain.Entities;
 using MediatR;
 using internshipproject1.Application.Exceptions;
+using StackExchange.Redis;
+using internshipproject1.Domain.Enums;
 namespace internshipproject1.Application.Features.User.Commands.Register
 {
     public class UserRegisterHandler : IRequestHandler<UserRegisterCommand,UserRegisterCommandResponse>
@@ -30,6 +32,7 @@ namespace internshipproject1.Application.Features.User.Commands.Register
             var user = new internshipproject1.Domain.Entities.User
             {
                 userName = command.userName,
+                Role = UserRole.User,
                 passwordHash = hash,
                 passwordSalt = salt
             };
@@ -38,6 +41,7 @@ namespace internshipproject1.Application.Features.User.Commands.Register
             
                 Id = user.Id,
                 UserName = user.userName,
+                Role = UserRole.User,
                 Message = $"Register Successfully ! Welcome {user.userName} !"
             };
         }

@@ -40,6 +40,15 @@ namespace internshipProject1.Infrastructure.Context
             modelBuilder.Entity<RouteStop>()
                 .HasIndex(rs => new { rs.RouteId, rs.Order})
                 .IsUnique();
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(u => u.Id);
+                entity.Property(u => u.userName).IsRequired().HasMaxLength(50);
+                entity.Property(u => u.passwordHash).IsRequired();
+                entity.Property(u => u.passwordSalt).IsRequired();
+                entity.Property(u => u.Role).HasConversion<int>().IsRequired();
+                entity.HasIndex(u => u.userName).IsUnique(); //unique username
+            });
             modelBuilder.Entity<RouteToCreate>(entity =>
             {
                 entity.HasKey(r => r.Id);

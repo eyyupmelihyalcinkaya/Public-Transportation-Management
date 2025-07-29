@@ -64,6 +64,9 @@ namespace internshipProject1.Infrastructure.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("numeric");
+
                     b.Property<int>("CardId")
                         .HasColumnType("integer");
 
@@ -75,6 +78,9 @@ namespace internshipProject1.Infrastructure.Migrations
 
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("integer");
 
                     b.Property<string>("VehicleType")
                         .HasColumnType("text");
@@ -254,6 +260,9 @@ namespace internshipProject1.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
+
                     b.Property<byte[]>("passwordHash")
                         .IsRequired()
                         .HasColumnType("bytea");
@@ -264,9 +273,13 @@ namespace internshipProject1.Infrastructure.Migrations
 
                     b.Property<string>("userName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("userName")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });

@@ -16,5 +16,6 @@ namespace internshipproject1.Application.Interfaces.Repositories
         Task<User> UpdateAsync(User user,CancellationToken cancellationToken);
         Task DeleteAsync(int id, CancellationToken cancellationToken);
         Task<bool> UserExistsAsync(string username, CancellationToken cancellationToken);
+        Task<User> ChangeRole(int id, CancellationToken cancellationToken);
     }
 }

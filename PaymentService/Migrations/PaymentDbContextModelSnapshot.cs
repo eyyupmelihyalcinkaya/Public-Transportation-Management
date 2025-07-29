@@ -40,6 +40,9 @@ namespace PaymentService.Migrations
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("int");
+
                     b.Property<string>("VehicleType")
                         .HasColumnType("longtext");
 

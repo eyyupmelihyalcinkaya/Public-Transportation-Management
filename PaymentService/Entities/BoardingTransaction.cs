@@ -1,4 +1,6 @@
-﻿namespace PaymentService.Entities
+﻿using PaymentService.Enums;
+
+namespace PaymentService.Entities
 {
     public class BoardingTransaction
     {
@@ -8,6 +10,7 @@
         public decimal Balance { get; set; }
         public DateTime TransactionDate { get; set; }
         public string? VehicleType { get; set; }
+        public TransactionType TransactionType { get; set; }
         public string Status { get; set; }
     }
 }

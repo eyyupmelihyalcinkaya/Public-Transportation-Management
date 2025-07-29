@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using internshipproject1.Application.Interfaces.Repositories;
 using internshipproject1.Domain.Entities;
 using internshipProject1.Infrastructure.Context;
+using internshipproject1.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 namespace internshipProject1.Infrastructure.Data.Repository
 {
@@ -24,6 +25,29 @@ namespace internshipProject1.Infrastructure.Data.Repository
                 throw new ArgumentNullException(nameof(user));
             }
             await _dbContext.Users.AddAsync(user, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return user;
+        }
+
+        public async Task<User> ChangeRole(int id, CancellationToken cancellationToken)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+            if(user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            if (user.Role == UserRole.User)
+            {
+                user.Role = UserRole.Admin;
+            }
+            else if (user.Role == UserRole.Admin)
+            { 
+                user.Role = UserRole.User;
+            }
+            else
+            {
+                throw new InvalidOperationException("Invalid user role.");
+            }
             await _dbContext.SaveChangesAsync(cancellationToken);
             return user;
         }

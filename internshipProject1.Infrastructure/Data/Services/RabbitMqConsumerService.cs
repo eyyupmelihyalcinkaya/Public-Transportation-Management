@@ -1,18 +1,24 @@
-﻿using internshipproject1.Application.Interfaces.Services;
+﻿using internshipproject1.Application.DTOs;
+using internshipproject1.Application.Interfaces.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using System.Collections.Concurrent;
-using Microsoft.Extensions.Logging;
 
 namespace internshipProject1.Infrastructure.Data.Services
 {
     public class RabbitMqConsumerService : IRabbitMqConsumerService, IDisposable
     {
+        private readonly IServiceScopeFactory _scopeFactory;
         private readonly IConnection _connection;
         private readonly IModel _channel;
         private readonly ConcurrentDictionary<string, AsyncEventingBasicConsumer> _consumers
@@ -29,9 +35,10 @@ namespace internshipProject1.Infrastructure.Data.Services
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
         public event EventHandler<ConsumerErrorEventArgs> ErrorOccurred;
 
-        public RabbitMqConsumerService(ILogger<RabbitMqConsumerService> logger, string hostname = "localhost")
+        public RabbitMqConsumerService(IServiceScopeFactory scopeFactory,ILogger<RabbitMqConsumerService> logger, string hostname = "localhost")
         {
             _logger = logger;
+            _scopeFactory = scopeFactory;
 
             try
             {
@@ -52,6 +59,8 @@ namespace internshipProject1.Infrastructure.Data.Services
                 _logger.LogError(ex, "RabbitMQ bağlantısı kurulurken hata oluştu");
                 throw;
             }
+
+     
         }
 
         public void Dispose()
@@ -165,18 +174,33 @@ namespace internshipProject1.Infrastructure.Data.Services
 
                     try
                     {
-                        var message = Encoding.UTF8.GetString(ea.Body.Span);
-
-                        _logger.LogInformation($"Queue '{queueName}''den mesaj alındı: {message}");
-
-                        // Event'i tetikle
-                        MessageReceived?.Invoke(this, new MessageReceivedEventArgs
+                        var options = new JsonSerializerOptions
                         {
-                            QueueName = queueName,
-                            Message = message,
-                            ReceivedAt = DateTime.UtcNow,
-                            DeliveryTag = ea.DeliveryTag
-                        });
+                            PropertyNameCaseInsensitive = true,
+                            Converters = { new JsonStringEnumConverter() }
+                        };
+
+                        var message = Encoding.UTF8.GetString(ea.Body.Span);
+                        var dto = JsonSerializer.Deserialize<PaymentEventDTO>(message);
+                        _logger.LogInformation($"Queue '{queueName}''den mesaj alındı: {message}");
+                        if (dto != null) 
+                        {
+                            using (var scope = _scopeFactory.CreateScope())
+                            { 
+                                var paymentService = scope.ServiceProvider.GetRequiredService<IPaymentService>();
+                                await paymentService.ProcessPaymentAsync(dto, cancellationToken);
+                            }
+                            // Event'i tetikle
+                            MessageReceived?.Invoke(this, new MessageReceivedEventArgs
+                            {
+                                QueueName = queueName,
+                                Message = message,
+                                ReceivedAt = DateTime.UtcNow,
+                                DeliveryTag = ea.DeliveryTag
+                            });
+
+                        }
+                        
 
                         // Mesajı acknowledge et (dispose kontrolü ile)
                         if (!_disposed && _channel != null && _channel.IsOpen)

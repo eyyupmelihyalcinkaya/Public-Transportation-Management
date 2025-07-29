@@ -22,7 +22,7 @@ namespace PaymentService.Features.Commands.CreateBoardingTransaction
             {
                 CardId = request.CardId,
                 Amount = request.Amount,
-                Balance = request.Balance,
+                TransactionType = request.TransactionType,
                 VehicleType = request.VehicleType,
                 TransactionDate = request.TransactionDate,
                 Status = request.Status
@@ -37,7 +37,7 @@ namespace PaymentService.Features.Commands.CreateBoardingTransaction
                 Id = createdTransaction.Id,
                 CardId = createdTransaction.CardId,
                 Amount = createdTransaction.Amount,
-                Balance = createdTransaction.Balance,
+                TransactionType = createdTransaction.TransactionType,
                 VehicleType = createdTransaction.VehicleType,
                 TransactionDate = createdTransaction.TransactionDate,
                 Status = createdTransaction.Status,
