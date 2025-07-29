@@ -97,13 +97,16 @@
 			if (!response.ok) throw new Error("Login failed, status: " + response.status);
 			return response.json();
 		  })
-		  .then(data => {
+		  			.then(data => {
 			console.log('Gelen veri:', data);
+			console.log('API\'den gelen role:', data.role);
+			console.log('API\'den gelen Role:', data.Role);
+			
 			// Token'ı ve kullanıcı bilgilerini kaydet
 			const tokenData = {
 				token: data.token,
 				username: username, // Giriş yapan kullanıcı adı
-				Role:data.role,
+				role: data.role, // Küçük harfle tutarlılık için
 				loginTime: new Date().getTime()
 			};
 			localStorage.setItem('token', JSON.stringify(tokenData));
@@ -136,19 +139,36 @@
 				if (usernameDisplay) usernameDisplay.textContent = username;
 				
 				console.log('Navbar updated, redirecting...');
-				console.log('User Role:', data.Role);
-				if(data.role === 1)
+				console.log('User Role from data.role:', data.role);
+				console.log('User Role from data.Role:', data.Role);
+				
+				// Rol kontrolü - hem data.role hem data.Role kontrol et
+				const userRole = data.role || data.Role;
+				console.log('Final user role:', userRole);
+				
+				if(userRole === 1)
 				{
+					console.log('Admin kullanıcı, Admin Panel\'e yönlendiriliyor...');
 					window.location.href = '/AdminPanel/AdminMainPage';
 				}
 				else
 				{
-					window.location.href = '/Home/Index';
+					console.log('Normal kullanıcı, User Dashboard\'a yönlendiriliyor...');
+					window.location.href = '/User/Dashboard';
 				}
 				
 			})
 			.catch(sessionError => {
 				console.error('Session kaydetme hatası:', sessionError);
+				// Session kaydedilemese bile rol kontrolü yap
+				const userRole = data.role || data.Role;
+				if(userRole === 1) {
+					console.log('Session hatası olsa da Admin kullanıcı, Admin Panel\'e yönlendiriliyor...');
+					window.location.href = '/AdminPanel/AdminMainPage';
+				} else {
+					console.log('Session hatası olsa da Normal kullanıcı, User Dashboard\'a yönlendiriliyor...');
+					window.location.href = '/User/Dashboard';
+				}
 			});
 		  })
 		  .catch(error => {

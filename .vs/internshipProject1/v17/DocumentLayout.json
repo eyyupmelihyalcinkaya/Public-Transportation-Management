@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.webui\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|solutionrelative:internshipproject1.webui\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.webui\\controllers\\adminpanelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|solutionrelative:internshipproject1.webui\\controllers\\adminpanelcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.webui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|solutionrelative:internshipproject1.webui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.webui\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|solutionrelative:internshipproject1.webui\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.webui\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|solutionrelative:internshipproject1.webui\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.webui\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|solutionrelative:internshipproject1.webui\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.webui\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|solutionrelative:internshipproject1.webui\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.webui\\views\\adminpanel\\adminmainpage.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -39,25 +47,51 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AdminPanelController.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Controllers\\AdminPanelController.cs",
+              "RelativeDocumentMoniker": "internshipProject1.WebUI\\Controllers\\AdminPanelController.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Controllers\\AdminPanelController.cs",
+              "RelativeToolTip": "internshipProject1.WebUI\\Controllers\\AdminPanelController.cs",
+              "ViewState": "AgIAAF8AAAAAAAAAAAAswAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-29T13:21:57.121Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Program.cs",
+              "RelativeDocumentMoniker": "internshipProject1.WebUI\\Program.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Program.cs",
+              "RelativeToolTip": "internshipProject1.WebUI\\Program.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwBEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-29T13:21:23.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "internshipProject1.WebUI\\Views\\Shared\\_Layout.cshtml",
               "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "internshipProject1.WebUI\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAIBAAAAAAAAAAAAAAIBAAAHAAAAAAAAAA==",
+              "ViewState": "AgIAACYBAAAAAAAAAAAIwFQBAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-07-29T12:49:16.937Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Login.cshtml",
               "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\Account\\Login.cshtml",
               "RelativeDocumentMoniker": "internshipProject1.WebUI\\Views\\Account\\Login.cshtml",
               "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\Account\\Login.cshtml",
               "RelativeToolTip": "internshipProject1.WebUI\\Views\\Account\\Login.cshtml",
-              "ViewState": "AgIAAF8AAAAAAAAAAAAQwHYAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADgAAAAAAAAAAAAQwHkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-07-29T12:30:37.724Z",
               "EditorCaption": ""
@@ -70,14 +104,14 @@
               "RelativeDocumentMoniker": "internshipProject1.WebUI\\Controllers\\AccountController.cs",
               "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Controllers\\AccountController.cs",
               "RelativeToolTip": "internshipProject1.WebUI\\Controllers\\AccountController.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAQwDQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAQwAQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-29T12:27:00.218Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "AdminMainPage.cshtml",
               "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\AdminPanel\\AdminMainPage.cshtml",
               "RelativeDocumentMoniker": "internshipProject1.WebUI\\Views\\AdminPanel\\AdminMainPage.cshtml",

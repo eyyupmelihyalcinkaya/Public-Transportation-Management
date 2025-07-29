@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace internshipProject1.WebUI.Controllers
 {
+
     public class AdminPanelController : Controller
     {
         // Admin Panel erişimi için authentication kontrolü
@@ -21,12 +23,32 @@ namespace internshipProject1.WebUI.Controllers
             return !string.IsNullOrEmpty(sessionToken) || !string.IsNullOrEmpty(cookieToken);
         }
 
+        // Admin rolü kontrolü
+        private bool IsUserAdmin()
+        {
+            var userRole = HttpContext.Session.GetString("userRole");
+            Console.WriteLine($"DEBUG - User Role from Session: {userRole}");
+            
+            // Role = "1" ise Admin
+            var isAdmin = userRole == "1";
+            Console.WriteLine($"DEBUG - Is User Admin: {isAdmin}");
+            
+            return isAdmin;
+        }
+
         public IActionResult AdminMainPage()
         {
             if (!IsUserAuthenticated())
             {
                 TempData["ErrorMessage"] = "Admin Panel'e erişmek için giriş yapmanız gerekiyor.";
                 return RedirectToAction("Login", "Account");
+            }
+            
+            // Admin rolü kontrolü
+            if (!IsUserAdmin())
+            {
+                TempData["ErrorMessage"] = "Bu sayfaya erişim yetkiniz bulunmamaktadır. Sadece Admin kullanıcıları bu sayfaya erişebilir.";
+                return RedirectToAction("Index", "Home");
             }
             
             return View();
@@ -40,6 +62,13 @@ namespace internshipProject1.WebUI.Controllers
                 return RedirectToAction("Login", "Account");
             }
             
+            // Admin rolü kontrolü
+            if (!IsUserAdmin())
+            {
+                TempData["ErrorMessage"] = "Bu sayfaya erişim yetkiniz bulunmamaktadır. Sadece Admin kullanıcıları bu sayfaya erişebilir.";
+                return RedirectToAction("Index", "Home");
+            }
+            
             return View();
         }
 
@@ -49,6 +78,13 @@ namespace internshipProject1.WebUI.Controllers
             {
                 TempData["ErrorMessage"] = "Admin Panel'e erişmek için giriş yapmanız gerekiyor.";
                 return RedirectToAction("Login", "Account");
+            }
+            
+            // Admin rolü kontrolü
+            if (!IsUserAdmin())
+            {
+                TempData["ErrorMessage"] = "Bu sayfaya erişim yetkiniz bulunmamaktadır. Sadece Admin kullanıcıları bu sayfaya erişebilir.";
+                return RedirectToAction("Index", "Home");
             }
             
             return View();
@@ -62,6 +98,13 @@ namespace internshipProject1.WebUI.Controllers
                 return RedirectToAction("Login", "Account");
             }
             
+            // Admin rolü kontrolü
+            if (!IsUserAdmin())
+            {
+                TempData["ErrorMessage"] = "Bu sayfaya erişim yetkiniz bulunmamaktadır. Sadece Admin kullanıcıları bu sayfaya erişebilir.";
+                return RedirectToAction("Index", "Home");
+            }
+            
             return View();
         }
 
@@ -71,6 +114,13 @@ namespace internshipProject1.WebUI.Controllers
             {
                 TempData["ErrorMessage"] = "Admin Panel'e erişmek için giriş yapmanız gerekiyor.";
                 return RedirectToAction("Login", "Account");
+            }
+            
+            // Admin rolü kontrolü
+            if (!IsUserAdmin())
+            {
+                TempData["ErrorMessage"] = "Bu sayfaya erişim yetkiniz bulunmamaktadır. Sadece Admin kullanıcıları bu sayfaya erişebilir.";
+                return RedirectToAction("Index", "Home");
             }
             
             return View();
