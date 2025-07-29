@@ -31,10 +31,11 @@ namespace internshipProject1.WebUI.Controllers
                 
                 var token = jsonData.ContainsKey("Token") ? jsonData["Token"].ToString() : "";
                 var username = jsonData.ContainsKey("Username") ? jsonData["Username"].ToString() : "";
-                
+                var role = jsonData.ContainsKey("Role") ? jsonData["Role"].ToString() : "";
                 Console.WriteLine($"DEBUG - Parsed Token: {token?.Substring(0, Math.Min(20, token?.Length ?? 0))}...");
                 Console.WriteLine($"DEBUG - Parsed Username: {username}");
-                
+                Console.WriteLine($"DEBUG - Parsed Role: {role}");
+
                 if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(username))
                 {
                     Console.WriteLine("DEBUG - Token or username is empty");
@@ -44,9 +45,12 @@ namespace internshipProject1.WebUI.Controllers
                 // Session'a token ve kullanıcı bilgilerini kaydet
                 HttpContext.Session.SetString("UserToken", token);
                 HttpContext.Session.SetString("username", username);
-                
+                HttpContext.Session.SetString("userRole", role);
+
+
                 Console.WriteLine($"DEBUG - Session UserToken set: {HttpContext.Session.GetString("UserToken")?.Substring(0, Math.Min(20, HttpContext.Session.GetString("UserToken")?.Length ?? 0))}...");
-                
+                Console.WriteLine($"DEBUG - Session userRole set: {HttpContext.Session.GetString("userRole")}");
+
                 // Cookie'ye de kaydet (güvenli) - Development için Secure = false
                 Response.Cookies.Append("UserToken", token, new CookieOptions
                 {

@@ -4,6 +4,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Session desteği ekle
+builder.Services.AddHttpClient();
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {

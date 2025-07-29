@@ -11,6 +11,7 @@ using internshipproject1.Application.Features.Stop.Commands.CreateStopCommand;
 using internshipproject1.Application.Features.Stop.Commands.DeleteStopCommand;
 using internshipproject1.Application.Features.Stop.Commands.UpdateStopCommand;
 using internshipproject1.Application.Features.Stop.Queries.GetAllStops;
+using internshipproject1.Application.Features.Stop.Queries.GetStopsCount;
 namespace WebAPI.Controllers
 {
 
@@ -43,15 +44,28 @@ namespace WebAPI.Controllers
 
         //GET All Stops
         [HttpGet]
-        public async Task<ActionResult> GetAllStops()
+        public async Task<ActionResult> GetAllStops(int page = 1, int pageSize = 10)
         {
             var response = await _mediator.Send(new GetAllStopsQueryRequest());
             if (response == null || !response.Any())
             {
                 return NotFound();
             }
-            return Ok(response);
-        } 
+
+            var totalCount = response.Count;
+            var totalPages = (int)(Math.Ceiling((double)totalCount / pageSize));
+            var pagedResponse = response
+                .Skip((page -1)* pageSize)
+                .Take(pageSize)
+                .ToList();
+            return Ok(pagedResponse);
+        }
+        [HttpGet("TotalCount")]
+        public async Task<ActionResult> StopsCount()
+        {
+            var result = await _mediator.Send(new GetStopsCountRequest());
+            return Ok(result.Count);
+        }
         //GET Nearby Stops
         [HttpGet("nearby")]
         public async Task<ActionResult> GetNearbyStops([FromQuery] double latitude, [FromQuery] double longitude) {

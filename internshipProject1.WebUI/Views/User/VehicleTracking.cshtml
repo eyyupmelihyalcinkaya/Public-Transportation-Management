@@ -1,0 +1,637 @@
+@{
+    ViewData["Title"] = "Araç Takip";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid mt-4">
+    <!-- Başlık -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-card">
+                <div class="card-body text-center">
+                    <h2 class="card-title">
+                        <i class="fas fa-bus text-primary"></i>
+                        Araç Takip Sistemi
+                    </h2>
+                    <p class="card-text text-muted">Otobüs, metrobüs, metro ve diğer toplu taşıma araçlarını gerçek zamanlı takip edin</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Araç Türü Seçimi -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card glass-card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-filter text-info"></i>
+                        Araç Türü Seçin
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <div class="vehicle-type-card modern-card" onclick="selectVehicleType('bus')">
+                                <div class="vehicle-icon">
+                                    <i class="fas fa-bus text-primary"></i>
+                                </div>
+                                <h6>Otobüs</h6>
+                                <small class="text-muted">Şehir içi otobüsler</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="vehicle-type-card modern-card" onclick="selectVehicleType('metrobus')">
+                                <div class="vehicle-icon">
+                                    <i class="fas fa-subway text-success"></i>
+                                </div>
+                                <h6>Metrobüs</h6>
+                                <small class="text-muted">Metrobüs hatları</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="vehicle-type-card modern-card" onclick="selectVehicleType('metro')">
+                                <div class="vehicle-icon">
+                                    <i class="fas fa-train text-warning"></i>
+                                </div>
+                                <h6>Metro</h6>
+                                <small class="text-muted">Metro hatları</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="vehicle-type-card modern-card" onclick="selectVehicleType('tram')">
+                                <div class="vehicle-icon">
+                                    <i class="fas fa-train text-info"></i>
+                                </div>
+                                <h6>Tramvay</h6>
+                                <small class="text-muted">Tramvay hatları</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hat Seçimi -->
+    <div class="row mb-4" id="routeSelection" style="display: none;">
+        <div class="col-12">
+            <div class="card glass-card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-route text-success"></i>
+                        Hat Seçimi
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="routeList">
+                        <!-- Hatlar dinamik olarak yüklenecek -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Araç Takip Haritası -->
+    <div class="row mb-4" id="trackingMap" style="display: none;">
+        <div class="col-12">
+            <div class="card glass-card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-map-marker-alt text-danger"></i>
+                        Gerçek Zamanlı Takip
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="map" style="height: 400px; background: #f8f9fa; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                        <div class="text-center">
+                            <i class="fas fa-map text-muted" style="font-size: 3rem;"></i>
+                            <p class="text-muted mt-2">Harita yükleniyor...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Araç Listesi -->
+    <div class="row mb-4" id="vehicleList" style="display: none;">
+        <div class="col-12">
+            <div class="card glass-card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list text-info"></i>
+                        Araç Listesi
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Araç No</th>
+                                    <th>Hat</th>
+                                    <th>Konum</th>
+                                    <th>Hız</th>
+                                    <th>Durum</th>
+                                    <th>Tahmini Varış</th>
+                                </tr>
+                            </thead>
+                            <tbody id="vehicleTableBody">
+                                <!-- Araçlar dinamik olarak yüklenecek -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Durak Bilgileri -->
+    <div class="row mb-4" id="stopInfo" style="display: none;">
+        <div class="col-12">
+            <div class="card glass-card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-map-pin text-warning"></i>
+                        Durak Bilgileri
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="stopList">
+                        <!-- Duraklar dinamik olarak yüklenecek -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .glass-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .vehicle-type-card {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .vehicle-type-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .vehicle-type-card:hover::before {
+        left: 100%;
+    }
+
+    .vehicle-type-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .vehicle-type-card.selected {
+        background: rgba(13, 110, 253, 0.2);
+        border-color: #0d6efd;
+        box-shadow: 0 8px 25px rgba(13, 110, 253, 0.3);
+    }
+
+    /* Light tema için kartlar */
+    body.light .vehicle-type-card {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #333;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    body.light .vehicle-type-card:hover {
+        background: rgba(255, 255, 255, 0.3);
+        color: #000;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    body.light .vehicle-type-card.selected {
+        background: rgba(13, 110, 253, 0.2);
+        border-color: #0d6efd;
+        color: #0d6efd;
+    }
+
+    /* Dark tema için kartlar */
+    body.dark .vehicle-type-card {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    body.dark .vehicle-type-card:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    body.dark .vehicle-type-card.selected {
+        background: rgba(13, 110, 253, 0.2);
+        border-color: #0d6efd;
+        color: #6ea8fe;
+    }
+
+    .vehicle-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .route-card {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .route-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .route-card:hover::before {
+        left: 100%;
+    }
+
+    .route-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .route-card.selected {
+        background: rgba(25, 135, 84, 0.2);
+        border-color: #198754;
+        box-shadow: 0 6px 20px rgba(25, 135, 84, 0.3);
+    }
+
+    /* Light tema için route kartları */
+    body.light .route-card {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #333;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    body.light .route-card:hover {
+        background: rgba(255, 255, 255, 0.3);
+        color: #000;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    body.light .route-card.selected {
+        background: rgba(25, 135, 84, 0.2);
+        border-color: #198754;
+        color: #198754;
+    }
+
+    /* Dark tema için route kartları */
+    body.dark .route-card {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    body.dark .route-card:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    body.dark .route-card.selected {
+        background: rgba(25, 135, 84, 0.2);
+        border-color: #198754;
+        color: #75b798;
+    }
+
+    .vehicle-status {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid transparent;
+    }
+
+    .status-active {
+        background: rgba(25, 135, 84, 0.2);
+        color: #198754;
+        border-color: rgba(25, 135, 84, 0.3);
+    }
+
+    .status-active:hover {
+        background: rgba(25, 135, 84, 0.3);
+        transform: scale(1.05);
+    }
+
+    .status-delayed {
+        background: rgba(255, 193, 7, 0.2);
+        color: #ffc107;
+        border-color: rgba(255, 193, 7, 0.3);
+    }
+
+    .status-delayed:hover {
+        background: rgba(255, 193, 7, 0.3);
+        transform: scale(1.05);
+    }
+
+    .status-stopped {
+        background: rgba(220, 53, 69, 0.2);
+        color: #dc3545;
+        border-color: rgba(220, 53, 69, 0.3);
+    }
+
+    .status-stopped:hover {
+        background: rgba(220, 53, 69, 0.3);
+        transform: scale(1.05);
+    }
+
+    /* Light tema için durum göstergeleri */
+    body.light .vehicle-status {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    body.light .status-active {
+        background: rgba(25, 135, 84, 0.2);
+        color: #198754;
+        border-color: rgba(25, 135, 84, 0.3);
+    }
+
+    body.light .status-delayed {
+        background: rgba(255, 193, 7, 0.2);
+        color: #e0a800;
+        border-color: rgba(255, 193, 7, 0.3);
+    }
+
+    body.light .status-stopped {
+        background: rgba(220, 53, 69, 0.2);
+        color: #dc3545;
+        border-color: rgba(220, 53, 69, 0.3);
+    }
+
+    /* Dark tema için durum göstergeleri */
+    body.dark .vehicle-status {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    body.dark .status-active {
+        background: rgba(25, 135, 84, 0.2);
+        color: #75b798;
+        border-color: rgba(25, 135, 84, 0.3);
+    }
+
+    body.dark .status-delayed {
+        background: rgba(255, 193, 7, 0.2);
+        color: #ffca2c;
+        border-color: rgba(255, 193, 7, 0.3);
+    }
+
+    body.dark .status-stopped {
+        background: rgba(220, 53, 69, 0.2);
+        color: #ea868f;
+        border-color: rgba(220, 53, 69, 0.3);
+    }
+
+    .stop-item {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .stop-item:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .stop-item.active {
+        background: rgba(13, 110, 253, 0.2);
+        border-color: #0d6efd;
+    }
+</style>
+
+<script>
+    let selectedVehicleType = '';
+    let selectedRoute = '';
+
+    // Araç türü seçimi
+    function selectVehicleType(type) {
+        selectedVehicleType = type;
+        
+        // Tüm kartların seçimini kaldır
+        document.querySelectorAll('.vehicle-type-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        
+        // Seçilen kartı işaretle
+        event.currentTarget.classList.add('selected');
+        
+        // Hat seçimini göster
+        document.getElementById('routeSelection').style.display = 'block';
+        
+        // Hatları yükle
+        loadRoutes(type);
+    }
+
+    // Hatları yükle
+    function loadRoutes(vehicleType) {
+        const routeList = document.getElementById('routeList');
+        routeList.innerHTML = '';
+        
+        const routes = getRoutesByType(vehicleType);
+        
+        routes.forEach(route => {
+            const routeCard = document.createElement('div');
+            routeCard.className = 'col-md-6 col-lg-4 mb-3';
+            routeCard.innerHTML = `
+                <div class="route-card" onclick="selectRoute('${route.id}')">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-route text-primary"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">${route.name}</h6>
+                            <small class="text-muted">${route.description}</small>
+                        </div>
+                    </div>
+                </div>
+            `;
+            routeList.appendChild(routeCard);
+        });
+    }
+
+    // Hat seçimi
+    function selectRoute(routeId) {
+        selectedRoute = routeId;
+        
+        // Tüm hat kartlarının seçimini kaldır
+        document.querySelectorAll('.route-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        
+        // Seçilen kartı işaretle
+        event.currentTarget.classList.add('selected');
+        
+        // Takip sayfalarını göster
+        document.getElementById('trackingMap').style.display = 'block';
+        document.getElementById('vehicleList').style.display = 'block';
+        document.getElementById('stopInfo').style.display = 'block';
+        
+        // Araçları ve durakları yükle
+        loadVehicles(routeId);
+        loadStops(routeId);
+    }
+
+    // Araç türüne göre hatları getir
+    function getRoutesByType(type) {
+        const routes = {
+            bus: [
+                { id: 'bus-1', name: 'Hat 1', description: 'Kadıköy - Beşiktaş' },
+                { id: 'bus-2', name: 'Hat 2', description: 'Üsküdar - Şişli' },
+                { id: 'bus-3', name: 'Hat 3', description: 'Bakırköy - Taksim' }
+            ],
+            metrobus: [
+                { id: 'metrobus-1', name: 'Metrobüs 1', description: 'Avcılar - Söğütlüçeşme' },
+                { id: 'metrobus-2', name: 'Metrobüs 2', description: 'Beylikdüzü - Kadıköy' }
+            ],
+            metro: [
+                { id: 'metro-1', name: 'M1', description: 'Yenikapı - Havalimanı' },
+                { id: 'metro-2', name: 'M2', description: 'Hacıosman - Yenikapı' },
+                { id: 'metro-3', name: 'M3', description: 'Kirazlı - Bakırköy' }
+            ],
+            tram: [
+                { id: 'tram-1', name: 'T1', description: 'Bağcılar - Kabataş' },
+                { id: 'tram-2', name: 'T2', description: 'Taksim - Tünel' }
+            ]
+        };
+        
+        return routes[type] || [];
+    }
+
+    // Araçları yükle
+    function loadVehicles(routeId) {
+        const tableBody = document.getElementById('vehicleTableBody');
+        tableBody.innerHTML = '';
+        
+        // Örnek araç verileri
+        const vehicles = [
+            { id: '001', route: routeId, location: 'Kadıköy Durağı', speed: '25 km/h', status: 'active', eta: '5 dk' },
+            { id: '002', route: routeId, location: 'Beşiktaş Durağı', speed: '0 km/h', status: 'stopped', eta: '10 dk' },
+            { id: '003', route: routeId, location: 'Ortaköy Durağı', speed: '30 km/h', status: 'delayed', eta: '15 dk' }
+        ];
+        
+        vehicles.forEach(vehicle => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><strong>${vehicle.id}</strong></td>
+                <td>${vehicle.route}</td>
+                <td>${vehicle.location}</td>
+                <td>${vehicle.speed}</td>
+                <td><span class="vehicle-status status-${vehicle.status}">${getStatusText(vehicle.status)}</span></td>
+                <td>${vehicle.eta}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Durakları yükle
+    function loadStops(routeId) {
+        const stopList = document.getElementById('stopList');
+        stopList.innerHTML = '';
+        
+        // Örnek durak verileri
+        const stops = [
+            { name: 'Kadıköy', nextVehicle: '5 dk', status: 'active' },
+            { name: 'Beşiktaş', nextVehicle: '10 dk', status: 'active' },
+            { name: 'Ortaköy', nextVehicle: '15 dk', status: 'delayed' },
+            { name: 'Taksim', nextVehicle: '20 dk', status: 'active' }
+        ];
+        
+        stops.forEach(stop => {
+            const stopItem = document.createElement('div');
+            stopItem.className = 'col-md-6 col-lg-3 mb-3';
+            stopItem.innerHTML = `
+                <div class="stop-item ${stop.status === 'active' ? 'active' : ''}">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1">${stop.name}</h6>
+                            <small class="text-muted">Sonraki araç: ${stop.nextVehicle}</small>
+                        </div>
+                        <div>
+                            <span class="vehicle-status status-${stop.status}">${getStatusText(stop.status)}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            stopList.appendChild(stopItem);
+        });
+    }
+
+    // Durum metnini getir
+    function getStatusText(status) {
+        const statusTexts = {
+            'active': 'Aktif',
+            'delayed': 'Gecikmeli',
+            'stopped': 'Durdu'
+        };
+        return statusTexts[status] || status;
+    }
+
+    // Sayfa yüklendiğinde navbar'ı güncelle
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.updateNavbar) {
+            window.updateNavbar();
+        }
+    });
+</script> 

@@ -26,17 +26,24 @@ namespace internshipProject1.Infrastructure.Data.Repository
                 throw new ArgumentNullException(nameof(cardTransaction), "CardTransaction cannot be null");
             }
             await _context.CardTransaction.AddAsync(cardTransaction, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception e) {
+                throw new Exception();
+            }
+            
             return cardTransaction;
         }
 
-        public async Task<bool> CardTransactionExistsAsync(int cardId, CancellationToken cancellationToken)
+        public async Task<bool> CardTransactionExistsAsync(int id, CancellationToken cancellationToken)
         {
-            if (cardId <= 0)
+            if (id <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(cardId), "Card ID must be greater than zero.");
+                throw new ArgumentOutOfRangeException(nameof(id), "Card ID must be greater than zero.");
             }
-            var exists = await _context.CardTransaction.AnyAsync(c => c.CardId == cardId, cancellationToken);
+            var exists = await _context.CardTransaction.AnyAsync(c => c.Id == id, cancellationToken);
             return exists;
         }
 

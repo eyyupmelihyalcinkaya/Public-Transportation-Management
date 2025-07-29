@@ -13,5 +13,8 @@ namespace internshipproject1.Application.Features.Card.Queries.IsCardExist
         {
             Id = id;
         }
+        public IsCardExistQueryRequest()
+        {
+        }
     }
 }

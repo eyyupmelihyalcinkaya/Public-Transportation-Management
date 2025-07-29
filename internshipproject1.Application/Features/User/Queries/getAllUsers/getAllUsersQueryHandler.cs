@@ -22,7 +22,8 @@ namespace internshipproject1.Application.Features.User.Queries.GetAllUsers
             var response = users.Select(u => new GetAllUsersQueryResponse
             {
                 id = u.Id,
-                userName = u.userName
+                userName = u.userName,
+                Role = u.Role
             }).ToList();
 
             return response;

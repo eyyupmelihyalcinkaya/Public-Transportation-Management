@@ -14,5 +14,6 @@ namespace internshipproject1.Application.Features.Card.Commands.DeleteCard
         {
             Id = id;
         }
+        
     }
 }

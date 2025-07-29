@@ -15,5 +15,6 @@ namespace internshipproject1.Application.Interfaces.Repositories
         public Task<Trip> AddAsync(Trip trip,CancellationToken cancellationToken);
         public Task<Trip> UpdateAsync(Trip trip,CancellationToken cancellationToken);
         public Task<Trip> DeleteAsync(int id, CancellationToken cancellationToken);
+        public Task<int> TotalTripsCount(CancellationToken cancellationToken);
     }
 }

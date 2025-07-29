@@ -1,0 +1,39 @@
+[
+  {
+    "ContainingType": "PaymentService.Controllers.PaymentController",
+    "Method": "GetAllTransactions",
+    "RelativePath": "api/Payment",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PaymentService.Controllers.PaymentController",
+    "Method": "CreateBoardingTransaction",
+    "RelativePath": "api/Payment/Boarding",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "PaymentService.Features.Commands.CreateBoardingTransaction.CreateBoardingTransactionCommandRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

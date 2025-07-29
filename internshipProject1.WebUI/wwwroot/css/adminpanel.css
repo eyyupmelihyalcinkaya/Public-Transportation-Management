@@ -1,7 +1,5 @@
-﻿/* Admin Panel Custom Styles */
-
+﻿ /* Admin Panel Custom Styles */
 /* ============ TEMA DESTEĞİ ============ */
-
 /* Açık Tema (Default) */
 .admin-container,
 body.light .admin-container,
@@ -73,21 +71,21 @@ body.dark .table tfoot {
     color: #f8f9fa !important;
 }
 
-/* Table header'ları özellikle */
-body.dark .table thead th,
-body.dark .table-dark th,
-body.dark .table th {
-    color: #f8f9fa !important;
-    background-color: #1a1a1a !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
-}
+    /* Table header'ları özellikle */
+    body.dark .table thead th,
+    body.dark .table-dark th,
+    body.dark .table th {
+        color: #f8f9fa !important;
+        background-color: #1a1a1a !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+    }
 
-/* Table cell'leri özellikle */
-body.dark .table td,
-body.dark .table tbody td,
-body.dark .table-striped tbody td {
-    color: #f8f9fa !important;
-}
+    /* Table cell'leri özellikle */
+    body.dark .table td,
+    body.dark .table tbody td,
+    body.dark .table-striped tbody td {
+        color: #f8f9fa !important;
+    }
 
 body.dark .table-dark {
     background-color: #1a1a1a !important;
@@ -104,9 +102,9 @@ body.dark .table-hover tbody tr:hover {
     background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-body.dark .table-hover tbody tr:hover td {
-    color: #f8f9fa !important;
-}
+    body.dark .table-hover tbody tr:hover td {
+        color: #f8f9fa !important;
+    }
 
 /* ============ MODAL STİLLERİ ============ */
 
@@ -143,44 +141,44 @@ body:not(.dark) .nav-tabs {
     border-bottom: 2px solid #dee2e6;
 }
 
-.nav-tabs .nav-link,
-body.light .nav-tabs .nav-link,
-body:not(.dark) .nav-tabs .nav-link {
-    color: #6c757d;
-}
+    .nav-tabs .nav-link,
+    body.light .nav-tabs .nav-link,
+    body:not(.dark) .nav-tabs .nav-link {
+        color: #6c757d;
+    }
 
-.nav-tabs .nav-link:hover,
-body.light .nav-tabs .nav-link:hover,
-body:not(.dark) .nav-tabs .nav-link:hover {
-    color: #007bff;
-    background-color: rgba(0, 123, 255, 0.1);
-}
+        .nav-tabs .nav-link:hover,
+        body.light .nav-tabs .nav-link:hover,
+        body:not(.dark) .nav-tabs .nav-link:hover {
+            color: #007bff;
+            background-color: rgba(0, 123, 255, 0.1);
+        }
 
-.nav-tabs .nav-link.active,
-body.light .nav-tabs .nav-link.active,
-body:not(.dark) .nav-tabs .nav-link.active {
-    color: #007bff;
-    border-bottom: 3px solid #007bff;
-}
+        .nav-tabs .nav-link.active,
+        body.light .nav-tabs .nav-link.active,
+        body:not(.dark) .nav-tabs .nav-link.active {
+            color: #007bff;
+            border-bottom: 3px solid #007bff;
+        }
 
 /* Koyu tema tab'ları */
 body.dark .nav-tabs {
     border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
 }
 
-body.dark .nav-tabs .nav-link {
-    color: rgba(255, 255, 255, 0.7) !important;
-}
+    body.dark .nav-tabs .nav-link {
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
 
-body.dark .nav-tabs .nav-link:hover {
-    color: #64c8ff !important;
-    background-color: rgba(100, 200, 255, 0.1) !important;
-}
+        body.dark .nav-tabs .nav-link:hover {
+            color: #64c8ff !important;
+            background-color: rgba(100, 200, 255, 0.1) !important;
+        }
 
-body.dark .nav-tabs .nav-link.active {
-    color: #64c8ff !important;
-    border-bottom: 3px solid #64c8ff !important;
-}
+        body.dark .nav-tabs .nav-link.active {
+            color: #64c8ff !important;
+            border-bottom: 3px solid #64c8ff !important;
+        }
 
 /* ============ FORM STİLLERİ ============ */
 
@@ -208,11 +206,11 @@ body.dark .form-control {
     color: #f8f9fa !important;
 }
 
-body.dark .form-control:focus {
-    background: rgba(50, 50, 50, 0.9) !important;
-    border-color: #64c8ff !important;
-    box-shadow: 0 0 0 0.2rem rgba(100, 200, 255, 0.25) !important;
-}
+    body.dark .form-control:focus {
+        background: rgba(50, 50, 50, 0.9) !important;
+        border-color: #64c8ff !important;
+        box-shadow: 0 0 0 0.2rem rgba(100, 200, 255, 0.25) !important;
+    }
 
 body.dark .form-select {
     background: rgba(40, 40, 40, 0.9) !important;
@@ -220,10 +218,10 @@ body.dark .form-select {
     color: #f8f9fa !important;
 }
 
-body.dark .form-select:focus {
-    border-color: #64c8ff !important;
-    box-shadow: 0 0 0 0.2rem rgba(100, 200, 255, 0.25) !important;
-}
+    body.dark .form-select:focus {
+        border-color: #64c8ff !important;
+        box-shadow: 0 0 0 0.2rem rgba(100, 200, 255, 0.25) !important;
+    }
 
 body.dark .form-label {
     color: #f8f9fa !important;
@@ -239,393 +237,393 @@ body.dark *:after {
     color: #f8f9fa !important;
 }
 
-/* Başlıklar - ekstra spesifik */
-body.dark h1, 
-body.dark h2, 
-body.dark h3, 
-body.dark h4, 
-body.dark h5, 
-body.dark h6,
-body.dark .h1,
-body.dark .h2,
-body.dark .h3,
-body.dark .h4,
-body.dark .h5,
-body.dark .h6 {
-    color: #f8f9fa !important;
-}
-
-/* Paragraflar ve genel metinler - ekstra spesifik */
-body.dark p,
-body.dark span,
-body.dark div,
-body.dark td,
-body.dark th,
-body.dark li,
-body.dark label {
-    color: #f8f9fa !important;
-}
-
-/* Text-muted sınıfı */
-body.dark .text-muted {
-    color: rgba(255, 255, 255, 0.6) !important;
-}
-
-/* Text-primary, text-secondary vb. */
-body.dark .text-primary {
-    color: #64c8ff !important;
-}
-
-body.dark .text-secondary {
-    color: rgba(255, 255, 255, 0.7) !important;
-}
-
-body.dark .text-success {
-    color: #32d74b !important;
-}
-
-body.dark .text-info {
-    color: #5dbeaa !important;
-}
-
-body.dark .text-warning {
-    color: #ffcc02 !important;
-}
-
-body.dark .text-danger {
-    color: #ff6b7a !important;
-}
-
-body.dark .text-dark {
-    color: #f8f9fa !important;
-}
-
-/* Card header ve footer */
-body.dark .card-header {
-    color: #f8f9fa !important;
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
-
-body.dark .card-footer {
-    color: #f8f9fa !important;
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
-
-body.dark .card-body {
-    color: #f8f9fa !important;
-}
-
-body.dark .card-title {
-    color: #f8f9fa !important;
-}
-
-body.dark .card-text {
-    color: #f8f9fa !important;
-}
-
-/* Small text */
-body.dark .small, body.dark small {
-    color: rgba(255, 255, 255, 0.7) !important;
-}
-
-/* Lead text */
-body.dark .lead {
-    color: #f8f9fa !important;
-}
-
-/* Display headings */
-body.dark .display-1, body.dark .display-2, body.dark .display-3, 
-body.dark .display-4, body.dark .display-5, body.dark .display-6 {
-    color: #f8f9fa !important;
-}
-
-/* ============ BUTON METİNLERİ ============ */
-
-/* Primary butonlar */
-body.dark .btn-primary {
-    background-color: #64c8ff !important;
-    border-color: #64c8ff !important;
-    color: #000 !important;
-}
-
-body.dark .btn-primary:hover {
-    background-color: #4db8ff !important;
-    border-color: #4db8ff !important;
-    color: #000 !important;
-}
-
-/* Secondary butonlar */
-body.dark .btn-secondary {
-    background-color: rgba(255, 255, 255, 0.2) !important;
-    border-color: rgba(255, 255, 255, 0.3) !important;
-    color: #f8f9fa !important;
-}
-
-body.dark .btn-secondary:hover {
-    background-color: rgba(255, 255, 255, 0.3) !important;
-    border-color: rgba(255, 255, 255, 0.4) !important;
-    color: #f8f9fa !important;
-}
-
-/* Outline-secondary butonlar */
-body.dark .btn-outline-secondary {
-    color: rgba(255, 255, 255, 0.8) !important;
-    border-color: rgba(255, 255, 255, 0.3) !important;
-}
-
-body.dark .btn-outline-secondary:hover {
-    background-color: rgba(255, 255, 255, 0.2) !important;
-    border-color: rgba(255, 255, 255, 0.4) !important;
-    color: #f8f9fa !important;
-}
-
-/* ============ DROPDOWN VE SELECT ============ */
-
-body.dark .dropdown-menu {
-    background-color: rgba(30, 30, 30, 0.95) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
-
-body.dark .dropdown-item {
-    color: #f8f9fa !important;
-}
-
-body.dark .dropdown-item:hover {
-    background-color: rgba(100, 200, 255, 0.2) !important;
-    color: #f8f9fa !important;
-}
-
-/* ============ ALERT VE TOAST ============ */
-
-body.dark .alert {
-    color: #f8f9fa !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
-
-body.dark .alert-primary {
-    background-color: rgba(100, 200, 255, 0.2) !important;
-    border-color: rgba(100, 200, 255, 0.3) !important;
-}
-
-body.dark .alert-success {
-    background-color: rgba(50, 215, 75, 0.2) !important;
-    border-color: rgba(50, 215, 75, 0.3) !important;
-}
-
-body.dark .alert-danger {
-    background-color: rgba(255, 107, 122, 0.2) !important;
-    border-color: rgba(255, 107, 122, 0.3) !important;
-}
-
-body.dark .alert-warning {
-    background-color: rgba(255, 204, 2, 0.2) !important;
-    border-color: rgba(255, 204, 2, 0.3) !important;
-}
-
-body.dark .alert-info {
-    background-color: rgba(93, 190, 170, 0.2) !important;
-    border-color: rgba(93, 190, 170, 0.3) !important;
-}
-
-/* ============ BREADCRUMB ============ */
-
-body.dark .breadcrumb {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-}
-
-body.dark .breadcrumb-item {
-    color: rgba(255, 255, 255, 0.7) !important;
-}
-
-body.dark .breadcrumb-item.active {
-    color: #f8f9fa !important;
-}
-
-body.dark .breadcrumb-item a {
-    color: #64c8ff !important;
-}
-
-/* ============ LİSTE ELEMANLARI ============ */
-
-body.dark .list-group-item {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
-    color: #f8f9fa !important;
-}
-
-body.dark .list-group-item:hover {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-body.dark .list-group-item.active {
-    background-color: rgba(100, 200, 255, 0.3) !important;
-    border-color: #64c8ff !important;
-    color: #f8f9fa !important;
-}
-
-/* ============ PAGINATION ============ */
-
-body.dark .pagination .page-link {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
-    color: #f8f9fa !important;
-}
-
-body.dark .pagination .page-link:hover {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    border-color: rgba(255, 255, 255, 0.3) !important;
-    color: #f8f9fa !important;
-}
-
-body.dark .pagination .page-item.active .page-link {
-    background-color: #64c8ff !important;
-    border-color: #64c8ff !important;
-    color: #000 !important;
-}
-
-/* ============ PROGRESS BAR ============ */
-
-body.dark .progress {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-body.dark .progress-bar {
-    background-color: #64c8ff !important;
-}
-
-/* ============ SPINNER VE LOADING ============ */
-
-body.dark .spinner-border {
-    color: #64c8ff !important;
-}
-
-body.dark .spinner-grow {
-    color: #64c8ff !important;
-}
-
-/* ============ TOOLTIP VE POPOVER ============ */
-
-body.dark .tooltip .tooltip-inner {
-    background-color: rgba(20, 20, 20, 0.95) !important;
-    color: #f8f9fa !important;
-}
-
-body.dark .popover {
-    background-color: rgba(30, 30, 30, 0.95) !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-body.dark .popover-header {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    border-bottom-color: rgba(255, 255, 255, 0.2) !important;
-    color: #f8f9fa !important;
-}
-
-body.dark .popover-body {
-    color: #f8f9fa !important;
-}
-
-/* ============ ACCORDION ============ */
-
-body.dark .accordion-item {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-body.dark .accordion-header .accordion-button {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    color: #f8f9fa !important;
-}
-
-body.dark .accordion-button:not(.collapsed) {
-    background-color: rgba(100, 200, 255, 0.1) !important;
-    color: #64c8ff !important;
-}
-
-body.dark .accordion-body {
-    background-color: rgba(255, 255, 255, 0.02) !important;
-    color: #f8f9fa !important;
-}
-
-/* ============ SCROLLBAR ============ */
-
-body.dark ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1) !important;
-}
-
-body.dark ::-webkit-scrollbar-thumb {
-    background: #64c8ff !important;
-}
-
-body.dark ::-webkit-scrollbar-thumb:hover {
-    background: #4db8ff !important;
-}
-
-/* ============ İLK ELEMANLAR İÇİN ÖZEL KURALLAR ============ */
-
-/* İlk çocuk elemanlar */
-body.dark *:first-child,
-body.dark tr:first-child,
-body.dark tr:first-child td,
-body.dark tr:first-child th,
-body.dark li:first-child,
-body.dark .nav-item:first-child,
-body.dark .nav-item:first-child .nav-link {
-    color: #f8f9fa !important;
-}
-
-/* Bootstrap utility override'lar */
-body.dark .text-black {
-    color: #f8f9fa !important;
-}
-
-body.dark .bg-light {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    color: #f8f9fa !important;
-}
-
-body.dark .bg-white {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    color: #f8f9fa !important;
-}
-
-/* Tablo satırlarının ilk sütunları */
-body.dark table tr td:first-child,
-body.dark table tr th:first-child,
-body.dark .table tr td:first-child,
-body.dark .table tr th:first-child {
-    color: #f8f9fa !important;
-}
-
-/* Card içindeki ilk elemanlar */
-body.dark .card *:first-child,
-body.dark .card-body *:first-child,
-body.dark .card-header *:first-child {
-    color: #f8f9fa !important;
-}
-
-/* Nav link'lerin ilk elemanları */
-body.dark .nav .nav-item:first-child .nav-link,
-body.dark .navbar-nav .nav-item:first-child .nav-link {
-    color: #f8f9fa !important;
-}
-
-/* Badge'lerdeki metinler */
-body.dark .badge,
-body.dark .badge *,
-body.dark .btn .badge {
-    color: #000 !important; /* Badge'ler koyu metinle daha okunabilir */
-}
-
-/* Button içindeki metinler */
-body.dark .btn,
-body.dark .btn *,
-body.dark .btn span,
-body.dark .btn i {
-    /* Button renkleri önceki tanımlarla kalacak */
-}
+    /* Başlıklar - ekstra spesifik */
+    body.dark h1,
+    body.dark h2,
+    body.dark h3,
+    body.dark h4,
+    body.dark h5,
+    body.dark h6,
+    body.dark .h1,
+    body.dark .h2,
+    body.dark .h3,
+    body.dark .h4,
+    body.dark .h5,
+    body.dark .h6 {
+        color: #f8f9fa !important;
+    }
+
+    /* Paragraflar ve genel metinler - ekstra spesifik */
+    body.dark p,
+    body.dark span,
+    body.dark div,
+    body.dark td,
+    body.dark th,
+    body.dark li,
+    body.dark label {
+        color: #f8f9fa !important;
+    }
+
+    /* Text-muted sınıfı */
+    body.dark .text-muted {
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    /* Text-primary, text-secondary vb. */
+    body.dark .text-primary {
+        color: #64c8ff !important;
+    }
+
+    body.dark .text-secondary {
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    body.dark .text-success {
+        color: #32d74b !important;
+    }
+
+    body.dark .text-info {
+        color: #5dbeaa !important;
+    }
+
+    body.dark .text-warning {
+        color: #ffcc02 !important;
+    }
+
+    body.dark .text-danger {
+        color: #ff6b7a !important;
+    }
+
+    body.dark .text-dark {
+        color: #f8f9fa !important;
+    }
+
+    /* Card header ve footer */
+    body.dark .card-header {
+        color: #f8f9fa !important;
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    body.dark .card-footer {
+        color: #f8f9fa !important;
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    body.dark .card-body {
+        color: #f8f9fa !important;
+    }
+
+    body.dark .card-title {
+        color: #f8f9fa !important;
+    }
+
+    body.dark .card-text {
+        color: #f8f9fa !important;
+    }
+
+    /* Small text */
+    body.dark .small, body.dark small {
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    /* Lead text */
+    body.dark .lead {
+        color: #f8f9fa !important;
+    }
+
+    /* Display headings */
+    body.dark .display-1, body.dark .display-2, body.dark .display-3,
+    body.dark .display-4, body.dark .display-5, body.dark .display-6 {
+        color: #f8f9fa !important;
+    }
+
+    /* ============ BUTON METİNLERİ ============ */
+
+    /* Primary butonlar */
+    body.dark .btn-primary {
+        background-color: #64c8ff !important;
+        border-color: #64c8ff !important;
+        color: #000 !important;
+    }
+
+        body.dark .btn-primary:hover {
+            background-color: #4db8ff !important;
+            border-color: #4db8ff !important;
+            color: #000 !important;
+        }
+
+    /* Secondary butonlar */
+    body.dark .btn-secondary {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+        color: #f8f9fa !important;
+    }
+
+        body.dark .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.3) !important;
+            border-color: rgba(255, 255, 255, 0.4) !important;
+            color: #f8f9fa !important;
+        }
+
+    /* Outline-secondary butonlar */
+    body.dark .btn-outline-secondary {
+        color: rgba(255, 255, 255, 0.8) !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+    }
+
+        body.dark .btn-outline-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            border-color: rgba(255, 255, 255, 0.4) !important;
+            color: #f8f9fa !important;
+        }
+
+    /* ============ DROPDOWN VE SELECT ============ */
+
+    body.dark .dropdown-menu {
+        background-color: rgba(30, 30, 30, 0.95) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    body.dark .dropdown-item {
+        color: #f8f9fa !important;
+    }
+
+        body.dark .dropdown-item:hover {
+            background-color: rgba(100, 200, 255, 0.2) !important;
+            color: #f8f9fa !important;
+        }
+
+    /* ============ ALERT VE TOAST ============ */
+
+    body.dark .alert {
+        color: #f8f9fa !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    body.dark .alert-primary {
+        background-color: rgba(100, 200, 255, 0.2) !important;
+        border-color: rgba(100, 200, 255, 0.3) !important;
+    }
+
+    body.dark .alert-success {
+        background-color: rgba(50, 215, 75, 0.2) !important;
+        border-color: rgba(50, 215, 75, 0.3) !important;
+    }
+
+    body.dark .alert-danger {
+        background-color: rgba(255, 107, 122, 0.2) !important;
+        border-color: rgba(255, 107, 122, 0.3) !important;
+    }
+
+    body.dark .alert-warning {
+        background-color: rgba(255, 204, 2, 0.2) !important;
+        border-color: rgba(255, 204, 2, 0.3) !important;
+    }
+
+    body.dark .alert-info {
+        background-color: rgba(93, 190, 170, 0.2) !important;
+        border-color: rgba(93, 190, 170, 0.3) !important;
+    }
+
+    /* ============ BREADCRUMB ============ */
+
+    body.dark .breadcrumb {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    body.dark .breadcrumb-item {
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+        body.dark .breadcrumb-item.active {
+            color: #f8f9fa !important;
+        }
+
+        body.dark .breadcrumb-item a {
+            color: #64c8ff !important;
+        }
+
+    /* ============ LİSTE ELEMANLARI ============ */
+
+    body.dark .list-group-item {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+        color: #f8f9fa !important;
+    }
+
+        body.dark .list-group-item:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        body.dark .list-group-item.active {
+            background-color: rgba(100, 200, 255, 0.3) !important;
+            border-color: #64c8ff !important;
+            color: #f8f9fa !important;
+        }
+
+    /* ============ PAGINATION ============ */
+
+    body.dark .pagination .page-link {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+        color: #f8f9fa !important;
+    }
+
+        body.dark .pagination .page-link:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            color: #f8f9fa !important;
+        }
+
+    body.dark .pagination .page-item.active .page-link {
+        background-color: #64c8ff !important;
+        border-color: #64c8ff !important;
+        color: #000 !important;
+    }
+
+    /* ============ PROGRESS BAR ============ */
+
+    body.dark .progress {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    body.dark .progress-bar {
+        background-color: #64c8ff !important;
+    }
+
+    /* ============ SPINNER VE LOADING ============ */
+
+    body.dark .spinner-border {
+        color: #64c8ff !important;
+    }
+
+    body.dark .spinner-grow {
+        color: #64c8ff !important;
+    }
+
+    /* ============ TOOLTIP VE POPOVER ============ */
+
+    body.dark .tooltip .tooltip-inner {
+        background-color: rgba(20, 20, 20, 0.95) !important;
+        color: #f8f9fa !important;
+    }
+
+    body.dark .popover {
+        background-color: rgba(30, 30, 30, 0.95) !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    body.dark .popover-header {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border-bottom-color: rgba(255, 255, 255, 0.2) !important;
+        color: #f8f9fa !important;
+    }
+
+    body.dark .popover-body {
+        color: #f8f9fa !important;
+    }
+
+    /* ============ ACCORDION ============ */
+
+    body.dark .accordion-item {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    body.dark .accordion-header .accordion-button {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        color: #f8f9fa !important;
+    }
+
+    body.dark .accordion-button:not(.collapsed) {
+        background-color: rgba(100, 200, 255, 0.1) !important;
+        color: #64c8ff !important;
+    }
+
+    body.dark .accordion-body {
+        background-color: rgba(255, 255, 255, 0.02) !important;
+        color: #f8f9fa !important;
+    }
+
+    /* ============ SCROLLBAR ============ */
+
+    body.dark ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    body.dark ::-webkit-scrollbar-thumb {
+        background: #64c8ff !important;
+    }
+
+        body.dark ::-webkit-scrollbar-thumb:hover {
+            background: #4db8ff !important;
+        }
+
+    /* ============ İLK ELEMANLAR İÇİN ÖZEL KURALLAR ============ */
+
+    /* İlk çocuk elemanlar */
+    body.dark *:first-child,
+    body.dark tr:first-child,
+    body.dark tr:first-child td,
+    body.dark tr:first-child th,
+    body.dark li:first-child,
+    body.dark .nav-item:first-child,
+    body.dark .nav-item:first-child .nav-link {
+        color: #f8f9fa !important;
+    }
+
+    /* Bootstrap utility override'lar */
+    body.dark .text-black {
+        color: #f8f9fa !important;
+    }
+
+    body.dark .bg-light {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        color: #f8f9fa !important;
+    }
+
+    body.dark .bg-white {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        color: #f8f9fa !important;
+    }
+
+    /* Tablo satırlarının ilk sütunları */
+    body.dark table tr td:first-child,
+    body.dark table tr th:first-child,
+    body.dark .table tr td:first-child,
+    body.dark .table tr th:first-child {
+        color: #f8f9fa !important;
+    }
+
+    /* Card içindeki ilk elemanlar */
+    body.dark .card *:first-child,
+    body.dark .card-body *:first-child,
+    body.dark .card-header *:first-child {
+        color: #f8f9fa !important;
+    }
+
+    /* Nav link'lerin ilk elemanları */
+    body.dark .nav .nav-item:first-child .nav-link,
+    body.dark .navbar-nav .nav-item:first-child .nav-link {
+        color: #f8f9fa !important;
+    }
+
+    /* Badge'lerdeki metinler */
+    body.dark .badge,
+    body.dark .badge *,
+    body.dark .btn .badge {
+        color: #000 !important; /* Badge'ler koyu metinle daha okunabilir */
+    }
+
+    /* Button içindeki metinler */
+    body.dark .btn,
+    body.dark .btn *,
+    body.dark .btn span,
+    body.dark .btn i {
+        /* Button renkleri önceki tanımlarla kalacak */
+    }
 
 /* Stats Cards - Animasyon kaldırıldı */
 .card {
@@ -634,20 +632,20 @@ body.dark .btn i {
     /* Rahatsız edici hover animasyonu kaldırıldı */
 }
 
-/* Stats Cards özel stilleri - Tüm border'ları kaldır */
-.card.bg-primary,
-.card.bg-success,
-.card.bg-info,
-.card.bg-warning,
-.card.bg-danger,
-.card.bg-secondary {
-    border: none !important;
-    outline: none !important;
-}
+    /* Stats Cards özel stilleri - Tüm border'ları kaldır */
+    .card.bg-primary,
+    .card.bg-success,
+    .card.bg-info,
+    .card.bg-warning,
+    .card.bg-danger,
+    .card.bg-secondary {
+        border: none !important;
+        outline: none !important;
+    }
 
-.card .card-body {
-    border: none !important;
-}
+    .card .card-body {
+        border: none !important;
+    }
 
 /* Card header ve footer border'larını da kaldır */
 .card-header,
@@ -685,36 +683,36 @@ body.dark .btn i {
     margin-bottom: 0;
 }
 
-.nav-tabs .nav-link {
-    border: none;
-    font-weight: 500;
-    padding: 1rem 1.5rem;
-    transition: all 0.3s ease;
-    position: relative;
-    background-color: transparent;
-}
+    .nav-tabs .nav-link {
+        border: none;
+        font-weight: 500;
+        padding: 1rem 1.5rem;
+        transition: all 0.3s ease;
+        position: relative;
+        background-color: transparent;
+    }
 
-.nav-tabs .nav-link.active {
-    background-color: transparent;
-    font-weight: 600;
-}
+        .nav-tabs .nav-link.active {
+            background-color: transparent;
+            font-weight: 600;
+        }
 
-.nav-tabs .nav-link.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 3px;
-    border-radius: 2px 2px 0 0;
-}
+            .nav-tabs .nav-link.active::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                right: 0;
+                height: 3px;
+                border-radius: 2px 2px 0 0;
+            }
 
-/* Açık tema için after pseudo-element */
-.nav-tabs .nav-link.active::after,
-body.light .nav-tabs .nav-link.active::after,
-body:not(.dark) .nav-tabs .nav-link.active::after {
-    background: linear-gradient(90deg, #007bff, #0056b3);
-}
+            /* Açık tema için after pseudo-element */
+            .nav-tabs .nav-link.active::after,
+            body.light .nav-tabs .nav-link.active::after,
+            body:not(.dark) .nav-tabs .nav-link.active::after {
+                background: linear-gradient(90deg, #007bff, #0056b3);
+            }
 
 /* Koyu tema için after pseudo-element */
 body.dark .nav-tabs .nav-link.active::after {
@@ -726,18 +724,18 @@ body.dark .nav-tabs .nav-link.active::after {
     margin-bottom: 0;
 }
 
-.table th {
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.875rem;
-    letter-spacing: 0.5px;
-    padding: 1rem 0.75rem;
-}
+    .table th {
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.5px;
+        padding: 1rem 0.75rem;
+    }
 
-.table td {
-    padding: 0.875rem 0.75rem;
-    vertical-align: middle;
-}
+    .table td {
+        padding: 0.875rem 0.75rem;
+        vertical-align: middle;
+    }
 
 .table-striped > tbody > tr:nth-of-type(odd) > td {
     background-color: rgba(0, 123, 255, 0.02);
@@ -772,13 +770,13 @@ body:not(.dark) .btn-outline-info {
     border-color: #17a2b8;
 }
 
-.btn-outline-info:hover,
-body.light .btn-outline-info:hover,
-body:not(.dark) .btn-outline-info:hover {
-    color: #fff;
-    background-color: #17a2b8;
-    border-color: #17a2b8;
-}
+    .btn-outline-info:hover,
+    body.light .btn-outline-info:hover,
+    body:not(.dark) .btn-outline-info:hover {
+        color: #fff;
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
 
 .btn-outline-danger,
 body.light .btn-outline-danger,
@@ -787,13 +785,13 @@ body:not(.dark) .btn-outline-danger {
     border-color: #dc3545;
 }
 
-.btn-outline-danger:hover,
-body.light .btn-outline-danger:hover,
-body:not(.dark) .btn-outline-danger:hover {
-    color: #fff;
-    background-color: #dc3545;
-    border-color: #dc3545;
-}
+    .btn-outline-danger:hover,
+    body.light .btn-outline-danger:hover,
+    body:not(.dark) .btn-outline-danger:hover {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
 
 /* Koyu tema butonları */
 body.dark .btn-outline-info {
@@ -801,22 +799,22 @@ body.dark .btn-outline-info {
     border-color: #5dbeaa !important;
 }
 
-body.dark .btn-outline-info:hover {
-    color: #000 !important;
-    background-color: #5dbeaa !important;
-    border-color: #5dbeaa !important;
-}
+    body.dark .btn-outline-info:hover {
+        color: #000 !important;
+        background-color: #5dbeaa !important;
+        border-color: #5dbeaa !important;
+    }
 
 body.dark .btn-outline-danger {
     color: #ff6b7a !important;
     border-color: #ff6b7a !important;
 }
 
-body.dark .btn-outline-danger:hover {
-    color: #000 !important;
-    background-color: #ff6b7a !important;
-    border-color: #ff6b7a !important;
-}
+    body.dark .btn-outline-danger:hover {
+        color: #000 !important;
+        background-color: #ff6b7a !important;
+        border-color: #ff6b7a !important;
+    }
 
 /* ============ BADGE STİLLERİ ============ */
 
@@ -879,10 +877,10 @@ body.dark .badge.bg-warning {
     transition: all 0.3s ease;
 }
 
-.form-control:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
 
 .form-select {
     border: 2px solid #e9ecef;
@@ -890,10 +888,10 @@ body.dark .badge.bg-warning {
     padding: 0.75rem 1rem;
 }
 
-.form-select:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
+    .form-select:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
 
 .form-label {
     font-weight: 600;
@@ -919,9 +917,11 @@ body.dark .badge.bg-warning {
     0% {
         opacity: 1;
     }
+
     50% {
         opacity: 0.5;
     }
+
     100% {
         opacity: 1;
     }
@@ -937,29 +937,29 @@ body.dark .badge.bg-warning {
         padding: 0.75rem 1rem;
         font-size: 0.875rem;
     }
-    
+
     .modal-dialog {
         margin: 1rem;
     }
-    
+
     .btn-group-sm {
         display: flex;
         flex-direction: column;
         gap: 0.25rem;
     }
-    
-    .btn-group-sm .btn {
-        width: 100%;
-    }
-    
+
+        .btn-group-sm .btn {
+            width: 100%;
+        }
+
     .table-responsive {
         font-size: 0.875rem;
     }
-    
+
     .card-body {
         padding: 1rem;
     }
-    
+
     .stats-card .h5 {
         font-size: 1.1rem;
     }
@@ -969,18 +969,18 @@ body.dark .badge.bg-warning {
     .nav-tabs {
         flex-wrap: wrap;
     }
-    
-    .nav-tabs .nav-link {
-        flex: 1 1 auto;
-        text-align: center;
-        padding: 0.5rem;
-        font-size: 0.8rem;
-    }
-    
+
+        .nav-tabs .nav-link {
+            flex: 1 1 auto;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+        }
+
     .modal-dialog {
         margin: 0.5rem;
     }
-    
+
     .modal-body, .modal-header, .modal-footer {
         padding: 1rem;
     }
@@ -1001,9 +1001,9 @@ body.dark .badge.bg-warning {
     border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background: #0056b3;
-}
+    ::-webkit-scrollbar-thumb:hover {
+        background: #0056b3;
+    }
 
 /* Animation for page load */
 .admin-container {
@@ -1015,6 +1015,7 @@ body.dark .badge.bg-warning {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1052,7 +1053,7 @@ body.dark .badge.bg-warning {
     .btn, .modal, .toast-container {
         display: none !important;
     }
-    
+
     .card {
         box-shadow: none !important;
         border: 1px solid #dee2e6 !important;
@@ -1067,27 +1068,27 @@ body.dark .badge.bg-warning {
     position: relative !important;
 }
 
-.navbar .dropdown-menu {
-    z-index: 99999999 !important;
-    position: absolute !important;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25) !important;
-    border: none !important;
-    border-radius: 12px !important;
-}
+    .navbar .dropdown-menu {
+        z-index: 99999999 !important;
+        position: absolute !important;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25) !important;
+        border: none !important;
+        border-radius: 12px !important;
+    }
 
 #profile-menu {
     position: relative !important;
     z-index: 9999999 !important;
 }
 
-#profile-menu .dropdown-menu {
-    z-index: 99999999 !important;
-    position: absolute !important;
-    top: 100% !important;
-    right: 0 !important;
-    margin-top: 8px !important;
-    min-width: 200px !important;
-}
+    #profile-menu .dropdown-menu {
+        z-index: 99999999 !important;
+        position: absolute !important;
+        top: 100% !important;
+        right: 0 !important;
+        margin-top: 8px !important;
+        min-width: 200px !important;
+    }
 
 /* AdminPanel card'larını arka planda tut */
 .admin-container {
@@ -1095,15 +1096,15 @@ body.dark .badge.bg-warning {
     position: relative;
 }
 
-.admin-container .card {
-    z-index: 1 !important;
-    position: relative;
-}
+    .admin-container .card {
+        z-index: 1 !important;
+        position: relative;
+    }
 
-.admin-container .table {
-    z-index: 1 !important;
-    position: relative;
-}
+    .admin-container .table {
+        z-index: 1 !important;
+        position: relative;
+    }
 
 /* Modal'lar dropdown'dan daha düşük z-index (10000) */
 .modal {
@@ -1121,6 +1122,7 @@ body.dark .badge.bg-warning {
     z-index: 2000000 !important;
     position: fixed !important;
 }
+
 .modal-backdrop {
     z-index: 1999999 !important;
     position: fixed !important;
@@ -1131,14 +1133,17 @@ body.dark .badge.bg-warning {
     z-index: 1 !important;
     position: relative !important;
 }
+
 .navbar {
     z-index: 1000 !important;
     position: relative !important;
 }
+
 .modal {
     z-index: 1050 !important;
     position: fixed !important;
 }
+
 .modal-backdrop {
     z-index: 1040 !important;
     position: fixed !important;
@@ -1150,9 +1155,9 @@ body.dark .badge.bg-warning {
     font-weight: 600;
 }
 
-.btn-warning:hover, .btn-info:hover {
-    color: #fff !important;
-}
+    .btn-warning:hover, .btn-info:hover {
+        color: #fff !important;
+    }
 
 #addRouteStopModal .modal-header,
 #addTripModal .modal-header {
@@ -1167,4 +1172,19 @@ body.dark .badge.bg-warning {
 #addRouteStopModal .btn-warning,
 #addTripModal .btn-info {
     color: #fff !important;
+}
+
+body.dark .navbar {
+    background-color: #000000 !important; /* Tam siyah */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark .navbar-brand,
+body.dark .navbar-nav .nav-link {
+    color: #ffffff !important; /* Beyaz metin */
+}
+
+body.dark .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    color: #ffffff !important;
 }

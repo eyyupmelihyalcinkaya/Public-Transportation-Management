@@ -3,6 +3,7 @@ using internshipproject1.Application.Features.Trip.Commands.DeleteTripCommand;
 using internshipproject1.Application.Features.Trip.Commands.UpdateTripCommand;
 using internshipproject1.Application.Features.Trip.Queries.GetAllTrips;
 using internshipproject1.Application.Features.Trip.Queries.GetTrip;
+using internshipproject1.Application.Features.Trip.Queries.GetTripsCount;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -37,17 +38,25 @@ namespace WebAPI.Controllers
 
         //GET All Trips
         [HttpGet]
-        public async Task<ActionResult> GettAllTrips(CancellationToken cancellationToken)
+        public async Task<ActionResult> GetAllTrips(CancellationToken cancellationToken, int page = 1, int pageSize = 10)
         {
             var response = await _mediator.Send(new GetAllTripsQueryRequest(), cancellationToken);
             if (response == null || !response.Any())
             {
                 return NotFound();
             }
-            return Ok(response);
+            int totalCount = response.Count();
+            int pageCount = (int)Math.Ceiling((double)totalCount / pageSize);
+            var pagedResponse = response.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            return Ok(pagedResponse);
         }
 
-
+        [HttpGet("TotalCount")]
+        public async Task<ActionResult> GetTripsCount(CancellationToken cancellationToken)
+        {
+            var trips = await _mediator.Send(new GetTripsCountQueryRequest(), cancellationToken);
+            return Ok(trips.Count);
+        }
         // Private API's
 
         //POST Create Trip

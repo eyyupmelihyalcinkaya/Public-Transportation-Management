@@ -9,6 +9,9 @@ using internshipproject1.Application.Features.RouteStop.Commands.AddRouteStop;
 using internshipproject1.Application.Features.RouteStop.Queries.GetRouteStopById;
 using internshipproject1.Application.Features.RouteStop.Commands.DeleteRouteStop;
 using internshipproject1.Application.Features.RouteStop.Commands.UpdateRouteStop;
+using internshipproject1.Application.Features.RouteStop.Queries.GetRouteStopsCount;
+using internshipproject1.Application.Features.Customer.Queries.GetAllCustomers;
+using internshipproject1.Application.Features.RouteStop.Queries.GetAllRouteStops;
 namespace WebAPI.Controllers
 {
 
@@ -40,8 +43,28 @@ namespace WebAPI.Controllers
             }
             return Ok(response);
         }
-
-
+        [HttpGet("GetAll")]
+        public async Task<ActionResult> GetAllRouteStops(int page = 1, int pageSize = 10)
+        { 
+            var routeStops = await _mediator.Send(new GetAllRouteStopsQueryRequest());
+            if (routeStops == null || !routeStops.Any())
+            {
+                return NotFound();
+            }
+            int totalCount = routeStops.Count;
+            int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var pagedResponse = routeStops
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+            return Ok(pagedResponse);
+        }
+        [HttpGet("TotalCount")]
+        public async Task<ActionResult> GetTotalCount()
+        { 
+            var response = await _mediator.Send(new GetRouteStopsCountRequest());
+            return Ok(response.Count);
+        }
         // Private API's
 
         //POST Create RouteStop

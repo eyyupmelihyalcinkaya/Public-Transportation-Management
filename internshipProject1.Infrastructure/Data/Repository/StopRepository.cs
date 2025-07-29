@@ -110,5 +110,9 @@ namespace internshipProject1.Infrastructure.Data.Repository
         {
             return await _dbContext.Stop.AnyAsync(s => s.Id == stopId, cancellationToken);
         }
+        public async Task<int> TotalStopsCount(CancellationToken cancellationToken)
+        {
+            return await _dbContext.Stop.CountAsync(cancellationToken);
+        }
     }
 }

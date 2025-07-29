@@ -24,6 +24,7 @@ namespace internshipproject1.Application.Features.Customer.Queries.GetAllCustome
                 Id = c.Id,
                 Name = c.Name,
                 Surname = c.Surname,
+                PhoneNumber = c.PhoneNumber,
                 Email = c.Email,
                 IsActive = !c.IsDeleted,
                 IsStudent = c.IsStudent

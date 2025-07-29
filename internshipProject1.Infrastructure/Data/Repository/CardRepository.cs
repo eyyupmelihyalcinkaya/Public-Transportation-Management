@@ -39,6 +39,31 @@ namespace internshipProject1.Infrastructure.Data.Repository
             return exists;
         }
 
+        public async Task<Card> DecreaseBalanceAsync(int cardId, decimal amount, CancellationToken cancellationToken)
+        {
+            if (amount <= 0)
+            { 
+                throw new ArgumentException("Amount must be greater than or equal to zero.", nameof(amount));
+            }
+            var card = await _context.Card.FindAsync(cardId, cancellationToken);
+            if (card == null)
+            {
+                throw new Exception($"Card ({cardId}) cannot found !");
+            }
+            if(amount > card.Balance)
+            {
+                throw new Exception($"Insufficient balance on card ({cardId}) to decrease by {amount}.");
+            }
+            var oldBalance = card.Balance;
+            card.Balance -= amount;
+            await _context.SaveChangesAsync(cancellationToken);
+            if(card.Balance != oldBalance - amount)
+            {
+                throw new Exception($"Unable to decrease the balance of the card ({cardId})");
+            }
+            return card;
+        }
+
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
             if(id <= 0)
@@ -79,6 +104,19 @@ namespace internshipProject1.Infrastructure.Data.Repository
             return inactiveCards;
         }
 
+        public async Task<decimal> GetBalanceByIdAsync(int cardId, CancellationToken cancellationToken)
+        {
+            var card = await _context.Card.FindAsync(cardId, cancellationToken);
+            if (card == null)
+            {
+                throw new Exception($"Card ({cardId}) cannot found !");
+            }
+            if (card.Balance == null) {
+                throw new Exception($"Card ({cardId}) Balance is null !");
+            }
+            return card.Balance;
+        }
+
         public async Task<Card> GetByCustomerIdAsync(int customerId, CancellationToken cancellationToken)
         {
             var card = await _context.Card.Where(c=>c.CustomerId == customerId && !c.IsDeleted)
@@ -100,10 +138,56 @@ namespace internshipProject1.Infrastructure.Data.Repository
             return card;
         }
 
+        public async Task<IEnumerable<Card>> GetCardsByBalanceRangeAsync(decimal minRange, decimal maxRange, CancellationToken cancellationToken)
+        {
+            var cards = await _context.Card.Where(c=>c.Balance >= minRange && c.Balance <= maxRange && !c.IsDeleted)
+                .OrderBy(c=> c.Balance)
+                .ToListAsync(cancellationToken);
+            if (cards == null || !cards.Any())
+            {
+                throw new Exception("No card with the specified balance was found.");
+            }
+            return cards;
+        }
+
+        public async Task<IEnumerable<Card>> GetCardsOrderedByBalanceAsync(CancellationToken cancellationToken)
+        {
+            var cards = await _context.Card.OrderBy(c=>c.Balance).Where(c => !c.IsDeleted)
+                .ToListAsync(cancellationToken);
+            if (cards == null || !cards.Any()) {
+                throw new Exception("No card found.");
+            }
+            return cards;
+        }
+
+        public async Task<Card> IncreaseBalanceAsync(int cardId, decimal amount, CancellationToken cancellationToken)
+        {
+            if (amount < 0) { 
+                throw new ArgumentException("Amount must be greater than or equal to zero.", nameof(amount));
+            }
+            var card = await _context.Card.FindAsync(cardId, cancellationToken);
+            if (card == null)
+            {
+                throw new KeyNotFoundException($"The selected card ({cardId}) cannot found !");
+            }
+            var oldBalance = card.Balance;
+            if (!card.IsActive)
+            {
+                throw new Exception($"Selected card ({cardId}) is inactive, please select an active card !");
+            }
+            card.Balance += amount;
+            await _context.SaveChangesAsync();
+            if (card.Balance != oldBalance + amount) 
+            {
+                throw new Exception($"Unable to load money onto the card ({cardId})");
+            }
+            return card;
+        }
+
         public async Task<Card> UpdateAsync(Card card, CancellationToken cancellationToken)
         {
             var existingCard = await _context.Card.FindAsync(card.Id, cancellationToken);
-            if (existingCard == null || existingCard.IsDeleted)
+            if (existingCard == null)
             {
                 throw new KeyNotFoundException($"Card with ID {card.Id} not found or has been deleted.");
             }
@@ -114,6 +198,26 @@ namespace internshipProject1.Infrastructure.Data.Repository
             await _context.SaveChangesAsync(cancellationToken);
             return existingCard;
         }
+
+        public async Task<Card> UpdateCardBalanceAsync(int cardId, decimal newBalance, CancellationToken cancellationToken)
+        {
+            if(newBalance < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(newBalance), "New balance cannot be negative.");
+            }   
+            var card = await _context.Card.FindAsync(cardId, cancellationToken);
+            if (card == null)
+            {
+                throw new KeyNotFoundException($"The selected card ({cardId}) cannot found !");
+            }
+            if (!card.IsActive) {
+                throw new Exception($"Selected card ({cardId}) is inactive, please select an active card !");
+            }   
+            card.Balance = newBalance;
+            await _context.SaveChangesAsync(cancellationToken);
+            return card;
+        }
+
         Task IGenericRepository<Card>.UpdateAsync(Card entity, CancellationToken cancellationToken)
         {
             return UpdateAsync(entity, cancellationToken);

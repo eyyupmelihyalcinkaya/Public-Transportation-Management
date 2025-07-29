@@ -480,6 +480,199 @@ body.dark .btn-theme-toggle:active {
     transform: scale(0.95);
 }
 
+/* Modern Buton Stilleri */
+.btn-modern {
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    border: none;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.btn-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-modern:hover::before {
+    left: 100%;
+}
+
+/* Light tema için modern butonlar */
+body.light .btn-modern {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+body.light .btn-modern:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    color: #000;
+}
+
+body.light .btn-modern:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark tema için modern butonlar */
+body.dark .btn-modern {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .btn-modern:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    color: #fff;
+}
+
+body.dark .btn-modern:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Renk varyasyonları */
+body.light .btn-modern.btn-primary {
+    background: rgba(13, 110, 253, 0.2);
+    border-color: rgba(13, 110, 253, 0.3);
+    color: #0d6efd;
+}
+
+body.light .btn-modern.btn-primary:hover {
+    background: rgba(13, 110, 253, 0.3);
+    color: #0a58ca;
+}
+
+body.dark .btn-modern.btn-primary {
+    background: rgba(13, 110, 253, 0.2);
+    border-color: rgba(13, 110, 253, 0.3);
+    color: #6ea8fe;
+}
+
+body.dark .btn-modern.btn-primary:hover {
+    background: rgba(13, 110, 253, 0.3);
+    color: #fff;
+}
+
+body.light .btn-modern.btn-success {
+    background: rgba(25, 135, 84, 0.2);
+    border-color: rgba(25, 135, 84, 0.3);
+    color: #198754;
+}
+
+body.light .btn-modern.btn-success:hover {
+    background: rgba(25, 135, 84, 0.3);
+    color: #146c43;
+}
+
+body.dark .btn-modern.btn-success {
+    background: rgba(25, 135, 84, 0.2);
+    border-color: rgba(25, 135, 84, 0.3);
+    color: #75b798;
+}
+
+body.dark .btn-modern.btn-success:hover {
+    background: rgba(25, 135, 84, 0.3);
+    color: #fff;
+}
+
+body.light .btn-modern.btn-info {
+    background: rgba(13, 202, 240, 0.2);
+    border-color: rgba(13, 202, 240, 0.3);
+    color: #0dcaf0;
+}
+
+body.light .btn-modern.btn-info:hover {
+    background: rgba(13, 202, 240, 0.3);
+    color: #0aa2c0;
+}
+
+body.dark .btn-modern.btn-info {
+    background: rgba(13, 202, 240, 0.2);
+    border-color: rgba(13, 202, 240, 0.3);
+    color: #6edff6;
+}
+
+body.dark .btn-modern.btn-info:hover {
+    background: rgba(13, 202, 240, 0.3);
+    color: #fff;
+}
+
+body.light .btn-modern.btn-warning {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: rgba(255, 193, 7, 0.3);
+    color: #ffc107;
+}
+
+body.light .btn-modern.btn-warning:hover {
+    background: rgba(255, 193, 7, 0.3);
+    color: #e0a800;
+}
+
+body.dark .btn-modern.btn-warning {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: rgba(255, 193, 7, 0.3);
+    color: #ffca2c;
+}
+
+body.dark .btn-modern.btn-warning:hover {
+    background: rgba(255, 193, 7, 0.3);
+    color: #fff;
+}
+
+body.light .btn-modern.btn-secondary {
+    background: rgba(108, 117, 125, 0.2);
+    border-color: rgba(108, 117, 125, 0.3);
+    color: #6c757d;
+}
+
+body.light .btn-modern.btn-secondary:hover {
+    background: rgba(108, 117, 125, 0.3);
+    color: #5c636a;
+}
+
+body.dark .btn-modern.btn-secondary {
+    background: rgba(108, 117, 125, 0.2);
+    border-color: rgba(108, 117, 125, 0.3);
+    color: #adb5bd;
+}
+
+body.dark .btn-modern.btn-secondary:hover {
+    background: rgba(108, 117, 125, 0.3);
+    color: #fff;
+}
+
+/* Buton boyutları */
+.btn-modern.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.btn-modern.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
+}
+
 body.dark .navbar-divider {
     background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.2), transparent);
 }
@@ -490,7 +683,7 @@ body.dark .navbar-divider {
     font-size: 1.5rem;
     text-decoration: none;
     transition: all 0.3s ease;
-    color: #007bff !important; /* Default koyu renk */
+    color: #007bff !important; /* Default koyu renk  */
 }
 
 .navbar-brand:hover {
@@ -725,12 +918,6 @@ body.dark .footer a:hover {
     position: relative;
 }
 
-/* Container'ların z-index'ini düşük tut */
-.container, .container-fluid {
-    z-index: 1 !important;
-    position: relative;
-}
-
 /* Modal z-index fix */
 .modal {
     z-index: 1050 !important;
@@ -742,10 +929,6 @@ body.dark .footer a:hover {
 }
 
 /* Stacking context reset */
-.container, .container-fluid, .admin-container, .card, .table, .dropdown-menu {
-    z-index: 1 !important;
-    position: relative !important;
-}
 .navbar {
     z-index: 1000 !important;
     position: relative !important;
@@ -757,4 +940,19 @@ body.dark .footer a:hover {
 .modal-backdrop {
     z-index: 1040 !important;
     position: fixed !important;
+}
+
+body.dark .navbar {
+    background-color: #000000 !important; /* Tam siyah */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark .navbar-brand,
+body.dark .navbar-nav .nav-link {
+    color: #ffffff !important; /* Beyaz metin */
+}
+
+body.dark .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    color: #ffffff !important;
 }
