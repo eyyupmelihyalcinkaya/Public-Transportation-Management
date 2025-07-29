@@ -79,8 +79,8 @@ namespace internshipProject1.WebUI.Controllers
             return View();
         }
 
-        // Kullanıcı biletleri
-        public IActionResult Tickets()
+        // Kullanıcı kartı
+        public IActionResult Card()
         {
             var sessionToken = HttpContext.Session.GetString("UserToken");
             var userRole = HttpContext.Session.GetString("userRole");
@@ -103,8 +103,8 @@ namespace internshipProject1.WebUI.Controllers
             return View();
         }
 
-        // Kullanıcı seyahat geçmişi
-        public IActionResult TravelHistory()
+        // Araç takip
+        public IActionResult VehicleTracking()
         {
             var sessionToken = HttpContext.Session.GetString("UserToken");
             var userRole = HttpContext.Session.GetString("userRole");

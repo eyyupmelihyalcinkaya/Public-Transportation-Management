@@ -13,7 +13,7 @@
                         <i class="fas fa-user-circle text-primary"></i>
                         Hoş Geldiniz, @ViewBag.Username!
                     </h2>
-                    <p class="card-text text-muted">Transport Management System kullanıcı panelinize hoş geldiniz.</p>
+                    <p class="card-text text-muted">Şehir İçi Ulaşım Sistemi kullanıcı panelinize hoş geldiniz.</p>
                 </div>
             </div>
         </div>
@@ -30,50 +30,56 @@
     </div>
 
     <div class="row mb-4">
-        <!-- Bilet Satın Al -->
+        <!-- Kart Yükle -->
         <div class="col-md-6 col-lg-3 mb-3">
             <div class="card glass-card h-100 quick-action-card">
-                <div class="card-body text-center">
+                <div class="card-body text-center d-flex flex-column">
                     <div class="quick-action-icon mb-3">
-                        <i class="fas fa-ticket-alt text-success"></i>
+                        <i class="fas fa-credit-card text-success"></i>
                     </div>
-                    <h5 class="card-title">Bilet Satın Al</h5>
-                    <p class="card-text">Yeni seyahat biletinizi satın alın</p>
-                    <button class="btn btn-success btn-sm" onclick="showTicketPurchase()">
-                        <i class="fas fa-plus"></i> Bilet Al
-                    </button>
+                    <h5 class="card-title">Kart Yükle</h5>
+                    <p class="card-text">Ulaşım kartınıza bakiye yükleyin</p>
+                    <div class="mt-auto">
+                        <button class="btn btn-modern btn-success btn-sm" onclick="showCardRecharge()">
+                            <i class="fas fa-plus"></i> Yükle
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Biletlerim -->
+        <!-- Kartım -->
         <div class="col-md-6 col-lg-3 mb-3">
             <div class="card glass-card h-100 quick-action-card">
-                <div class="card-body text-center">
+                <div class="card-body text-center d-flex flex-column">
                     <div class="quick-action-icon mb-3">
-                        <i class="fas fa-list-alt text-info"></i>
+                        <i class="fas fa-id-card text-info"></i>
                     </div>
-                    <h5 class="card-title">Biletlerim</h5>
-                    <p class="card-text">Aktif biletlerinizi görüntüleyin</p>
-                    <a href="/User/Tickets" class="btn btn-info btn-sm">
-                        <i class="fas fa-eye"></i> Görüntüle
-                    </a>
+                    <h5 class="card-title">Kartım</h5>
+                    <p class="card-text">Ulaşım kartınızın durumunu görüntüleyin</p>
+                    <div class="mt-auto">
+                        <a href="/User/Card" class="btn btn-modern btn-info btn-sm">
+                            <i class="fas fa-eye"></i> Görüntüle
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Seyahat Geçmişi -->
+        <!-- Araç Takip -->
         <div class="col-md-6 col-lg-3 mb-3">
             <div class="card glass-card h-100 quick-action-card">
-                <div class="card-body text-center">
+                <div class="card-body text-center d-flex flex-column">
                     <div class="quick-action-icon mb-3">
-                        <i class="fas fa-history text-warning"></i>
+                        <i class="fas fa-bus text-warning"></i>
                     </div>
-                    <h5 class="card-title">Seyahat Geçmişi</h5>
-                    <p class="card-text">Geçmiş seyahatlerinizi inceleyin</p>
-                    <a href="/User/TravelHistory" class="btn btn-warning btn-sm">
-                        <i class="fas fa-clock"></i> Geçmiş
-                    </a>
+                    <h5 class="card-title">Araç Takip</h5>
+                    <p class="card-text">Otobüs, metrobüs ve diğer araçları takip edin</p>
+                    <div class="mt-auto">
+                        <a href="/User/VehicleTracking" class="btn btn-modern btn-warning btn-sm">
+                            <i class="fas fa-map-marker-alt"></i> Takip Et
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -81,15 +87,17 @@
         <!-- Profil -->
         <div class="col-md-6 col-lg-3 mb-3">
             <div class="card glass-card h-100 quick-action-card">
-                <div class="card-body text-center">
+                <div class="card-body text-center d-flex flex-column">
                     <div class="quick-action-icon mb-3">
                         <i class="fas fa-user text-primary"></i>
                     </div>
                     <h5 class="card-title">Profil</h5>
                     <p class="card-text">Profil bilgilerinizi düzenleyin</p>
-                    <a href="/User/Profile" class="btn btn-primary btn-sm">
-                        <i class="fas fa-edit"></i> Düzenle
-                    </a>
+                    <div class="mt-auto">
+                        <a href="/User/Profile" class="btn btn-modern btn-primary btn-sm">
+                            <i class="fas fa-edit"></i> Düzenle
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -106,15 +114,15 @@
     </div>
 
     <div class="row mb-4">
-        <!-- Toplam Seyahat -->
+        <!-- Kart Bakiyesi -->
         <div class="col-md-4 mb-3">
             <div class="card glass-card stat-card">
                 <div class="card-body text-center">
                     <div class="stat-icon mb-2">
-                        <i class="fas fa-route text-primary"></i>
+                        <i class="fas fa-credit-card text-primary"></i>
                     </div>
-                    <h3 class="stat-number text-primary">12</h3>
-                    <p class="stat-label">Toplam Seyahat</p>
+                    <h3 class="stat-number text-primary">₺45.50</h3>
+                    <p class="stat-label">Kart Bakiyesi</p>
                 </div>
             </div>
         </div>
@@ -126,7 +134,7 @@
                     <div class="stat-icon mb-2">
                         <i class="fas fa-calendar-alt text-success"></i>
                     </div>
-                    <h3 class="stat-number text-success">3</h3>
+                    <h3 class="stat-number text-success">23</h3>
                     <p class="stat-label">Bu Ay Seyahat</p>
                 </div>
             </div>
@@ -139,8 +147,8 @@
                     <div class="stat-icon mb-2">
                         <i class="fas fa-money-bill-wave text-warning"></i>
                     </div>
-                    <h3 class="stat-number text-warning">₺450</h3>
-                    <p class="stat-label">Toplam Harcama</p>
+                    <h3 class="stat-number text-warning">₺115</h3>
+                    <p class="stat-label">Bu Ay Harcama</p>
                 </div>
             </div>
         </div>
@@ -160,33 +168,33 @@
                     <div class="activity-list">
                         <div class="activity-item">
                             <div class="activity-icon">
-                                <i class="fas fa-ticket-alt text-success"></i>
+                                <i class="fas fa-credit-card text-success"></i>
                             </div>
                             <div class="activity-content">
-                                <h6>Bilet Satın Alındı</h6>
-                                <p class="text-muted">İstanbul - Ankara seyahati için bilet satın alındı</p>
+                                <h6>Kart Yüklendi</h6>
+                                <p class="text-muted">Ulaşım kartınıza ₺50 yüklendi</p>
                                 <small class="text-muted">2 saat önce</small>
                             </div>
                         </div>
                         
                         <div class="activity-item">
                             <div class="activity-icon">
-                                <i class="fas fa-check-circle text-info"></i>
+                                <i class="fas fa-bus text-info"></i>
                             </div>
                             <div class="activity-content">
-                                <h6>Seyahat Tamamlandı</h6>
-                                <p class="text-muted">Ankara - İzmir seyahati başarıyla tamamlandı</p>
+                                <h6>Otobüs Seyahati</h6>
+                                <p class="text-muted">Kadıköy - Beşiktaş otobüs seyahati tamamlandı</p>
                                 <small class="text-muted">1 gün önce</small>
                             </div>
                         </div>
                         
                         <div class="activity-item">
                             <div class="activity-icon">
-                                <i class="fas fa-user-edit text-warning"></i>
+                                <i class="fas fa-subway text-warning"></i>
                             </div>
                             <div class="activity-content">
-                                <h6>Profil Güncellendi</h6>
-                                <p class="text-muted">Profil bilgileriniz güncellendi</p>
+                                <h6>Metrobüs Seyahati</h6>
+                                <p class="text-muted">Avcılar - Söğütlüçeşme metrobüs seyahati</p>
                                 <small class="text-muted">3 gün önce</small>
                             </div>
                         </div>
@@ -197,62 +205,62 @@
     </div>
 </div>
 
-<!-- Bilet Satın Alma Modal -->
-<div class="modal fade" id="ticketPurchaseModal" tabindex="-1">
+<!-- Kart Yükleme Modal -->
+<div class="modal fade" id="cardRechargeModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content glass-card">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <i class="fas fa-ticket-alt text-success"></i>
-                    Bilet Satın Al
+                    <i class="fas fa-credit-card text-success"></i>
+                    Kart Yükle
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form id="ticketPurchaseForm">
+                <form id="cardRechargeForm">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="fromCity" class="form-label">Nereden</label>
-                            <select class="form-select" id="fromCity" required>
-                                <option value="">Şehir seçin</option>
-                                <option value="istanbul">İstanbul</option>
-                                <option value="ankara">Ankara</option>
-                                <option value="izmir">İzmir</option>
-                                <option value="bursa">Bursa</option>
-                            </select>
+                            <label for="cardNumber" class="form-label">Kart Numarası</label>
+                            <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="toCity" class="form-label">Nereye</label>
-                            <select class="form-select" id="toCity" required>
-                                <option value="">Şehir seçin</option>
-                                <option value="istanbul">İstanbul</option>
-                                <option value="ankara">Ankara</option>
-                                <option value="izmir">İzmir</option>
-                                <option value="bursa">Bursa</option>
+                            <label for="amount" class="form-label">Yüklenecek Tutar</label>
+                            <select class="form-select" id="amount" required>
+                                <option value="">Tutar seçin</option>
+                                <option value="10">₺10</option>
+                                <option value="20">₺20</option>
+                                <option value="50">₺50</option>
+                                <option value="100">₺100</option>
+                                <option value="200">₺200</option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="travelDate" class="form-label">Seyahat Tarihi</label>
-                            <input type="date" class="form-control" id="travelDate" required>
+                            <label for="paymentMethod" class="form-label">Ödeme Yöntemi</label>
+                            <select class="form-select" id="paymentMethod" required>
+                                <option value="">Ödeme yöntemi seçin</option>
+                                <option value="credit">Kredi Kartı</option>
+                                <option value="debit">Banka Kartı</option>
+                                <option value="mobile">Mobil Ödeme</option>
+                            </select>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="passengerCount" class="form-label">Yolcu Sayısı</label>
-                            <select class="form-select" id="passengerCount" required>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
+                            <label for="autoRecharge" class="form-label">Otomatik Yükleme</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="autoRecharge">
+                                <label class="form-check-label" for="autoRecharge">
+                                    Bakiye ₺10'un altına düştüğünde otomatik yükle
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                <button type="button" class="btn btn-success" onclick="purchaseTicket()">
-                    <i class="fas fa-shopping-cart"></i> Bilet Satın Al
+                <button type="button" class="btn btn-modern btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-modern btn-success" onclick="rechargeCard()">
+                    <i class="fas fa-credit-card"></i> Kart Yükle
                 </button>
             </div>
         </div>
@@ -271,11 +279,22 @@
     .quick-action-card {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         cursor: pointer;
+        height: 100%;
     }
 
     .quick-action-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .quick-action-card .card-body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .quick-action-card .mt-auto {
+        margin-top: auto !important;
     }
 
     .quick-action-icon {
@@ -351,32 +370,27 @@
 </style>
 
 <script>
-    function showTicketPurchase() {
-        const modal = new bootstrap.Modal(document.getElementById('ticketPurchaseModal'));
+    function showCardRecharge() {
+        const modal = new bootstrap.Modal(document.getElementById('cardRechargeModal'));
         modal.show();
     }
 
-    function purchaseTicket() {
-        const fromCity = document.getElementById('fromCity').value;
-        const toCity = document.getElementById('toCity').value;
-        const travelDate = document.getElementById('travelDate').value;
-        const passengerCount = document.getElementById('passengerCount').value;
+    function rechargeCard() {
+        const cardNumber = document.getElementById('cardNumber').value;
+        const amount = document.getElementById('amount').value;
+        const paymentMethod = document.getElementById('paymentMethod').value;
+        const autoRecharge = document.getElementById('autoRecharge').checked;
 
-        if (!fromCity || !toCity || !travelDate || !passengerCount) {
+        if (!cardNumber || !amount || !paymentMethod) {
             alert('Lütfen tüm alanları doldurun!');
             return;
         }
 
-        if (fromCity === toCity) {
-            alert('Nereden ve nereye aynı şehir olamaz!');
-            return;
-        }
-
         // Burada API çağrısı yapılacak
-        alert('Bilet satın alma işlemi başlatıldı! Bu özellik yakında eklenecek.');
+        alert(`Kart yükleme işlemi başlatıldı! ${amount}₺ yüklenecek. Bu özellik yakında eklenecek.`);
         
         // Modal'ı kapat
-        const modal = bootstrap.Modal.getInstance(document.getElementById('ticketPurchaseModal'));
+        const modal = bootstrap.Modal.getInstance(document.getElementById('cardRechargeModal'));
         modal.hide();
     }
 
