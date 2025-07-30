@@ -1,0 +1,56 @@
+Kod İnceleme Raporu
+Kapsam: Card, CardTransaction, Customer - Repository Interface ve CQRS Handler’ları
+Tarih: 2025
+
+
+1. Repository Interface’ler
+
+ICardRepository
+CRUD ve ek fonksiyonlar mevcut.
+GetByCustomerIdAsync tek kart döndürüyor, bir müşterinin birden fazla kartı olamaz mı? (İş kuralı net değil)
+DeleteAsync soft/hard delete ayrımı interface’de belirtilmemiş.
+Bazı metotlar generic interface ile çakışıyor, tekrar var.
+ICardTransaction
+Transaction işlemleri için gerekli metotlar var.
+GetByCardIdAsync tek transaction döndürüyor, bir karta birden fazla transaction olabilir, liste dönmeli.
+DeleteAsync parametresi ile handler’da entity/id uyumsuzluğu var.
+ICustomerRepository
+Geniş kapsamlı arama ve filtreleme metotları mevcut.
+GetPagedAsync tuple döndürüyor, özel response modeli tercih edilebilir.
+AddAsync, UpdateAsync, DeleteAsync tekrar olabilir.
+
+
+2. CQRS Handler’lar
+
+Card Handler’ları
+Müşteri kontrolü, kart ekleme/güncelleme/silme işlemleri doğru.
+Aynı müşteriye birden fazla kart eklenmesi engellenmiyor.
+Bazı alanlar (IsActive, IsDeleted) güncellenmiyor veya default değer atanmıyor.
+Hata yönetimi bazı handler’larda exception, bazılarında response ile yapılıyor (tutarsız).
+CardTransaction Handler’ları
+Transaction eklenirken kartın varlığı kontrol edilmiyor.
+Transaction başka bir karta taşınabiliyor, iş kuralı gereği bu istenmeyebilir.
+DeleteAsync entity/id uyumsuzluğu var.
+Hata yönetimi response ile, bazı yerlerde exception ile (tutarsız).
+Customer Handler’ları
+Aynı email ile müşteri eklenmesi engellenmiyor.
+Silme işlemi soft delete, tekrar aktif etme kontrolü yok.
+Hata yönetimi bazı handler’larda exception, bazılarında response ile (tutarsız).
+
+
+3. Genel Tespitler & Öneriler
+
+Hata Yönetimi: Exception ve response ile hata yönetimi arasında tutarlılık sağlanmalı.
+İş Kuralları: Aynı müşteri için birden fazla kart, aynı email ile müşteri, transaction’ın başka karta taşınması gibi iş kuralları kodda açıkça kontrol edilmeli.
+Soft/Hard Delete: Silme işlemlerinin türü interface ve handler’da açıkça belirtilmeli.
+Null Kontrolleri: Her handler’da entity null ise uygun response veya exception dönülmeli.
+Kod Tekrarı: Generic ve spesifik interface’lerdeki tekrarlar önlenmeli.
+Validation: Request modellerinde validation attribute’ları veya FluentValidation kullanılmalı.
+Response Modeli: Hata ve başarı durumları için standart response modeli kullanılmalı.
+
+
+4. Sonuç
+
+Kodun genel mimarisi ve CQRS kullanımı başarılı. En büyük eksikler tutarlılık, iş kurallarının net olmaması ve bazı null kontrolü/soft delete ayrımlarının eksikliği. Kodun sürdürülebilirliği ve güvenliği için yukarıdaki öneriler dikkate alınmalıdır.
+Hazırlayan:
+Yapay Zekâ Kod İnceleme Asistanı
