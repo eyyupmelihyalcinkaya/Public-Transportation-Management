@@ -143,4 +143,4 @@ Her türlü katkıya açığız. Lütfen önce bir issue açın ve katkı rehber
 ---
 
 **Version:** 1.0.0  
-**Status:** Development / Geliştirme Aşamasında 
+**Status:** Development / Geliştirme Aşamasında...
