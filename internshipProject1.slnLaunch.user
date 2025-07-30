@@ -13,6 +13,10 @@
       {
         "Path": "PaymentService\\PaymentService.csproj",
         "Action": "Start"
+      },
+      {
+        "Path": "ApiGateway\\ApiGateway.csproj",
+        "Action": "Start"
       }
     ]
   }

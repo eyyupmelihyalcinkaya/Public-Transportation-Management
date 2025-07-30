@@ -5,6 +5,18 @@
     "version": "1.0"
   },
   "paths": {
+    "/Health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Payment/Boarding": {
       "post": {
         "tags": [

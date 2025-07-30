@@ -84,20 +84,12 @@
 </div>
 
 	<script>
-				function login() {
+		async function login() {
 		  const username = document.getElementById("username").value;
 		  const password = document.getElementById("password").value;
 
-		  fetch('https://localhost:7009/api/User/login', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ username, password })
-		  })
-		  .then(response => {
-			if (!response.ok) throw new Error("Login failed, status: " + response.status);
-			return response.json();
-		  })
-		  			.then(data => {
+		  try {
+			const data = await window.apiConfig.login(username, password);
 			console.log('Gelen veri:', data);
 			console.log('API\'den gelen role:', data.role);
 			console.log('API\'den gelen Role:', data.Role);
@@ -170,11 +162,10 @@
 					window.location.href = '/User/Dashboard';
 				}
 			});
-		  })
-		  .catch(error => {
+		  } catch (error) {
 			console.error('Hata:', error);
 			alert(error.message || "Login Failed");
-		  });
+		  }
 		}
 
 	</script>
