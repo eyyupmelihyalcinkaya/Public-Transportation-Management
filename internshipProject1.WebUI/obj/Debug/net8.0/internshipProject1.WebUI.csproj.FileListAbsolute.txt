@@ -49,7 +49,6 @@ C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\obj\Debug\net8.0\internsh.72358B88.Up2Date
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\obj\Debug\net8.0\internshipProject1.WebUI.dll
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\obj\Debug\net8.0\refint\internshipProject1.WebUI.dll
@@ -67,3 +66,4 @@ C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll
 C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\Melih\Desktop\Asis\gitLAB\project1\internshipproject1\internshipProject1.WebUI\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
