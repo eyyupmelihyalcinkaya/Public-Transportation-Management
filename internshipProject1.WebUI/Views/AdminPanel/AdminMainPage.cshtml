@@ -813,15 +813,12 @@
         // Routes için parametreli yükleme
         async function loadRoutes() {
             try {
-                const response = await fetch(`https://localhost:7009/api/Routes?page=${routesPage}&pageSize=${routesPageSize}`);
+                const response = await fetch(`/AdminPanel/GetRoutes?page=${routesPage}&pageSize=${routesPageSize}`);
                 if (response.ok) {
                     const data = await response.json();
-                    // data.items ve data.totalCount bekleniyor
                     updateRoutesTable(data.items || data);
-                    // routesTotal = data.totalCount || (data.length || 0); // Bu satır kaldırıldı
                     updateRoutesPagination();
                 } else {
-                    console.error('Failed to load routes:', response.status);
                     showToast('Failed to load routes', 'error');
                 }
             } catch (error) {
@@ -852,15 +849,12 @@
         // Stops için parametreli yükleme
         async function loadStops() {
             try {
-                const response = await fetch(`https://localhost:7009/api/Stops?page=${stopsPage}&pageSize=${stopsPageSize}`);
+                const response = await fetch(`/AdminPanel/GetStops?page=${stopsPage}&pageSize=${stopsPageSize}`);
                 if (response.ok) {
                     const data = await response.json();
                     updateStopsTable(data.items || data);
-                    
-                    // stopsTotal = data.totalCount || (data.length || 0); // Bu satır kaldırıldı
                     updateStopsPagination();
                 } else {
-                    console.error('Failed to load stops:', response.status);
                     showToast('Failed to load stops', 'error');
                 }
             } catch (error) {
@@ -892,14 +886,12 @@
         // Trips için parametreli yükleme
         async function loadTrips() {
             try {
-                const response = await fetch(`https://localhost:7009/api/Trips?page=${tripsPage}&pageSize=${tripsPageSize}`);
+                const response = await fetch(`/AdminPanel/GetTrips?page=${tripsPage}&pageSize=${tripsPageSize}`);
                 if (response.ok) {
                     const data = await response.json();
                     updateTripsTable(data.items || data);
-                    // tripsTotal = data.totalCount || (data.length || 0); // Bu satır kaldırıldı
                     updateTripsPagination();
                 } else {
-                    console.error('Failed to load trips:', response.status);
                     showToast('Failed to load trips', 'error');
                 }
             } catch (error) {
@@ -930,11 +922,10 @@
         // Route Stops için parametreli yükleme
         async function loadRouteStops() {
             try {
-                const response = await fetch(`https://localhost:7009/api/RouteStop/GetAll?page=${routeStopsPage}&pageSize=${routeStopsPageSize}`);
+                const response = await fetch(`/AdminPanel/GetRouteStops?page=${routeStopsPage}&pageSize=${routeStopsPageSize}`);
                 if (response.ok) {
                     const data = await response.json();
                     updateRouteStopsTable(data.items || data);
-                    // routeStopsTotal zaten loadStats ile güncelleniyor
                     updateRouteStopsPagination();
                 } else {
                     showToast('Failed to load route stops', 'error');
@@ -1034,37 +1025,38 @@
         async function loadStats() {
             try {
                 // Routes count
-                const routesResponse = await fetch('https://localhost:7009/api/Routes/TotalCount');
+                const routesResponse = await fetch('/AdminPanel/GetRoutesCount');
                 if (routesResponse.ok) {
                     const routesCount = await routesResponse.json();
                     document.getElementById('totalRoutes').textContent = routesCount || 0;
-                    routesTotal = routesCount || 0; // Bu satır kaldırıldı
+                    routesTotal = routesCount || 0;
                     updateRoutesPagination();
                 }
                 
                 // Stops count  
-                const stopsResponse = await fetch('https://localhost:7009/api/Stops/TotalCount');
+                const stopsResponse = await fetch('/AdminPanel/GetStopsCount');
                 if (stopsResponse.ok) {
                     const stops = await stopsResponse.json();
                     document.getElementById('totalStops').textContent = stops || 0;
-                    stopsTotal = stops || 0; // Bu satır kaldırıldı
+                    stopsTotal = stops || 0;
                     updateStopsPagination();
                 }
                 
                 // Trips count
-                const tripsResponse = await fetch('https://localhost:7009/api/Trips/TotalCount');
+                const tripsResponse = await fetch('/AdminPanel/GetTripsCount');
                 if (tripsResponse.ok) {
                     const trips = await tripsResponse.json();
                     document.getElementById('totalTrips').textContent = trips || 0;
-                    tripsTotal = trips || 0; // Bu satır kaldırıldı
+                    tripsTotal = trips || 0;
                     updateTripsPagination();
-
                 }
-                const routeStopResponse = await fetch('https://localhost:7009/api/RouteStop/TotalCount');
-                if(routeStopResponse.ok) {
-                    const routeStops = await routeStopResponse.json();
+
+                // RouteStops count
+                const routeStopsResponse = await fetch('/AdminPanel/GetRouteStopsCount');
+                if (routeStopsResponse.ok) {
+                    const routeStops = await routeStopsResponse.json();
                     document.getElementById('totalConnections').textContent = routeStops || 0;
-                    routeStopsTotal = routeStops || 0; // Bu satır kaldırıldı
+                    routeStopsTotal = routeStops || 0;
                     updateRouteStopsPagination();
                 }
             } catch (error) {
@@ -1097,12 +1089,10 @@
                 showToast('Creating route...', 'info');
                 
                 // Backend API'ye POST isteği gönder
-                const response = await fetch('https://localhost:7009/api/Routes', {
+                const response = await fetch('/AdminPanel/CreateRoute', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        // Authorization header eklenebilir (JWT token için)
-                        // 'Authorization': `Bearer ${getToken()}`
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
                         Name: routeName,
@@ -1112,26 +1102,19 @@
                     })
                 });
                 
-                if (response.ok) {
-                    const result = await response.json();
-                    console.log('Route created:', result);
-                    
-                    // Close modal
-                    bootstrap.Modal.getInstance(document.getElementById('addRouteModal')).hide();
-                    
-                    // Clear form
-                    document.getElementById('addRouteForm').reset();
-                    
-                    // Show success message
-                    showToast(`Route "${result.Name}" created successfully!`, 'success');
-                    
-                    // Refresh routes data
-                    loadRoutes();
-                } else {
-                    const errorText = await response.text();
-                    console.error('Route creation failed:', errorText);
-                    showToast(`Failed to create route: ${response.status}`, 'error');
-                }
+                console.log('Route created:', response);
+                
+                // Close modal
+                bootstrap.Modal.getInstance(document.getElementById('addRouteModal')).hide();
+                
+                // Clear form
+                document.getElementById('addRouteForm').reset();
+                
+                // Show success message
+                showToast(`Route "${response.Name}" created successfully!`, 'success');
+                
+                // Refresh routes data
+                loadRoutes();
             } catch (error) {
                 console.error('Error creating route:', error);
                 showToast('Connection error. Please try again.', 'error');
@@ -1141,13 +1124,10 @@
         // Load routes from backend
         async function loadRoutes() {
             try {
-                const response = await fetch('https://localhost:7009/api/Routes');
-                if (response.ok) {
-                    const routes = await response.json();
+                const routesResponse = await fetch('/AdminPanel/GetRoutes');
+                if (routesResponse.ok) {
+                    const routes = await routesResponse.json();
                     updateRoutesTable(routes);
-                } else {
-                    console.error('Failed to load routes:', response.status);
-                    showToast('Failed to load routes', 'error');
                 }
             } catch (error) {
                 console.error('Error loading routes:', error);
@@ -1195,23 +1175,12 @@
                 try {
                     showToast('Deleting route...', 'info');
                     
-                    const response = await fetch(`https://localhost:7009/api/Routes/${id}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            // Authorization header eklenebilir (JWT token için)
-                            // 'Authorization': `Bearer ${getToken()}`
-                        }
+                    const response = await fetch(`/AdminPanel/DeleteRoute/${id}`, {
+                        method: 'DELETE'
                     });
                     
-                    if (response.ok) {
-                        showToast('Route deleted successfully!', 'success');
-                        loadRoutes(); // Refresh routes list
-                    } else {
-                        const errorText = await response.text();
-                        console.error('Route deletion failed:', errorText);
-                        showToast(`Failed to delete route: ${response.status}`, 'error');
-                    }
+                    showToast('Route deleted successfully!', 'success');
+                    loadRoutes(); // Refresh routes list
                 } catch (error) {
                     console.error('Error deleting route:', error);
                     showToast('Connection error while deleting route', 'error');
@@ -1234,12 +1203,10 @@
                 showToast('Creating stop...', 'info');
                 
                 // Backend API'ye POST isteği gönder
-                const response = await fetch('https://localhost:7009/api/Stops', {
+                const response = await fetch('/AdminPanel/CreateStop', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        // Authorization header eklenebilir (JWT token için)
-                        // 'Authorization': `Bearer ${getToken()}`
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
                         Name: stopName,
@@ -1248,26 +1215,19 @@
                     })
                 });
                 
-                if (response.ok) {
-                    const result = await response.json();
-                    console.log('Stop created:', result);
-                    
-                    // Close modal
-                    bootstrap.Modal.getInstance(document.getElementById('addStopModal')).hide();
-                    
-                    // Clear form
-                    document.getElementById('addStopForm').reset();
-                    
-                    // Show success message
-                    showToast(`Stop "${result.Name}" created successfully!`, 'success');
-                    
-                    // Refresh stops data
-                    loadStops();
-                } else {
-                    const errorText = await response.text();
-                    console.error('Stop creation failed:', errorText);
-                    showToast(`Failed to create stop: ${response.status}`, 'error');
-                }
+                console.log('Stop created:', response);
+                
+                // Close modal
+                bootstrap.Modal.getInstance(document.getElementById('addStopModal')).hide();
+                
+                // Clear form
+                document.getElementById('addStopForm').reset();
+                
+                // Show success message
+                showToast(`Stop "${response.Name}" created successfully!`, 'success');
+                
+                // Refresh stops data
+                loadStops();
             } catch (error) {
                 console.error('Error creating stop:', error);
                 showToast('Connection error. Please try again.', 'error');
@@ -1320,13 +1280,10 @@
         // Load trips from backend
         async function loadTrips() {
             try {
-                const response = await fetch('https://localhost:7009/api/Trips');
-                if (response.ok) {
-                    const trips = await response.json();
+                const tripsResponse = await fetch('/AdminPanel/GetTrips');
+                if (tripsResponse.ok) {
+                    const trips = await tripsResponse.json();
                     updateTripsTable(trips);
-                } else {
-                    console.error('Failed to load trips:', response.status);
-                    showToast('Failed to load trips', 'error');
                 }
             } catch (error) {
                 console.error('Error loading trips:', error);

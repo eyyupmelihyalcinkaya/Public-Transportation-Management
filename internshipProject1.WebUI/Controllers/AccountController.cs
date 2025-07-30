@@ -1,12 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace internshipProject1.WebUI.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IConfiguration _configuration;
+
+        public AccountController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public IActionResult Login()
         {
+            ViewBag.GatewayUrl = _configuration["ApiSettings:GatewayUrl"];
+            ViewBag.ApiKey = _configuration["ApiSettings:ApiKey"];
             return View();
         }
 
@@ -74,6 +84,8 @@ namespace internshipProject1.WebUI.Controllers
         
         public IActionResult Register()
         {
+            ViewBag.GatewayUrl = _configuration["ApiSettings:GatewayUrl"];
+            ViewBag.ApiKey = _configuration["ApiSettings:ApiKey"];
             return View();
         }
         

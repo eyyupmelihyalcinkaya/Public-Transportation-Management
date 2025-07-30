@@ -910,6 +910,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "internshipProject1.Controllers.HealthController",
+    "Method": "Get",
+    "RelativePath": "Health",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "internshipProject1.WebAPI.Controllers.ConsumerController",
     "Method": "StartConsumer",
     "RelativePath": "start-consumer",

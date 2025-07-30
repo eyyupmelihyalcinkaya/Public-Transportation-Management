@@ -1,9 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace internshipProject1.WebUI.Controllers
 {
     public class UserController : Controller
     {
+        private readonly IConfiguration _configuration;
+
+        public UserController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         // User Dashboard - Kullanıcı ana sayfası
         public IActionResult Dashboard()
         {
@@ -27,6 +35,8 @@ namespace internshipProject1.WebUI.Controllers
             
             ViewBag.Username = username;
             ViewBag.UserRole = userRole;
+            ViewBag.GatewayUrl = _configuration["ApiSettings:GatewayUrl"];
+            ViewBag.ApiKey = _configuration["ApiSettings:ApiKey"];
             
             return View();
         }
@@ -51,6 +61,8 @@ namespace internshipProject1.WebUI.Controllers
             
             ViewBag.Username = username;
             ViewBag.UserRole = userRole;
+            ViewBag.GatewayUrl = _configuration["ApiSettings:GatewayUrl"];
+            ViewBag.ApiKey = _configuration["ApiSettings:ApiKey"];
             
             return View();
         }
@@ -75,6 +87,8 @@ namespace internshipProject1.WebUI.Controllers
             
             ViewBag.Username = username;
             ViewBag.UserRole = userRole;
+            ViewBag.GatewayUrl = _configuration["ApiSettings:GatewayUrl"];
+            ViewBag.ApiKey = _configuration["ApiSettings:ApiKey"];
             
             return View();
         }
@@ -123,6 +137,8 @@ namespace internshipProject1.WebUI.Controllers
             
             ViewBag.Username = username;
             ViewBag.UserRole = userRole;
+            ViewBag.GatewayUrl = _configuration["ApiSettings:GatewayUrl"];
+            ViewBag.ApiKey = _configuration["ApiSettings:ApiKey"];
             
             return View();
         }

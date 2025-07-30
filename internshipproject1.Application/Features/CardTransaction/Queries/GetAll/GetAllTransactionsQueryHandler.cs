@@ -1,4 +1,5 @@
 ﻿using internshipproject1.Application.Interfaces.Repositories;
+using internshipproject1.Domain.Enums;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace internshipproject1.Application.Features.CardTransaction.Queries.GetAll
                 Id = t.Id,
                 CardId = t.CardId,
                 Amount = t.Amount,
+                TransactionType = t.TransactionType,
                 TransactionDate = t.TransactionDate,
                 VehicleType = t.VehicleType
             }).ToList();

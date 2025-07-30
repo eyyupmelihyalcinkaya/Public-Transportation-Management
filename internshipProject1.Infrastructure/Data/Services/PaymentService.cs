@@ -40,7 +40,7 @@ namespace internshipProject1.Infrastructure.Data.Services
             {
                 case TransactionType.Deposit:
                     card = await _cardRepository.IncreaseBalanceAsync(dto.CardId, dto.Amount, cancellationToken);
-                    transaction = new CardTransaction
+                   var DepositTransaction = new CardTransaction
                     {
                         Amount = dto.Amount,
                         CardId = dto.CardId,
@@ -48,12 +48,12 @@ namespace internshipProject1.Infrastructure.Data.Services
                         TransactionDate = DateTime.UtcNow,
                         Balance = card.Balance
                     };
-                    await _cardTransaction.AddAsync(transaction, cancellationToken);
+                    await _cardTransaction.AddAsync(DepositTransaction, cancellationToken);
                     break;
                 case TransactionType.Withdraw:
                 case TransactionType.Payment:
                     card = await _cardRepository.DecreaseBalanceAsync(dto.CardId, dto.Amount, cancellationToken);
-                    transaction = new CardTransaction
+                    var WithdrawTransaction = new CardTransaction
                     {
                         Amount = dto.Amount,
                         CardId = dto.CardId,
@@ -61,6 +61,7 @@ namespace internshipProject1.Infrastructure.Data.Services
                         TransactionDate = DateTime.UtcNow,
                         Balance = card.Balance
                     };
+                    await _cardTransaction.AddAsync(WithdrawTransaction, cancellationToken);
                     break;
             }
         }

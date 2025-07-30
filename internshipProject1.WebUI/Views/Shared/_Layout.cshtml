@@ -137,9 +137,17 @@
         </div>
     </footer>
 
+    <!-- API Configuration - Server-side'dan konfigürasyon al -->
+    <script>
+        // Server-side'dan konfigürasyon al
+        window.gatewayUrl = '@ViewBag.GatewayUrl';
+        window.apiKey = '@ViewBag.ApiKey';
+    </script>
+    
     <!-- JavaScript -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/api-config.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <!-- Auth kontrolü -->

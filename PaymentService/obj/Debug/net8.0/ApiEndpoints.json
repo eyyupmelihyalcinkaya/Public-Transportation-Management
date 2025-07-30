@@ -35,5 +35,15 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PaymentService.Controllers.HealthController",
+    "Method": "Get",
+    "RelativePath": "Health",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   }
 ]
