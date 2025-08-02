@@ -5,72 +5,45 @@
     // Global tema yönetimi - Modern animasyonlu geçiş
     window.setTheme = function(theme, animated = false) {
         console.log('setTheme called with:', theme);
-        
-        if (animated) {
-            // Animasyonlu tema geçişi
-            const overlay = document.getElementById('theme-transition-overlay');
-            const themeIcon = document.getElementById('theme-icon');
-            
-            // 1. Overlay animasyonunu başlat
-            if (overlay) {
-                overlay.classList.add('active');
-            }
-            
-            // 2. Icon'u döndür
-            if (themeIcon) {
-                themeIcon.style.transform = 'rotate(360deg) scale(1.2)';
-                themeIcon.style.transition = 'transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-            }
-            
-            // 3. Kısa gecikme sonrası tema değiştir
-            setTimeout(() => {
-                document.body.classList.remove('light', 'dark');
-                document.body.classList.add(theme);
-                
-                // Icon'u güncelle
-                if (themeIcon) {
-                    if (theme === 'dark') {
-                        themeIcon.classList.remove('fa-moon');
-                        themeIcon.classList.add('fa-sun');
-                    } else {
-                        themeIcon.classList.remove('fa-sun');
-                        themeIcon.classList.add('fa-moon');
-                    }
-                    
-                    // Icon animasyonunu sıfırla
-                    setTimeout(() => {
-                        themeIcon.style.transform = 'rotate(0deg) scale(1)';
-                    }, 100);
-                }
-                
-                localStorage.setItem('theme', theme);
-                console.log('Theme set to:', theme);
-                
-                // 4. Overlay'i kaldır
-                if (overlay) {
-                    setTimeout(() => {
-                        overlay.classList.remove('active');
-                    }, 100);
-                }
-            }, 150);
-            
-        } else {
-            // Hızlı tema geçişi (sayfa yüklenirken)
+
+        const applyTheme = () => {
             document.body.classList.remove('light', 'dark');
             document.body.classList.add(theme);
             localStorage.setItem('theme', theme);
-            
-            const themeIcon = document.getElementById('theme-icon');
-            if (themeIcon) {
+
+            // Modal stillerini güncelle
+            const logoutModal = document.querySelector('#logoutModal .modal-content');
+            if (logoutModal) {
                 if (theme === 'dark') {
-                    themeIcon.classList.remove('fa-moon');
-                    themeIcon.classList.add('fa-sun');
+                    logoutModal.style.backgroundColor = '#343a40';
+                    logoutModal.style.color = '#f8f9fa';
                 } else {
-                    themeIcon.classList.remove('fa-sun');
-                    themeIcon.classList.add('fa-moon');
+                    logoutModal.style.backgroundColor = ''; // Varsayılana dön
+                    logoutModal.style.color = ''; // Varsayılana dön
                 }
             }
+
+            // Icon'u güncelle
+            const themeIcon = document.getElementById('theme-icon');
+            if (themeIcon) {
+                themeIcon.classList.remove('fa-moon', 'fa-sun');
+                themeIcon.classList.add(theme === 'dark' ? 'fa-sun' : 'fa-moon');
+            }
             console.log('Theme set to:', theme);
+        };
+
+        if (animated) {
+            const overlay = document.getElementById('theme-transition-overlay');
+            if (overlay) overlay.classList.add('active');
+            
+            setTimeout(() => {
+                applyTheme();
+                if (overlay) {
+                    setTimeout(() => overlay.classList.remove('active'), 100);
+                }
+            }, 150);
+        } else {
+            applyTheme();
         }
     };
     
@@ -121,10 +94,13 @@
     
     // Logout fonksiyonu
     window.logout = function() {
-        if (confirm('Çıkış yapmak istediğinize emin misiniz?')) {
+        var myModal = new bootstrap.Modal(document.getElementById('logoutModal'), {});
+        myModal.show();
+
+        document.getElementById('confirmLogoutBtn').onclick = function() {
             localStorage.removeItem('token');
             window.location.href = '/Home/Index';
-        }
+        };
     };
     
     // Profile sayfası göster

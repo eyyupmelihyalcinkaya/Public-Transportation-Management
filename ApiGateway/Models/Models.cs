@@ -10,6 +10,11 @@ namespace ApiGateway.Models
         public int TimeoutSeconds { get; set; } = 30;
         public bool IsActive { get; set; } = true;
         public string Pattern { get; set; } = string.Empty;
+
+        public ServiceRoute Clone()
+        {
+            return (ServiceRoute)MemberwiseClone();
+        }
     }
 
     public class ProxyRequest

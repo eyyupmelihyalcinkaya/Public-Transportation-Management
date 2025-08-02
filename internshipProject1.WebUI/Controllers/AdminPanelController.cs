@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
@@ -135,6 +135,12 @@ namespace internshipProject1.WebUI.Controllers
         public async Task<IActionResult> GetRoutesCount()
         {
             return await ProxyApiRequest("/api/routes/TotalCount");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetStopsByRouteId(int routeId, int page = 1, int pageSize = 10)
+        {
+            return await ProxyApiRequest($"/api/routes/{routeId}/stops/?page={page}&pageSize={pageSize}");
         }
 
         // Stops API Proxy

@@ -763,13 +763,52 @@ body.dark .navbar-nav .nav-link:hover {
     color: #64c8ff !important;
 }
 
+body.dark .dropdown-menu .dropdown-item.logout-link {
+    color: #f8f9fa !important;
+}
+
+body.dark .dropdown-menu .dropdown-item.logout-link:hover {
+    color: #64c8ff !important;
+}
+
 /* ============ GENEL KOYU TEMA METİN RENKLERİ - GÜÇLENDİRİLMİŞ ============ */
 
 /* KUVVETLI GLOBAL KURAL - Tüm elemanları zorla açık renk yap */
-body.dark,
+body.dark {
+    color: #f8f9fa !important;
+}
+
 body.dark *:not(.btn):not(.badge):not(.alert) {
     color: #f8f9fa !important;
 }
+
+/* Login ve Register sayfaları için özel renkler */
+body.dark .login-container label,
+body.dark .register-container label {
+    color: #f8f9fa !important;
+}
+
+body.dark .login-container input,
+body.dark .register-container input {
+    color: #f8f9fa !important;
+    background-color: #333 !important;
+    border-color: #555 !important;
+}
+
+body.dark .login-container input::placeholder,
+body.dark .register-container input::placeholder {
+    color: #aaa !important;
+}
+
+/* Logout linki için özel renk */
+body.dark .dropdown-menu .dropdown-item.logout-link {
+    color: #f8f9fa !important;
+}
+
+body.dark .dropdown-menu .dropdown-item.logout-link:hover {
+    color: #64c8ff !important;
+}
+
 
 /* Tüm başlıklar - çoklu selector */
 body.dark h1, 
@@ -866,6 +905,46 @@ body.dark .footer a {
 
 body.dark .footer a:hover {
     color: #4db8ff !important;
+}
+
+/* ============ MODERN MODAL STYLES (YÜKSEK ÖZGÜLLÜKLÜ) ============ */
+
+/* Koyu Tema Logout Modal Stilleri - ID ile hedefleme */
+body.dark #logoutModal .modal-content {
+    background-color: #343a40 !important; /* Koyu gri arkaplan */
+    color: #f8f9fa !important;            /* Beyaz metin */
+    border: 1px solid #555 !important;     /* Hafif parlak kenarlık */
+}
+
+body.dark #logoutModal .modal-header {
+    border-bottom: 1px solid #555 !important;
+}
+
+body.dark #logoutModal .modal-header .modal-title {
+    color: #f8f9fa !important;
+}
+
+body.dark #logoutModal .modal-body {
+    color: #f8f9fa !important;
+}
+
+body.dark #logoutModal .modal-footer {
+    border-top: 1px solid #555 !important;
+}
+
+body.dark #logoutModal .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%) !important;
+}
+
+body.dark #logoutModal .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+}
+
+body.dark #logoutModal .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
 }
 
 /* ============ NAVBAR DROPDOWN Z-INDEX FİX ============ */

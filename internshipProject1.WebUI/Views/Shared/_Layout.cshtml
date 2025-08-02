@@ -101,7 +101,7 @@
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
-                                    <a class="dropdown-item" href="#" onclick="logout()">
+                                    <a class="dropdown-item logout-link" href="#" onclick="logout()">
                                         <i class="fas fa-sign-out-alt"></i> Çıkış Yap
                                     </a>
                                 </li>
@@ -345,5 +345,24 @@
     <!-- Page specific scripts -->
     @await RenderSectionAsync("Scripts", required: false)
     @RenderSection("Modals", required: false)
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Çıkış Onayı</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Çıkış yapmak istediğinize emin misiniz?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-danger" id="confirmLogoutBtn">Çıkış Yap</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

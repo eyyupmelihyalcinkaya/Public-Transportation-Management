@@ -63,8 +63,8 @@ namespace internshipProject1.WebAPI.Controllers
             var response = await _mediator.Send(new GetRoutesQueryRequest());
             return Ok(response.Count);
         }
-        [HttpGet("id/stops")]
-        public async Task<IActionResult> GetStopsByRouteId([FromQuery] int id, int page = 1, int pageSize = 10)
+        [HttpGet("{id}/stops")]
+        public async Task<IActionResult> GetStopsByRouteId([FromRoute] int id, int page = 1, int pageSize = 10)
         {
             var response = await _mediator.Send(new GetStopsByRouteIdRequest(id));
             if (response == null)

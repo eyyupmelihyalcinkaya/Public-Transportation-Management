@@ -437,6 +437,32 @@
   },
   {
     "ContainingType": "internshipProject1.WebAPI.Controllers.RoutesController",
+    "Method": "GetStopsByRouteId",
+    "RelativePath": "api/Routes/{id}/stops",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.RoutesController",
     "Method": "CreateRouteWithStops",
     "RelativePath": "api/Routes/CreateRouteWithStops",
     "HttpMethod": "POST",
@@ -484,32 +510,6 @@
         "Name": "command",
         "Type": "internshipproject1.Application.Features.Route.Commands.UpdateRoute.UpdateRouteCommandRequest",
         "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "internshipProject1.WebAPI.Controllers.RoutesController",
-    "Method": "GetStopsByRouteId",
-    "RelativePath": "api/Routes/id/stops",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []

@@ -721,7 +721,7 @@
         }
       }
     },
-    "/api/Routes/id/stops": {
+    "/api/Routes/{id}/stops": {
       "get": {
         "tags": [
           "Routes"
@@ -729,7 +729,8 @@
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
