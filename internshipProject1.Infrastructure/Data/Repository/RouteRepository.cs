@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using internshipProject1.Infrastructure.Context;
 using internshipproject1.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using internshipproject1.Application.DTOs;
 
 
 namespace internshipProject1.Infrastructure.Data.Repository
@@ -113,5 +114,50 @@ namespace internshipProject1.Infrastructure.Data.Repository
         {
             return await _dbContext.Route.CountAsync(cancellationToken);
         }
+
+        public async Task<RouteToCreate> CreateRouteWithStops(RouteToCreate route, List<StopCreateDTO> stops, CancellationToken cancellationToken)
+        {
+            if (route == null)
+            {
+                throw new ArgumentNullException(nameof(route));
+            }
+
+            if (stops == null || !stops.Any())
+            {
+                throw new ArgumentException("At least one stop is required.", nameof(stops));
+            }
+
+            // 1. Rotayı ekle
+            await _dbContext.Route.AddAsync(route, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken); // ID oluşsun
+
+            // 2. Her durağı veritabanına ekle ve ID'yi al
+            foreach (var stopDto in stops)
+            {
+                var stop = new Stop
+                {
+                    Name = stopDto.StopName,
+                    Latitude = stopDto.Latitude,
+                    Longitude = stopDto.Longitude
+                };
+
+                await _dbContext.Stop.AddAsync(stop, cancellationToken);
+                await _dbContext.SaveChangesAsync(cancellationToken); // ID oluşsun
+
+                // 3. Ara tabloya ekle
+                var routeStop = new RouteStop
+                {
+                    RouteId = route.Id,
+                    StopId = stop.Id,
+                    Order = stopDto.Order
+                };
+
+                await _dbContext.RouteStop.AddAsync(routeStop, cancellationToken);
+            }
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return route;
+        }
+
     }
 }
