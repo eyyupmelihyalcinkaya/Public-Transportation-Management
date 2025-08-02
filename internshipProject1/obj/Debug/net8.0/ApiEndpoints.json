@@ -437,6 +437,22 @@
   },
   {
     "ContainingType": "internshipProject1.WebAPI.Controllers.RoutesController",
+    "Method": "CreateRouteWithStops",
+    "RelativePath": "api/Routes/CreateRouteWithStops",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "internshipproject1.Application.Features.Route.Commands.CreateRouteWithStops.CreateRouteWithStopsCommandRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.RoutesController",
     "Method": "GetRouteById",
     "RelativePath": "api/Routes/id",
     "HttpMethod": "GET",

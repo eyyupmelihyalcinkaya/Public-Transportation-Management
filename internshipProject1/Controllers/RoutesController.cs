@@ -7,6 +7,7 @@ using internshipproject1.Application.Features.Route.Commands.DeleteRoute;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using internshipproject1.Application.Features.Route.Commands.CreateRouteWithStops;
 
 namespace internshipProject1.WebAPI.Controllers
 {
@@ -116,6 +117,17 @@ namespace internshipProject1.WebAPI.Controllers
                 return NotFound();
             }
             return Ok(response);
+        }
+
+        [HttpPost("CreateRouteWithStops")]
+        public async Task<IActionResult> CreateRouteWithStops([FromBody] CreateRouteWithStopsCommandRequest request)
+        { 
+            var response = await _mediator.Send(request);
+            if (response == null)
+            {
+                return BadRequest("Route creation failed. Please check the provided data.");
+            }
+            return CreatedAtAction(nameof(GetRouteById), new { id = response.Id }, response);
         }
 
 
