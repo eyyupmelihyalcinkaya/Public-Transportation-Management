@@ -784,6 +784,37 @@
         }
       }
     },
+    "/api/Routes/CreateRouteWithStops": {
+      "post": {
+        "tags": [
+          "Routes"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRouteWithStopsCommandRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRouteWithStopsCommandRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRouteWithStopsCommandRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/RouteStop/id": {
       "get": {
         "tags": [
@@ -1538,6 +1569,39 @@
         },
         "additionalProperties": false
       },
+      "CreateRouteWithStopsCommandRequest": {
+        "type": "object",
+        "properties": {
+          "routeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "startLocation": {
+            "type": "string",
+            "nullable": true
+          },
+          "endLocation": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdById": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stops": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StopCreateDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateStopCommandRequest": {
         "type": "object",
         "properties": {
@@ -1600,6 +1664,32 @@
           "dayType": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StopCreateDTO": {
+        "type": "object",
+        "properties": {
+          "stopName": {
+            "type": "string",
+            "nullable": true
+          },
+          "stopId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
