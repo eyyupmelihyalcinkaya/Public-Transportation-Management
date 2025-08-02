@@ -341,17 +341,17 @@ body.dark *:after {
 
     /* ============ BUTON METİNLERİ ============ */
 
-    /* Primary butonlar */
+    /* Primary butonlar - koyu tema için saydam */
     body.dark .btn-primary {
-        background-color: #64c8ff !important;
-        border-color: #64c8ff !important;
-        color: #000 !important;
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+        color: #ffffff !important;
     }
 
         body.dark .btn-primary:hover {
-            background-color: #4db8ff !important;
-            border-color: #4db8ff !important;
-            color: #000 !important;
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            color: #ffffff !important;
         }
 
     /* Secondary butonlar */
@@ -365,6 +365,32 @@ body.dark *:after {
             background-color: rgba(255, 255, 255, 0.3) !important;
             border-color: rgba(255, 255, 255, 0.4) !important;
             color: #f8f9fa !important;
+        }
+
+    /* Warning butonlar - koyu tema için saydam */
+    body.dark .btn-warning {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+        color: #ffffff !important;
+    }
+
+        body.dark .btn-warning:hover {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            color: #ffffff !important;
+        }
+
+    /* Info butonlar - koyu tema için saydam */
+    body.dark .btn-info {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+        color: #ffffff !important;
+    }
+
+        body.dark .btn-info:hover {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            color: #ffffff !important;
         }
 
     /* Outline-secondary butonlar */
@@ -1187,4 +1213,507 @@ body.dark .navbar-nav .nav-link {
 body.dark .navbar-toggler {
     border-color: rgba(255, 255, 255, 0.5) !important;
     color: #ffffff !important;
+}
+
+/* ============ MODERN ROUTE STOPS MODAL STİLLERİ ============ */
+
+/* Modern Modal Animasyonları */
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes modalBackdropFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ============ SADE ROUTE STOPS MODAL STİLLERİ ============ */
+
+/* Route Stops Modal Özel Stilleri */
+#routeStopsModal .modal-content {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+#routeStopsModal .modal-header {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    border: none;
+    border-radius: 12px 12px 0 0;
+    padding: 1.25rem 1.5rem;
+}
+
+#routeStopsModal .modal-title {
+    color: white;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+#routeStopsModal .modal-title i {
+    margin-right: 0.5rem;
+}
+
+#routeStopsModal .btn-close {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#routeStopsModal .btn-close::before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    background: white;
+    transform: rotate(45deg);
+    transition: all 0.3s ease;
+}
+
+#routeStopsModal .btn-close::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    background: white;
+    transform: rotate(-45deg);
+    transition: all 0.3s ease;
+}
+
+#routeStopsModal .btn-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1) rotate(90deg);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#routeStopsModal .btn-close:hover::before,
+#routeStopsModal .btn-close:hover::after {
+    background: white;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+#routeStopsModal .modal-body {
+    padding: 1.5rem;
+}
+
+#routeStopsModal .table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+#routeStopsModal .table thead {
+    background: #f8f9fa;
+}
+
+#routeStopsModal .table thead th {
+    color: #495057;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+    padding: 1rem;
+    border: none;
+}
+
+#routeStopsModal .table tbody tr {
+    transition: all 0.2s ease;
+    border: none;
+}
+
+#routeStopsModal .table tbody tr:hover {
+    background-color: rgba(79, 70, 229, 0.05);
+    transform: translateX(2px);
+}
+
+#routeStopsModal .table tbody td {
+    padding: 1rem;
+    border: none;
+    font-weight: 500;
+    color: #495057;
+    vertical-align: middle;
+}
+
+#routeStopsModal .table tbody td:first-child {
+    font-weight: 600;
+    color: #4f46e5;
+}
+
+#routeStopsModal .modal-footer {
+    border: none;
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    border-radius: 0 0 12px 12px;
+}
+
+#routeStopsModal .btn-secondary {
+    background: #6c757d;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+#routeStopsModal .btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+}
+
+#routeStopsModal .btn-secondary i {
+    margin-right: 0.5rem;
+}
+
+/* Loading Animasyonu */
+#routeStopsModal .loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 50%;
+    border-top-color: #4f46e5;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Empty State */
+#routeStopsModal .empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: #6c757d;
+}
+
+#routeStopsModal .empty-state i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+    color: #4f46e5;
+}
+
+/* Koyu Tema Desteği */
+body.dark #routeStopsModal .modal-content {
+    background: #1e293b;
+    color: #f8fafc;
+}
+
+body.dark #routeStopsModal .modal-header {
+    background: linear-gradient(135deg, #1e40af 0%, #5b21b6 100%);
+}
+
+body.dark #routeStopsModal .modal-body {
+    background: #1e293b;
+}
+
+body.dark #routeStopsModal .modal-footer {
+    background: #1e293b;
+}
+
+body.dark #routeStopsModal .table thead {
+    background: #334155;
+}
+
+body.dark #routeStopsModal .table thead th {
+    color: #f8fafc;
+}
+
+body.dark #routeStopsModal .table tbody tr:hover {
+    background-color: rgba(79, 70, 229, 0.1);
+}
+
+body.dark #routeStopsModal .table tbody td {
+    color: #f8fafc;
+}
+
+body.dark #routeStopsModal .empty-state {
+    color: #9ca3af;
+}
+
+/* Koyu tema için çarpı butonu */
+body.dark #routeStopsModal .btn-close {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark #routeStopsModal .btn-close:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+    #routeStopsModal .modal-dialog {
+        margin: 1rem;
+        max-width: calc(100% - 2rem);
+    }
+    
+    #routeStopsModal .modal-header {
+        padding: 1rem;
+    }
+    
+    #routeStopsModal .modal-title {
+        font-size: 1.1rem;
+    }
+    
+    #routeStopsModal .modal-body {
+        padding: 1rem;
+    }
+    
+    #routeStopsModal .table thead th,
+    #routeStopsModal .table tbody td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.875rem;
+    }
+    
+    #routeStopsModal .modal-footer {
+        padding: 1rem;
+    }
+}
+
+/* ============ LOGOUT MODAL KOYU TEMA DESTEĞİ ============ */
+
+/* Logout Modal Koyu Tema */
+body.dark #logoutModal .modal-content {
+    background: #1e293b;
+    color: #f8fafc;
+    border: 1px solid #334155;
+}
+
+body.dark #logoutModal .modal-header {
+    background: linear-gradient(135deg, #1e40af 0%, #5b21b6 100%);
+    border-bottom: 1px solid #334155;
+    color: white;
+}
+
+body.dark #logoutModal .modal-title {
+    color: white;
+    font-weight: 600;
+}
+
+body.dark #logoutModal .btn-close {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.dark #logoutModal .btn-close::before {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 2px;
+    background: white;
+    transform: rotate(45deg);
+    transition: all 0.3s ease;
+}
+
+body.dark #logoutModal .btn-close::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 2px;
+    background: white;
+    transform: rotate(-45deg);
+    transition: all 0.3s ease;
+}
+
+body.dark #logoutModal .btn-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1) rotate(90deg);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+body.dark #logoutModal .btn-close:hover::before,
+body.dark #logoutModal .btn-close:hover::after {
+    background: white;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+body.dark #logoutModal .modal-body {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 1.5rem;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+body.dark #logoutModal .modal-footer {
+    background: #1e293b;
+    border-top: 1px solid #334155;
+    padding: 1rem 1.5rem;
+}
+
+body.dark #logoutModal .btn-secondary {
+    background: #6c757d;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    color: white;
+}
+
+body.dark #logoutModal .btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+body.dark #logoutModal .btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    color: white;
+}
+
+body.dark #logoutModal .btn-danger:hover {
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+/* Logout Modal Açık Tema (Default) */
+#logoutModal .modal-content {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+#logoutModal .modal-header {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    border: none;
+    border-radius: 12px 12px 0 0;
+    padding: 1.25rem 1.5rem;
+    color: white;
+}
+
+#logoutModal .modal-title {
+    color: white;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+#logoutModal .btn-close {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#logoutModal .btn-close::before {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 2px;
+    background: white;
+    transform: rotate(45deg);
+    transition: all 0.3s ease;
+}
+
+#logoutModal .btn-close::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 2px;
+    background: white;
+    transform: rotate(-45deg);
+    transition: all 0.3s ease;
+}
+
+#logoutModal .btn-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1) rotate(90deg);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#logoutModal .btn-close:hover::before,
+#logoutModal .btn-close:hover::after {
+    background: white;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+#logoutModal .modal-body {
+    padding: 1.5rem;
+    font-size: 1.1rem;
+    text-align: center;
+    color: #495057;
+}
+
+#logoutModal .modal-footer {
+    border: none;
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    border-radius: 0 0 12px 12px;
+}
+
+#logoutModal .btn-secondary {
+    background: #6c757d;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    color: white;
+}
+
+#logoutModal .btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#logoutModal .btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    color: white;
+}
+
+#logoutModal .btn-danger:hover {
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
 }

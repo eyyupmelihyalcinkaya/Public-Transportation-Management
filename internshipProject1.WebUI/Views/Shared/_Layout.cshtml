@@ -18,6 +18,409 @@
 
     <!-- Page specific styles -->
     @await RenderSectionAsync("Styles", required: false)
+    
+    <!-- Logout Modal Styles -->
+    <style>
+        /* ============ LOGOUT MODAL KOYU TEMA DESTEĞİ ============ */
+        
+        /* Logout Modal Koyu Tema */
+        body.dark #logoutModal .modal-content {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+            border: 1px solid #334155 !important;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        body.dark #logoutModal .modal-header {
+            background: linear-gradient(135deg, #1e40af 0%, #5b21b6 100%) !important;
+            border-bottom: 1px solid #334155 !important;
+            border-radius: 12px 12px 0 0 !important;
+            color: white !important;
+            padding: 1.25rem 1.5rem !important;
+        }
+        
+        body.dark #logoutModal .modal-title {
+            color: white !important;
+            font-weight: 600 !important;
+            font-size: 1.25rem !important;
+        }
+        
+        body.dark #logoutModal .btn-close {
+            background: rgba(255, 255, 255, 0.2) !important;
+            border-radius: 50% !important;
+            padding: 0.5rem !important;
+            transition: all 0.3s ease !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+            position: relative !important;
+            width: 35px !important;
+            height: 35px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        body.dark #logoutModal .btn-close::before {
+            content: '' !important;
+            position: absolute !important;
+            width: 14px !important;
+            height: 2px !important;
+            background: white !important;
+            transform: rotate(45deg) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        body.dark #logoutModal .btn-close::after {
+            content: '' !important;
+            position: absolute !important;
+            width: 14px !important;
+            height: 2px !important;
+            background: white !important;
+            transform: rotate(-45deg) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        body.dark #logoutModal .btn-close:hover {
+            background: rgba(255, 255, 255, 0.3) !important;
+            transform: scale(1.1) rotate(90deg) !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        body.dark #logoutModal .btn-close:hover::before,
+        body.dark #logoutModal .btn-close:hover::after {
+            background: white !important;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5) !important;
+        }
+        
+        body.dark #logoutModal .modal-body {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+            padding: 1.5rem !important;
+            font-size: 1.1rem !important;
+            text-align: center !important;
+        }
+        
+        body.dark #logoutModal .modal-footer {
+            background: #1e293b !important;
+            border-top: 1px solid #334155 !important;
+            padding: 1rem 1.5rem !important;
+            border-radius: 0 0 12px 12px !important;
+        }
+        
+        body.dark #logoutModal .btn-secondary {
+            background: #6c757d !important;
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 0.5rem 1rem !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
+            color: white !important;
+        }
+        
+        body.dark #logoutModal .btn-secondary:hover {
+            background: #5a6268 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        body.dark #logoutModal .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 0.5rem 1rem !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
+            color: white !important;
+        }
+        
+        body.dark #logoutModal .btn-danger:hover {
+            background: linear-gradient(135deg, #c82333 0%, #bd2130 100%) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
+        }
+        
+        /* Logout Modal Açık Tema (Default) */
+        #logoutModal .modal-content {
+            border: none !important;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+        }
+        
+        #logoutModal .modal-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+            border: none !important;
+            border-radius: 12px 12px 0 0 !important;
+            padding: 1.25rem 1.5rem !important;
+            color: white !important;
+        }
+        
+        #logoutModal .modal-title {
+            color: white !important;
+            font-weight: 600 !important;
+            font-size: 1.25rem !important;
+        }
+        
+        #logoutModal .btn-close {
+            background: rgba(255, 255, 255, 0.2) !important;
+            border-radius: 50% !important;
+            padding: 0.5rem !important;
+            transition: all 0.3s ease !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+            position: relative !important;
+            width: 35px !important;
+            height: 35px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        #logoutModal .btn-close::before {
+            content: '' !important;
+            position: absolute !important;
+            width: 14px !important;
+            height: 2px !important;
+            background: white !important;
+            transform: rotate(45deg) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        #logoutModal .btn-close::after {
+            content: '' !important;
+            position: absolute !important;
+            width: 14px !important;
+            height: 2px !important;
+            background: white !important;
+            transform: rotate(-45deg) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        #logoutModal .btn-close:hover {
+            background: rgba(255, 255, 255, 0.3) !important;
+            transform: scale(1.1) rotate(90deg) !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        #logoutModal .btn-close:hover::before,
+        #logoutModal .btn-close:hover::after {
+            background: white !important;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5) !important;
+        }
+        
+        #logoutModal .modal-body {
+            padding: 1.5rem !important;
+            font-size: 1.1rem !important;
+            text-align: center !important;
+            color: #495057 !important;
+        }
+        
+        #logoutModal .modal-footer {
+            border: none !important;
+            padding: 1rem 1.5rem !important;
+            background: #f8f9fa !important;
+            border-radius: 0 0 12px 12px !important;
+        }
+        
+        #logoutModal .btn-secondary {
+            background: #6c757d !important;
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 0.5rem 1rem !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
+            color: white !important;
+        }
+        
+        #logoutModal .btn-secondary:hover {
+            background: #5a6268 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        #logoutModal .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 0.5rem 1rem !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
+            color: white !important;
+        }
+        
+        #logoutModal .btn-danger:hover {
+            background: linear-gradient(135deg, #c82333 0%, #bd2130 100%) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
+        }
+        
+        /* ============ LOGOUT PROCESS PAGE STYLES ============ */
+        
+        /* Logout Process Page Koyu Tema */
+        body.dark .logout-process-card {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+            border: 1px solid #334155 !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        body.dark .logout-process-card .card-body {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+        }
+        
+        body.dark .logout-process-card .card-title {
+            color: #3b82f6 !important;
+        }
+        
+        body.dark .logout-process-card .card-text {
+            color: #9ca3af !important;
+        }
+        
+        body.dark .logout-process-card .spinner-border {
+            color: #3b82f6 !important;
+        }
+        
+        /* Tüm card'ları koyu tema için override et */
+        body.dark .card {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+            border: 1px solid #334155 !important;
+        }
+        
+        body.dark .card-body {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+        }
+        
+        body.dark .card-title {
+            color: #3b82f6 !important;
+        }
+        
+        body.dark .card-text {
+            color: #9ca3af !important;
+        }
+        
+        body.dark .text-primary {
+            color: #3b82f6 !important;
+        }
+        
+        body.dark .text-muted {
+            color: #9ca3af !important;
+        }
+        
+        /* En güçlü selector'lar */
+        body.dark .container .card,
+        body.dark .container-fluid .card,
+        body.dark .row .card,
+        body.dark .col-md-6 .card {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+            border: 1px solid #334155 !important;
+        }
+        
+        body.dark .container .card-body,
+        body.dark .container-fluid .card-body,
+        body.dark .row .card-body,
+        body.dark .col-md-6 .card-body {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+        }
+        
+        body.dark .container .card-title,
+        body.dark .container-fluid .card-title,
+        body.dark .row .card-title,
+        body.dark .col-md-6 .card-title {
+            color: #3b82f6 !important;
+        }
+        
+        body.dark .container .card-text,
+        body.dark .container-fluid .card-text,
+        body.dark .row .card-text,
+        body.dark .col-md-6 .card-text {
+            color: #9ca3af !important;
+        }
+        
+        /* EN AGRESİF SELECTOR'LAR - TÜM OLASILIKLARI KAPSA */
+        body.dark .container,
+        body.dark .container-fluid,
+        body.dark .row,
+        body.dark .col-md-6,
+        body.dark .col,
+        body.dark .col-md-6 .card,
+        body.dark .container .card,
+        body.dark .row .card,
+        body.dark .container-fluid .card,
+        body.dark .col .card,
+        body.dark .card,
+        body.dark .card-body,
+        body.dark .container .card-body,
+        body.dark .row .card-body,
+        body.dark .col-md-6 .card-body,
+        body.dark .container-fluid .card-body,
+        body.dark .col .card-body {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+            border-color: #334155 !important;
+        }
+        
+        /* TÜM TEXT RENKLERİNİ OVERRIDE ET */
+        body.dark .text-primary,
+        body.dark .card-title,
+        body.dark .container .card-title,
+        body.dark .row .card-title,
+        body.dark .col-md-6 .card-title,
+        body.dark .container-fluid .card-title,
+        body.dark .col .card-title,
+        body.dark h4.text-primary,
+        body.dark .card h4,
+        body.dark .card-body h4 {
+            color: #3b82f6 !important;
+        }
+        
+        body.dark .text-muted,
+        body.dark .card-text,
+        body.dark .container .card-text,
+        body.dark .row .card-text,
+        body.dark .col-md-6 .card-text,
+        body.dark .container-fluid .card-text,
+        body.dark .col .card-text,
+        body.dark .card p,
+        body.dark .card-body p {
+            color: #9ca3af !important;
+        }
+        
+        /* SPINNER RENGİ */
+        body.dark .spinner-border.text-primary,
+        body.dark .text-primary.spinner-border {
+            color: #3b82f6 !important;
+        }
+        
+        /* SHADOW OVERRIDE */
+        body.dark .shadow-sm {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        /* Logout Process Page Açık Tema */
+        .logout-process-card {
+            border: none !important;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+        }
+        
+        .logout-process-card .card-title {
+            color: #4f46e5 !important;
+            font-weight: 600 !important;
+        }
+        
+        .logout-process-card .card-text {
+            color: #6c757d !important;
+        }
+        
+        .logout-process-card .spinner-border {
+            color: #4f46e5 !important;
+        }
+    </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <!-- Background overlay -->
@@ -316,11 +719,21 @@
 
         // Logout fonksiyonu
         function logout() {
-            if (confirm('Çıkış yapmak istediğinize emin misiniz?')) {
-                localStorage.removeItem('token');
-                window.location.href = '/Account/Logout';
-            }
+            // Modal'ı aç
+            const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+            logoutModal.show();
         }
+        
+        // Modal açıldığında confirm butonuna event listener ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+            if (confirmLogoutBtn) {
+                confirmLogoutBtn.addEventListener('click', function() {
+                    localStorage.removeItem('token');
+                    window.location.href = '/Account/Logout';
+                });
+            }
+        });
 
         // Profile sayfası göster
         function showProfile() {

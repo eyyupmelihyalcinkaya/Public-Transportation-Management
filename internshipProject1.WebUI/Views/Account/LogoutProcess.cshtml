@@ -3,10 +3,45 @@
     Layout = "_Layout";
 }
 
+<style>
+    /* Koyu tema için agresif override */
+    body.dark .container .card,
+    body.dark .row .card,
+    body.dark .col-md-6 .card,
+    body.dark .logout-process-card {
+        background: #1e293b !important;
+        color: #f8fafc !important;
+        border: 1px solid #334155 !important;
+    }
+    
+    body.dark .container .card-body,
+    body.dark .row .card-body,
+    body.dark .col-md-6 .card-body,
+    body.dark .logout-process-card .card-body {
+        background: #1e293b !important;
+        color: #f8fafc !important;
+    }
+    
+    body.dark .card-title,
+    body.dark .text-primary,
+    body.dark h4.text-primary {
+        color: #3b82f6 !important;
+    }
+    
+    body.dark .card-text,
+    body.dark .text-muted {
+        color: #9ca3af !important;
+    }
+    
+    body.dark .spinner-border.text-primary {
+        color: #3b82f6 !important;
+    }
+</style>
+
 <div class="container text-center mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm logout-process-card">
                 <div class="card-body p-5">
                     <div class="spinner-border text-primary mb-3" role="status">
                         <span class="visually-hidden">Loading...</span>

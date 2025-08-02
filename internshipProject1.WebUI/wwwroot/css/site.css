@@ -909,42 +909,237 @@ body.dark .footer a:hover {
 
 /* ============ MODERN MODAL STYLES (YÜKSEK ÖZGÜLLÜKLÜ) ============ */
 
-/* Koyu Tema Logout Modal Stilleri - ID ile hedefleme */
+/* ============ LOGOUT MODAL KOYU TEMA DESTEĞİ ============ */
+
+/* Logout Modal Koyu Tema */
 body.dark #logoutModal .modal-content {
-    background-color: #343a40 !important; /* Koyu gri arkaplan */
-    color: #f8f9fa !important;            /* Beyaz metin */
-    border: 1px solid #555 !important;     /* Hafif parlak kenarlık */
+    background: #1e293b !important;
+    color: #f8fafc !important;
+    border: 1px solid #334155 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
 }
 
 body.dark #logoutModal .modal-header {
-    border-bottom: 1px solid #555 !important;
+    background: linear-gradient(135deg, #1e40af 0%, #5b21b6 100%) !important;
+    border-bottom: 1px solid #334155 !important;
+    border-radius: 12px 12px 0 0 !important;
+    color: white !important;
+    padding: 1.25rem 1.5rem !important;
 }
 
-body.dark #logoutModal .modal-header .modal-title {
-    color: #f8f9fa !important;
-}
-
-body.dark #logoutModal .modal-body {
-    color: #f8f9fa !important;
-}
-
-body.dark #logoutModal .modal-footer {
-    border-top: 1px solid #555 !important;
+body.dark #logoutModal .modal-title {
+    color: white !important;
+    font-weight: 600 !important;
+    font-size: 1.25rem !important;
 }
 
 body.dark #logoutModal .btn-close {
-    filter: invert(1) grayscale(100%) brightness(200%) !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-radius: 50% !important;
+    padding: 0.5rem !important;
+    transition: all 0.3s ease !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    position: relative !important;
+    width: 35px !important;
+    height: 35px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+body.dark #logoutModal .btn-close::before {
+    content: '' !important;
+    position: absolute !important;
+    width: 14px !important;
+    height: 2px !important;
+    background: white !important;
+    transform: rotate(45deg) !important;
+    transition: all 0.3s ease !important;
+}
+
+body.dark #logoutModal .btn-close::after {
+    content: '' !important;
+    position: absolute !important;
+    width: 14px !important;
+    height: 2px !important;
+    background: white !important;
+    transform: rotate(-45deg) !important;
+    transition: all 0.3s ease !important;
+}
+
+body.dark #logoutModal .btn-close:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    transform: scale(1.1) rotate(90deg) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+body.dark #logoutModal .btn-close:hover::before,
+body.dark #logoutModal .btn-close:hover::after {
+    background: white !important;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5) !important;
+}
+
+body.dark #logoutModal .modal-body {
+    background: #1e293b !important;
+    color: #f8fafc !important;
+    padding: 1.5rem !important;
+    font-size: 1.1rem !important;
+    text-align: center !important;
+}
+
+body.dark #logoutModal .modal-footer {
+    background: #1e293b !important;
+    border-top: 1px solid #334155 !important;
+    padding: 1rem 1.5rem !important;
+    border-radius: 0 0 12px 12px !important;
 }
 
 body.dark #logoutModal .btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
-    color: #fff;
+    background: #6c757d !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 1rem !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    color: white !important;
 }
 
 body.dark #logoutModal .btn-secondary:hover {
-    background-color: #5a6268;
-    border-color: #545b62;
+    background: #5a6268 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+body.dark #logoutModal .btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 1rem !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    color: white !important;
+}
+
+body.dark #logoutModal .btn-danger:hover {
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
+}
+
+/* Logout Modal Açık Tema (Default) */
+#logoutModal .modal-content {
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+#logoutModal .modal-header {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+    border: none !important;
+    border-radius: 12px 12px 0 0 !important;
+    padding: 1.25rem 1.5rem !important;
+    color: white !important;
+}
+
+#logoutModal .modal-title {
+    color: white !important;
+    font-weight: 600 !important;
+    font-size: 1.25rem !important;
+}
+
+#logoutModal .btn-close {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-radius: 50% !important;
+    padding: 0.5rem !important;
+    transition: all 0.3s ease !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    position: relative !important;
+    width: 35px !important;
+    height: 35px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+#logoutModal .btn-close::before {
+    content: '' !important;
+    position: absolute !important;
+    width: 14px !important;
+    height: 2px !important;
+    background: white !important;
+    transform: rotate(45deg) !important;
+    transition: all 0.3s ease !important;
+}
+
+#logoutModal .btn-close::after {
+    content: '' !important;
+    position: absolute !important;
+    width: 14px !important;
+    height: 2px !important;
+    background: white !important;
+    transform: rotate(-45deg) !important;
+    transition: all 0.3s ease !important;
+}
+
+#logoutModal .btn-close:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    transform: scale(1.1) rotate(90deg) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+#logoutModal .btn-close:hover::before,
+#logoutModal .btn-close:hover::after {
+    background: white !important;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5) !important;
+}
+
+#logoutModal .modal-body {
+    padding: 1.5rem !important;
+    font-size: 1.1rem !important;
+    text-align: center !important;
+    color: #495057 !important;
+}
+
+#logoutModal .modal-footer {
+    border: none !important;
+    padding: 1rem 1.5rem !important;
+    background: #f8f9fa !important;
+    border-radius: 0 0 12px 12px !important;
+}
+
+#logoutModal .btn-secondary {
+    background: #6c757d !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 1rem !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    color: white !important;
+}
+
+#logoutModal .btn-secondary:hover {
+    background: #5a6268 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+#logoutModal .btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 1rem !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    color: white !important;
+}
+
+#logoutModal .btn-danger:hover {
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
 }
 
 /* ============ NAVBAR DROPDOWN Z-INDEX FİX ============ */
