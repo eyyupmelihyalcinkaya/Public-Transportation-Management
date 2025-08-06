@@ -46,11 +46,11 @@ window.apiConfig = {
         });
     },
 
-    // Register helper
-    async register(username, password) {
+    // Register helper - Customer bilgileri ile
+    async register(userData) {
         return this.makeApiRequest('/api/user/register', {
             method: 'POST',
-            body: JSON.stringify({ userName: username, password: password })
+            body: JSON.stringify(userData)
         });
     },
 

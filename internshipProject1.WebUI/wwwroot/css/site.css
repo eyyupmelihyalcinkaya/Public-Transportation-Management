@@ -24,7 +24,7 @@ body.light {
 }
 
 body.dark {
-    background: linear-gradient(135deg, #2c2c2c, #000000);
+    background: linear-gradient(135deg, #1e293b, #0f172a);
     color: white;
     transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
@@ -83,7 +83,7 @@ body.light .login-container {
         border: 1px solid rgba(255, 255, 255, 0.3);
     }
 body.dark .login-container {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(30, 41, 59, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -150,9 +150,9 @@ body:not(.dark) .glass-navbar {
 
 /* Koyu tema navbar */
 body.dark .glass-navbar {
-    background: #1a1a1a !important; /* solid koyu gri */
+    background: #1e293b !important; /* lacivertimsi */
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 2px 25px rgba(30, 41, 59, 0.8);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
 }
@@ -893,9 +893,15 @@ body.dark .container, body.dark .container-fluid {
 }
 
 /* Footer */
+body.light .footer {
+    color: rgba(0, 0, 0, 0.7) !important;
+    background-color: rgba(248, 249, 250, 0.9) !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
 body.dark .footer {
     color: rgba(255, 255, 255, 0.7) !important;
-    background-color: rgba(20, 20, 20, 0.9) !important;
+    background-color: rgba(30, 41, 59, 0.9) !important;
     border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
@@ -1217,7 +1223,7 @@ body.dark #logoutModal .btn-danger:hover {
 }
 
 body.dark .navbar {
-    background-color: #000000 !important; /* Tam siyah */
+    background-color: #1e293b !important; /* Lacivertimsi */
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 

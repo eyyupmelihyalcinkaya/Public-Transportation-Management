@@ -9,6 +9,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
+
     <!-- Site CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/internshipProject1.WebUI.styles.css" asp-append-version="true" />
@@ -527,7 +528,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted mt-5" style="position: relative; z-index: 1; background-color: #f8f9fa;">
+    <footer class="border-top footer text-muted mt-5" style="position: relative; z-index: 1;">
         <div class="container">
             <div class="row py-3">
                 <div class="col-md-6">
@@ -555,7 +556,7 @@
 
     <!-- Auth kontrolü -->
     <script>
-                function updateNavbar() {
+        function updateNavbar() {
             // Token kontrolü
             const token = localStorage.getItem('token');
             const authButtons = document.getElementById('auth-buttons');

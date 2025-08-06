@@ -33,7 +33,14 @@ namespace internshipProject1.Infrastructure.Migrations
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("CardNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("CustomerId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CustomerId1")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("ExpirationDate")
@@ -47,7 +54,9 @@ namespace internshipProject1.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId")
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("CustomerId1")
                         .IsUnique();
 
                     b.ToTable("Card");
@@ -70,6 +79,9 @@ namespace internshipProject1.Infrastructure.Migrations
                     b.Property<int>("CardId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
@@ -80,6 +92,9 @@ namespace internshipProject1.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("TransactionType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("VehicleType")
@@ -128,7 +143,13 @@ namespace internshipProject1.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Customer");
                 });
@@ -287,10 +308,14 @@ namespace internshipProject1.Infrastructure.Migrations
             modelBuilder.Entity("internshipproject1.Domain.Entities.Card", b =>
                 {
                     b.HasOne("internshipproject1.Domain.Entities.Customer", "Customer")
-                        .WithOne("Card")
-                        .HasForeignKey("internshipproject1.Domain.Entities.Card", "CustomerId")
+                        .WithMany("CardList")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("internshipproject1.Domain.Entities.Customer", null)
+                        .WithOne("Card")
+                        .HasForeignKey("internshipproject1.Domain.Entities.Card", "CustomerId1");
 
                     b.Navigation("Customer");
                 });
@@ -304,6 +329,15 @@ namespace internshipProject1.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Card");
+                });
+
+            modelBuilder.Entity("internshipproject1.Domain.Entities.Customer", b =>
+                {
+                    b.HasOne("internshipproject1.Domain.Entities.User", "User")
+                        .WithOne("Customer")
+                        .HasForeignKey("internshipproject1.Domain.Entities.Customer", "UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("internshipproject1.Domain.Entities.RouteStop", b =>
@@ -354,6 +388,8 @@ namespace internshipProject1.Infrastructure.Migrations
                 {
                     b.Navigation("Card")
                         .IsRequired();
+
+                    b.Navigation("CardList");
                 });
 
             modelBuilder.Entity("internshipproject1.Domain.Entities.RouteToCreate", b =>
@@ -371,6 +407,9 @@ namespace internshipProject1.Infrastructure.Migrations
             modelBuilder.Entity("internshipproject1.Domain.Entities.User", b =>
                 {
                     b.Navigation("CreatedRoutes");
+
+                    b.Navigation("Customer")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

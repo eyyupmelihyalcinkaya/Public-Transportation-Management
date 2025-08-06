@@ -1,174 +1,188 @@
-﻿@model internshipProject1.WebUI.Views.Account.LoginModel
+@model internshipProject1.WebUI.Views.Account.LoginModel
 @{
-	ViewData["Title"] = "Login";
+	ViewData["Title"] = "Giriş Yap";
 	Layout = "_Layout";
 }
 
 <!-- Error Message Display -->
 @if (TempData["ErrorMessage"] != null)
 {
-    <div class="modern-alert mb-4" role="alert" id="auth-alert">
-        <div class="modern-alert-content">
-            <div class="modern-alert-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/>
-                </svg>
-            </div>
-            <div class="modern-alert-text">
-                <h6 class="modern-alert-title">Authentication Required</h6>
-                <p class="modern-alert-message">@TempData["ErrorMessage"]</p>
-            </div>
-            <button type="button" onclick="document.getElementById('auth-alert').style.display='none'" title="Close" 
-                    onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'; this.style.transform='scale(1.1)'" 
-                    onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'; this.style.transform='scale(1)'"
-                    style="background: rgba(255, 255, 255, 0.2); border: none; color: white; cursor: pointer; padding: 0; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; transition: all 0.2s ease;">
-                ✕
-            </button>
-        </div>
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
     </div>
-
-    <style>
-        .modern-alert {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-            border: none;
-            border-radius: 16px;
-            padding: 20px;
-            color: white;
-            box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
-            backdrop-filter: blur(10px);
-            margin-bottom: 24px;
-        }
-        .modern-alert-content {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-        }
-        .modern-alert-icon {
-            flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-            opacity: 0.9;
-        }
-        .modern-alert-text {
-            flex: 1;
-        }
-        .modern-alert-title {
-            margin: 0 0 8px 0;
-            font-weight: 600;
-            font-size: 16px;
-        }
-        .modern-alert-message {
-            margin: 0;
-            opacity: 0.9;
-            font-size: 14px;
-            line-height: 1.4;
-        }
-    </style>
 }
 
-<div class = "login-container">	
-	<h2>Login</h2>
+<div class="auth-wrapper">
+    <div class="auth-welcome-panel">
+        <div class="welcome-content">
+            <h1>Tekrar Hoş Geldiniz!</h1>
+            <p>Projenize kaldığınız yerden devam etmek için giriş yapın.</p>
+        </div>
+    </div>
+    <div class="auth-form-container">
+        <div class="auth-form-content">
+            <h2>Giriş Yap</h2>
+            <p class="auth-subtitle">Hesabınıza erişim sağlayın</p>
 
-<div>
-	<div>
-		<label>Username:</label>
-		<input type="text" id="username" required />
-	</div>
-	<div>
-		<label>Password:</label>
-		<input type="password" id="password" required />
-	</div>
-	<div>
-		<button type="button" onclick="login()">Login</button>
-	</div>
+            <div id="error" class="alert alert-danger" style="display: none;"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Kullanıcı Adı</label>
+                    <input type="text" id="username" name="username" required />
+                </div>
+                <div class="form-group">
+                    <label for="password">Şifre</label>
+                    <input type="password" id="password" name="password" required />
+                </div>
+                <div class="form-group remember-me">
+                    <input type="checkbox" id="rememberMe" name="rememberMe" />
+                    <label for="rememberMe">Beni Hatırla</label>
+                </div>
+
+                <button type="submit" class="auth-btn">
+                    Giriş Yap
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Hesabınız yok mu? <a href="/Account/Register">Kayıt Olun</a></p>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const rememberMe = document.getElementById('rememberMe').checked;
 
-	<script>
-		async function login() {
-		  const username = document.getElementById("username").value;
-		  const password = document.getElementById("password").value;
+    const button = document.querySelector('#loginForm .auth-btn');
+    const originalText = button.textContent;
+    
+    button.disabled = true;
+    button.textContent = 'Giriş yapılıyor...';
 
-		  try {
-			const data = await window.apiConfig.login(username, password);
-			console.log('Gelen veri:', data);
-			console.log('API\'den gelen role:', data.role);
-			console.log('API\'den gelen Role:', data.Role);
-			
-			// Token'ı ve kullanıcı bilgilerini kaydet
-			const tokenData = {
-				token: data.token,
-				username: username, // Giriş yapan kullanıcı adı
-				role: data.role, // Küçük harfle tutarlılık için
-				loginTime: new Date().getTime()
-			};
-			localStorage.setItem('token', JSON.stringify(tokenData));
-			console.log('Token saved, localStorage token:', localStorage.getItem('token'));
-			
-			// Server-side session'a da kaydet (AdminPanel erişimi için)
-			fetch('/Account/SetSession', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					Token: data.token,
-					Username: username,
-					Role: data.role
-				})
-			})
-			.then(sessionResponse => sessionResponse.json())
-			.then(sessionResult => {
-				console.log('Session kaydedildi:', sessionResult);
-				
-				// Direkt navbar'ı güncelle
-				const authButtons = document.getElementById('auth-buttons');
-				const profileMenu = document.getElementById('profile-menu');
-				const usernameDisplay = document.getElementById('username-display');
-				
-				if (authButtons) authButtons.style.display = 'none';
-				if (profileMenu) {
-					profileMenu.style.display = 'flex';
-					profileMenu.classList.remove('d-none');
-				}
-				if (usernameDisplay) usernameDisplay.textContent = username;
-				
-				console.log('Navbar updated, redirecting...');
-				console.log('User Role from data.role:', data.role);
-				console.log('User Role from data.Role:', data.Role);
-				
-				// Rol kontrolü - hem data.role hem data.Role kontrol et
-				const userRole = data.role || data.Role;
-				console.log('Final user role:', userRole);
-				
-				if(userRole === 1)
-				{
-					console.log('Admin kullanıcı, Admin Panel\'e yönlendiriliyor...');
-					window.location.href = '/AdminPanel/AdminMainPage';
-				}
-				else
-				{
-					console.log('Normal kullanıcı, User Dashboard\'a yönlendiriliyor...');
-					window.location.href = '/User/Dashboard';
-				}
-				
-			})
-			.catch(sessionError => {
-				console.error('Session kaydetme hatası:', sessionError);
-				// Session kaydedilemese bile rol kontrolü yap
-				const userRole = data.role || data.Role;
-				if(userRole === 1) {
-					console.log('Session hatası olsa da Admin kullanıcı, Admin Panel\'e yönlendiriliyor...');
-					window.location.href = '/AdminPanel/AdminMainPage';
-				} else {
-					console.log('Session hatası olsa da Normal kullanıcı, User Dashboard\'a yönlendiriliyor...');
-					window.location.href = '/User/Dashboard';
-				}
-			});
-		  } catch (error) {
-			console.error('Hata:', error);
-			alert(error.message || "Login Failed");
-		  }
-		}
+    try {
+        const response = await fetch(`${window.gatewayUrl}/api/user/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Api-Key': window.apiKey
+            },
+            body: JSON.stringify({ userName: username, password: password })
+        });
 
-	</script>
+        if (!response.ok) {
+            throw new Error('Kullanıcı adı veya şifre hatalı.');
+        }
+
+        const data = await response.json();
+        console.log('Login response:', data);
+
+        // Sunucu tarafında session ve cookie oluşturmak için SetSession endpoint'ini çağır
+        const sessionResponse = await fetch('/Account/SetSession', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                Token: data.token.accessToken,
+                Username: data.userName,
+                Role: data.role.toString(),
+                UserId: data.id.toString(),
+                Email: data.email.toString()
+            })
+        });
+
+        const sessionResult = await sessionResponse.json();
+        if (!sessionResult.success) {
+            throw new Error(sessionResult.error || 'Session could not be set.');
+        }
+        
+        console.log('Session and cookie set successfully.');
+
+        // Token'ı ve kullanıcı bilgilerini localStorage'a kaydet
+        const tokenData = {
+            token: data.token,
+            accessToken: data.token.accessToken,
+            refreshToken: data.token.refreshToken,
+            username: data.userName,
+            userId: data.id, // userId'yi de kaydet
+            role: data.role,
+            email: data.email,
+            loginTime: new Date().getTime(),
+            rememberMe: rememberMe
+        };
+        
+        // Remember me özelliği için token süresini ayarla
+        if (rememberMe) {
+            // Beni hatırla seçiliyse token'ı daha uzun süre sakla
+            console.log('Remember me aktif - token uzun süreli saklanacak');
+        } else {
+            // Beni hatırla seçili değilse session süresince sakla
+            console.log('Remember me pasif - token session süresince saklanacak');
+        }
+        
+        console.log('Token data to be saved:', tokenData);
+        
+        localStorage.setItem('token', JSON.stringify(tokenData));
+        
+        // API istekleri için token'ı header'a ekle
+        if (window.App && typeof window.App.setAuthToken === 'function') {
+            window.App.setAuthToken(data.token.accessToken);
+        }
+        
+        // Navbar'ı güncelle
+        if (window.App && typeof window.App.updateNavbar === 'function') {
+            window.App.updateNavbar();
+        }
+
+        button.textContent = 'Giriş başarılı!';
+        
+        setTimeout(() => {
+            if (data.role === 1) { // Admin
+                window.location.href = '/AdminPanel/AdminMainPage';
+            } else { // Normal kullanıcı
+                window.location.href = '/User/Dashboard';
+            }
+        }, 1000);
+        
+    } catch (error) {
+        console.error('Login Error:', error);
+        const errorDiv = document.getElementById('error');
+        errorDiv.textContent = error.message || 'Bir hata oluştu. Lütfen tekrar deneyin.';
+        errorDiv.style.display = 'block';
+        
+        button.textContent = 'Giriş başarısız';
+        
+        setTimeout(() => {
+            button.disabled = false;
+            button.textContent = originalText;
+            errorDiv.style.display = 'none';
+        }, 3000);
+    }
+});
+
+// Sayfa yüklendiğinde remember me durumunu kontrol et
+document.addEventListener('DOMContentLoaded', function() {
+    const rememberMeCheckbox = document.getElementById('rememberMe');
+    const savedRememberMe = localStorage.getItem('rememberMe');
+    
+    if (savedRememberMe === 'true') {
+        rememberMeCheckbox.checked = true;
+    }
+    
+    // Remember me checkbox değiştiğinde localStorage'a kaydet
+    rememberMeCheckbox.addEventListener('change', function() {
+        localStorage.setItem('rememberMe', this.checked);
+    });
+});
+</script>
 
 
-<!-- CSS ve JS zaten _Layout.cshtml'de yüklü -->
+@section Styles {
+    <link rel="stylesheet" href="~/css/auth.css" />
+}

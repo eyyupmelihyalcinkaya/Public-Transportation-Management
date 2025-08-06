@@ -20,12 +20,14 @@ namespace PaymentService.Features.Commands.CreateBoardingTransaction
             }
             var transaction = new Entities.BoardingTransaction
             {
-                CardId = request.CardId,
+                CardNumber = request.CardNumber,
+                UserId = request.UserId,
                 Amount = request.Amount,
                 TransactionType = request.TransactionType,
                 VehicleType = request.VehicleType,
                 TransactionDate = request.TransactionDate,
-                Status = request.Status
+                Status = request.Status,
+                isStudent = request.isStudent
             };
             var createdTransaction = await _boardingRepository.AddAsync(transaction, cancellationToken);
             if (createdTransaction == null)
@@ -35,13 +37,16 @@ namespace PaymentService.Features.Commands.CreateBoardingTransaction
             return new CreateBoardingTransactionCommandResponse
             {
                 Id = createdTransaction.Id,
-                CardId = createdTransaction.CardId,
+                CardNumber = createdTransaction.CardNumber,
+                UserId = createdTransaction.UserId,
+                UserName = request.UserName, 
                 Amount = createdTransaction.Amount,
                 TransactionType = createdTransaction.TransactionType,
                 VehicleType = createdTransaction.VehicleType,
                 TransactionDate = createdTransaction.TransactionDate,
+                Message = "Boarding transaction created successfully",
                 Status = createdTransaction.Status,
-                Message = "Boarding transaction created successfully"
+                isStudent = createdTransaction.isStudent
             };
 
         }

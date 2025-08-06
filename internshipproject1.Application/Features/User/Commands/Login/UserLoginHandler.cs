@@ -18,12 +18,14 @@ namespace internshipproject1.Application.Features.User.Commands.Login
         private readonly IPasswordHashingService _passwordHashingService;
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
+        private readonly ICustomerRepository _customerRepository;
 
-        public UserLoginHandler(IPasswordHashingService passwordHashingService, IUserRepository userRepository, IConfiguration configuration)
+        public UserLoginHandler(IPasswordHashingService passwordHashingService, IUserRepository userRepository, IConfiguration configuration, ICustomerRepository customerRepository)
         {
             _passwordHashingService = passwordHashingService;
             _userRepository = userRepository;
             _configuration = configuration;
+            _customerRepository = customerRepository;
         }
 
         public async Task<UserLoginCommandResponse> Handle(UserLoginCommand command,CancellationToken cancellationToken)
@@ -36,7 +38,12 @@ namespace internshipproject1.Application.Features.User.Commands.Login
                 throw new WrongUsernameOrPasswordException("Kullanıcı adı veya şifre hatalı");
             }
 
-
+            var customer = await _customerRepository.GetByUserIdAsync(user.Id,cancellationToken);
+            if (customer == null)
+            {
+                throw new Exception("Customer's cannot found from UserId ---USER LOGIN HANDLER---");
+            }
+            var mail = customer.Email;
             bool isPasswordValid = _passwordHashingService.VerifyPasswordHash(
                 command.Password, 
                 user.passwordHash, 
@@ -55,7 +62,8 @@ namespace internshipproject1.Application.Features.User.Commands.Login
                 UserName = user.userName,
                 Role = user.Role,
                 Message = $"Login Successfully, Welcome Back {user.userName} !",
-                Token = token
+                Token = token,
+                Email = mail
             };
         }
     }

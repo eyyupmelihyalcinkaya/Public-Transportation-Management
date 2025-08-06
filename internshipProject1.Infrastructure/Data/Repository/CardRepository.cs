@@ -222,5 +222,29 @@ namespace internshipProject1.Infrastructure.Data.Repository
         {
             return UpdateAsync(entity, cancellationToken);
         }
+        public async Task<Card> GetCardIdByCardNumber(string cardNumber, CancellationToken cancellationToken)
+        {
+            var card = await _context.Card.FirstOrDefaultAsync(c => c.CardNumber == cardNumber,cancellationToken);
+            return card;
+
+        }
+        public async Task<decimal> GetBalanceByCardNumberAsync(string cardNumber, CancellationToken cancellationToken)
+        { 
+            var card = await _context.Card.FirstOrDefaultAsync(c=>c.CardNumber == cardNumber,cancellationToken);
+            if (card == null)
+            {
+                throw new KeyNotFoundException($"Card ({cardNumber}) cannot found");
+            }
+            return card.Balance;
+        }
+        public async Task<Card> GetCardByCustomerEmail(string email, CancellationToken cancellationToken)
+        { 
+            var card = await _context.Card.FirstOrDefaultAsync(c=>c.Customer.Email == email,cancellationToken);
+            if (card == null)
+            {
+                throw new Exception($"Emailden {email} Card bulunamadı");
+            }
+            return card;
+        }
     }
 }

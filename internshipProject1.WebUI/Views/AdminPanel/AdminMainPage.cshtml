@@ -2,798 +2,37 @@
     ViewData["Title"] = "Admin Panel";
 }
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <!-- Page Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h1 class="h3 mb-0">
-                        <i class="fas fa-tachometer-alt text-primary"></i> Admin Panel
-                    </h1>
-                    <p class="text-muted mb-0">Manage your transportation system</p>
-                </div>
-                <div class="d-flex gap-2">
-                    <button class="btn btn-outline-secondary btn-sm" onclick="refreshAllData()">
-                        <i class="fas fa-sync-alt"></i> Refresh
-                    </button>
-                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#settingsModal">
-                        <i class="fas fa-cog"></i> Settings
-                    </button>
-                </div>
-            </div>
-
-            <!-- Stats Cards -->
-            <div class="row mb-4">
-                <div class="col-xl-3 col-md-6 mb-3">
-                    <div class="card bg-primary text-white h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <div class="h5 mb-0" id="totalRoutes"></div>
-                                    <div class="small">Total Routes</div>
-                                </div>
-                                <div class="fa-2x">
-                                    <i class="fas fa-route"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 mb-3">
-                    <div class="card bg-success text-white h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <div class="h5 mb-0" id="totalStops"></div>
-                                    <div class="small">Total Stops</div>
-                                </div>
-                                <div class="fa-2x">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 mb-3">
-                    <div class="card bg-info text-white h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <div class="h5 mb-0" id="totalTrips"></div>
-                                    <div class="small">Total Trips</div>
-                                </div>
-                                <div class="fa-2x">
-                                    <i class="fas fa-bus"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 mb-3">
-                    <div class="card bg-warning text-white h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <div class="h5 mb-0" id="totalConnections"></div>
-                                    <div class="small">Route Connections</div>
-                                </div>
-                                <div class="fa-2x">
-                                    <i class="fas fa-link"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Main Tabs -->
-            <ul class="nav nav-tabs nav-fill" id="adminTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="routes-tab" data-bs-toggle="tab" data-bs-target="#routes" type="button" role="tab">
-                        <i class="fas fa-route"></i> Routes
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="stops-tab" data-bs-toggle="tab" data-bs-target="#stops" type="button" role="tab">
-                        <i class="fas fa-map-marker-alt"></i> Stops
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="trips-tab" data-bs-toggle="tab" data-bs-target="#trips" type="button" role="tab">
-                        <i class="fas fa-bus"></i> Trips
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="routestops-tab" data-bs-toggle="tab" data-bs-target="#routestops" type="button" role="tab">
-                        <i class="fas fa-link"></i> Route Stops
-                    </button>
-                </li>
-            </ul>
-
-            <!-- Tab Content -->
-            <div class="tab-content" id="adminTabsContent">
-                <!-- Routes Tab -->
-                <div class="tab-pane fade show active" id="routes" role="tabpanel">
-                    <div class="card mt-3">
-                        <div class="card-header d-flex align-items-center gap-2 flex-wrap justify-content-between">
-                            <div class="d-flex align-items-center gap-2 flex-grow-1">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-route text-primary"></i> Routes Management
-                                </h5>
-                            </div>
-                            <div class="mx-auto">
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRouteModal">
-                                    <i class="fas fa-plus"></i> Add Route
-                                </button>
-                            </div>
-                            <div class="ms-auto">
-                                <select class="form-select form-select-sm" id="routesPageSize" onchange="changePageSize('routes')" style="width: 80px;">
-                                    <option value="5">5</option>
-                                    <option value="10" selected>10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                            </div>  
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Description</th>
-                                            <th>Start Location</th>
-                                            <th>End Location</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="routesTableBody">
-                                        <!-- Sample Data -->
-                                        <tr>
-                                            <td>1</td>
-                                            <td><span class="badge bg-primary">Route A</span></td>
-                                            <td>Main city route</td>
-                                            <td>Central Station</td>
-                                            <td>Airport</td>
-                                            <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button class="btn btn-outline-info" onclick="editRoute(1)">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-outline-primary" onclick="showRouteStops(1)">
-														<i class="fas fa-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-outline-danger" onclick="deleteRoute(1)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td><span class="badge bg-success">Route B</span></td>
-                                            <td>Suburban route</td>
-                                            <td>Downtown</td>
-                                            <td>Mall</td>
-                                            <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button class="btn btn-outline-info" onclick="editRoute(2)">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-outline-primary" onclick="showRouteStops(2)">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-outline-danger" onclick="deleteRoute(2)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- Pagination sadece altta -->
-                            <div class="d-flex flex-column align-items-center mt-3">
-                                <nav>
-                                    <ul class="pagination pagination-sm mb-0 justify-content-center" id="routesPagination">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                        </li>
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">Next</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <div class="text-muted small mt-2" id="routesPaginationInfo">
-                                    Showing 1 to 10 of 50 entries
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Stops Tab -->
-                <div class="tab-pane fade" id="stops" role="tabpanel">
-                    <div class="card mt-3">
-                        <div class="card-header d-flex align-items-center gap-2 flex-wrap justify-content-between">
-                            <div class="d-flex align-items-center gap-2 flex-grow-1">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-map-marker-alt text-success"></i> Stops Management
-                                </h5>
-                            </div>
-                            <div class="mx-auto">
-                                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addStopModal">
-                                    <i class="fas fa-plus"></i> Add Stop
-                                </button>
-                            </div>
-                            <div class="ms-auto">
-                                <select class="form-select form-select-sm" id="stopsPageSize" onchange="changePageSize('stops')" style="width: 80px;">
-                                    <option value="5">5</option>
-                                    <option value="10" selected>10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Latitude</th>
-                                            <th>Longitude</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="stopsTableBody">
-                                        <!-- Sample Data -->
-                                        <tr>
-                                            <td>1</td>
-                                            <td><i class="fas fa-map-pin text-danger"></i> Central Station</td>
-                                            <td>40.7128</td>
-                                            <td>-74.0060</td>
-                                            <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button class="btn btn-outline-info" onclick="editStop(1)">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-outline-danger" onclick="deleteStop(1)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td><i class="fas fa-map-pin text-danger"></i> Airport Terminal</td>
-                                            <td>40.6892</td>
-                                            <td>-74.1745</td>
-                                            <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button class="btn btn-outline-info" onclick="editStop(2)">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-outline-danger" onclick="deleteStop(2)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- Pagination sadece altta -->
-                            <div class="d-flex flex-column align-items-center mt-3">
-                                <nav>
-                                    <ul class="pagination pagination-sm mb-0 justify-content-center" id="stopsPagination">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                        </li>
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">Next</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <div class="text-muted small mt-2" id="stopsPaginationInfo">
-                                    Showing 1 to 10 of 50 entries
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Trips Tab -->
-                <div class="tab-pane fade" id="trips" role="tabpanel">
-                    <div class="card mt-3">
-                        <div class="card-header d-flex align-items-center gap-2 flex-wrap justify-content-between">
-                            <div class="d-flex align-items-center gap-2 flex-grow-1">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-bus text-info"></i> Trips Management
-                                </h5>
-                            </div>
-                            <div class="mx-auto">
-                                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addTripModal">
-                                    <i class="fas fa-plus"></i> Add Trip
-                                </button>
-                            </div>
-                            <div class="ms-auto">
-                                <select class="form-select form-select-sm" id="tripsPageSize" onchange="changePageSize('trips')" style="width: 80px;">
-                                    <option value="5">5</option>
-                                    <option value="10" selected>10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Route</th>
-                                            <th>Start Time</th>
-                                            <th>End Time</th>
-                                            <th>Day Type</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tripsTableBody">
-                                        <!-- Sample Data -->
-                                        <tr>
-                                            <td>1</td>
-                                            <td><span class="badge bg-primary">Route A</span></td>
-                                            <td>08:00</td>
-                                            <td>09:30</td>
-                                            <td><span class="badge bg-success">Weekday</span></td>
-                                            <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button class="btn btn-outline-info" onclick="editTrip(1)">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-outline-danger" onclick="deleteTrip(1)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td><span class="badge bg-success">Route B</span></td>
-                                            <td>09:15</td>
-                                            <td>10:45</td>
-                                            <td><span class="badge bg-warning">Weekend</span></td>
-                                            <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button class="btn btn-outline-info" onclick="editTrip(2)">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-outline-danger" onclick="deleteTrip(2)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- Pagination sadece altta -->
-                            <div class="d-flex flex-column align-items-center mt-3">
-                                <nav>
-                                    <ul class="pagination pagination-sm mb-0 justify-content-center" id="tripsPagination">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                        </li>
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">Next</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <div class="text-muted small mt-2" id="tripsPaginationInfo">
-                                    Showing 1 to 10 of 50 entries
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Route Stops Tab -->
-                <div class="tab-pane fade" id="routestops" role="tabpanel">
-                    <div class="card mt-3">
-                        <div class="card-header d-flex align-items-center gap-2 flex-wrap justify-content-between">
-                            <div class="d-flex align-items-center gap-2 flex-grow-1">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-link text-warning"></i> Route Stops Management
-                                </h5>
-                            </div>
-                            <div class="mx-auto">
-                                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addRouteStopModal">
-                                    <i class="fas fa-plus"></i> Add Route Stop
-                                </button>
-                            </div>
-                            <div class="ms-auto">
-                                <select class="form-select form-select-sm" id="routeStopsPageSize" onchange="changePageSize('routeStops')" style="width: 80px;">
-                                    <option value="5">5</option>
-                                    <option value="10" selected>10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Route</th>
-                                            <th>Stop</th>
-                                            <th>Order</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="routeStopsTableBody">
-                                        <!-- Sample Data -->
-                                        <tr>
-                                            <td>1</td>
-                                            <td><span class="badge bg-primary">Route A</span></td>
-                                            <td><i class="fas fa-map-pin text-danger"></i> Central Station</td>
-                                            <td><span class="badge bg-secondary">1</span></td>
-                                            <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button class="btn btn-outline-info" onclick="editRouteStop(1)">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-outline-danger" onclick="deleteRouteStop(1)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td><span class="badge bg-primary">Route A</span></td>
-                                            <td><i class="fas fa-map-pin text-danger"></i> Airport Terminal</td>
-                                            <td><span class="badge bg-secondary">2</span></td>
-                                            <td>
-                                                <div class="btn-group btn-group-sm">
-                                                    <button class="btn btn-outline-info" onclick="editRouteStop(2)">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-outline-danger" onclick="deleteRouteStop(2)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- Pagination sadece altta -->
-                            <div class="d-flex flex-column align-items-center mt-3">
-                                <nav>
-                                    <ul class="pagination pagination-sm mb-0 justify-content-center" id="routeStopsPagination">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                        </li>
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">Next</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <div class="text-muted small mt-2" id="routeStopsPaginationInfo">
-                                    Showing 1 to 10 of 50 entries
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-@section Modals {
-<!-- Add Route Modal -->
-<div class="modal fade" id="addRouteModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title">
-                    <i class="fas fa-plus"></i> Add New Route
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="addRouteForm">
-                    <div class="mb-3">
-                        <label for="routeName" class="form-label">Route Name *</label>
-                        <input type="text" class="form-control" id="routeName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="routeDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="routeDescription" rows="3"></textarea>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="startLocation" class="form-label">Start Location *</label>
-                                <input type="text" class="form-control" id="startLocation" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="endLocation" class="form-label">End Location *</label>
-                                <input type="text" class="form-control" id="endLocation" required>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-times"></i> Cancel
-                </button>
-                <button type="button" class="btn btn-primary" onclick="saveRoute()">
-                    <i class="fas fa-save"></i> Save Route
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Add Stop Modal -->
-<div class="modal fade" id="addStopModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title">
-                    <i class="fas fa-plus"></i> Add New Stop
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="addStopForm">
-                    <div class="mb-3">
-                        <label for="stopName" class="form-label">Stop Name *</label>
-                        <input type="text" class="form-control" id="stopName" required>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="stopLatitude" class="form-label">Latitude *</label>
-                                <input type="number" class="form-control" id="stopLatitude" step="0.000001" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="stopLongitude" class="form-label">Longitude *</label>
-                                <input type="number" class="form-control" id="stopLongitude" step="0.000001" required>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-times"></i> Cancel
-                </button>
-                <button type="button" class="btn btn-success" onclick="saveStop()">
-                    <i class="fas fa-save"></i> Save Stop
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Add Trip Modal -->
-<div class="modal fade" id="addTripModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-info text-white">
-                <h5 class="modal-title">
-                    <i class="fas fa-plus"></i> Add New Trip
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="addTripForm">
-                    <div class="mb-3">
-                        <label for="tripRoute" class="form-label">Route *</label>
-                        <select class="form-select" id="tripRoute" required>
-                            <option value="">Select a route</option>
-                            <option value="1">Route A</option>
-                            <option value="2">Route B</option>
-                        </select>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="startTime" class="form-label">Start Time *</label>
-                                <input type="time" class="form-control" id="startTime" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="endTime" class="form-label">End Time *</label>
-                                <input type="time" class="form-control" id="endTime" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="dayType" class="form-label">Day Type *</label>
-                        <select class="form-select" id="dayType" required>
-                            <option value="">Select day type</option>
-                            <option value="weekday">Weekday</option>
-                            <option value="saturday">Saturday</option>
-                            <option value="sunday">Sunday</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-times"></i> Cancel
-                </button>
-                <button type="button" class="btn btn-info" onclick="saveTrip()">
-                    <i class="fas fa-save"></i> Save Trip
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Add Route Stop Modal -->
-<div class="modal fade" id="addRouteStopModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-warning text-dark">
-                <h5 class="modal-title">
-                    <i class="fas fa-plus"></i> Add Route Stop Connection
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="addRouteStopForm">
-                    <div class="mb-3">
-                        <label for="routeStopRoute" class="form-label">Route *</label>
-                        <select class="form-select" id="routeStopRoute" required>
-                            <option value="">Select a route</option>
-                            <option value="1">Route A</option>
-                            <option value="2">Route B</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="routeStopStop" class="form-label">Stop *</label>
-                        <select class="form-select" id="routeStopStop" required>
-                            <option value="">Select a stop</option>
-                            <option value="1">Central Station</option>
-                            <option value="2">Airport Terminal</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="stopOrder" class="form-label">Order *</label>
-                        <input type="number" class="form-control" id="stopOrder" min="1" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-times"></i> Cancel
-                </button>
-                <button type="button" class="btn btn-warning" onclick="saveRouteStop()">
-                    <i class="fas fa-save"></i> Save Connection
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Settings Modal -->
-<div class="modal fade" id="settingsModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i class="fas fa-cog"></i> Settings
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <h6>Theme Settings</h6>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="theme" id="lightTheme" value="light">
-                        <label class="form-check-label" for="lightTheme">Light Theme</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="theme" id="darkTheme" value="dark">
-                        <label class="form-check-label" for="darkTheme">Dark Theme</label>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <h6>Auto Refresh</h6>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="autoRefresh">
-                        <label class="form-check-label" for="autoRefresh">Enable auto refresh (30s)</label>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modern Route Stops Modal -->
-<div class="modal fade" id="routeStopsModal" tabindex="-1" aria-labelledby="routeStopsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="routeStopsModalLabel">
-                    <i class="fas fa-map-marker-alt"></i> Route Durakları
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">
-                                    <i class="fas fa-sort-numeric-up me-2"></i>Sıra
-                                </th>
-                                <th scope="col">
-                                    <i class="fas fa-map-marker-alt me-2"></i>Durak Adı
-                                </th>
-                                <th scope="col">
-                                    <i class="fas fa-location-dot me-2"></i>Konum
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody id="routeStopsModalBody">
-                            <!-- Route stops will be loaded here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-times"></i> Kapat
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-}
-
-<!-- Toast Container -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
-
 @section Scripts {
+    <script>
+        // Sayfa yüklendiğinde çalışacak kod
+        document.addEventListener('DOMContentLoaded', function() {
+            // localStorage'dan token'ı al
+            const token = localStorage.getItem('token');
+            
+            // Token yoksa veya geçersizse giriş sayfasına yönlendir
+            if (!token || token === 'null' || token === '""' || token === 'undefined') {
+                console.log('No valid token found, redirecting to login...');
+                window.location.href = '/Account/Login?returnUrl=' + encodeURIComponent(window.location.pathname);
+                return;
+            }
+            
+            try {
+                // Token'ı parse et
+                const tokenData = JSON.parse(token);
+                console.log('Token data:', tokenData);
+                
+                // Kullanıcı admin değilse veya role bilgisi yoksa anasayfaya yönlendir
+                if (!tokenData.role || tokenData.role !== 1) {
+                    console.log('User is not an admin, redirecting to home...');
+                    alert('Bu sayfaya erişim yetkiniz yok.');
+                    window.location.href = '/';
+                }
+            } catch (e) {
+                console.error('Error parsing token:', e);
+                window.location.href = '/Account/Login?returnUrl=' + encodeURIComponent(window.location.pathname);
+            }
+        });
+    </script>
     <script>
         // Admin Panel JavaScript Functions
         
@@ -1616,6 +855,799 @@
     <!-- AdminPanel özel JavaScript dosyası -->
     <script src="~/js/adminpanelscript.js" asp-append-version="true"></script>
 }
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-0">
+                        <i class="fas fa-tachometer-alt text-primary"></i> Admin Panel
+                    </h1>
+                    <p class="text-muted mb-0">Manage your transportation system</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-secondary btn-sm" onclick="refreshAllData()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row mb-4">
+                <div class="col-xl-3 col-md-6 mb-3">
+                    <div class="card bg-primary text-white h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="h5 mb-0" id="totalRoutes"></div>
+                                    <div class="small">Total Routes</div>
+                                </div>
+                                <div class="fa-2x">
+                                    <i class="fas fa-route"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-3">
+                    <div class="card bg-success text-white h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="h5 mb-0" id="totalStops"></div>
+                                    <div class="small">Total Stops</div>
+                                </div>
+                                <div class="fa-2x">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-3">
+                    <div class="card bg-info text-white h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="h5 mb-0" id="totalTrips"></div>
+                                    <div class="small">Total Trips</div>
+                                </div>
+                                <div class="fa-2x">
+                                    <i class="fas fa-bus"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-3">
+                    <div class="card bg-warning text-white h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="h5 mb-0" id="totalConnections"></div>
+                                    <div class="small">Route Connections</div>
+                                </div>
+                                <div class="fa-2x">
+                                    <i class="fas fa-link"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Tabs -->
+            <ul class="nav nav-tabs nav-fill" id="adminTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="routes-tab" data-bs-toggle="tab" data-bs-target="#routes" type="button" role="tab">
+                        <i class="fas fa-route"></i> Routes
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="stops-tab" data-bs-toggle="tab" data-bs-target="#stops" type="button" role="tab">
+                        <i class="fas fa-map-marker-alt"></i> Stops
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="trips-tab" data-bs-toggle="tab" data-bs-target="#trips" type="button" role="tab">
+                        <i class="fas fa-bus"></i> Trips
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="routestops-tab" data-bs-toggle="tab" data-bs-target="#routestops" type="button" role="tab">
+                        <i class="fas fa-link"></i> Route Stops
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="adminTabsContent">
+                <!-- Routes Tab -->
+                <div class="tab-pane fade show active" id="routes" role="tabpanel">
+                    <div class="card mt-3">
+                        <div class="card-header d-flex align-items-center gap-2 flex-wrap justify-content-between">
+                            <div class="d-flex align-items-center gap-2 flex-grow-1">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-route text-primary"></i> Routes Management
+                                </h5>
+                            </div>
+                            <div class="mx-auto">
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRouteModal">
+                                    <i class="fas fa-plus"></i> Add Route
+                                </button>
+                            </div>
+                            <div class="ms-auto">
+                                <select class="form-select form-select-sm" id="routesPageSize" onchange="changePageSize('routes')" style="width: 80px;">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>  
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th>Start Location</th>
+                                            <th>End Location</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="routesTableBody">
+                                        <!-- Sample Data -->
+                                        <tr>
+                                            <td>1</td>
+                                            <td><span class="badge bg-primary">Route A</span></td>
+                                            <td>Main city route</td>
+                                            <td>Central Station</td>
+                                            <td>Airport</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button class="btn btn-outline-info" onclick="editRoute(1)">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-primary" onclick="showRouteStops(1)">
+														<i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-danger" onclick="deleteRoute(1)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><span class="badge bg-success">Route B</span></td>
+                                            <td>Suburban route</td>
+                                            <td>Downtown</td>
+                                            <td>Mall</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button class="btn btn-outline-info" onclick="editRoute(2)">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-primary" onclick="showRouteStops(2)">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-danger" onclick="deleteRoute(2)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Pagination sadece altta -->
+                            <div class="d-flex flex-column align-items-center mt-3">
+                                <nav>
+                                    <ul class="pagination pagination-sm mb-0 justify-content-center" id="routesPagination">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <div class="text-muted small mt-2" id="routesPaginationInfo">
+                                    Showing 1 to 10 of 50 entries
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stops Tab -->
+                <div class="tab-pane fade" id="stops" role="tabpanel">
+                    <div class="card mt-3">
+                        <div class="card-header d-flex align-items-center gap-2 flex-wrap justify-content-between">
+                            <div class="d-flex align-items-center gap-2 flex-grow-1">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-map-marker-alt text-success"></i> Stops Management
+                                </h5>
+                            </div>
+                            <div class="mx-auto">
+                                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addStopModal">
+                                    <i class="fas fa-plus"></i> Add Stop
+                                </button>
+                            </div>
+                            <div class="ms-auto">
+                                <select class="form-select form-select-sm" id="stopsPageSize" onchange="changePageSize('stops')" style="width: 80px;">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Latitude</th>
+                                            <th>Longitude</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="stopsTableBody">
+                                        <!-- Sample Data -->
+                                        <tr>
+                                            <td>1</td>
+                                            <td><i class="fas fa-map-pin text-danger"></i> Central Station</td>
+                                            <td>40.7128</td>
+                                            <td>-74.0060</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button class="btn btn-outline-info" onclick="editStop(1)">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-danger" onclick="deleteStop(1)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><i class="fas fa-map-pin text-danger"></i> Airport Terminal</td>
+                                            <td>40.6892</td>
+                                            <td>-74.1745</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button class="btn btn-outline-info" onclick="editStop(2)">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-danger" onclick="deleteStop(2)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Pagination sadece altta -->
+                            <div class="d-flex flex-column align-items-center mt-3">
+                                <nav>
+                                    <ul class="pagination pagination-sm mb-0 justify-content-center" id="stopsPagination">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <div class="text-muted small mt-2" id="stopsPaginationInfo">
+                                    Showing 1 to 10 of 50 entries
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trips Tab -->
+                <div class="tab-pane fade" id="trips" role="tabpanel">
+                    <div class="card mt-3">
+                        <div class="card-header d-flex align-items-center gap-2 flex-wrap justify-content-between">
+                            <div class="d-flex align-items-center gap-2 flex-grow-1">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-bus text-info"></i> Trips Management
+                                </h5>
+                            </div>
+                            <div class="mx-auto">
+                                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addTripModal">
+                                    <i class="fas fa-plus"></i> Add Trip
+                                </button>
+                            </div>
+                            <div class="ms-auto">
+                                <select class="form-select form-select-sm" id="tripsPageSize" onchange="changePageSize('trips')" style="width: 80px;">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Route</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
+                                            <th>Day Type</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tripsTableBody">
+                                        <!-- Sample Data -->
+                                        <tr>
+                                            <td>1</td>
+                                            <td><span class="badge bg-primary">Route A</span></td>
+                                            <td>08:00</td>
+                                            <td>09:30</td>
+                                            <td><span class="badge bg-success">Weekday</span></td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button class="btn btn-outline-info" onclick="editTrip(1)">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-danger" onclick="deleteTrip(1)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><span class="badge bg-success">Route B</span></td>
+                                            <td>09:15</td>
+                                            <td>10:45</td>
+                                            <td><span class="badge bg-warning">Weekend</span></td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button class="btn btn-outline-info" onclick="editTrip(2)">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-danger" onclick="deleteTrip(2)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Pagination sadece altta -->
+                            <div class="d-flex flex-column align-items-center mt-3">
+                                <nav>
+                                    <ul class="pagination pagination-sm mb-0 justify-content-center" id="tripsPagination">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <div class="text-muted small mt-2" id="tripsPaginationInfo">
+                                    Showing 1 to 10 of 50 entries
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Route Stops Tab -->
+                <div class="tab-pane fade" id="routestops" role="tabpanel">
+                    <div class="card mt-3">
+                        <div class="card-header d-flex align-items-center gap-2 flex-wrap justify-content-between">
+                            <div class="d-flex align-items-center gap-2 flex-grow-1">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-link text-warning"></i> Route Stops Management
+                                </h5>
+                            </div>
+                            <div class="mx-auto">
+                                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addRouteStopModal">
+                                    <i class="fas fa-plus"></i> Add Route Stop
+                                </button>
+                            </div>
+                            <div class="ms-auto">
+                                <select class="form-select form-select-sm" id="routeStopsPageSize" onchange="changePageSize('routeStops')" style="width: 80px;">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Route</th>
+                                            <th>Stop</th>
+                                            <th>Order</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="routeStopsTableBody">
+                                        <!-- Sample Data -->
+                                        <tr>
+                                            <td>1</td>
+                                            <td><span class="badge bg-primary">Route A</span></td>
+                                            <td><i class="fas fa-map-pin text-danger"></i> Central Station</td>
+                                            <td><span class="badge bg-secondary">1</span></td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button class="btn btn-outline-info" onclick="editRouteStop(1)">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-danger" onclick="deleteRouteStop(1)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><span class="badge bg-primary">Route A</span></td>
+                                            <td><i class="fas fa-map-pin text-danger"></i> Airport Terminal</td>
+                                            <td><span class="badge bg-secondary">2</span></td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button class="btn btn-outline-info" onclick="editRouteStop(2)">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-danger" onclick="deleteRouteStop(2)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Pagination sadece altta -->
+                            <div class="d-flex flex-column align-items-center mt-3">
+                                <nav>
+                                    <ul class="pagination pagination-sm mb-0 justify-content-center" id="routeStopsPagination">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <div class="text-muted small mt-2" id="routeStopsPaginationInfo">
+                                    Showing 1 to 10 of 50 entries
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Modals {
+<!-- Add Route Modal -->
+<div class="modal fade" id="addRouteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-plus"></i> Add New Route
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addRouteForm">
+                    <div class="mb-3">
+                        <label for="routeName" class="form-label">Route Name *</label>
+                        <input type="text" class="form-control" id="routeName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="routeDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="routeDescription" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="startLocation" class="form-label">Start Location *</label>
+                                <input type="text" class="form-control" id="startLocation" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="endLocation" class="form-label">End Location *</label>
+                                <input type="text" class="form-control" id="endLocation" required>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-primary" onclick="saveRoute()">
+                    <i class="fas fa-save"></i> Save Route
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Stop Modal -->
+<div class="modal fade" id="addStopModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-plus"></i> Add New Stop
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addStopForm">
+                    <div class="mb-3">
+                        <label for="stopName" class="form-label">Stop Name *</label>
+                        <input type="text" class="form-control" id="stopName" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="stopLatitude" class="form-label">Latitude *</label>
+                                <input type="number" class="form-control" id="stopLatitude" step="0.000001" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="stopLongitude" class="form-label">Longitude *</label>
+                                <input type="number" class="form-control" id="stopLongitude" step="0.000001" required>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-success" onclick="saveStop()">
+                    <i class="fas fa-save"></i> Save Stop
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Trip Modal -->
+<div class="modal fade" id="addTripModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-plus"></i> Add New Trip
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addTripForm">
+                    <div class="mb-3">
+                        <label for="tripRoute" class="form-label">Route *</label>
+                        <select class="form-select" id="tripRoute" required>
+                            <option value="">Select a route</option>
+                            <option value="1">Route A</option>
+                            <option value="2">Route B</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="startTime" class="form-label">Start Time *</label>
+                                <input type="time" class="form-control" id="startTime" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="endTime" class="form-label">End Time *</label>
+                                <input type="time" class="form-control" id="endTime" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dayType" class="form-label">Day Type *</label>
+                        <select class="form-select" id="dayType" required>
+                            <option value="">Select day type</option>
+                            <option value="weekday">Weekday</option>
+                            <option value="saturday">Saturday</option>
+                            <option value="sunday">Sunday</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-info" onclick="saveTrip()">
+                    <i class="fas fa-save"></i> Save Trip
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Route Stop Modal -->
+<div class="modal fade" id="addRouteStopModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title">
+                    <i class="fas fa-plus"></i> Add Route Stop Connection
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addRouteStopForm">
+                    <div class="mb-3">
+                        <label for="routeStopRoute" class="form-label">Route *</label>
+                        <select class="form-select" id="routeStopRoute" required>
+                            <option value="">Select a route</option>
+                            <option value="1">Route A</option>
+                            <option value="2">Route B</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="routeStopStop" class="form-label">Stop *</label>
+                        <select class="form-select" id="routeStopStop" required>
+                            <option value="">Select a stop</option>
+                            <option value="1">Central Station</option>
+                            <option value="2">Airport Terminal</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stopOrder" class="form-label">Order *</label>
+                        <input type="number" class="form-control" id="stopOrder" min="1" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-warning" onclick="saveRouteStop()">
+                    <i class="fas fa-save"></i> Save Connection
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal fade" id="settingsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-cog"></i> Settings
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <h6>Theme Settings</h6>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="theme" id="lightTheme" value="light">
+                        <label class="form-check-label" for="lightTheme">Light Theme</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="theme" id="darkTheme" value="dark">
+                        <label class="form-check-label" for="darkTheme">Dark Theme</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <h6>Auto Refresh</h6>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="autoRefresh">
+                        <label class="form-check-label" for="autoRefresh">Enable auto refresh (30s)</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modern Route Stops Modal -->
+<div class="modal fade" id="routeStopsModal" tabindex="-1" aria-labelledby="routeStopsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="routeStopsModalLabel">
+                    <i class="fas fa-map-marker-alt"></i> Route Durakları
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    <i class="fas fa-sort-numeric-up me-2"></i>Sıra
+                                </th>
+                                <th scope="col">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Durak Adı
+                                </th>
+                                <th scope="col">
+                                    <i class="fas fa-location-dot me-2"></i>Konum
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="routeStopsModalBody">
+                            <!-- Route stops will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+<!-- Toast Container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
+
+
 
 @section Styles {
     <style>

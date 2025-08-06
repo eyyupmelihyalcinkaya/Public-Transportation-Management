@@ -11,7 +11,7 @@ body:not(.dark) .admin-container {
 
 /* Koyu Tema */
 body.dark .admin-container {
-    background: rgba(15, 15, 15, 0.95);
+    background: rgba(30, 41, 59, 0.95);
     backdrop-filter: blur(10px);
     color: #f8f9fa;
 }
@@ -44,7 +44,7 @@ body.dark .card h6,
 body.dark .card p,
 body.dark .card span,
 body.dark .card div {
-    background: rgba(30, 30, 30, 0.95) !important;
+    background: rgba(51, 65, 85, 0.95) !important;
     border: none !important;
     color: #f8f9fa !important;
 }
@@ -76,7 +76,7 @@ body.dark .table tfoot {
     body.dark .table-dark th,
     body.dark .table th {
         color: #f8f9fa !important;
-        background-color: #1a1a1a !important;
+        background-color: #1e293b !important;
         border-color: rgba(255, 255, 255, 0.2) !important;
     }
 
@@ -88,13 +88,13 @@ body.dark .table tfoot {
     }
 
 body.dark .table-dark {
-    background-color: #1a1a1a !important;
+    background-color: #1e293b !important;
     border-color: rgba(255, 255, 255, 0.2) !important;
     color: #f8f9fa !important;
 }
 
 body.dark .table-striped > tbody > tr:nth-of-type(odd) > td {
-    background-color: rgba(255, 255, 255, 0.05) !important;
+    background-color: rgba(30, 41, 59, 0.3) !important;
     color: #f8f9fa !important;
 }
 
@@ -119,7 +119,7 @@ body:not(.dark) .modal-content {
 
 /* Koyu tema modal'ları */
 body.dark .modal-content {
-    background: rgba(20, 20, 20, 0.98) !important;
+    background: rgba(30, 41, 59, 0.98) !important;
     color: #f8f9fa !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
@@ -201,19 +201,19 @@ body:not(.dark) .form-select {
 
 /* Koyu tema form'ları */
 body.dark .form-control {
-    background: rgba(40, 40, 40, 0.9) !important;
+    background: rgba(51, 65, 85, 0.9) !important;
     border: 2px solid rgba(255, 255, 255, 0.2) !important;
     color: #f8f9fa !important;
 }
 
     body.dark .form-control:focus {
-        background: rgba(50, 50, 50, 0.9) !important;
+        background: rgba(51, 65, 85, 0.95) !important;
         border-color: #64c8ff !important;
         box-shadow: 0 0 0 0.2rem rgba(100, 200, 255, 0.25) !important;
     }
 
 body.dark .form-select {
-    background: rgba(40, 40, 40, 0.9) !important;
+    background: rgba(51, 65, 85, 0.9) !important;
     border: 2px solid rgba(255, 255, 255, 0.2) !important;
     color: #f8f9fa !important;
 }
@@ -301,13 +301,13 @@ body.dark *:after {
     /* Card header ve footer */
     body.dark .card-header {
         color: #f8f9fa !important;
-        background-color: rgba(255, 255, 255, 0.05) !important;
+        background-color: rgba(30, 41, 59, 0.3) !important;
         border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
 
     body.dark .card-footer {
         color: #f8f9fa !important;
-        background-color: rgba(255, 255, 255, 0.05) !important;
+        background-color: rgba(30, 41, 59, 0.3) !important;
         border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
 
@@ -408,7 +408,7 @@ body.dark *:after {
     /* ============ DROPDOWN VE SELECT ============ */
 
     body.dark .dropdown-menu {
-        background-color: rgba(30, 30, 30, 0.95) !important;
+        background-color: rgba(30, 41, 59, 0.95) !important;
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
 
@@ -456,7 +456,7 @@ body.dark *:after {
     /* ============ BREADCRUMB ============ */
 
     body.dark .breadcrumb {
-        background-color: rgba(255, 255, 255, 0.05) !important;
+        background-color: rgba(30, 41, 59, 0.3) !important;
     }
 
     body.dark .breadcrumb-item {
@@ -474,13 +474,13 @@ body.dark *:after {
     /* ============ LİSTE ELEMANLARI ============ */
 
     body.dark .list-group-item {
-        background-color: rgba(255, 255, 255, 0.05) !important;
+        background-color: rgba(30, 41, 59, 0.3) !important;
         border-color: rgba(255, 255, 255, 0.2) !important;
         color: #f8f9fa !important;
     }
 
         body.dark .list-group-item:hover {
-            background-color: rgba(255, 255, 255, 0.1) !important;
+            background-color: rgba(30, 41, 59, 0.5) !important;
         }
 
         body.dark .list-group-item.active {
@@ -492,13 +492,13 @@ body.dark *:after {
     /* ============ PAGINATION ============ */
 
     body.dark .pagination .page-link {
-        background-color: rgba(255, 255, 255, 0.05) !important;
+        background-color: rgba(30, 41, 59, 0.3) !important;
         border-color: rgba(255, 255, 255, 0.2) !important;
         color: #f8f9fa !important;
     }
 
         body.dark .pagination .page-link:hover {
-            background-color: rgba(255, 255, 255, 0.1) !important;
+            background-color: rgba(30, 41, 59, 0.5) !important;
             border-color: rgba(255, 255, 255, 0.3) !important;
             color: #f8f9fa !important;
         }
@@ -1201,7 +1201,7 @@ body.dark .badge.bg-warning {
 }
 
 body.dark .navbar {
-    background-color: #000000 !important; /* Tam siyah */
+    background-color: #1e293b !important; /* Lacivertimsi */
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 

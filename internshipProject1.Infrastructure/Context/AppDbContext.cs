@@ -68,9 +68,18 @@ namespace internshipProject1.Infrastructure.Context
                 entity.Property(c => c.Name).IsRequired().HasMaxLength(100);
                 entity.Property(c => c.Email).IsRequired().HasMaxLength(100);
                 entity.Property(c => c.PhoneNumber).IsRequired().HasMaxLength(15);
-                entity.HasOne(e => e.Card)
+           /*     entity.HasOne(e => e.Card)
                     .WithOne(c => c.Customer)
                     .HasForeignKey<Card>(c => c.CustomerId);
+           */
+                entity.HasOne(e => e.User)
+                    .WithOne(u => u.Customer)
+                    .HasForeignKey<Customer>(c => c.UserId)
+                    .IsRequired(false);
+
+                entity.HasMany(e => e.CardList)
+                .WithOne(e => e.Customer)
+                .HasForeignKey(c => c.CustomerId);
             });
             modelBuilder.Entity<Card>(entity => { 
                 entity.HasKey(c => c.Id);
@@ -87,6 +96,8 @@ namespace internshipProject1.Infrastructure.Context
                 entity.Property(ct => ct.TransactionDate).IsRequired();
             });
 
+            
+        
         }
             
     }

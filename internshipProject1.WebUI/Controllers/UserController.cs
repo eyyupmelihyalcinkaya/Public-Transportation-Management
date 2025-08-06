@@ -19,6 +19,7 @@ namespace internshipProject1.WebUI.Controllers
             var sessionToken = HttpContext.Session.GetString("UserToken");
             var userRole = HttpContext.Session.GetString("userRole");
             var username = HttpContext.Session.GetString("username");
+            var userId = HttpContext.Session.GetString("userId");
             
             // Giriş yapılmamışsa login sayfasına yönlendir
             if (string.IsNullOrEmpty(sessionToken))
@@ -35,6 +36,7 @@ namespace internshipProject1.WebUI.Controllers
             
             ViewBag.Username = username;
             ViewBag.UserRole = userRole;
+            ViewBag.UserId = userId;
             ViewBag.GatewayUrl = _configuration["ApiSettings:GatewayUrl"];
             ViewBag.ApiKey = _configuration["ApiSettings:ApiKey"];
             
@@ -47,6 +49,7 @@ namespace internshipProject1.WebUI.Controllers
             var sessionToken = HttpContext.Session.GetString("UserToken");
             var userRole = HttpContext.Session.GetString("userRole");
             var username = HttpContext.Session.GetString("username");
+            var userId = HttpContext.Session.GetString("userId");
             
             if (string.IsNullOrEmpty(sessionToken))
             {
@@ -61,6 +64,7 @@ namespace internshipProject1.WebUI.Controllers
             
             ViewBag.Username = username;
             ViewBag.UserRole = userRole;
+            ViewBag.UserId = userId;
             ViewBag.GatewayUrl = _configuration["ApiSettings:GatewayUrl"];
             ViewBag.ApiKey = _configuration["ApiSettings:ApiKey"];
             
@@ -73,6 +77,7 @@ namespace internshipProject1.WebUI.Controllers
             var sessionToken = HttpContext.Session.GetString("UserToken");
             var userRole = HttpContext.Session.GetString("userRole");
             var username = HttpContext.Session.GetString("username");
+            var userId = HttpContext.Session.GetString("userId");
             
             if (string.IsNullOrEmpty(sessionToken))
             {
@@ -87,6 +92,7 @@ namespace internshipProject1.WebUI.Controllers
             
             ViewBag.Username = username;
             ViewBag.UserRole = userRole;
+            ViewBag.UserId = userId;
             ViewBag.GatewayUrl = _configuration["ApiSettings:GatewayUrl"];
             ViewBag.ApiKey = _configuration["ApiSettings:ApiKey"];
             
@@ -99,6 +105,7 @@ namespace internshipProject1.WebUI.Controllers
             var sessionToken = HttpContext.Session.GetString("UserToken");
             var userRole = HttpContext.Session.GetString("userRole");
             var username = HttpContext.Session.GetString("username");
+            var userId = HttpContext.Session.GetString("userId");
             
             if (string.IsNullOrEmpty(sessionToken))
             {
@@ -113,6 +120,7 @@ namespace internshipProject1.WebUI.Controllers
             
             ViewBag.Username = username;
             ViewBag.UserRole = userRole;
+            ViewBag.UserId = userId;
             
             return View();
         }
@@ -123,6 +131,7 @@ namespace internshipProject1.WebUI.Controllers
             var sessionToken = HttpContext.Session.GetString("UserToken");
             var userRole = HttpContext.Session.GetString("userRole");
             var username = HttpContext.Session.GetString("username");
+            var userId = HttpContext.Session.GetString("userId");
             
             if (string.IsNullOrEmpty(sessionToken))
             {
@@ -137,6 +146,7 @@ namespace internshipProject1.WebUI.Controllers
             
             ViewBag.Username = username;
             ViewBag.UserRole = userRole;
+            ViewBag.UserId = userId;
             ViewBag.GatewayUrl = _configuration["ApiSettings:GatewayUrl"];
             ViewBag.ApiKey = _configuration["ApiSettings:ApiKey"];
             

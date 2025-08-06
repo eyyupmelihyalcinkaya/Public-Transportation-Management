@@ -22,13 +22,13 @@ namespace PaymentService.Repositories
             return transaction.Entity;
         }
 
-        public async Task<IEnumerable<BoardingTransaction>> GetByCardIdAsync(int cardId, CancellationToken cancellationToken)
+        public async Task<IEnumerable<BoardingTransaction>> GetByCardIdAsync(string CardNumber, CancellationToken cancellationToken)
         {
             var transaction = await _context.BoardingTransactions
-                .Where(c=>c.CardId == cardId).ToListAsync(cancellationToken);
+                .Where(c=>c.CardNumber == CardNumber).ToListAsync(cancellationToken);
             if (transaction == null || !transaction.Any())
             {
-                throw new KeyNotFoundException($"No transactions found for card ID {cardId}");
+                throw new KeyNotFoundException($"No transactions found for card ID {CardNumber}");
             }
             return transaction;
         }

@@ -14,15 +14,15 @@ namespace PaymentService.Features.Queries.GetByCardId
 
         public async Task<GetByCardIdQueryResponse> Handle(GetByCardIdQueryRequest request, CancellationToken cancellationToken)
         { 
-            var transactions = await _boardingRepository.GetByCardIdAsync(request.CardId, cancellationToken);
+            var transactions = await _boardingRepository.GetByCardIdAsync(request.CardNumber, cancellationToken);
             if (transactions == null || !transactions.Any())
             {
-                throw new KeyNotFoundException($"No transactions found for CardId: {request.CardId}");
+                throw new KeyNotFoundException($"No transactions found for CardId: {request.CardNumber}");
             }
             var response = transactions.Select(t => new GetByCardIdQueryResponse
             {
                 Id = t.Id,
-                CardId = t.CardId,
+                CardNumber = t.CardNumber,
                 Amount = t.Amount,
                 Balance = t.Balance,
                 TransactionDate = t.TransactionDate,

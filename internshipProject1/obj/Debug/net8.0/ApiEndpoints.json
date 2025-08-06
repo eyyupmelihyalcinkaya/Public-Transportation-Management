@@ -69,6 +69,38 @@
   },
   {
     "ContainingType": "internshipProject1.WebAPI.Controllers.CardController",
+    "Method": "GetBalanceById",
+    "RelativePath": "api/Card/GetBalanceByCardID",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.CardController",
+    "Method": "GetBalanceByCardNumber",
+    "RelativePath": "api/Card/GetBalanceByCardNumber",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cardNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.CardController",
     "Method": "GetCardById",
     "RelativePath": "api/Card/GetById",
     "HttpMethod": "GET",
@@ -78,6 +110,22 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.CardController",
+    "Method": "GetCardByCustomerEmail",
+    "RelativePath": "api/Card/GetCardByCustomerEmail",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -331,6 +379,22 @@
       {
         "Name": "surname",
         "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.CustomerController",
+    "Method": "GetCustomerByUserId",
+    "RelativePath": "api/Customer/CustomerByUserId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],

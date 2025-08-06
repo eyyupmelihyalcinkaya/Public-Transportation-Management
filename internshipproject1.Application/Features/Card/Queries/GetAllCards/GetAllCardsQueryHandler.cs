@@ -28,6 +28,7 @@ namespace internshipproject1.Application.Features.Card.Queries.GetAllCards
             {
                 Id = card.Id,
                 CustomerId = card.CustomerId,
+                CardNumber = card.CardNumber,
                 Balance = card.Balance,
                 IsActive = card.IsActive,
                 ExpirationDate = card.ExpirationDate

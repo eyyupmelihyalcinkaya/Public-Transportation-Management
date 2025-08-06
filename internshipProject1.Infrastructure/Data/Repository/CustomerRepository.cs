@@ -41,6 +41,16 @@ namespace internshipProject1.Infrastructure.Data.Repository
             return exists;
         }
 
+        public Task<bool> CustomerExistsByUserId(int userId, CancellationToken cancellationToken)
+        {
+            if (userId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(userId), "User ID must be greater than zero.");
+            }
+            var customerExsts = _context.Customer.AnyAsync(c => c.UserId == userId && !c.IsDeleted, cancellationToken);
+            return customerExsts;
+        }
+
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
             if (id <= 0)
@@ -121,6 +131,20 @@ namespace internshipProject1.Infrastructure.Data.Repository
                 throw new KeyNotFoundException($"Customer with ID {id} not found or has been deleted.");
             }
             return customerById;
+        }
+
+        public async Task<Customer> GetByUserIdAsync(int userId, CancellationToken cancellationToken)
+        {
+            if(userId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(userId), "User ID must be greater than zero.");
+            }
+            var customerByUserId = await _context.Customer.FirstOrDefaultAsync(c => c.UserId == userId && !c.IsDeleted, cancellationToken);
+            if (customerByUserId == null)
+            {
+                throw new KeyNotFoundException($"Customer with User ID {userId} not found or has been deleted.");
+            }
+            return customerByUserId;
         }
 
         public async Task<(IReadOnlyList<Customer> Items, int TotalCount)> GetPagedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)

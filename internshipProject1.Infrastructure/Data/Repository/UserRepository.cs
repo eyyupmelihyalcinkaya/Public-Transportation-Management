@@ -127,5 +127,16 @@ namespace internshipProject1.Infrastructure.Data.Repository
         {
             return UpdateAsync(entity,cancellationToken);
         }
+        public Task<User> GetByIdWithCustomerAsync(int id, CancellationToken cancellationToken)
+        { 
+            var user = _dbContext.Users
+                .Include(u => u.Customer)
+                .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
+            if (user == null)
+            { 
+                throw new ArgumentNullException(nameof(user));
+            }
+            return user;
+        }
     }
 }

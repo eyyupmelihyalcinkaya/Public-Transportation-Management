@@ -48,19 +48,37 @@
             </div>
         </div>
 
-        <!-- Kartım -->
+        <!-- Kart Ekle -->
         <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card glass-card h-100 quick-action-card">
+                <div class="card-body text-center d-flex flex-column">
+                    <div class="quick-action-icon mb-3">
+                        <i class="fas fa-plus-circle text-primary"></i>
+                    </div>
+                    <h5 class="card-title">Yeni Kart Ekle</h5>
+                    <p class="card-text">Yeni bir ulaşım kartı oluşturun</p>
+                    <div class="mt-auto">
+                        <button id="showAddCardBtn" class="btn btn-modern btn-primary btn-sm">
+                            <i class="fas fa-plus"></i> Ekle
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kartım -->
+        <div id="showMyCardsBtn" class="col-md-6 col-lg-3 mb-3">
             <div class="card glass-card h-100 quick-action-card">
                 <div class="card-body text-center d-flex flex-column">
                     <div class="quick-action-icon mb-3">
                         <i class="fas fa-id-card text-info"></i>
                     </div>
-                    <h5 class="card-title">Kartım</h5>
-                    <p class="card-text">Ulaşım kartınızın durumunu görüntüleyin</p>
+                    <h5 class="card-title">Kartlarım</h5>
+                    <p class="card-text">Ulaşım kartlarınızı görüntüleyin</p>
                     <div class="mt-auto">
-                        <a href="/User/Card" class="btn btn-modern btn-info btn-sm">
+                        <button class="btn btn-modern btn-info btn-sm">
                             <i class="fas fa-eye"></i> Görüntüle
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -121,7 +139,7 @@
                     <div class="stat-icon mb-2">
                         <i class="fas fa-credit-card text-primary"></i>
                     </div>
-                    <h3 class="stat-number text-primary">₺45.50</h3>
+                    <h3 class="stat-number text-primary" id="cardBalance">₺0.00</h3>
                     <p class="stat-label">Kart Bakiyesi</p>
                 </div>
             </div>
@@ -214,7 +232,9 @@
                     <i class="fas fa-credit-card text-success"></i>
                     Kart Yükle
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="modal-body">
                 <form id="cardRechargeForm">
@@ -262,6 +282,98 @@
                 <button type="button" class="btn btn-modern btn-success" onclick="rechargeCard()">
                     <i class="fas fa-credit-card"></i> Kart Yükle
                 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Kart Ekleme Modal -->
+<div class="modal fade" id="addCardModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-plus-circle text-primary"></i>
+                    Yeni Kart Ekle
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Kart Önizleme -->
+                    <div class="col-md-7 d-flex justify-content-center align-items-center">
+                        <div class="card-container">
+                            <div class="card" id="creditCard">
+                                <div class="card-face card-front">
+                                    <div class="card-chip"></div>
+                                    <div class="card-logo" id="cardLogo">ULAŞIM KART</div>
+                                    <div class="card-number" id="cardNumber">1234 5678 9012 3456</div>
+                                    <div class="card-info">
+                                        <div>
+                                            <div class="card-label">Kart Sahibi</div>
+                                            <div class="card-holder" id="cardHolder">@ViewBag.Username</div>
+                                        </div>
+                                        <div>
+                                            <div class="card-label">Kart Adı</div>
+                                            <div class="card-alias" id="previewCardAlias">Kart Adı</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-face card-back">
+                                    <div class="magnetic-stripe"></div>
+                                    <div class="card-back-info">
+                                        <div class="card-label">Ulaşım Kartı</div>
+                                        <div class="card-description">Şehir İçi Ulaşım Sistemi</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-hint">Karta tıklayarak çevirin</div>
+                        </div>
+                    </div>
+
+                    <!-- Kart Formu -->
+                    <div class="col-md-5">
+                        <h4>Kart Bilgileri</h4>
+                        <form id="addCardForm">
+                            <div class="mb-3">
+                                <label for="cardAlias" class="form-label">Kart Adı (Alias)</label>
+                                <input type="text" class="form-control" id="cardAlias" placeholder="Örn: Okul Kartım" required>
+                                <div class="form-text">Bu ad, kartınızı kolayca tanımanızı sağlar.</div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-modern btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-modern btn-primary" onclick="addCard()">
+                    <i class="fas fa-plus"></i> Kartı Oluştur
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Kartlarım Modal -->
+<div class="modal fade" id="myCardsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-id-card text-info"></i>
+                    Kartlarım
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="myCardsModalBody" class="modal-body">
+                <!-- Kartlar buraya dinamik olarak eklenecek -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-modern btn-secondary" data-bs-dismiss="modal">Kapat</button>
             </div>
         </div>
     </div>
@@ -367,15 +479,1190 @@
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(15px);
     }
+
+    /* Dark tema kart yükleme modal stilleri */
+    body.dark .glass-card {
+        background: rgba(30, 41, 59, 0.95) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: #f8f9fa !important;
+    }
+
+    body.dark #cardRechargeModal .modal-content {
+        background: rgba(30, 41, 59, 0.98) !important;
+        color: #f8f9fa !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    body.dark #cardRechargeModal .modal-header {
+        background: linear-gradient(135deg, #1e40af 0%, #5b21b6 100%) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: white !important;
+    }
+
+    body.dark #cardRechargeModal .modal-title {
+        color: white !important;
+    }
+
+    body.dark #cardRechargeModal .modal-title i {
+        color: #32d74b !important;
+    }
+
+    body.dark #cardRechargeModal .btn-close {
+        background: rgba(255, 255, 255, 0.2) !important;
+        border-radius: 50% !important;
+        padding: 0.5rem !important;
+        transition: all 0.3s ease !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        width: 35px !important;
+        height: 35px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    body.dark #cardRechargeModal .btn-close:hover {
+        background: rgba(255, 255, 255, 0.3) !important;
+        transform: scale(1.1) !important;
+        border-color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    body.dark #cardRechargeModal .btn-close i {
+        color: white !important;
+        font-size: 14px !important;
+    }
+
+    body.dark #cardRechargeModal .modal-body {
+        background: rgba(30, 41, 59, 0.98) !important;
+        color: #f8f9fa !important;
+    }
+
+    body.dark #cardRechargeModal .form-label {
+        color: #f8f9fa !important;
+        font-weight: 600 !important;
+    }
+
+    body.dark #cardRechargeModal .form-control {
+        background: rgba(51, 65, 85, 0.9) !important;
+        border: 2px solid rgba(255, 255, 255, 0.2) !important;
+        color: #f8f9fa !important;
+    }
+
+    body.dark #cardRechargeModal .form-control:focus {
+        background: rgba(51, 65, 85, 0.95) !important;
+        border-color: #64c8ff !important;
+        box-shadow: 0 0 0 0.2rem rgba(100, 200, 255, 0.25) !important;
+        color: #f8f9fa !important;
+    }
+
+    body.dark #cardRechargeModal .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    body.dark #cardRechargeModal .form-select {
+        background: rgba(51, 65, 85, 0.9) !important;
+        border: 2px solid rgba(255, 255, 255, 0.2) !important;
+        color: #f8f9fa !important;
+    }
+
+    body.dark #cardRechargeModal .form-select:focus {
+        background: rgba(51, 65, 85, 0.95) !important;
+        border-color: #64c8ff !important;
+        box-shadow: 0 0 0 0.2rem rgba(100, 200, 255, 0.25) !important;
+        color: #f8f9fa !important;
+    }
+
+    body.dark #cardRechargeModal .form-check-input {
+        background-color: rgba(51, 65, 85, 0.9) !important;
+        border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    body.dark #cardRechargeModal .form-check-input:checked {
+        background-color: #32d74b !important;
+        border-color: #32d74b !important;
+    }
+
+    body.dark #cardRechargeModal .form-check-input:focus {
+        box-shadow: 0 0 0 0.2rem rgba(50, 215, 75, 0.25) !important;
+    }
+
+    body.dark #cardRechargeModal .form-check-label {
+        color: #f8f9fa !important;
+        font-weight: 500 !important;
+    }
+
+    body.dark #cardRechargeModal .modal-footer {
+        background: rgba(30, 41, 59, 0.98) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    body.dark #cardRechargeModal .btn-secondary {
+        background: rgba(108, 117, 125, 0.8) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: #f8f9fa !important;
+    }
+
+    body.dark #cardRechargeModal .btn-secondary:hover {
+        background: rgba(108, 117, 125, 1) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(30, 41, 59, 0.4) !important;
+    }
+
+    body.dark #cardRechargeModal .btn-success {
+        background: linear-gradient(135deg, #32d74b 0%, #28cd41 100%) !important;
+        border: 1px solid #32d74b !important;
+        color: white !important;
+    }
+
+    body.dark #cardRechargeModal .btn-success:hover {
+        background: linear-gradient(135deg, #28cd41 0%, #2bc248 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(50, 215, 75, 0.3) !important;
+    }
+
+    /* Dark tema kart ekleme modal stilleri */
+    body.dark #addCardModal .modal-content {
+        background: rgba(30, 41, 59, 0.98) !important;
+        color: #f8f9fa !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    body.dark #addCardModal .modal-header {
+        background: linear-gradient(135deg, #1e40af 0%, #5b21b6 100%) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: white !important;
+    }
+
+    body.dark #addCardModal .modal-title {
+        color: white !important;
+    }
+
+    body.dark #addCardModal .modal-title i {
+        color: #64c8ff !important;
+    }
+
+    body.dark #addCardModal .btn-close {
+        background: rgba(255, 255, 255, 0.2) !important;
+        border-radius: 50% !important;
+        padding: 0.5rem !important;
+        transition: all 0.3s ease !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        width: 35px !important;
+        height: 35px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    body.dark #addCardModal .btn-close:hover {
+        background: rgba(255, 255, 255, 0.3) !important;
+        transform: scale(1.1) !important;
+        border-color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    body.dark #addCardModal .btn-close i {
+        color: white !important;
+        font-size: 14px !important;
+    }
+
+    body.dark #addCardModal .modal-body {
+        background: rgba(30, 41, 59, 0.98) !important;
+        color: #f8f9fa !important;
+    }
+
+    body.dark #addCardModal .form-label {
+        color: #f8f9fa !important;
+        font-weight: 600 !important;
+    }
+
+    body.dark #addCardModal .form-control {
+        background: rgba(51, 65, 85, 0.9) !important;
+        border: 2px solid rgba(255, 255, 255, 0.2) !important;
+        color: #f8f9fa !important;
+    }
+
+    body.dark #addCardModal .form-control:focus {
+        background: rgba(51, 65, 85, 0.95) !important;
+        border-color: #64c8ff !important;
+        box-shadow: 0 0 0 0.2rem rgba(100, 200, 255, 0.25) !important;
+        color: #f8f9fa !important;
+    }
+
+    body.dark #addCardModal .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    body.dark #addCardModal .modal-footer {
+        background: rgba(30, 41, 59, 0.98) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    body.dark #addCardModal .btn-secondary {
+        background: rgba(108, 117, 125, 0.8) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: #f8f9fa !important;
+    }
+
+    body.dark #addCardModal .btn-secondary:hover {
+        background: rgba(108, 117, 125, 1) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(30, 41, 59, 0.4) !important;
+    }
+
+    body.dark #addCardModal .btn-primary {
+        background: linear-gradient(135deg, #1e40af 0%, #5b21b6 100%) !important;
+        border: 1px solid #1e40af !important;
+        color: white !important;
+    }
+
+    body.dark #addCardModal .btn-primary:hover {
+        background: linear-gradient(135deg, #1c3a9a 0%, #501e9d 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3) !important;
+    }
+
+    /* Açık tema kart yükleme modal stilleri */
+    #cardRechargeModal .modal-content {
+        background: rgba(255, 255, 255, 0.98) !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        color: #333 !important;
+    }
+
+    #cardRechargeModal .modal-header {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+        color: white !important;
+    }
+
+    #cardRechargeModal .modal-title {
+        color: white !important;
+    }
+
+    #cardRechargeModal .modal-title i {
+        color: #28a745 !important;
+    }
+
+    #cardRechargeModal .btn-close {
+        background: rgba(255, 255, 255, 0.2) !important;
+        border-radius: 50% !important;
+        padding: 0.5rem !important;
+        transition: all 0.3s ease !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        width: 35px !important;
+        height: 35px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    #cardRechargeModal .btn-close:hover {
+        background: rgba(255, 255, 255, 0.3) !important;
+        transform: scale(1.1) !important;
+        border-color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    #cardRechargeModal .btn-close i {
+        color: white !important;
+        font-size: 14px !important;
+    }
+
+    #cardRechargeModal .modal-body {
+        background: rgba(255, 255, 255, 0.98) !important;
+        color: #333 !important;
+    }
+
+    #cardRechargeModal .form-label {
+        color: #333 !important;
+        font-weight: 600 !important;
+    }
+
+    #cardRechargeModal .form-control {
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: 2px solid #e9ecef !important;
+        color: #333 !important;
+    }
+
+    #cardRechargeModal .form-control:focus {
+        background: rgba(255, 255, 255, 1) !important;
+        border-color: #4f46e5 !important;
+        box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25) !important;
+        color: #333 !important;
+    }
+
+    #cardRechargeModal .form-control::placeholder {
+        color: rgba(0, 0, 0, 0.5) !important;
+    }
+
+    #cardRechargeModal .form-select {
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: 2px solid #e9ecef !important;
+        color: #333 !important;
+    }
+
+    #cardRechargeModal .form-select:focus {
+        background: rgba(255, 255, 255, 1) !important;
+        border-color: #4f46e5 !important;
+        box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25) !important;
+        color: #333 !important;
+    }
+
+    #cardRechargeModal .form-check-input {
+        background-color: rgba(255, 255, 255, 0.9) !important;
+        border: 2px solid #e9ecef !important;
+    }
+
+    #cardRechargeModal .form-check-input:checked {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+    }
+
+    #cardRechargeModal .form-check-input:focus {
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
+    }
+
+    #cardRechargeModal .form-check-label {
+        color: #333 !important;
+        font-weight: 500 !important;
+    }
+
+    #cardRechargeModal .modal-footer {
+        background: rgba(255, 255, 255, 0.98) !important;
+        border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+
+    #cardRechargeModal .btn-secondary {
+        background: rgba(108, 117, 125, 0.8) !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        color: white !important;
+    }
+
+    #cardRechargeModal .btn-secondary:hover {
+        background: rgba(108, 117, 125, 1) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    #cardRechargeModal .btn-success {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+        border: 1px solid #28a745 !important;
+        color: white !important;
+    }
+
+    #cardRechargeModal .btn-success:hover {
+        background: linear-gradient(135deg, #218838 0%, #1ea383 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3) !important;
+    }
+
+    /* Açık tema kart ekleme modal stilleri */
+    #addCardModal .modal-content {
+        background: rgba(255, 255, 255, 0.98) !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        color: #333 !important;
+    }
+
+    #addCardModal .modal-header {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+        color: white !important;
+    }
+
+    #addCardModal .modal-title {
+        color: white !important;
+    }
+
+    #addCardModal .modal-title i {
+        color: #64c8ff !important;
+    }
+
+    #addCardModal .btn-close {
+        background: rgba(255, 255, 255, 0.2) !important;
+        border-radius: 50% !important;
+        padding: 0.5rem !important;
+        transition: all 0.3s ease !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        width: 35px !important;
+        height: 35px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    #addCardModal .btn-close:hover {
+        background: rgba(255, 255, 255, 0.3) !important;
+        transform: scale(1.1) !important;
+        border-color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    #addCardModal .btn-close i {
+        color: white !important;
+        font-size: 14px !important;
+    }
+
+    #addCardModal .modal-body {
+        background: rgba(255, 255, 255, 0.98) !important;
+        color: #333 !important;
+    }
+
+    #addCardModal .form-label {
+        color: #333 !important;
+        font-weight: 600 !important;
+    }
+
+    #addCardModal .form-control {
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: 2px solid #e9ecef !important;
+        color: #333 !important;
+    }
+
+    #addCardModal .form-control:focus {
+        background: rgba(255, 255, 255, 1) !important;
+        border-color: #4f46e5 !important;
+        box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25) !important;
+        color: #333 !important;
+    }
+
+    #addCardModal .form-control::placeholder {
+        color: rgba(0, 0, 0, 0.5) !important;
+    }
+
+    #addCardModal .modal-footer {
+        background: rgba(255, 255, 255, 0.98) !important;
+        border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+
+    #addCardModal .btn-secondary {
+        background: rgba(108, 117, 125, 0.8) !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        color: white !important;
+    }
+
+    #addCardModal .btn-secondary:hover {
+        background: rgba(108, 117, 125, 1) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    #addCardModal .btn-primary {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+        border: 1px solid #4f46e5 !important;
+        color: white !important;
+    }
+
+    #addCardModal .btn-primary:hover {
+        background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3) !important;
+    }
+
+    /* Modern Kart Tasarımı */
+    .card-container {
+        perspective: 1000px;
+        width: 400px;
+        height: 250px;
+        margin: 0 auto;
+    }
+
+    .card {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.6s;
+        cursor: pointer;
+    }
+
+    .card.flipped {
+        transform: rotateY(180deg);
+    }
+
+    .card-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+    }
+
+    .card-front {
+        background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        color: white;
+    }
+
+    .card-back {
+        background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+        transform: rotateY(180deg);
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        color: white;
+    }
+
+    .card-chip {
+        width: 60px;
+        height: 45px;
+        background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+        border-radius: 8px;
+        position: relative;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        overflow: hidden;
+    }
+
+    .card-chip::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 35px;
+        height: 25px;
+        background: #1a1a1a;
+        border-radius: 4px;
+        border: 1px solid #333;
+    }
+
+    .card-chip::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        right: 2px;
+        bottom: 2px;
+        background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%);
+        border-radius: 6px;
+        animation: chipShine 3s ease-in-out infinite;
+    }
+
+    @@keyframes chipShine {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.8; }
+    }
+
+    .card-logo {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        font-size: 16px;
+        font-weight: 700;
+        font-family: 'Arial', 'Helvetica', sans-serif;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        letter-spacing: 1px;
+    }
+
+    .card-number {
+        font-size: 10px;
+        letter-spacing: 2px;
+        font-weight: 300;
+        margin: 10px 0;
+        font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+        line-height: 1.0;
+        color: white;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        text-align: center;
+    }
+
+    .card-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    .card-holder {
+        text-transform: uppercase;
+        font-size: 12px !important;
+        letter-spacing: 1px;
+        font-weight: 600;
+        font-family: 'Arial', 'Helvetica', sans-serif;
+    }
+
+    .card-alias {
+        font-size: 6px !important;
+        letter-spacing: 1px;
+        font-weight: 600;
+        font-family: 'Arial', 'Helvetica', sans-serif;
+    }
+
+    .card-label {
+        font-size: 8px;
+        opacity: 0.7;
+        margin-bottom: 3px;
+        text-transform: uppercase;
+        font-family: 'Arial', 'Helvetica', sans-serif;
+        letter-spacing: 0.5px;
+    }
+
+    .magnetic-stripe {
+        width: 100%;
+        height: 50px;
+        background: #333;
+        margin: 20px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .magnetic-stripe::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        animation: shine 3s infinite;
+    }
+
+    @@keyframes shine {
+        0% { left: -100%; }
+        100% { left: 100%; }
+    }
+
+    .card-back-info {
+        margin-top: auto;
+        text-align: center;
+    }
+
+    .card-description {
+        font-size: 12px;
+        opacity: 0.8;
+        margin-top: 5px;
+    }
+
+    .flip-hint {
+        text-align: center;
+        margin-top: 20px;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+    }
+
+    .card-logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: white;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-logo i {
+        font-size: 1.4rem;
+        color: #ffd700;
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+
+    .card-body {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .card-alias {
+        font-size: 0.8rem !important;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.95);
+        min-height: 0.8rem;
+        transition: all 0.3s ease;
+    }
+
+    .card-number {
+        font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: 4px;
+        color: white;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        margin: 10px 0;
+    }
+
+    .card-holder {
+        margin-top: auto;
+    }
+
+    .holder-label {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 4px;
+    }
+
+    .holder-name {
+        font-size: 1.2rem !important;
+        font-weight: 600;
+        color: white;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .card-footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 15px;
+    }
+
+    .contactless-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .contactless-icon i {
+        font-size: 1.2rem;
+        color: #ffd700;
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    @@keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.1); opacity: 1; }
+    }
+
+    /* Responsive Tasarım */
+    @@media (max-width: 768px) {
+        .card-container {
+            width: 100%;
+            max-width: 350px;
+            height: 220px;
+        }
+        
+        .card-number {
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+        
+        .card-logo {
+            font-size: 14px;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .card-container {
+            width: 100%;
+            max-width: 300px;
+            height: 190px;
+        }
+        
+        .card-front, .card-back {
+            padding: 20px;
+        }
+        
+        .card-number {
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+        
+        .card-logo {
+            font-size: 12px;
+        }
+        
+        .card-chip {
+            width: 50px;
+            height: 38px;
+        }
+        
+        .card-holder, .card-alias {
+            font-size: 12px !important;
+        }
+        
+        .card-label {
+            font-size: 6px;
+        }
+    }
+
+    /* Mini Kart Stilleri (Kartlarım Modal) */
+    .listed-card {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 15px;
+        transition: all 0.3s ease;
+        gap: 20px;
+    }
+
+    .listed-card:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .mini-card-container {
+        position: relative;
+        width: 120px;
+        aspect-ratio: 1.586;
+        border-radius: 12px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+    }
+
+    .mini-card-container:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .mini-card-overlay {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.05) 50%,
+            rgba(255, 255, 255, 0.1) 100%
+        );
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    .mini-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 8px;
+    }
+
+    .mini-card-chip {
+        position: relative;
+        width: 25px;
+        height: 18px;
+        background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+        border-radius: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+    }
+
+    .mini-chip-glow {
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        right: 1px;
+        bottom: 1px;
+        background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%);
+        border-radius: 3px;
+        animation: miniChipShine 3s ease-in-out infinite;
+    }
+
+    @@keyframes miniChipShine {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.8; }
+    }
+
+    .mini-card-logo {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.6rem;
+        font-weight: 700;
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .mini-card-logo i {
+        font-size: 0.7rem;
+        color: #ffd700;
+        text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+    }
+
+    .mini-card-body {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+    }
+
+    .mini-card-alias {
+        font-size: 0.6rem !important;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.95);
+        min-height: 0.6rem;
+        line-height: 1;
+    }
+
+    .mini-card-number {
+        font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+        font-size: 0.6rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+        line-height: 1;
+    }
+
+    .mini-card-holder {
+        margin-top: auto;
+    }
+
+    .mini-holder-label {
+        font-size: 0.4rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 1px;
+        line-height: 1;
+    }
+
+    .mini-holder-name {
+        font-size: 0.6rem !important;
+        font-weight: 600;
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+        line-height: 1;
+    }
+
+    .mini-card-footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 4px;
+    }
+
+    .mini-contactless-icon {
+        width: 16px;
+        height: 16px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .mini-contactless-icon i {
+        font-size: 0.5rem;
+        color: #ffd700;
+        animation: miniPulse 2s ease-in-out infinite;
+    }
+
+    @@keyframes miniPulse {
+        0%, 100% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.1); opacity: 1; }
+    }
+
+    .listed-card .card-info {
+        flex-grow: 1;
+    }
+
+    .listed-card .card-info h5 {
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .listed-card .card-info p {
+        margin-bottom: 0;
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    /* Dark tema için mini kart stilleri */
+    body.dark .listed-card {
+        background: rgba(30, 41, 59, 0.2);
+    }
+
+    body.dark .listed-card:hover {
+        background: rgba(30, 41, 59, 0.4);
+    }
+
+    body.dark .listed-card .card-info h5 {
+        color: #f8f9fa;
+    }
+
+    body.dark .listed-card .card-info p {
+        color: #adb5bd;
+    }
+
+    /* Kart numarası bölümü stilleri */
+    .card-number-section {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .card-number-text {
+        font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0;
+        font-size: 1rem;
+    }
+
+    .copy-btn {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+    }
+
+    .copy-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Dark tema için kart numarası stilleri */
+    body.dark .card-number-text {
+        color: #f8f9fa;
+    }
 </style>
 
 <script>
-    function showCardRecharge() {
-        const modal = new bootstrap.Modal(document.getElementById('cardRechargeModal'));
-        modal.show();
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.updateNavbar) {
+            window.updateNavbar();
+        }
+
+        // Sayfa yüklendiğinde bakiye bilgisini al
+        loadCardBalance();
+
+        // CSS stillerini zorla uygula
+        setTimeout(() => {
+            const cardHolders = document.querySelectorAll('.card-holder');
+            const cardAliases = document.querySelectorAll('.card-alias');
+            const holderNames = document.querySelectorAll('.holder-name');
+            const miniCardAliases = document.querySelectorAll('.mini-card-alias');
+            const miniHolderNames = document.querySelectorAll('.mini-holder-name');
+
+            cardHolders.forEach(el => el.style.fontSize = '12px');
+            cardAliases.forEach(el => el.style.fontSize = '12px');
+            holderNames.forEach(el => el.style.fontSize = '1.2rem');
+            miniCardAliases.forEach(el => el.style.fontSize = '0.6rem');
+            miniHolderNames.forEach(el => el.style.fontSize = '0.6rem');
+        }, 500);
+
+        const addCardModal = new bootstrap.Modal(document.getElementById('addCardModal'));
+        const showAddCardBtn = document.getElementById('showAddCardBtn');
+
+        if (showAddCardBtn) {
+            showAddCardBtn.addEventListener('click', function () {
+                addCardModal.show();
+            });
+        }
+
+        const myCardsModal = new bootstrap.Modal(document.getElementById('myCardsModal'));
+        const showMyCardsBtn = document.getElementById('showMyCardsBtn');
+
+        if (showMyCardsBtn) {
+            showMyCardsBtn.addEventListener('click', function () {
+                populateMyCards();
+                myCardsModal.show();
+            });
+        }
+
+        const cardAliasInput = document.getElementById('cardAlias');
+        const previewCardAlias = document.getElementById('previewCardAlias');
+
+        if(cardAliasInput && previewCardAlias) {
+            cardAliasInput.addEventListener('input', function() {
+                previewCardAlias.textContent = this.value || 'Kart Adı';
+            });
+        }
+
+        // Kart çevirme işlemi
+        const card = document.getElementById('creditCard');
+        if(card) {
+            card.addEventListener('click', function() {
+                this.classList.toggle('flipped');
+            });
+        }
+
+           window.addCard = async function() { // async ekledik
+        const cardAlias = document.getElementById('cardAlias').value;
+
+        if (!cardAlias) {
+            alert('Lütfen bir kart adı girin!');
+            return;
+        }
+
+        let addCardBtn;
+        try {
+            const tokenData = JSON.parse(localStorage.getItem('token'));
+            const userId = tokenData.userId;
+            const Email = tokenData.email;
+            console.log('EMAIL : ', Email);
+
+            addCardBtn = document.querySelector('#addCardModal .btn-primary');
+            const originalBtnText = addCardBtn.innerHTML;
+            addCardBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Oluşturuluyor...';
+            addCardBtn.disabled = true;
+
+            const addCardResponse = await fetch('https://localhost:7007/api/card', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Api-Key': 'melihin-muhtesem-otesi-apisi',
+                    'Authorization': 'Bearer melihin-muhtesem-otesi-apisi'
+                },
+                body: JSON.stringify({
+                    'customerEmail': Email,
+                    'balance': 100,
+                    'expirationDate': new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+                    'isActive': true,
+                    'isDeleted': false
+                })
+            });
+
+            if (addCardResponse.ok) {
+                const data = await addCardResponse.json();
+                console.log('İşlem başarılı', data);
+                alert(`Yeni kart başarıyla oluşturuldu! Kart No: ${data.cardNumber}`);
+
+                // Modalı kapat
+                const modal = bootstrap.Modal.getInstance(document.getElementById('addCardModal'));
+                modal.hide();
+
+                // Kart listesini güncelle
+                populateMyCards();
+
+                // Bakiye bilgisini güncelle
+                updateCardBalance();
+            } else {
+                const error = await addCardResponse.text();
+                console.error('AddCard request failed', error);
+                throw new Error('Kart oluşturma işlemi başarısız: ' + error);
+            }
+        } catch(error) {
+            console.error('Error during card create:', error);
+            alert('Bir hata oluştu: ' + error.message);
+        } finally {
+            if (addCardBtn) {
+                addCardBtn.innerHTML = '<i class="fas fa-plus"></i> Kartı Oluştur';
+                addCardBtn.disabled = false;
+            }
+        }
     }
 
-    function rechargeCard() {
+            window.showCardRecharge = function() {
+            const modal = new bootstrap.Modal(document.getElementById('cardRechargeModal'));
+            modal.show();
+            }   
+
+    window.rechargeCard = async function() {  // Added async here
         const cardNumber = document.getElementById('cardNumber').value;
         const amount = document.getElementById('amount').value;
         const paymentMethod = document.getElementById('paymentMethod').value;
@@ -386,18 +1673,267 @@
             return;
         }
 
-        // Burada API çağrısı yapılacak
-        alert(`Kart yükleme işlemi başlatıldı! ${amount}₺ yüklenecek. Bu özellik yakında eklenecek.`);
-        
-        // Modal'ı kapat
-        const modal = bootstrap.Modal.getInstance(document.getElementById('cardRechargeModal'));
-        modal.hide();
-    }
+        let rechargeBtn;
+        try {
+            const tokenData = JSON.parse(localStorage.getItem('token'));
+            const userId = tokenData.userId;
+            const isStudent = tokenData.isStudent;
+            console.log('username : ',tokenData.username);
+            console.log('userId : ',userId);
+            // Show loading state
+            rechargeBtn = document.querySelector('#cardRechargeModal .btn-success');
+            const originalBtnText = rechargeBtn.innerHTML;
+            rechargeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> İşlem Yapılıyor...';
+            rechargeBtn.disabled = true;
 
-    // Sayfa yüklendiğinde navbar'ı güncelle
-    document.addEventListener('DOMContentLoaded', function() {
-        if (window.updateNavbar) {
-            window.updateNavbar();
+            const paymentRequest = await fetch('https://localhost:7007/api/payment/boarding', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Api-Key': 'melihin-muhtesem-otesi-apisi',
+                    'Authorization': 'Bearer melihin-muhtesem-otesi-apisi'
+                },
+                body: JSON.stringify({
+                    'CardNumber': cardNumber,
+                    'UserId': userId,
+                    'Amount': amount,
+                    'UserName': tokenData.username,
+                    'isStudent': isStudent,
+                    'TransactionType': 0,
+                    'TransactionDate': new Date().toISOString(),
+                    'Status': "Success"
+                })
+            });
+
+            if (paymentRequest.ok) {
+                const data = await paymentRequest.json();
+                console.log('İşlem başarılı', data);
+
+                // Show success message
+                alert(`Kartınıza başarıyla ${amount}₺ yüklendi!`);
+
+                // Close the modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('cardRechargeModal'));
+                modal.hide();
+
+                // Bakiye bilgisini güncelle
+                updateCardBalance();
+            } else {
+                const error = await paymentRequest.text();
+                console.error('Payment request failed', error);
+                throw new Error('Ödeme işlemi sırasında bir hata oluştu: ' + error);
+            }
+        } catch (error) {
+            console.error('Error during payment:', error);
+            alert('Bir hata oluştu: ' + error.message);
+        } finally {
+            // Reset button state
+            if (rechargeBtn) {
+                rechargeBtn.innerHTML = '<i class="fas fa-credit-card"></i> Kart Yükle';
+                rechargeBtn.disabled = false;
+            }
+        }
+    }
+        async function populateMyCards() {
+            const modalBody = document.getElementById('myCardsModalBody');
+            
+            try {
+                const tokenData = JSON.parse(localStorage.getItem('token'));
+                if (!tokenData || !tokenData.email) {
+                    modalBody.innerHTML = '<p class="text-center text-danger">Kullanıcı bilgileri bulunamadı.</p>';
+                    return;
+                }
+
+                // Kullanıcının kartını API'den al
+                const cardResponse = await fetch(`https://localhost:7007/api/card/GetCardByCustomerEmail?email=${encodeURIComponent(tokenData.email)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi',
+                        'Authorization': 'Bearer melihin-muhtesem-otesi-apisi'
+                    }
+                });
+
+                if (cardResponse.ok) {
+                    const cardData = await cardResponse.json();
+                    console.log('Kartlarım için kart bilgisi:', cardData);
+
+                    if (cardData && cardData.cardNumber) {
+                        // Kart numarasını formatla (4'lü gruplar halinde)
+                        const formattedCardNumber = cardData.cardNumber.replace(/(\d{4})(?=\d)/g, '$1 ');
+                        
+                        // Bakiye bilgisini al
+                        const balanceResponse = await fetch(`https://localhost:7007/api/card/GetBalanceByCardNumber?cardNumber=${cardData.cardNumber}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Api-Key': 'melihin-muhtesem-otesi-apisi',
+                                'Authorization': 'Bearer melihin-muhtesem-otesi-apisi'
+                            }
+                        });
+
+                        let balance = '₺0.00';
+                        if (balanceResponse.ok) {
+                            const balanceData = await balanceResponse.json();
+                            balance = `₺${balanceData.balance.toFixed(2)}`;
+                        }
+
+                        const cardsHtml = `
+                            <div class="listed-card">
+                                <div class="mini-card-container">
+                                    <div class="mini-card-overlay">
+                                        <div class="mini-card-header">
+                                            <div class="mini-card-chip">
+                                                <div class="mini-chip-glow"></div>
+                                            </div>
+                                            <div class="mini-card-logo">
+                                                <i class="fas fa-bus"></i>
+                                                <span>Ulaşım Kart</span>
+                                            </div>
+                                        </div>
+                                        <div class="mini-card-body">
+                                            <div class="mini-card-alias">Ulaşım Kartım</div>
+                                            <div class="mini-card-number">${formattedCardNumber}</div>
+                                            <div class="mini-card-holder">
+                                                <div class="mini-holder-label">KART SAHİBİ</div>
+                                                <div class="mini-holder-name">@ViewBag.Username</div>
+                                            </div>
+                                        </div>
+                                        <div class="mini-card-footer">
+                                            <div class="mini-contactless-icon">
+                                                <i class="fas fa-wifi"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-info">
+                                    <h5>Ulaşım Kartım</h5>
+                                    <div class="card-number-section">
+                                        <p class="card-number-text">${formattedCardNumber}</p>
+                                        <button class="btn btn-sm btn-outline-primary copy-btn" onclick="copyCardNumber('${cardData.cardNumber}')">
+                                            <i class="fas fa-copy"></i> Kopyala
+                                        </button>
+                                    </div>
+                                    <p><strong>Bakiye:</strong> ${balance}</p>
+                                </div>
+                            </div>
+                        `;
+
+                        modalBody.innerHTML = cardsHtml;
+                    } else {
+                        modalBody.innerHTML = '<p class="text-center">Henüz eklenmiş bir kartınız bulunmuyor.</p>';
+                    }
+                } else {
+                    modalBody.innerHTML = '<p class="text-center text-danger">Kart bilgisi alınamadı.</p>';
+                }
+            } catch (error) {
+                console.error('Kartlarım yükleme hatası:', error);
+                modalBody.innerHTML = '<p class="text-center text-danger">Bir hata oluştu.</p>';
+            }
+        }
+
+        // Bakiye bilgisini API'den al
+        async function loadCardBalance() {
+            try {
+                const tokenData = JSON.parse(localStorage.getItem('token'));
+                if (!tokenData || !tokenData.email) {
+                    console.error('Kullanıcı bilgileri bulunamadı');
+                    return;
+                }
+
+                // Kullanıcının kartını email ile bul
+                const cardResponse = await fetch(`https://localhost:7007/api/card/GetCardByCustomerEmail?email=${encodeURIComponent(tokenData.email)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi',
+                        'Authorization': 'Bearer melihin-muhtesem-otesi-apisi'
+                    }
+                });
+                
+                if (cardResponse.ok) {
+                    const cardData = await cardResponse.json();
+                    console.log('Kart bilgisi:', cardData);
+                    console.log('cardData tipi:', typeof cardData);
+                    console.log('cardData.cardNumber var mı?', cardData && cardData.cardNumber);
+                    
+                    if (cardData && cardData.cardNumber) {
+                        const cardNumber = cardData.cardNumber;
+                        console.log('Kullanıcının CardNumber:', cardNumber);
+                        
+                        // Kart numarası ile bakiyeyi al
+                        const balanceResponse = await fetch(`https://localhost:7007/api/card/GetBalanceByCardNumber?cardNumber=${cardNumber}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Api-Key': 'melihin-muhtesem-otesi-apisi',
+                                'Authorization': 'Bearer melihin-muhtesem-otesi-apisi'
+                            }
+                        });
+
+                        if (balanceResponse.ok) {
+                            const balanceData = await balanceResponse.json();
+                            console.log('Bakiye bilgisi:', balanceData.balance);
+                            const balanceElement = document.getElementById('cardBalance');
+                            if (balanceElement) {
+                                balanceElement.textContent = `₺${balanceData.balance.toFixed(2)}`;
+                            }
+                        } else {
+                            console.error('Bakiye bilgisi alınamadı');
+                            const balanceElement = document.getElementById('cardBalance');
+                            if (balanceElement) {
+                                balanceElement.textContent = 'Hata';
+                            }
+                        }
+                    } else {
+                        console.log('Kullanıcının kartı bulunamadı');
+                        const balanceElement = document.getElementById('cardBalance');
+                        if (balanceElement) {
+                            balanceElement.textContent = 'Kart Yok';
+                        }
+                    }
+                } else {
+                    console.error('Kart bilgisi alınamadı');
+                    const balanceElement = document.getElementById('cardBalance');
+                    if (balanceElement) {
+                        balanceElement.textContent = 'Hata';
+                    }
+                }
+                
+
+            } catch (error) {
+                console.error('Bakiye yükleme hatası:', error);
+                const balanceElement = document.getElementById('cardBalance');
+                if (balanceElement) {
+                    balanceElement.textContent = 'Hata';
+                }
+            }
+        }
+
+        // Bakiye güncelleme fonksiyonu (kart yükleme işleminden sonra çağrılacak)
+        window.updateCardBalance = function() {
+            loadCardBalance();
+        }
+
+        // Kart numarası kopyalama fonksiyonu
+        window.copyCardNumber = function(cardNumber) {
+            navigator.clipboard.writeText(cardNumber).then(function() {
+                // Başarılı kopyalama mesajı
+                const copyBtn = event.target.closest('.copy-btn');
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> Kopyalandı!';
+                copyBtn.classList.remove('btn-outline-primary');
+                copyBtn.classList.add('btn-success');
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                    copyBtn.classList.remove('btn-success');
+                    copyBtn.classList.add('btn-outline-primary');
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Kopyalama hatası:', err);
+                alert('Kart numarası kopyalanamadı.');
+            });
         }
     });
 </script> 

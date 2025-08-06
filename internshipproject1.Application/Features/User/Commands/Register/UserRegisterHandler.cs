@@ -17,11 +17,13 @@ namespace internshipproject1.Application.Features.User.Commands.Register
     {
         private readonly IPasswordHashingService _passwordHashingService;
         private readonly IUserRepository _userRepository;
-    
-        public UserRegisterHandler(IPasswordHashingService passwordHashingService, IUserRepository userRepository)
+        private readonly ICustomerRepository _customerRepository;
+
+        public UserRegisterHandler(IPasswordHashingService passwordHashingService, IUserRepository userRepository, ICustomerRepository customerRepository)
         {
             _passwordHashingService = passwordHashingService;
             _userRepository = userRepository;
+            _customerRepository = customerRepository;
         }
         public async Task<UserRegisterCommandResponse> Handle(UserRegisterCommand command, CancellationToken cancellationToken)
         {
@@ -37,12 +39,33 @@ namespace internshipproject1.Application.Features.User.Commands.Register
                 passwordSalt = salt
             };
             await _userRepository.AddAsync(user, cancellationToken);
+            var customer = new Domain.Entities.Customer
+            {
+                Name = command.Name,
+                Surname = command.Surname,
+                Email = command.Email,
+                PhoneNumber = command.PhoneNumber,
+                IsStudent = command.IsStudent,
+                DateOfBirth = command.DateOfBirth,
+                IsDeleted = false,
+                UserId = user.Id
+            };
+            await _customerRepository.AddAsync(customer, cancellationToken);
+
             return new UserRegisterCommandResponse { 
             
                 Id = user.Id,
                 UserName = user.userName,
                 Role = UserRole.User,
+                Email = customer.Email,
+                Name = customer.Name,
+                Surname = customer.Surname,
+                PhoneNumber = customer.PhoneNumber,
+                IsStudent = customer.IsStudent,
+                DateOfBirth = customer.DateOfBirth,
+                IsDeleted = customer.IsDeleted,
                 Message = $"Register Successfully ! Welcome {user.userName} !"
+                
             };
         }
 

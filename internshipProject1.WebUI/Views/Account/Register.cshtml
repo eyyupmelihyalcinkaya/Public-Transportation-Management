@@ -1,53 +1,185 @@
 ﻿@model internshipProject1.WebUI.Views.Account.RegisterModel
 @{
-	ViewData["Title"] = "Register";
-	Layout = "_Layout";
+    ViewData["Title"] = "Kayıt Ol";
+    Layout = "_Layout";
 }
 
-<div class="register-container">
-	<h2>Register</h2>
-	
-	<div id="error" style="color: red; margin-bottom: 10px;"></div>
+<div class="auth-wrapper">
+    <div class="auth-welcome-panel">
+        <div class="welcome-content">
+            <h1>Topluluğa Katılın</h1>
+            <p>Modern ve güvenli platformumuzda yerinizi alın. Sadece birkaç adımda hesabınızı oluşturun.</p>
+        </div>
+    </div>
+    <div class="auth-form-container">
+        <div class="auth-form-content register-form-content">
+            <h2>Hesap Oluştur</h2>
+            <p class="auth-subtitle">Yeni hesabınızı oluşturun</p>
 
-	<div>
-		<div>
-			<label>Username:</label>
-			<input type="text" id="username" required />
-		</div>
-		<div>
-			<label>Password:</label>
-			<input type="password" id="password" required />
-		</div>
-		<div>
-			<label>Confirm Password:</label>
-			<input type="password" id="rePassword" required />
-		</div>
-		<div>
-			<button type="button" onclick="register()">Register</button>
-		</div>
-	</div>
+            <div id="error" class="alert alert-danger" style="display: none;"></div>
+            <div id="success" class="alert alert-success" style="display: none;"></div>
 
-	<script>
-		async function register() {
-			const username = document.getElementById("username").value;
-			const password = document.getElementById("password").value;
-			const confirmPassword = document.getElementById("rePassword").value;
+            <form id="registerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Ad *</label>
+                        <input type="text" id="name" name="name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="surname">Soyad *</label>
+                        <input type="text" id="surname" name="surname" required />
+                    </div>
+                </div>
 
-			// Client-side validation
-			if (password !== confirmPassword) {
-				document.getElementById('error').textContent = "Passwords do not match!";
-				return;
-			}
+                <div class="form-group">
+                    <label for="username">Kullanıcı Adı *</label>
+                    <input type="text" id="username" name="userName" required />
+                </div>
 
-			try {
-				await window.apiConfig.register(username, password);
-				alert("Registration successful! Please login.");
-				window.location.href = "/Account/Login";
-			} catch (error) {
-				console.error('Registration error:', error);
-				document.getElementById('error').textContent = error.message || "Registration Failed";
-			}
-		}
-	</script>
+                <div class="form-group">
+                    <label for="email">E-posta *</label>
+                    <input type="email" id="email" name="email" required />
+                </div>
 
-	<link rel="stylesheet" href="~/css/register.css" />
+                <div class="form-group">
+                    <label for="phoneNumber">Telefon</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" />
+                </div>
+
+                <div class="form-group">
+                    <label for="dateOfBirth">Doğum Tarihi *</label>
+                    <input type="date" id="dateOfBirth" name="dateOfBirth" required />
+                </div>
+
+
+                <script>
+                    flatpickr("#dateOfBirth", {
+                        dateFormat: "Y-m-d",
+                        locale: "tr"
+                    });
+                </script>
+
+
+                <div class="form-group">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="isStudent" name="isStudent" />
+                        <span class="checkmark"></span>
+                        Öğrenci misiniz? (Öğrenci doğrulama işlemi atlandı)
+                    </label>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="password">Şifre *</label>
+                        <input type="password" id="password" name="password" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Şifre Tekrar *</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required />
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn">
+                    Hesap Oluştur
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Zaten hesabınız var mı? <a href="/Account/Login">Giriş yapın</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('registerForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const name = document.getElementById('name').value.trim();
+    const surname = document.getElementById('surname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phoneNumber = document.getElementById('phoneNumber').value.trim();
+    const dateOfBirth = document.getElementById('dateOfBirth').value;
+    const isStudent = document.getElementById('isStudent').checked;
+
+    const errorDiv = document.getElementById('error');
+    const successDiv = document.getElementById('success');
+    errorDiv.style.display = 'none';
+    successDiv.style.display = 'none';
+
+    if (password !== confirmPassword) {
+        errorDiv.textContent = 'Şifreler eşleşmiyor!';
+        errorDiv.style.display = 'block';
+        return;
+    }
+
+    if (!username || !password || !name || !surname || !email || !dateOfBirth) {
+        errorDiv.textContent = 'Lütfen tüm zorunlu alanları doldurun!';
+        errorDiv.style.display = 'block';
+        return;
+    }
+
+    const button = document.querySelector('#registerForm .auth-btn');
+    const originalText = button.textContent;
+    button.disabled = true;
+    button.textContent = 'Kayıt yapılıyor...';
+
+    const registerData = {
+        UserName: username,
+        Password: password,
+        Name: name,
+        Surname: surname,
+        Email: email,
+        PhoneNumber: phoneNumber,
+        DateOfBirth: new Date(dateOfBirth).toISOString(),
+        IsStudent: isStudent
+    };
+
+    try {
+        const response = await fetch(`${window.gatewayUrl}/api/user/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Api-Key': window.apiKey
+            },
+            body: JSON.stringify(registerData)
+        });
+
+        if (response.ok) {
+            successDiv.textContent = 'Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...';
+            successDiv.style.display = 'block';
+            setTimeout(() => {
+                window.location.href = '/Account/Login';
+            }, 2000);
+        } else {
+            const errorText = await response.text();
+            let errorMessage = 'Kayıt başarısız oldu.';
+            try {
+                const errorJson = JSON.parse(errorText);
+                errorMessage = errorJson.title || Object.values(errorJson.errors).flat().join('\n');
+            } catch (e) {
+                if(errorText) errorMessage = errorText;
+            }
+            errorDiv.textContent = errorMessage;
+            errorDiv.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Kayıt hatası:', error);
+        errorDiv.textContent = 'Bir hata oluştu: ' + error.message;
+        errorDiv.style.display = 'block';
+    } finally {
+        button.disabled = false;
+        button.textContent = originalText;
+    }
+});
+</script>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/auth.css" />
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

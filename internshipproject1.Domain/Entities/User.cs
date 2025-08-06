@@ -11,5 +11,7 @@ namespace internshipproject1.Domain.Entities
         public byte[] passwordSalt { get; set; }
         public ICollection<RouteToCreate> CreatedRoutes { get; set; }
 
+        public Customer Customer { get; set; }
+
     }
 }
