@@ -22,13 +22,14 @@ namespace internshipproject1.Application.Features.UserRole.Queries.GetUserRole
             {
                 throw new Exception($"User with ID {request.UserId} does not have role with ID {request.RoleId}.");
             }
-            return new GetUserRoleQueryResponse
+            var result = new GetUserRoleQueryResponse
             {
                 UserId = userRole.UserId,
                 UserName = userRole.User.userName,
                 RoleId = userRole.RoleId,
                 RoleName = userRole.Role.Name
             };
+            return result;
 
         }
     }

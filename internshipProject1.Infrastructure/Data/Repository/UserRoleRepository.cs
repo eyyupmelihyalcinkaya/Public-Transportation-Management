@@ -17,9 +17,16 @@ namespace internshipProject1.Infrastructure.Data.Repository
         {
             _context = context;
         }
-        public Task AssignToRoleAsync(int userId, int roleId, CancellationToken cancellationToken)
+        public async Task AssignToRoleAsync(int userId, int roleId, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var userRole = new UserRoles
+            {
+                UserId = userId,
+                RoleId = roleId
+            };
+            await _context.UserRoles.AddAsync(userRole);
+            await _context.SaveChangesAsync(cancellationToken);
+            return;
         }
 
         public async Task<List<UserRoles>> GetAllAsync(CancellationToken cancellationToken)
@@ -27,7 +34,7 @@ namespace internshipProject1.Infrastructure.Data.Repository
             var userRoles = await _context.UserRoles.ToListAsync(cancellationToken);
             if (userRoles == null || !userRoles.Any())
             {
-                throw new Exception("No user roles found.");
+                return new List<UserRoles>();
             }
             return userRoles;
         }
@@ -41,7 +48,10 @@ namespace internshipProject1.Infrastructure.Data.Repository
 
         public async Task<UserRoles> GetUserRoleAsync(int userId, int roleId, CancellationToken cancellationToken)
         {
-            var userRole = await _context.UserRoles.FirstOrDefaultAsync(ur => ur.UserId == userId && ur.RoleId == roleId, cancellationToken);
+            var userRole = await _context.UserRoles
+                .Include(ur => ur.User)
+                .Include(ur => ur.Role)
+                .FirstOrDefaultAsync(ur => ur.UserId == userId && ur.RoleId == roleId, cancellationToken);
             if (userRole == null)
             {
                 throw new Exception($"User role not found for UserId: {userId} and RoleId: {roleId}");
