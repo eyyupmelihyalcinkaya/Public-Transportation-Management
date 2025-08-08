@@ -37,5 +37,6 @@ namespace internshipproject1.Application.Interfaces.Repositories
         Task<Card> GetCardIdByCardNumber(string cardNumber, CancellationToken cancellationToken);
         Task<decimal> GetBalanceByCardNumberAsync(string cardNumber, CancellationToken cancellationToken);
         Task<Card> GetCardByCustomerEmail(string email, CancellationToken cancellationToken);
+    
     }
 }

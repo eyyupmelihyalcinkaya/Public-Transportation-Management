@@ -18,7 +18,9 @@ namespace internshipProject1.WebAPI.Controllers
     public class CardController : ControllerBase
     {
         private readonly IMediator _mediator;
-
+        //TODO: Card oluşturulunca CardList'e eklenecek 06.08.2025
+        //TODO: Kartlarım kısmı CardList'i gösterecek, Bunun için endpoint yazılacak 06.08.2025
+        //TODO: RBAC yapısı oluşturulacak.
         public CardController(IMediator mediator)
         {
             _mediator = mediator;

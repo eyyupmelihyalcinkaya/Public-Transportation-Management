@@ -37,7 +37,7 @@
                     <div class="quick-action-icon mb-3">
                         <i class="fas fa-credit-card text-success"></i>
                     </div>
-                    <h5 class="card-title">Kart Yükle</h5>
+                    <h5 class="card-title">Kart Dolum İşlemi</h5>
                     <p class="card-text">Ulaşım kartınıza bakiye yükleyin</p>
                     <div class="mt-auto">
                         <button class="btn btn-modern btn-success btn-sm" onclick="showCardRecharge()">
@@ -55,8 +55,8 @@
                     <div class="quick-action-icon mb-3">
                         <i class="fas fa-plus-circle text-primary"></i>
                     </div>
-                    <h5 class="card-title">Yeni Kart Ekle</h5>
-                    <p class="card-text">Yeni bir ulaşım kartı oluşturun</p>
+                    <h5 class="card-title">Kart Oluştur</h5>
+                    <p class="card-text">Uyarı! Eski Kartınız Silinecektir. </p>
                     <div class="mt-auto">
                         <button id="showAddCardBtn" class="btn btn-modern btn-primary btn-sm">
                             <i class="fas fa-plus"></i> Ekle
@@ -73,8 +73,8 @@
                     <div class="quick-action-icon mb-3">
                         <i class="fas fa-id-card text-info"></i>
                     </div>
-                    <h5 class="card-title">Kartlarım</h5>
-                    <p class="card-text">Ulaşım kartlarınızı görüntüleyin</p>
+                    <h5 class="card-title">Ulaşım Kartım</h5>
+                    <p class="card-text">Ulaşım kartınızı görüntüleyin</p>
                     <div class="mt-auto">
                         <button class="btn btn-modern btn-info btn-sm">
                             <i class="fas fa-eye"></i> Görüntüle
@@ -363,14 +363,14 @@
             <div class="modal-header">
                 <h5 class="modal-title">
                     <i class="fas fa-id-card text-info"></i>
-                    Kartlarım
+                    Ulaşım Kartım
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div id="myCardsModalBody" class="modal-body">
-                <!-- Kartlar buraya dinamik olarak eklenecek -->
+                <!-- Ulaşım kartı buraya dinamik olarak eklenecek -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-modern btn-secondary" data-bs-dismiss="modal">Kapat</button>
@@ -1284,39 +1284,62 @@
         }
     }
 
-    /* Mini Kart Stilleri (Kartlarım Modal) */
+    /* Modern Mini Kart Stilleri (Kartlarım Modal) */
     .listed-card {
         display: flex;
         align-items: center;
-        margin-bottom: 20px;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 15px;
-        padding: 15px;
-        transition: all 0.3s ease;
+        margin-bottom: 16px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 16px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         gap: 20px;
+        height: 100px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .listed-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .listed-card:hover::before {
+        left: 100%;
     }
 
     .listed-card:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        border-color: rgba(255, 255, 255, 0.2);
     }
 
     .mini-card-container {
         position: relative;
         width: 120px;
-        aspect-ratio: 1.586;
+        height: 75px;
         border-radius: 12px;
         overflow: hidden;
-        background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         flex-shrink: 0;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .mini-card-container:hover {
-        transform: scale(1.05);
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        transform: scale(1.08) rotateY(5deg);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        border-color: rgba(255, 255, 255, 0.2);
     }
 
     .mini-card-overlay {
@@ -1406,9 +1429,9 @@
 
     .mini-card-number {
         font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
-        font-size: 0.6rem;
+        font-size: 0.5rem;
         font-weight: 600;
-        letter-spacing: 1px;
+        letter-spacing: 0.5px;
         color: white;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
         line-height: 1;
@@ -1465,69 +1488,259 @@
         50% { transform: scale(1.1); opacity: 1; }
     }
 
-    .listed-card .card-info {
+    .card-details {
         flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 100%;
+        position: relative;
+        z-index: 1;
+        gap: 20px;
     }
 
-    .listed-card .card-info h5 {
-        margin-bottom: 5px;
+    .card-number-display {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+    }
+
+    .card-balance {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 120px;
+    }
+
+    .balance-label {
         font-weight: 600;
-        color: #333;
-    }
-
-    .listed-card .card-info p {
-        margin-bottom: 0;
-        color: #6c757d;
+        color: #4a5568;
         font-size: 0.9rem;
     }
 
-    /* Dark tema için mini kart stilleri */
+    .balance-amount {
+        font-weight: 700;
+        color: #2d3748;
+        font-size: 1.1rem;
+        background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .card-balance {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 120px;
+    }
+
+    .balance-label {
+        font-weight: 600;
+        color: #4a5568;
+        font-size: 0.9rem;
+    }
+
+    .balance-amount {
+        font-weight: 700;
+        color: #2d3748;
+        font-size: 1.1rem;
+        background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Dark tema için modern mini kart stilleri */
     body.dark .listed-card {
-        background: rgba(30, 41, 59, 0.2);
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.3) 0%, rgba(51, 65, 85, 0.2) 100%);
+        border-color: rgba(255, 255, 255, 0.15);
     }
 
     body.dark .listed-card:hover {
-        background: rgba(30, 41, 59, 0.4);
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(51, 65, 85, 0.3) 100%);
+        border-color: rgba(255, 255, 255, 0.25);
     }
 
-    body.dark .listed-card .card-info h5 {
-        color: #f8f9fa;
+    body.dark .balance-label {
+        color: #cbd5e1;
     }
 
-    body.dark .listed-card .card-info p {
-        color: #adb5bd;
+    body.dark .balance-amount {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 
-    /* Kart numarası bölümü stilleri */
+    body.dark .mini-card-container {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Modern kart numarası bölümü stilleri */
     .card-number-section {
         display: flex;
         align-items: center;
-        gap: 10px;
-        margin-bottom: 10px;
+        gap: 12px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+        padding: 12px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
     }
 
     .card-number-text {
-        font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+        font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
         font-weight: 600;
-        color: #333;
+        color: #1a202c;
         margin-bottom: 0;
-        font-size: 1rem;
+        font-size: 1.1rem;
+        flex: 1;
+        min-width: 220px;
+        letter-spacing: 0.5px;
+        background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 
     .copy-btn {
-        padding: 4px 8px;
-        font-size: 0.8rem;
-        transition: all 0.3s ease;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 8px;
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 197, 253, 0.1) 100%);
+        color: #3b82f6;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .copy-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .copy-btn:hover::before {
+        left: 100%;
     }
 
     .copy-btn:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        border-color: rgba(59, 130, 246, 0.5);
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(147, 197, 253, 0.2) 100%);
     }
 
-    /* Dark tema için kart numarası stilleri */
+    /* Dark tema için modern kart numarası stilleri */
+    body.dark .card-number-section {
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.3) 0%, rgba(51, 65, 85, 0.2) 100%);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+
     body.dark .card-number-text {
-        color: #f8f9fa;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    body.dark .copy-btn {
+        border-color: rgba(59, 130, 246, 0.4);
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(147, 197, 253, 0.2) 100%);
+        color: #60a5fa;
+    }
+
+    body.dark .copy-btn:hover {
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(147, 197, 253, 0.3) 100%);
+        border-color: rgba(59, 130, 246, 0.6);
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    /* Modern Responsive Tasarım */
+    @@media (max-width: 768px) {
+        .listed-card {
+            height: auto;
+            padding: 12px;
+        }
+
+        .card-details {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .card-number-display {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .card-balance {
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .listed-card {
+            padding: 12px;
+            margin-bottom: 16px;
+        }
+
+        .mini-card-container {
+            width: 100px;
+        }
+
+        .listed-card .card-info h5 {
+            font-size: 1.1rem;
+        }
+
+        .listed-card .card-info p {
+            font-size: 0.85rem;
+        }
+
+        .card-number-text {
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            padding: 4px 8px;
+            font-size: 0.75rem;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .listed-card {
+            padding: 10px;
+        }
+
+        .mini-card-container {
+            width: 80px;
+        }
+
+        .listed-card .card-info h5 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .card-number-section {
+            padding: 8px;
+        }
+
+        .card-number-text {
+            font-size: 0.8rem;
+        }
     }
 </style>
 
@@ -1787,7 +2000,6 @@
                                                 <div class="mini-chip-glow"></div>
                                             </div>
                                             <div class="mini-card-logo">
-                                                <i class="fas fa-bus"></i>
                                                 <span>Ulaşım Kart</span>
                                             </div>
                                         </div>
@@ -1806,15 +2018,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-info">
-                                    <h5>Ulaşım Kartım</h5>
-                                    <div class="card-number-section">
-                                        <p class="card-number-text">${formattedCardNumber}</p>
+                                <div class="card-details">
+                                    <div class="card-number-display">
+                                        <span class="card-number-text">${formattedCardNumber}</span>
                                         <button class="btn btn-sm btn-outline-primary copy-btn" onclick="copyCardNumber('${cardData.cardNumber}')">
                                             <i class="fas fa-copy"></i> Kopyala
                                         </button>
                                     </div>
-                                    <p><strong>Bakiye:</strong> ${balance}</p>
+                                    <div class="card-balance">
+                                        <span class="balance-label">Bakiye:</span>
+                                        <span class="balance-amount">${balance}</span>
+                                    </div>
                                 </div>
                             </div>
                         `;

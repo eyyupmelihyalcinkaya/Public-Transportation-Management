@@ -19,13 +19,12 @@ namespace internshipproject1.Application.Features.Card.Commands.AddCard
         }
         public async Task<AddCardCommandResponse> Handle(AddCardCommandRequest request, CancellationToken cancellationToken)
         {
-            // TODO: Melih
             
             var customer = await _customerRepository.GetByEmailAsync(request.CustomerEmail, cancellationToken);
             var isExists = await _cardRepository.CardExistsAsync(customer.Id, cancellationToken);
-            if (isExists) 
-            {
-                throw new Exception("Bu Customer'ın zaten kartı var");
+            if (isExists)
+            { 
+                throw new Exception("Card already exists for this customer.");
             }
             /*if (customer == null)
             {
@@ -46,6 +45,7 @@ namespace internshipproject1.Application.Features.Card.Commands.AddCard
                 IsDeleted = request.IsDeleted
             };
             var result = await _cardRepository.AddAsync(createdCard, cancellationToken);
+          //  var cutomerCardList = await _customerRepository.AddCardToListAsync(customer.Id, createdCard, cancellationToken);
             if (result == null)
             {
                 return new AddCardCommandResponse

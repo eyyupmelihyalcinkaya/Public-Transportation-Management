@@ -78,7 +78,7 @@ namespace WebAPI.Controllers
             var pagedResponse = response.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             return Ok(pagedResponse);
         }
-
+        /*
         [HttpPost("ChangeRole")]
         public async Task<ActionResult> RoleChange(int id)
         { 
@@ -88,6 +88,6 @@ namespace WebAPI.Controllers
                 return NotFound($"User with ID {id} not found.");
             }
             return Ok(user);
-        }
+        }*/
     }
 }

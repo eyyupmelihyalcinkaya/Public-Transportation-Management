@@ -34,7 +34,7 @@ namespace internshipproject1.Application.Features.User.Commands.Register
             var user = new internshipproject1.Domain.Entities.User
             {
                 userName = command.userName,
-                Role = UserRole.User,
+               // Role = UserRole.User,
                 passwordHash = hash,
                 passwordSalt = salt
             };
@@ -56,7 +56,7 @@ namespace internshipproject1.Application.Features.User.Commands.Register
             
                 Id = user.Id,
                 UserName = user.userName,
-                Role = UserRole.User,
+             //   Role = UserRole.User,
                 Email = customer.Email,
                 Name = customer.Name,
                 Surname = customer.Surname,

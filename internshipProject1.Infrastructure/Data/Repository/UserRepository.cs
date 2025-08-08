@@ -35,7 +35,7 @@ namespace internshipProject1.Infrastructure.Data.Repository
             if(user == null)
             {
                 throw new ArgumentNullException(nameof(user));
-            }
+            }/*
             if (user.Role == UserRole.User)
             {
                 user.Role = UserRole.Admin;
@@ -47,7 +47,7 @@ namespace internshipProject1.Infrastructure.Data.Repository
             else
             {
                 throw new InvalidOperationException("Invalid user role.");
-            }
+            }*/
             await _dbContext.SaveChangesAsync(cancellationToken);
             return user;
         }

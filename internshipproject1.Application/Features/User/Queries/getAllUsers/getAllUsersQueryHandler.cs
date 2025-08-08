@@ -23,7 +23,7 @@ namespace internshipproject1.Application.Features.User.Queries.GetAllUsers
             {
                 id = u.Id,
                 userName = u.userName,
-                Role = u.Role
+               // Role = u.Role
             }).ToList();
 
             return response;
