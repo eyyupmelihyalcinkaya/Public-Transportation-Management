@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.infrastructure\\data\\repository\\rolerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|solutionrelative:internshipproject1.infrastructure\\data\\repository\\rolerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.WebAPI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1\\controllers\\rolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.WebAPI.csproj|solutionrelative:internshipproject1\\controllers\\rolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.application\\interfaces\\repositories\\iuserrolerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|solutionrelative:internshipproject1.application\\interfaces\\repositories\\iuserrolerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.application\\interfaces\\repositories\\irolerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -13,34 +17,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.application\\interfaces\\repositories\\imenurepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|solutionrelative:internshipproject1.application\\interfaces\\repositories\\imenurepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.application\\interfaces\\repositories\\iuserrolerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|solutionrelative:internshipproject1.application\\interfaces\\repositories\\iuserrolerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.infrastructure\\data\\repository\\menurepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|solutionrelative:internshipproject1.infrastructure\\data\\repository\\menurepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.infrastructure\\data\\repository\\userrolerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|solutionrelative:internshipproject1.infrastructure\\data\\repository\\userrolerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87F082D7-3566-4D51-A5E3-F14F6194FFEC}|internshipproject1.Domain\\internshipproject1.Domain.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.domain\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87F082D7-3566-4D51-A5E3-F14F6194FFEC}|internshipproject1.Domain\\internshipproject1.Domain.csproj|solutionrelative:internshipproject1.domain\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.WebAPI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.WebAPI.csproj|solutionrelative:internshipproject1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.infrastructure\\context\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|solutionrelative:internshipproject1.infrastructure\\context\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{87F082D7-3566-4D51-A5E3-F14F6194FFEC}|internshipproject1.Domain\\internshipproject1.Domain.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.domain\\entities\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{87F082D7-3566-4D51-A5E3-F14F6194FFEC}|internshipproject1.Domain\\internshipproject1.Domain.csproj|solutionrelative:internshipproject1.domain\\entities\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,124 +38,54 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MenuRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Repository\\MenuRepository.cs",
-              "RelativeDocumentMoniker": "internshipProject1.Infrastructure\\Data\\Repository\\MenuRepository.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Repository\\MenuRepository.cs",
-              "RelativeToolTip": "internshipProject1.Infrastructure\\Data\\Repository\\MenuRepository.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAgAAAALAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-07T13:25:06.701Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RoleRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Repository\\RoleRepository.cs",
-              "RelativeDocumentMoniker": "internshipProject1.Infrastructure\\Data\\Repository\\RoleRepository.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Repository\\RoleRepository.cs",
-              "RelativeToolTip": "internshipProject1.Infrastructure\\Data\\Repository\\RoleRepository.cs",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAuwFoAAAAAAAAAAAAAAA==",
+              "Title": "RoleController.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1\\Controllers\\RoleController.cs",
+              "RelativeDocumentMoniker": "internshipProject1\\Controllers\\RoleController.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1\\Controllers\\RoleController.cs",
+              "RelativeToolTip": "internshipProject1\\Controllers\\RoleController.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAgwEsAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-07T13:24:52.778Z",
+              "WhenOpened": "2025-08-08T12:05:37.591Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UserRoleRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Repository\\UserRoleRepository.cs",
-              "RelativeDocumentMoniker": "internshipProject1.Infrastructure\\Data\\Repository\\UserRoleRepository.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Repository\\UserRoleRepository.cs",
-              "RelativeToolTip": "internshipProject1.Infrastructure\\Data\\Repository\\UserRoleRepository.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAAAAgAAAALAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-07T13:24:41.389Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "IUserRoleRepository.cs",
               "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Interfaces\\Repositories\\IUserRoleRepository.cs",
               "RelativeDocumentMoniker": "internshipproject1.Application\\Interfaces\\Repositories\\IUserRoleRepository.cs",
               "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Interfaces\\Repositories\\IUserRoleRepository.cs",
               "RelativeToolTip": "internshipproject1.Application\\Interfaces\\Repositories\\IUserRoleRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABmAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-07T13:23:38.827Z"
+              "WhenOpened": "2025-08-07T13:23:38.827Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "IMenuRepository.cs",
               "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Interfaces\\Repositories\\IMenuRepository.cs",
               "RelativeDocumentMoniker": "internshipproject1.Application\\Interfaces\\Repositories\\IMenuRepository.cs",
               "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Interfaces\\Repositories\\IMenuRepository.cs",
               "RelativeToolTip": "internshipproject1.Application\\Interfaces\\Repositories\\IMenuRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-07T13:22:44.412Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "IRoleRepository.cs",
               "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Interfaces\\Repositories\\IRoleRepository.cs",
               "RelativeDocumentMoniker": "internshipproject1.Application\\Interfaces\\Repositories\\IRoleRepository.cs",
               "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Interfaces\\Repositories\\IRoleRepository.cs",
               "RelativeToolTip": "internshipproject1.Application\\Interfaces\\Repositories\\IRoleRepository.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAAAA0AAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAAA8AAABSAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-07T13:19:21.903Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Domain\\Entities\\User.cs",
-              "RelativeDocumentMoniker": "internshipproject1.Domain\\Entities\\User.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Domain\\Entities\\User.cs",
-              "RelativeToolTip": "internshipproject1.Domain\\Entities\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-07T13:04:00.208Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1\\Program.cs",
-              "RelativeDocumentMoniker": "internshipProject1\\Program.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1\\Program.cs",
-              "RelativeToolTip": "internshipProject1\\Program.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAADQAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-07T13:00:12.805Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Context\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "internshipProject1.Infrastructure\\Context\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Context\\AppDbContext.cs",
-              "RelativeToolTip": "internshipProject1.Infrastructure\\Context\\AppDbContext.cs",
-              "ViewState": "AgIAAJMAAAAAAAAAAAAkwKMAAABgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-07T11:08:22.289Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Menu.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Domain\\Entities\\Menu.cs",
-              "RelativeDocumentMoniker": "internshipproject1.Domain\\Entities\\Menu.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Domain\\Entities\\Menu.cs",
-              "RelativeToolTip": "internshipproject1.Domain\\Entities\\Menu.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABQAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-07T10:36:01.873Z"
+              "WhenOpened": "2025-08-07T13:19:21.903Z",
+              "EditorCaption": ""
             }
           ]
         }

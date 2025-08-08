@@ -12,7 +12,7 @@ namespace internshipproject1.Application.Features.User.Commands.Register
     {
         public int Id { get; set; }
         public string UserName { get; set; }
-        public UserRole Role { get; set; }
+   //     public UserRole Role { get; set; }
         public string Email { get; set; }
         public string Message { get; set; } = string.Empty;
         public string Name { get; set; }

@@ -11,6 +11,6 @@ namespace internshipproject1.Application.Features.User.Queries.GetAllUsers
     {
         public int id { get; set; }
         public string userName { get; set; } = string.Empty;
-        public UserRole Role { get; set; }
+   //     public UserRole Role { get; set; }
     }
 }

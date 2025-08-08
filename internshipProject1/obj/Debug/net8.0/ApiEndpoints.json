@@ -447,6 +447,191 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.MenuController",
+    "Method": "CreateMenu",
+    "RelativePath": "api/Menu/CreateMenu",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "internshipproject1.Application.Features.Menu.Commands.AddMenu.AddMenuCommandRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.MenuController",
+    "Method": "DeleteMenu",
+    "RelativePath": "api/Menu/DeleteMenu",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.MenuController",
+    "Method": "GetAllMenus",
+    "RelativePath": "api/Menu/GetAllMenus",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.MenuController",
+    "Method": "GetMenuById",
+    "RelativePath": "api/Menu/GetMenuById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.MenuController",
+    "Method": "IsMenuExist",
+    "RelativePath": "api/Menu/IsMenuExist",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.MenuController",
+    "Method": "UpdateMenu",
+    "RelativePath": "api/Menu/UpdateMenu",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "request",
+        "Type": "internshipproject1.Application.Features.Menu.Commands.UpdateMenu.UpdateMenuCommandRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.RoleController",
+    "Method": "AddRole",
+    "RelativePath": "api/Role/AddRole",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "internshipproject1.Application.Features.Role.Commands.AddRole.AddRoleCommandRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.RoleController",
+    "Method": "DeleteRole",
+    "RelativePath": "api/Role/DeleteRole",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.RoleController",
+    "Method": "GetAllRoles",
+    "RelativePath": "api/Role/GetAllRoles",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.RoleController",
+    "Method": "GetRoleById",
+    "RelativePath": "api/Role/GetRoleById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.RoleController",
+    "Method": "IsRoleExist",
+    "RelativePath": "api/Role/IsRoleExist",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.RoleController",
+    "Method": "UpdateRole",
+    "RelativePath": "api/Role/UpdateRole",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "internshipproject1.Application.Features.Role.Commands.UpdateRole.UpdateRoleCommandRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "internshipProject1.WebAPI.Controllers.RoutesController",
     "Method": "GetRoutes",
     "RelativePath": "api/Routes",

@@ -1,0 +1,22 @@
+﻿using FluentValidation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace internshipproject1.Application.Features.UserRole.Commands.AssignToRole
+{
+    public class AssignToRoleCommandValidator : AbstractValidator<AssignToRoleCommandRequest>
+    {
+        public AssignToRoleCommandValidator() 
+        {
+            RuleFor(x => x.UserId)
+                .NotEmpty().WithMessage("User ID is required.")
+                .GreaterThan(0).WithMessage("User ID must be greater than 0.");
+            RuleFor(x => x.RoleId)
+                .NotEmpty().WithMessage("Role ID is required.")
+                .GreaterThan(0).WithMessage("Role ID must be greater than 0.");
+        }
+    }
+}
