@@ -632,6 +632,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "internshipProject1.WebAPI.Controllers.RoleMenuPermissionController",
+    "Method": "GetRoleMenuPermissions",
+    "RelativePath": "api/RoleMenuPermission/GetPermission",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "roleId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "menuId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "internshipProject1.WebAPI.Controllers.RoutesController",
     "Method": "GetRoutes",
     "RelativePath": "api/Routes",

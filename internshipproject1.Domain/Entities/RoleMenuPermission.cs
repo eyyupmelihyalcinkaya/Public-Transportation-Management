@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace internshipproject1.Domain.Entities
 {
+    //TODO: RoleMenuPermission CQRS implemente edilecek.
+    //TODO: Menu Permission Attribute oluşturulacak.
+    //TODO: Menu Servis yazılacak.
+    //TODO: RoleMenuPermission için Controller yazılacak
     public class RoleMenuPermission
     {
         public int RoleId { get; set; }
