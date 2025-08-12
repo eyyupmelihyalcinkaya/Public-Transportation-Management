@@ -73,7 +73,16 @@ namespace internshipProject1.WebUI.Controllers
                     Expires = DateTimeOffset.Now.AddHours(1)
                 });
                 
-                Console.WriteLine("DEBUG - Cookie UserToken set successfully");
+                // Role bilgisini de cookie'ye kaydet
+                Response.Cookies.Append("userRole", role, new CookieOptions
+                {
+                    HttpOnly = false, // JavaScript'ten erişilebilir olması için
+                    Secure = false, // Development için false
+                    SameSite = SameSiteMode.Lax,
+                    Expires = DateTimeOffset.Now.AddHours(1)
+                });
+                
+                Console.WriteLine("DEBUG - Cookie UserToken and userRole set successfully");
                 
                 return Json(new { success = true, message = "Session and cookie set successfully" });
             }
@@ -97,6 +106,7 @@ namespace internshipProject1.WebUI.Controllers
             // Session ve cookie'yi temizle
             HttpContext.Session.Clear();
             Response.Cookies.Delete("UserToken");
+            Response.Cookies.Delete("userRole");
             
             // Logout sayfasına yönlendir (JavaScript ile localStorage temizlemek için)
             return View("LogoutProcess");

@@ -29,18 +29,31 @@ tabs.forEach(tab => {
 // Basit modal yönetimi
 class SimpleRouteStopsModal {
     constructor() {
-        this.modal = document.getElementById('routeStopsModal');
-        this.modalBody = document.getElementById('routeStopsModalBody');
+        // DOM yüklendikten sonra modal elementlerini bul
+        this.modal = null;
+        this.modalBody = null;
         this.init();
     }
 
     init() {
+        // DOM ready olana kadar bekle
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.initModal());
+        } else {
+            this.initModal();
+        }
+    }
+    
+    initModal() {
+        this.modal = document.getElementById('routeStopsModal');
+        this.modalBody = document.getElementById('routeStopsModalBody');
+        
         if (!this.modal) {
             console.error('Modal elementi bulunamadı!');
             return;
         }
         
-        console.log('Modal hazır');
+        console.log('Route Stops Modal hazır!');
     }
 
     showLoading() {

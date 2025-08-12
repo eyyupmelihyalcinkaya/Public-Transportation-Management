@@ -16,21 +16,6 @@ namespace internshipproject1.Application.Features.Route.Commands.DeleteRoute
                 .WithMessage("Route ID is required.")
                 .GreaterThan(0)
                 .WithMessage("Route ID must be greater than zero.");
-            RuleFor(x=> x.Name)
-                .NotEmpty()
-                .WithMessage("Route name is required.")
-                .MaximumLength(100)
-                .WithMessage("Route name must not exceed 100 characters.");
-            RuleFor(x => x.Description)
-                .MaximumLength(500).WithMessage("Route description must not exceed 500 characters.");
-            RuleFor(x=> x.StartLocation)
-                .Length(0, 200)
-                .WithMessage("Start location must not exceed 200 characters.");
-            RuleFor(x=>x.EndLocation)
-                .Length(0,200)
-                .WithMessage("End location must not exceed 200 characters.");
-
-
         }
     }
 }

@@ -17,7 +17,7 @@ namespace internshipproject1.Application.Features.RoleMenuPermission.Queries.Has
         }
         public async Task<HasPermissionQueryResponse> Handle(HasPermissionQueryRequest request, CancellationToken cancellationToken)
         {
-            var hasPermission = await _roleMenuPermissionRepository.HasPermissionAsync(request.RoleId, request.MenuId, request.PermissionType, cancellationToken);
+            var hasPermission = await _roleMenuPermissionRepository.HasPermissionAsync(request.UserId, request.MenuId, request.PermissionType, cancellationToken);
             return new HasPermissionQueryResponse { HasPermission = hasPermission };
         }
     }

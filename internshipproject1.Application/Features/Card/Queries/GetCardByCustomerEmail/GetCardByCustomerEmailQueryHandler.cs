@@ -18,17 +18,22 @@ namespace internshipproject1.Application.Features.Card.Queries.GetCardByCustomer
         }
         public async Task<GetCardByCustomerEmailQueryResponse> Handle(GetCardByCustomerEmailQueryRequest request, CancellationToken cancellationToken)
         {
-            var card = await _cardRepository.GetCardByCustomerEmail(request.Email, cancellationToken);
-            if (card == null)
+            try
             {
-                throw new Exception("Handlerda Card bulunamadı");
+                var card = await _cardRepository.GetCardByCustomerEmail(request.Email, cancellationToken);
+                
+                return new GetCardByCustomerEmailQueryResponse
+                {
+                    CardNumber = card.CardNumber,
+                    CardId = card.Id,
+                    Balance = card.Balance
+                };
             }
-            return new GetCardByCustomerEmailQueryResponse
+            catch (KeyNotFoundException)
             {
-                CardNumber = card.CardNumber,
-                CardId = card.Id,
-                Balance = card.Balance
-            };
+                // Email ile kart bulunamadı durumunda null döndür
+                return null;
+            }
         }
     }
 }

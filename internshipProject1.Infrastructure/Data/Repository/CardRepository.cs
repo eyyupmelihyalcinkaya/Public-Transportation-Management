@@ -239,10 +239,13 @@ namespace internshipProject1.Infrastructure.Data.Repository
         }
         public async Task<Card> GetCardByCustomerEmail(string email, CancellationToken cancellationToken)
         { 
-            var card = await _context.Card.FirstOrDefaultAsync(c=>c.Customer.Email == email,cancellationToken);
+            var card = await _context.Card
+                .Include(c => c.Customer)
+                .FirstOrDefaultAsync(c => c.Customer.Email == email, cancellationToken);
+            
             if (card == null)
             {
-                throw new Exception($"Emailden {email} Card bulunamadı");
+                throw new KeyNotFoundException($"Email '{email}' ile ilişkili kart bulunamadı");
             }
             return card;
         }

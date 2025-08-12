@@ -19,41 +19,59 @@ namespace internshipproject1.Application.Features.RoleMenuPermission.Queries.Get
 
         public async Task<GetPermissionByMenuIdQueryResponse> Handle(GetPermissionByMenuIdQueryRequest request, CancellationToken cancellationToken)
         {
-            var permissions = await _roleMenuPermission.GetPermissionByMenuIdAsync(request.MenuId, cancellationToken);
+            try
+            {
+                var permissions = await _roleMenuPermission.GetPermissionByMenuIdAsync(request.MenuId, cancellationToken);
 
-            if (permissions == null || !permissions.Any())
+                if (permissions == null || !permissions.Any())
+                {
+                    return new GetPermissionByMenuIdQueryResponse
+                    {
+                        MenuId = request.MenuId,
+                        RolePermissions = new List<RolePermissionDTO>(),
+                        Message = "No permissions found for this menu",
+                        HasAnyPermission = false
+                    };
+                }
+
+                
+                var rolePermissions = permissions.Select(p => new RolePermissionDTO
+                {
+                    RoleId = p.RoleId,
+                    RoleName = GetRoleName(p.RoleId),
+                    CanRead = p.CanRead,
+                    CanCreate = p.CanCreate,
+                    CanUpdate = p.CanUpdate,
+                    CanDelete = p.CanDelete
+                }).ToList();
+
+                return new GetPermissionByMenuIdQueryResponse
+                {
+                    MenuId = request.MenuId,
+                    RolePermissions = rolePermissions,
+                    Message = $"Found {rolePermissions.Count} role permissions for menu",
+                    HasAnyPermission = rolePermissions.Any(rp => rp.HasAnyPermission)
+                };
+            }
+            catch (Exception ex)
             {
                 return new GetPermissionByMenuIdQueryResponse
                 {
-                    RoleId = 0,
                     MenuId = request.MenuId,
-                    CanRead = false,
-                    CanCreate = false,
-                    CanUpdate = false,
-                    CanDelete = false
+                    RolePermissions = new List<RolePermissionDTO>(),
+                    Message = $"Error retrieving permissions: {ex.Message}",
+                    HasAnyPermission = false
                 };
             }
-
-            bool canRead = false, canCreate = false, canUpdate = false, canDelete = false;
-            int roleId = 0;
-
-            foreach (var p in permissions)
+        }
+        private string GetRoleName(int roleId)
+        {
+            return roleId switch
             {
-                roleId = p.RoleId;
-                canRead |= p.CanRead;
-                canCreate |= p.CanCreate;
-                canUpdate |= p.CanUpdate;
-                canDelete |= p.CanDelete;
-            }
-
-            return new GetPermissionByMenuIdQueryResponse
-            {
-                RoleId = roleId,
-                MenuId = request.MenuId,
-                CanRead = canRead,
-                CanCreate = canCreate,
-                CanUpdate = canUpdate,
-                CanDelete = canDelete
+                1 => "SuperAdmin",
+                2 => "Admin",
+                3 => "Passenger",
+                _ => "Unknown"
             };
         }
     }

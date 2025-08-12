@@ -42,7 +42,10 @@ namespace internshipproject1.Application.Features.RoleMenuPermission.Queries.Get
                 CanRead = p.CanRead,
                 CanCreate = p.CanCreate,
                 CanUpdate = p.CanUpdate,
-                CanDelete = p.CanDelete
+                CanDelete = p.CanDelete,
+                MenuName = p.Menu?.Name ?? string.Empty,
+                MenuUrl = p.Menu?.Url ?? string.Empty,
+                RoleName = p.Role?.Name ?? string.Empty
             }).ToList();
         }
     }

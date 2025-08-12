@@ -93,8 +93,8 @@ namespace internshipProject1.WebAPI.Controllers
         }
 
         //[Authorize]
-        [HttpPut("id")]
-        public async Task<IActionResult> UpdateRoute([FromQuery] int id, UpdateRouteCommandRequest command)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRoute(int id,[FromBody] UpdateRouteCommandRequest command)
         {
             if (id != command.Id)
             {

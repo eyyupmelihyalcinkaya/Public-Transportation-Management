@@ -18,12 +18,14 @@ namespace internshipproject1.Application.Features.User.Commands.Register
         private readonly IPasswordHashingService _passwordHashingService;
         private readonly IUserRepository _userRepository;
         private readonly ICustomerRepository _customerRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
 
-        public UserRegisterHandler(IPasswordHashingService passwordHashingService, IUserRepository userRepository, ICustomerRepository customerRepository)
+        public UserRegisterHandler(IPasswordHashingService passwordHashingService, IUserRepository userRepository, ICustomerRepository customerRepository, IUserRoleRepository userRoleRepository)
         {
             _passwordHashingService = passwordHashingService;
             _userRepository = userRepository;
             _customerRepository = customerRepository;
+            _userRoleRepository = userRoleRepository;
         }
         public async Task<UserRegisterCommandResponse> Handle(UserRegisterCommand command, CancellationToken cancellationToken)
         {
@@ -39,6 +41,8 @@ namespace internshipproject1.Application.Features.User.Commands.Register
                 passwordSalt = salt
             };
             await _userRepository.AddAsync(user, cancellationToken);
+            // Yeni kullanıcıya default Passenger (3) rolünü ata
+            await _userRoleRepository.AssignToRoleAsync(user.Id, 3, cancellationToken);
             var customer = new Domain.Entities.Customer
             {
                 Name = command.Name,
@@ -56,7 +60,7 @@ namespace internshipproject1.Application.Features.User.Commands.Register
             
                 Id = user.Id,
                 UserName = user.userName,
-             //   Role = UserRole.User,
+            //    Role = UserRole.User,
                 Email = customer.Email,
                 Name = customer.Name,
                 Surname = customer.Surname,

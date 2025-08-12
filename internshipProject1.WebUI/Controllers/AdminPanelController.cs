@@ -2,10 +2,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
+using System.Security.Claims;
+using internshipproject1.Domain.Auth;
 
 namespace internshipProject1.WebUI.Controllers
 {
-
     public class AdminPanelController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -34,15 +35,35 @@ namespace internshipProject1.WebUI.Controllers
             return !string.IsNullOrEmpty(sessionToken) || !string.IsNullOrEmpty(cookieToken);
         }
 
-        // Admin rolü kontrolü
-        private bool IsUserAdmin()
+        // Admin rolü kontrolü - session ve cookie'den kontrol et
+        private bool IsUserAdminOrSuperAdmin()
         {
+            // Session'dan rol kontrolü
             var userRole = HttpContext.Session.GetString("userRole");
             Console.WriteLine($"DEBUG - User Role from Session: {userRole}");
             
-            // Role = "1" ise Admin
-            var isAdmin = userRole == "1";
-            Console.WriteLine($"DEBUG - Is User Admin: {isAdmin}");
+            // Cookie'den rol kontrolü (fallback)
+            if (string.IsNullOrEmpty(userRole))
+            {
+                userRole = Request.Cookies["userRole"];
+                Console.WriteLine($"DEBUG - User Role from Cookie: {userRole}");
+            }
+            
+            // LocalStorage'dan gelen token'ı kontrol et (JavaScript'ten gönderilen)
+            if (string.IsNullOrEmpty(userRole))
+            {
+                // Request header'larından token bilgisini al
+                var authHeader = Request.Headers["Authorization"].FirstOrDefault();
+                if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer "))
+                {
+                    // JWT token'dan rol bilgisini çıkar (basit kontrol)
+                    Console.WriteLine($"DEBUG - Authorization Header Found: {authHeader}");
+                }
+            }
+            
+            // Role = "1" (SuperAdmin) veya "2" (Admin) ise erişim ver
+            var isAdmin = userRole == "1" || userRole == "2";
+            Console.WriteLine($"DEBUG - Is User Admin: {isAdmin} (Role: {userRole})");
             
             return isAdmin;
         }
@@ -78,6 +99,49 @@ namespace internshipProject1.WebUI.Controllers
                 
                 var request = new HttpRequestMessage(method ?? HttpMethod.Get, fullUrl);
                 request.Headers.Add("X-Api-Key", apiKey);
+                // Authorization'ı ilet (varsa)
+                try
+                {
+                    var incomingAuth = Request.Headers["Authorization"].FirstOrDefault();
+                    if (!string.IsNullOrWhiteSpace(incomingAuth))
+                    {
+                        request.Headers.Add("Authorization", incomingAuth);
+                    }
+                    else
+                    {
+                        var sessionToken = HttpContext.Session.GetString("UserToken");
+                        if (!string.IsNullOrWhiteSpace(sessionToken))
+                        {
+                            if (sessionToken.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                            {
+                                request.Headers.Add("Authorization", sessionToken);
+                            }
+                            else
+                            {
+                                // JSON olabilir
+                                try
+                                {
+                                    using var doc = JsonDocument.Parse(sessionToken);
+                                    string? access = null;
+                                    if (doc.RootElement.TryGetProperty("token", out var tokenObj) && tokenObj.TryGetProperty("accessToken", out var acc))
+                                    {
+                                        access = acc.GetString();
+                                    }
+                                    else if (doc.RootElement.TryGetProperty("accessToken", out var acc2))
+                                    {
+                                        access = acc2.GetString();
+                                    }
+                                    if (!string.IsNullOrWhiteSpace(access))
+                                    {
+                                        request.Headers.Add("Authorization", $"Bearer {access}");
+                                    }
+                                }
+                                catch { /* ignore parse errors */ }
+                            }
+                        }
+                    }
+                }
+                catch { }
 
                 if (body != null)
                 {
@@ -116,6 +180,10 @@ namespace internshipProject1.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRoutes(int page = 1, int pageSize = 10)
         {
+            if (!IsUserAdminOrSuperAdmin())
+            {
+                return Forbid("Bu API'ye erişim yetkiniz bulunmamaktadır.");
+            }
             return await ProxyApiRequest($"/api/routes?page={page}&pageSize={pageSize}");
         }
 
@@ -123,6 +191,13 @@ namespace internshipProject1.WebUI.Controllers
         public async Task<IActionResult> CreateRoute([FromBody] object routeData)
         {
             return await ProxyApiRequest("/api/routes", HttpMethod.Post, routeData);
+        }
+
+        // Create Route with multiple stops
+        [HttpPost]
+        public async Task<IActionResult> CreateRouteWithStops([FromBody] object routeWithStops)
+        {
+            return await ProxyApiRequest("/api/Routes/CreateRouteWithStops", HttpMethod.Post, routeWithStops);
         }
 
         [HttpDelete]
@@ -175,6 +250,12 @@ namespace internshipProject1.WebUI.Controllers
             return await ProxyApiRequest("/api/trips/TotalCount");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateTrip([FromBody] object tripData)
+        {
+            return await ProxyApiRequest("/api/trips", HttpMethod.Post, tripData);
+        }
+
         // RouteStops API Proxy
         [HttpGet]
         public async Task<IActionResult> GetRouteStops(int page = 1, int pageSize = 10)
@@ -188,19 +269,19 @@ namespace internshipProject1.WebUI.Controllers
             return await ProxyApiRequest("/api/routestop/TotalCount");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateRouteStop([FromBody] object routeStopData)
+        {
+            return await ProxyApiRequest("/api/routestop", HttpMethod.Post, routeStopData);
+        }
+
         public IActionResult AdminMainPage()
         {
-            if (!IsUserAuthenticated())
+            // RBAC kontrolü - SuperAdmin veya Admin rolü gerekli
+            if (!IsUserAdminOrSuperAdmin())
             {
-                TempData["ErrorMessage"] = "Admin Panel'e erişmek için giriş yapmanız gerekiyor.";
-                return RedirectToAction("Login", "Account");
-            }
-            
-            // Admin rolü kontrolü
-            if (!IsUserAdmin())
-            {
-                TempData["ErrorMessage"] = "Bu sayfaya erişim yetkiniz bulunmamaktadır. Sadece Admin kullanıcıları bu sayfaya erişebilir.";
-                return RedirectToAction("Index", "Home");
+                TempData["ErrorMessage"] = "Bu sayfaya erişim yetkiniz bulunmamaktadır. Sadece Admin ve SuperAdmin kullanıcıları bu sayfaya erişebilir.";
+                return RedirectToAction("Dashboard", "User"); // Normal kullanıcıları User Dashboard'a yönlendir
             }
             
             ViewBag.GatewayUrl = _configuration["ApiSettings:GatewayUrl"];
@@ -208,19 +289,28 @@ namespace internshipProject1.WebUI.Controllers
             return View();
         }
 
+        // Only SuperAdmin (role 1) visible/accessible page for managing permissions (frontend-only)
+        public IActionResult Permissions()
+        {
+            // Frontend guard: allow only SuperAdmin
+            var role = HttpContext.Session.GetString("userRole") ?? Request.Cookies["userRole"];
+            if (role != "1")
+            {
+                TempData["ErrorMessage"] = "Bu sayfaya sadece SuperAdmin erişebilir.";
+                return RedirectToAction("AdminMainPage");
+            }
+
+            ViewBag.GatewayUrl = _configuration["ApiSettings:GatewayUrl"];
+            ViewBag.ApiKey = _configuration["ApiSettings:ApiKey"];
+            return View();
+        }
+
         public IActionResult Routes()
         {
-            if (!IsUserAuthenticated())
+            if (!IsUserAdminOrSuperAdmin())
             {
-                TempData["ErrorMessage"] = "Admin Panel'e erişmek için giriş yapmanız gerekiyor.";
-                return RedirectToAction("Login", "Account");
-            }
-            
-            // Admin rolü kontrolü
-            if (!IsUserAdmin())
-            {
-                TempData["ErrorMessage"] = "Bu sayfaya erişim yetkiniz bulunmamaktadır. Sadece Admin kullanıcıları bu sayfaya erişebilir.";
-                return RedirectToAction("Index", "Home");
+                TempData["ErrorMessage"] = "Bu sayfaya erişim yetkiniz bulunmamaktadır. Sadece Admin ve SuperAdmin kullanıcıları bu sayfaya erişebilir.";
+                return RedirectToAction("Dashboard", "User");
             }
             
             return View();
@@ -228,17 +318,10 @@ namespace internshipProject1.WebUI.Controllers
 
         public IActionResult Stops()
         {
-            if (!IsUserAuthenticated())
+            if (!IsUserAdminOrSuperAdmin())
             {
-                TempData["ErrorMessage"] = "Admin Panel'e erişmek için giriş yapmanız gerekiyor.";
-                return RedirectToAction("Login", "Account");
-            }
-            
-            // Admin rolü kontrolü
-            if (!IsUserAdmin())
-            {
-                TempData["ErrorMessage"] = "Bu sayfaya erişim yetkiniz bulunmamaktadır. Sadece Admin kullanıcıları bu sayfaya erişebilir.";
-                return RedirectToAction("Index", "Home");
+                TempData["ErrorMessage"] = "Bu sayfaya erişim yetkiniz bulunmamaktadır. Sadece Admin ve SuperAdmin kullanıcıları bu sayfaya erişebilir.";
+                return RedirectToAction("Dashboard", "User");
             }
             
             return View();
@@ -246,17 +329,10 @@ namespace internshipProject1.WebUI.Controllers
 
         public IActionResult Trips()
         {
-            if (!IsUserAuthenticated())
+            if (!IsUserAdminOrSuperAdmin())
             {
-                TempData["ErrorMessage"] = "Admin Panel'e erişmek için giriş yapmanız gerekiyor.";
-                return RedirectToAction("Login", "Account");
-            }
-            
-            // Admin rolü kontrolü
-            if (!IsUserAdmin())
-            {
-                TempData["ErrorMessage"] = "Bu sayfaya erişim yetkiniz bulunmamaktadır. Sadece Admin kullanıcıları bu sayfaya erişebilir.";
-                return RedirectToAction("Index", "Home");
+                TempData["ErrorMessage"] = "Bu sayfaya erişim yetkiniz bulunmamaktadır. Sadece Admin ve SuperAdmin kullanıcıları bu sayfaya erişebilir.";
+                return RedirectToAction("Dashboard", "User");
             }
             
             return View();
@@ -264,17 +340,10 @@ namespace internshipProject1.WebUI.Controllers
 
         public IActionResult RouteStops()
         {
-            if (!IsUserAuthenticated())
+            if (!IsUserAdminOrSuperAdmin())
             {
-                TempData["ErrorMessage"] = "Admin Panel'e erişmek için giriş yapmanız gerekiyor.";
-                return RedirectToAction("Login", "Account");
-            }
-            
-            // Admin rolü kontrolü
-            if (!IsUserAdmin())
-            {
-                TempData["ErrorMessage"] = "Bu sayfaya erişim yetkiniz bulunmamaktadır. Sadece Admin kullanıcıları bu sayfaya erişebilir.";
-                return RedirectToAction("Index", "Home");
+                TempData["ErrorMessage"] = "Bu sayfaya erişim yetkiniz bulunmamaktadır. Sadece Admin ve SuperAdmin kullanıcıları bu sayfaya erişebilir.";
+                return RedirectToAction("Dashboard", "User");
             }
             
             return View();

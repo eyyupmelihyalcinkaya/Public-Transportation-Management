@@ -110,8 +110,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             accessToken: data.token.accessToken,
             refreshToken: data.token.refreshToken,
             username: data.userName,
-            userId: data.id, // userId'yi de kaydet
+            userId: data.id,
             role: data.role,
+            roleNames: data.roleNames || [],
             email: data.email,
             loginTime: new Date().getTime(),
             rememberMe: rememberMe
@@ -143,9 +144,12 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         button.textContent = 'Giriş başarılı!';
         
         setTimeout(() => {
-            if (data.role === 1) { // Admin
+            // SuperAdmin (rol ID: 1) ve Admin (rol ID: 2) AdminPanel'e yönlendir
+            if (data.role === 1 || data.role === 2 || 
+                (data.roleNames && (data.roleNames.includes('SuperAdmin') || data.roleNames.includes('Admin')))) {
                 window.location.href = '/AdminPanel/AdminMainPage';
-            } else { // Normal kullanıcı
+            } else {
+                // Diğer tüm roller (Passenger, vb.) User Dashboard'a yönlendir
                 window.location.href = '/User/Dashboard';
             }
         }, 1000);

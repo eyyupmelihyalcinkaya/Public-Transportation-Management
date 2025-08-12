@@ -41,10 +41,7 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> GetAllTrips(CancellationToken cancellationToken, int page = 1, int pageSize = 10)
         {
             var response = await _mediator.Send(new GetAllTripsQueryRequest(), cancellationToken);
-            if (response == null || !response.Any())
-            {
-                return NotFound();
-            }
+            // Return empty list instead of NotFound when no trips exist
             int totalCount = response.Count();
             int pageCount = (int)Math.Ceiling((double)totalCount / pageSize);
             var pagedResponse = response.Skip((page - 1) * pageSize).Take(pageSize).ToList();

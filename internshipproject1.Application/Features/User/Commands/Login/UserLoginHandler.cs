@@ -19,13 +19,15 @@ namespace internshipproject1.Application.Features.User.Commands.Login
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
         private readonly ICustomerRepository _customerRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
 
-        public UserLoginHandler(IPasswordHashingService passwordHashingService, IUserRepository userRepository, IConfiguration configuration, ICustomerRepository customerRepository)
+        public UserLoginHandler(IPasswordHashingService passwordHashingService, IUserRepository userRepository, IConfiguration configuration, ICustomerRepository customerRepository,IUserRoleRepository userRoleRepository)
         {
             _passwordHashingService = passwordHashingService;
             _userRepository = userRepository;
             _configuration = configuration;
             _customerRepository = customerRepository;
+            _userRoleRepository = userRoleRepository;
         }
 
         public async Task<UserLoginCommandResponse> Handle(UserLoginCommand command,CancellationToken cancellationToken)
@@ -54,13 +56,30 @@ namespace internshipproject1.Application.Features.User.Commands.Login
                 throw new WrongUsernameOrPasswordException("Kullanıcı adı veya şifre hatalı");
             }
 
-            var token = TokenHandler.CreateToken(_configuration, user.userName);
+            // Kullanıcının rollerini çek ve yoksa default Passenger ata
+            var roles = await _userRoleRepository.GetRolesByUserIdAsync(user.Id, cancellationToken);
+            if (roles == null || !roles.Any())
+            {
+                await _userRoleRepository.AssignToRoleAsync(user.Id, 3, cancellationToken);
+                roles = await _userRoleRepository.GetRolesByUserIdAsync(user.Id, cancellationToken);
+            }
+
+            var roleNames = roles.Select(r => r.Name).ToList();
+            var primaryRoleId = roles.FirstOrDefault()?.Id ?? 3;
+
+            var token = TokenHandler.CreateToken(
+                _configuration,
+                user.userName,
+                user.Id,
+                roleNames,
+                new Dictionary<string, string> { { "email", mail } }
+            );
 
             return new UserLoginCommandResponse
             {
                 Id = user.Id,
                 UserName = user.userName,
-            //    Role = user.Role,
+                Role = primaryRoleId,
                 Message = $"Login Successfully, Welcome Back {user.userName} !",
                 Token = token,
                 Email = mail

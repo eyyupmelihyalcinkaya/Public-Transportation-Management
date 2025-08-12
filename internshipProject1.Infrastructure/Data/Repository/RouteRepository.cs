@@ -156,7 +156,19 @@ namespace internshipProject1.Infrastructure.Data.Repository
             }
 
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return route;
+            
+            // Route'u RouteStops ile birlikte geri dön
+            var routeWithStops = await _dbContext.Route
+                .Include(r => r.RouteStops)
+                .ThenInclude(rs => rs.Stop)
+                .FirstOrDefaultAsync(r => r.Id == route.Id, cancellationToken);
+            
+            if (routeWithStops == null)
+            {
+                throw new InvalidOperationException($"Route with ID {route.Id} could not be found after creation.");
+            }
+            
+            return routeWithStops;
         }
 
     }

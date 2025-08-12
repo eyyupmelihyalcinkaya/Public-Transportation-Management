@@ -21,12 +21,16 @@
                 const tokenData = JSON.parse(token);
                 console.log('Token data:', tokenData);
                 
-                // Kullanıcı admin değilse veya role bilgisi yoksa anasayfaya yönlendir
-                if (!tokenData.role || tokenData.role !== 1) {
-                    console.log('User is not an admin, redirecting to home...');
-                    alert('Bu sayfaya erişim yetkiniz yok.');
-                    window.location.href = '/';
+                // SuperAdmin (1) veya Admin (2) değilse erişim engelle
+                if (!tokenData.role || (tokenData.role !== 1 && tokenData.role !== 2)) {
+                    console.log('User is not an admin or superadmin, redirecting to user dashboard...');
+                    alert('Bu sayfaya erişim yetkiniz yok. Sadece Admin ve SuperAdmin kullanıcıları erişebilir.');
+                    window.location.href = '/User/Dashboard';
+                    return;
                 }
+                
+                // RBAC menü kontrolü - kullanıcının izinlerine göre menüleri göster/gizle
+                initializeRBACMenus(tokenData);
             } catch (e) {
                 console.error('Error parsing token:', e);
                 window.location.href = '/Account/Login?returnUrl=' + encodeURIComponent(window.location.pathname);
@@ -307,6 +311,38 @@
                 showToast('Failed to load some data. Please refresh the page.', 'error');
             }
         }
+
+        // Dynamic stop row for CreateRouteWithStops
+        function addStopRow() {
+            const container = document.getElementById('routeStopsRepeater');
+            if (!container) return;
+            const id = 'stop-' + Date.now();
+            const html = `
+                <div class="stop-row border rounded p-2" id="${id}">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-4">
+                            <label class="form-label">Stop Name</label>
+                            <input type="text" class="form-control stop-name" placeholder="Eg. Central Station" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Latitude</label>
+                            <input type="number" step="0.000001" class="form-control stop-lat" placeholder="40.123456" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Longitude</label>
+                            <input type="number" step="0.000001" class="form-control stop-lon" placeholder="29.123456" required>
+                        </div>
+                        <div class="col-md-1">
+                            <label class="form-label">Order</label>
+                            <input type="number" min="1" class="form-control stop-order" value="1">
+                        </div>
+                        <div class="col-md-1 d-grid">
+                            <button type="button" class="btn btn-outline-danger" onclick="document.getElementById('${id}').remove()"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>`;
+            container.insertAdjacentHTML('beforeend', html);
+        }
         
         // Load basic stats
         async function loadStats() {
@@ -362,49 +398,74 @@
         
         // Route Functions
         async function saveRoute() {
-            const routeName = document.getElementById('routeName').value;
-            const routeDescription = document.getElementById('routeDescription').value;
-            const startLocation = document.getElementById('startLocation').value;
-            const endLocation = document.getElementById('endLocation').value;
-            
+            const routeName = document.getElementById('routeName').value.trim();
+            const routeDescription = document.getElementById('routeDescription').value.trim();
+            const startLocation = document.getElementById('startLocation').value.trim();
+            const endLocation = document.getElementById('endLocation').value.trim();
             if (!routeName || !startLocation || !endLocation) {
                 showToast('Please fill in all required fields!', 'error');
                 return;
             }
-            
-            try {
-                showToast('Creating route...', 'info');
-                
-                // Backend API'ye POST isteği gönder
-                const response = await fetch('/AdminPanel/CreateRoute', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        Name: routeName,
-                        Description: routeDescription,
-                        StartLocation: startLocation,
-                        EndLocation: endLocation
-                    })
+            // Stops builder
+            const stopRows = document.querySelectorAll('#routeStopsRepeater .stop-row');
+            const stops = [];
+            stopRows.forEach((row, idx) => {
+                const stopName = row.querySelector('.stop-name').value.trim();
+                const lat = parseFloat(row.querySelector('.stop-lat').value);
+                const lon = parseFloat(row.querySelector('.stop-lon').value);
+                const order = parseInt(row.querySelector('.stop-order').value || (idx + 1));
+                if (!stopName || isNaN(lat) || isNaN(lon)) return; // skip invalid rows
+                stops.push({ 
+                    "stopName": stopName, 
+                    "stopId": 0, 
+                    "latitude": lat, 
+                    "longitude": lon, 
+                    "order": order 
                 });
+            });
+
+            const tokenStr = localStorage.getItem('token');
+            const token = tokenStr ? JSON.parse(tokenStr) : {};
+            const createdById = parseInt(token.userId || token.id || 1) || 1; // 0 yerine 1 default
+
+            try {
+                showToast('Creating route with stops...', 'info');
                 
-                console.log('Route created:', response);
+                // Swagger şemasına tam uyumlu payload
+                const payload = {
+                    "routeName": routeName,
+                    "description": routeDescription || "string", // Swagger'da string default
+                    "startLocation": startLocation,
+                    "endLocation": endLocation,
+                    "createdById": createdById,
+                    "stops": stops
+                };
                 
+                console.log('Sending payload:', JSON.stringify(payload, null, 2));
+                
+                const res = await fetch(`https://localhost:7007/api/routes/CreateRouteWithStops`, {
+                    method: 'POST',
+                    headers: 
+                        {   'Content-Type': 'application/json',
+                            'Authorization' : `Bearer ${token}`},
+                    body: JSON.stringify(payload)
+                });
+                if (!res.ok) {
+                    const txt = await res.text();
+                    throw new Error(txt || 'CreateRouteWithStops failed');
+                }
                 // Close modal
                 bootstrap.Modal.getInstance(document.getElementById('addRouteModal')).hide();
-                
                 // Clear form
                 document.getElementById('addRouteForm').reset();
-                
-                // Show success message
-                showToast(`Route "${response.Name}" created successfully!`, 'success');
-                
+                document.getElementById('routeStopsRepeater').innerHTML = '';
+                addStopRow();
                 // Refresh routes data
                 loadRoutes();
+                showToast('Route created successfully!', 'success');
             } catch (error) {
-                console.error('Error creating route:', error);
-                showToast('Connection error. Please try again.', 'error');
+                console.error('Error creating route with stops:', error);
+                showToast('Error while creating route with stops', 'error');
             }
         }
         
@@ -455,28 +516,92 @@
             });
         }
 
-        function editRoute(id) {
-            showToast('Edit route functionality will be implemented!', 'info');
-            // API call to get route data and populate edit modal
-        }
-        
-        async function deleteRoute(id) {
-            if (confirm('Are you sure you want to delete this route?')) {
-                try {
-                    showToast('Deleting route...', 'info');
+        async function editRoute(id) {
+            // Store the ID globally as backup
+            currentEditingRouteId = id;
+            
+            try {
+                showToast('Loading route data...', 'info');
+                
+                // API call to get route data
+                const response = await fetch(`https://localhost:7007/api/routes/id?id=${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi'
+                    }
+                });
+                
+                if (response.ok) {
+                    const routeData = await response.json();
+                    console.log('DEBUG editRoute - loaded route data:', routeData);
                     
-                    const response = await fetch(`/AdminPanel/DeleteRoute/${id}`, {
-                        method: 'DELETE'
-                    });
+                    // Handle both array and object responses
+                    const route = Array.isArray(routeData) ? routeData[0] : routeData;
+                    console.log('DEBUG editRoute - processed route object:', route);
                     
-                    showToast('Route deleted successfully!', 'success');
-                    loadRoutes(); // Refresh routes list
-                } catch (error) {
-                    console.error('Error deleting route:', error);
-                    showToast('Connection error while deleting route', 'error');
+                    if (!route) {
+                        throw new Error('No route data found in response');
+                    }
+                    
+                    // Populate update modal with existing data
+                    document.getElementById('updateRouteId').value = route.id;
+                    document.getElementById('updateRouteName').value = route.name || '';
+                    document.getElementById('updateRouteDescription').value = route.description || '';
+                    document.getElementById('updateStartLocation').value = route.startLocation || '';
+                    document.getElementById('updateEndLocation').value = route.endLocation || '';
+                    
+                    // Show update modal
+                    const modal = new bootstrap.Modal(document.getElementById('updateRouteModal'));
+                    modal.show();
+                } else {
+                    throw new Error('Failed to load route data');
                 }
+            } catch (error) {
+                console.error('Error loading route:', error);
+                showToast('Error loading route data', 'error');
             }
         }
+
+                async function deleteRoute(id) {
+            if (!confirm('Are you sure you want to delete this route?')) return;
+
+            try {
+                showToast('Deleting route...', 'info');
+
+                const tokenStr = localStorage.getItem('token');
+                const tokenData = tokenStr ? JSON.parse(tokenStr) : null;
+                const accessToken = tokenData?.accessToken || tokenData?.token?.accessToken;
+                
+                if (!accessToken) {
+                    showToast('Authentication token not found!', 'error');
+                    return;
+                }
+
+                const response = await fetch(`https://localhost:7007/api/routes/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi'
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Delete failed:', errorText);
+                    showToast(`Failed to delete route: ${errorText}`, 'error');
+                    return;
+                }
+
+                console.log(`Route ${id} deleted successfully`);
+                showToast('Route deleted successfully!', 'success');
+                loadRoutes(); // Refresh list
+            } catch (error) {
+                console.error('Error deleting route:', error);
+                showToast('Connection error while deleting route', 'error');
+            }
+        }
+
 
         async function showRouteStops(routeId) {
             console.log('showRouteStops çağrıldı, routeId:', routeId);
@@ -584,6 +709,8 @@
             const stopLatitude = parseFloat(document.getElementById('stopLatitude').value);
             const stopLongitude = parseFloat(document.getElementById('stopLongitude').value);
             
+            console.log('DEBUG saveStop - stopName:', stopName, 'lat:', stopLatitude, 'lng:', stopLongitude);
+            
             if (!stopName || isNaN(stopLatitude) || isNaN(stopLongitude)) {
                 showToast('Please fill in all required fields with valid values!', 'error');
                 return;
@@ -593,10 +720,11 @@
                 showToast('Creating stop...', 'info');
                 
                 // Backend API'ye POST isteği gönder
-                const response = await fetch('/AdminPanel/CreateStop', {
+                const response = await fetch('https://localhost:7007/api/stops/', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi'
                     },
                     body: JSON.stringify({
                         Name: stopName,
@@ -605,21 +733,30 @@
                     })
                 });
                 
-                console.log('Stop created:', response);
+                console.log('DEBUG saveStop - response status:', response.status, 'ok:', response.ok);
                 
-                // Close modal
-                bootstrap.Modal.getInstance(document.getElementById('addStopModal')).hide();
-                
-                // Clear form
-                document.getElementById('addStopForm').reset();
-                
-                // Show success message
-                showToast(`Stop "${response.Name}" created successfully!`, 'success');
-                
-                // Refresh stops data
-                loadStops();
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('DEBUG saveStop - result:', result);
+                    
+                    // Close modal
+                    bootstrap.Modal.getInstance(document.getElementById('addStopModal')).hide();
+                    
+                    // Clear form
+                    document.getElementById('addStopForm').reset();
+                    
+                    // Show success message
+                    showToast(`Stop "${result.name || result.Name || stopName}" created successfully!`, 'success');
+                    
+                    // Refresh stops table
+                    await updateStopsTable();
+                } else {
+                    const errorText = await response.text();
+                    console.error('DEBUG saveStop - error response:', errorText);
+                    showToast(`Failed to create stop: ${response.status}`, 'error');
+                }
             } catch (error) {
-                console.error('Error creating stop:', error);
+                console.error('DEBUG saveStop - catch error:', error);
                 showToast('Connection error. Please try again.', 'error');
             }
         }
@@ -655,13 +792,97 @@
             });
         }
 
-        function editStop(id) {
-            showToast('Edit stop functionality will be implemented!', 'info');
+        async function editStop(id) {
+            console.log('DEBUG editStop called with id:', id, 'type:', typeof id);
+            
+            // Store the ID globally as backup
+            currentEditingStopId = id;
+            
+            try {
+                showToast('Loading stop data...', 'info');
+                
+                // API call to get stop data
+                const response = await fetch(`https://localhost:7007/api/stops/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi'
+                    }
+                });
+                
+                if (response.ok) {
+                    const stopData = await response.json();
+                    console.log('DEBUG editStop - loaded stop data:', stopData);
+                    
+                    // Handle both array and object responses
+                    const stop = Array.isArray(stopData) ? stopData[0] : stopData;
+                    console.log('DEBUG editStop - processed stop object:', stop);
+                    
+                    if (!stop) {
+                        throw new Error('No stop data found in response');
+                    }
+                    
+                    // Populate update modal with existing data
+                    document.getElementById('updateStopId').value = stop.id;
+                    document.getElementById('updateStopName').value = stop.name || '';
+                    document.getElementById('updateStopLatitude').value = stop.latitude || '';
+                    document.getElementById('updateStopLongitude').value = stop.longitude || '';
+                    
+                    console.log('DEBUG editStop - populated form fields:', {
+                        id: document.getElementById('updateStopId').value,
+                        name: document.getElementById('updateStopName').value,
+                        lat: document.getElementById('updateStopLatitude').value,
+                        lng: document.getElementById('updateStopLongitude').value
+                    });
+                    
+                    // Show update modal
+                    const modal = new bootstrap.Modal(document.getElementById('updateStopModal'));
+                    modal.show();
+                } else {
+                    throw new Error('Failed to load stop data');
+                }
+            } catch (error) {
+                console.error('Error loading stop:', error);
+                showToast('Error loading stop data', 'error');
+            }
         }
         
-        function deleteStop(id) {
-            if (confirm('Are you sure you want to delete this stop?')) {
+        async function deleteStop(id) {
+            if (!confirm('Are you sure you want to delete this stop?')) return;
+
+            try {
+                showToast('Deleting stop...', 'info');
+
+                const tokenStr = localStorage.getItem('token');
+                const tokenData = tokenStr ? JSON.parse(tokenStr) : null;
+                const accessToken = tokenData?.accessToken || tokenData?.token?.accessToken;
+                
+                if (!accessToken) {
+                    showToast('Authentication token not found!', 'error');
+                    return;
+                }
+
+                const response = await fetch(`https://localhost:7007/api/stops/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi'
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Delete failed:', errorText);
+                    showToast(`Failed to delete stop: ${errorText}`, 'error');
+                    return;
+                }
+
+                console.log(`Stop ${id} deleted successfully`);
                 showToast('Stop deleted successfully!', 'success');
+                loadStops(); // Refresh list
+            } catch (error) {
+                console.error('Error deleting stop:', error);
+                showToast('Connection error while deleting stop', 'error');
             }
         }
         
@@ -711,74 +932,547 @@
             });
         }
 
-        function saveTrip() {
-            const tripRoute = document.getElementById('tripRoute').value;
-            const startTime = document.getElementById('startTime').value;
-            const endTime = document.getElementById('endTime').value;
+        async function saveTrip() {
+            const tripRoute = parseInt(document.getElementById('tripRoute').value);
+            let startTime = document.getElementById('startTime').value;
+            let endTime = document.getElementById('endTime').value;
             const dayType = document.getElementById('dayType').value;
+            if (!tripRoute || !startTime || !endTime || !dayType) {
+                showToast('Please fill in all required fields!', 'error');
+                return;
+            }
+            // Ensure HH:mm:ss format
+            if (startTime.length === 5) startTime += ':00';
+            if (endTime.length === 5) endTime += ':00';
+            try {
+                const res = await fetch(`https://localhost:7007/api/trips`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' , 'X-Api-Key' : 'melihin-muhtesem-otesi-apisi'},
+                    body: JSON.stringify({
+                        routeId: tripRoute,
+                        startTime: startTime,
+                        endTime: endTime,
+                        dayType: dayType
+                    })
+                });
+                if (!res.ok) {
+                    const txt = await res.text();
+                    throw new Error(txt || 'Trip create failed');
+                }
+                bootstrap.Modal.getInstance(document.getElementById('addTripModal')).hide();
+                document.getElementById('addTripForm').reset();
+                showToast('Trip added successfully!', 'success');
+                loadTrips();
+            } catch (e) {
+                console.error(e);
+                showToast('Error while creating trip', 'error');
+            }
+        }
+
+        // Load dropdowns when modals are opened
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add Trip modal listeners
+            const addTripModal = document.getElementById('addTripModal');
+            if (addTripModal) {
+                addTripModal.addEventListener('shown.bs.modal', function () {
+                    loadRoutesForDropdown('tripRoute');
+                });
+            }
+
+            // Add Route Stop modal listeners
+            const addRouteStopModal = document.getElementById('addRouteStopModal');
+            if (addRouteStopModal) {
+                addRouteStopModal.addEventListener('shown.bs.modal', function () {
+                    loadRoutesForDropdown('routeStopRoute');
+                    loadStopsForDropdown('routeStopStop');
+                });
+            }
+        });
+        
+        async function editTrip(id) {
+            // Store the ID globally as backup
+            currentEditingTripId = id;
+            
+            try {
+                showToast('Loading trip data...', 'info');
+                
+                // Load routes for dropdown first
+                await loadRoutesForDropdown('updateTripRoute');
+                
+                // API call to get trip data
+                const response = await fetch(`https://localhost:7007/api/trips/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi'
+                    }
+                });
+                
+                if (response.ok) {
+                    const tripData = await response.json();
+                    console.log('DEBUG editTrip - loaded trip data:', tripData);
+                    
+                    // Handle both array and object responses
+                    const trip = Array.isArray(tripData) ? tripData[0] : tripData;
+                    console.log('DEBUG editTrip - processed trip object:', trip);
+                    
+                    if (!trip) {
+                        throw new Error('No trip data found in response');
+                    }
+                    
+                    // Populate update modal with existing data
+                    document.getElementById('updateTripId').value = trip.id;
+                    document.getElementById('updateTripRoute').value = trip.routeId || '';
+                    
+                    // Format time values (remove seconds if present)
+                    const startTime = trip.startTime ? trip.startTime.substring(0, 5) : '';
+                    const endTime = trip.endTime ? trip.endTime.substring(0, 5) : '';
+                    
+                    document.getElementById('updateStartTime').value = startTime;
+                    document.getElementById('updateEndTime').value = endTime;
+                    document.getElementById('updateDayType').value = trip.dayType || '';
+                    
+                    // Show update modal
+                    const modal = new bootstrap.Modal(document.getElementById('updateTripModal'));
+                    modal.show();
+                } else {
+                    throw new Error('Failed to load trip data');
+                }
+            } catch (error) {
+                console.error('Error loading trip:', error);
+                showToast('Error loading trip data', 'error');
+            }
+        }
+        
+        async function deleteTrip(id) {
+            if (!confirm('Are you sure you want to delete this trip?')) return;
+
+            try {
+                showToast('Deleting trip...', 'info');
+
+                const tokenStr = localStorage.getItem('token');
+                const tokenData = tokenStr ? JSON.parse(tokenStr) : null;
+                const accessToken = tokenData?.accessToken || tokenData?.token?.accessToken;
+                
+                if (!accessToken) {
+                    showToast('Authentication token not found!', 'error');
+                    return;
+                }
+
+                const response = await fetch(`https://localhost:7007/api/trips/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi'
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Delete failed:', errorText);
+                    showToast(`Failed to delete trip: ${errorText}`, 'error');
+                    return;
+                }
+
+                console.log(`Trip ${id} deleted successfully`);
+                showToast('Trip deleted successfully!', 'success');
+                loadTrips(); // Refresh list
+            } catch (error) {
+                console.error('Error deleting trip:', error);
+                showToast('Connection error while deleting trip', 'error');
+            }
+        }
+        
+        // Route Stop Functions
+        async function saveRouteStop() {
+            const routeStopRoute = parseInt(document.getElementById('routeStopRoute').value);
+            const routeStopStop = parseInt(document.getElementById('routeStopStop').value);
+            const stopOrder = parseInt(document.getElementById('stopOrder').value);
+            if (!routeStopRoute || !routeStopStop || !stopOrder) {
+                showToast('Please fill in all required fields!', 'error');
+                return;
+            }
+            try {
+                const res = await fetch(`/AdminPanel/CreateRouteStop`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ routeId: routeStopRoute, stopId: routeStopStop, order: stopOrder })
+                });
+                if (!res.ok) {
+                    const txt = await res.text();
+                    throw new Error(txt || 'RouteStop create failed');
+                }
+                bootstrap.Modal.getInstance(document.getElementById('addRouteStopModal')).hide();
+                document.getElementById('addRouteStopForm').reset();
+                showToast('Route stop connection added successfully!', 'success');
+                loadRouteStops();
+            } catch (e) {
+                console.error(e);
+                showToast('Error while creating route stop', 'error');
+            }
+        }
+        
+        async function editRouteStop(id) {
+            // Store the ID globally as backup
+            currentEditingRouteStopId = id;
+            
+            try {
+                showToast('Loading route stop data...', 'info');
+                
+                // Load routes and stops for dropdowns first
+                await Promise.all([
+                    loadRoutesForDropdown('updateRouteStopRoute'),
+                    loadStopsForDropdown('updateRouteStopStop')
+                ]);
+                
+                // API call to get route stop data
+                const response = await fetch(`https://localhost:7007/api/routestop/id?id=${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi'
+                    }
+                });
+                
+                if (response.ok) {
+                    const routeStopData = await response.json();
+                    console.log('DEBUG editRouteStop - loaded routeStop data:', routeStopData);
+                    
+                    // Handle both array and object responses
+                    const routeStop = Array.isArray(routeStopData) ? routeStopData[0] : routeStopData;
+                    console.log('DEBUG editRouteStop - processed routeStop object:', routeStop);
+                    
+                    if (!routeStop) {
+                        throw new Error('No routeStop data found in response');
+                    }
+                    
+                    // Populate update modal with existing data
+                    document.getElementById('updateRouteStopId').value = routeStop.id;
+                    document.getElementById('updateRouteStopRoute').value = routeStop.routeId || '';
+                    document.getElementById('updateRouteStopStop').value = routeStop.stopId || '';
+                    document.getElementById('updateStopOrder').value = routeStop.order || '';
+                    
+                    // Show update modal
+                    const modal = new bootstrap.Modal(document.getElementById('updateRouteStopModal'));
+                    modal.show();
+                } else {
+                    throw new Error('Failed to load route stop data');
+                }
+            } catch (error) {
+                console.error('Error loading route stop:', error);
+                showToast('Error loading route stop data', 'error');
+            }
+        }
+        
+        async function deleteRouteStop(id) {
+            if (!confirm('Are you sure you want to delete this route stop connection?')) return;
+
+            try {
+                showToast('Deleting route stop...', 'info');
+
+                const tokenStr = localStorage.getItem('token');
+                const tokenData = tokenStr ? JSON.parse(tokenStr) : null;
+                const accessToken = tokenData?.accessToken || tokenData?.token?.accessToken;
+                
+                if (!accessToken) {
+                    showToast('Authentication token not found!', 'error');
+                    return;
+                }
+
+                const response = await fetch(`https://localhost:7007/api/routestop/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi'
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Delete failed:', errorText);
+                    showToast(`Failed to delete route stop: ${errorText}`, 'error');
+                    return;
+                }
+
+                console.log(`Route stop ${id} deleted successfully`);
+                showToast('Route stop connection deleted successfully!', 'success');
+                loadRouteStops(); // Refresh list
+            } catch (error) {
+                console.error('Error deleting route stop:', error);
+                showToast('Connection error while deleting route stop', 'error');
+            }
+        }
+        
+        // Update Functions
+        async function updateRoute() {
+            const routeId = document.getElementById('updateRouteId').value || currentEditingRouteId;
+            const routeName = document.getElementById('updateRouteName').value.trim();
+            const routeDescription = document.getElementById('updateRouteDescription').value.trim();
+            const startLocation = document.getElementById('updateStartLocation').value.trim();
+            const endLocation = document.getElementById('updateEndLocation').value.trim();
+            
+            if (!routeId) {
+                showToast('Route ID is missing!', 'error');
+                return;
+            }
+            
+            if (!routeName || !startLocation || !endLocation) {
+                showToast('Please fill in all required fields!', 'error');
+                return;
+            }
+            
+            try {
+                showToast('Updating route...', 'info');
+                
+                const response = await fetch(`https://localhost:7007/api/routes/${routeId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi'
+                    },
+                    body: JSON.stringify({
+                        id: parseInt(routeId),
+                        name: routeName,
+                        description: routeDescription || '',
+                        startLocation: startLocation,
+                        endLocation: endLocation
+                    })
+                });
+                
+                if (response.ok) {
+                    // Close modal
+                    bootstrap.Modal.getInstance(document.getElementById('updateRouteModal')).hide();
+                    
+                    // Clear form
+                    document.getElementById('updateRouteForm').reset();
+                    
+                    showToast('Route updated successfully!', 'success');
+                    loadRoutes(); // Refresh the routes table
+                } else {
+                    throw new Error('Failed to update route');
+                }
+            } catch (error) {
+                console.error('Error updating route:', error);
+                showToast('Error updating route', 'error');
+            }
+        }
+        
+        // Global variables to store current editing IDs
+        let currentEditingRouteId = null;
+        let currentEditingStopId = null;
+        let currentEditingTripId = null;
+        let currentEditingRouteStopId = null;
+
+        async function updateStop() {
+            // Use global variable as fallback if form field is empty
+            const stopId = document.getElementById('updateStopId').value || currentEditingStopId;
+            const stopName = document.getElementById('updateStopName').value.trim();
+            const stopLatitude = parseFloat(document.getElementById('updateStopLatitude').value);
+            const stopLongitude = parseFloat(document.getElementById('updateStopLongitude').value);
+            
+            console.log('DEBUG updateStop - stopId:', stopId, 'currentEditingStopId:', currentEditingStopId, 'stopName:', stopName, 'lat:', stopLatitude, 'lng:', stopLongitude);
+            console.log('DEBUG updateStop - form field value:', document.getElementById('updateStopId').value);
+            console.log('DEBUG updateStop - form field element:', document.getElementById('updateStopId'));
+            
+            if (!stopId) {
+                showToast('Stop ID is missing!', 'error');
+                console.error('DEBUG updateStop - Both stopId sources are empty');
+                return;
+            }
+            
+            if (!stopName || isNaN(stopLatitude) || isNaN(stopLongitude)) {
+                showToast('Please fill in all required fields with valid values!', 'error');
+                return;
+            }
+            
+            try {
+                showToast('Updating stop...', 'info');
+                
+                const response = await fetch(`https://localhost:7007/api/stops/${stopId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi'
+                    },
+                    body: JSON.stringify({
+                        id: parseInt(stopId),
+                        name: stopName,
+                        latitude: stopLatitude,
+                        longitude: stopLongitude
+                    })
+                });
+                
+                if (response.ok) {
+                    // Close modal
+                    bootstrap.Modal.getInstance(document.getElementById('updateStopModal')).hide();
+                    
+                    // Clear form
+                    document.getElementById('updateStopForm').reset();
+                    
+                    showToast('Stop updated successfully!', 'success');
+                    loadStops(); // Refresh the stops table
+                } else {
+                    throw new Error('Failed to update stop');
+                }
+            } catch (error) {
+                console.error('Error updating stop:', error);
+                showToast('Error updating stop', 'error');
+            }
+        }
+        
+        async function updateTrip() {
+            const tripId = document.getElementById('updateTripId').value || currentEditingTripId;
+            const tripRoute = parseInt(document.getElementById('updateTripRoute').value);
+            let startTime = document.getElementById('updateStartTime').value;
+            let endTime = document.getElementById('updateEndTime').value;
+            const dayType = document.getElementById('updateDayType').value;
+            
+            if (!tripId) {
+                showToast('Trip ID is missing!', 'error');
+                return;
+            }
             
             if (!tripRoute || !startTime || !endTime || !dayType) {
                 showToast('Please fill in all required fields!', 'error');
                 return;
             }
             
-            // API call will be added here
-            console.log('Saving trip:', { tripRoute, startTime, endTime, dayType });
+            // Ensure HH:mm:ss format
+            if (startTime.length === 5) startTime += ':00';
+            if (endTime.length === 5) endTime += ':00';
             
-            // Close modal
-            bootstrap.Modal.getInstance(document.getElementById('addTripModal')).hide();
-            
-            // Clear form
-            document.getElementById('addTripForm').reset();
-            
-            // Show success message
-            showToast('Trip added successfully!', 'success');
-        }
-        
-        function editTrip(id) {
-            showToast('Edit trip functionality will be implemented!', 'info');
-        }
-        
-        function deleteTrip(id) {
-            if (confirm('Are you sure you want to delete this trip?')) {
-                showToast('Trip deleted successfully!', 'success');
+            try {
+                showToast('Updating trip...', 'info');
+                
+                const response = await fetch(`https://localhost:7007/api/trips/${tripId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi'
+                    },
+                    body: JSON.stringify({
+                        id: parseInt(tripId),
+                        routeId: tripRoute,
+                        startTime: startTime,
+                        endTime: endTime,
+                        dayType: dayType
+                    })
+                });
+                
+                if (response.ok) {
+                    // Close modal
+                    bootstrap.Modal.getInstance(document.getElementById('updateTripModal')).hide();
+                    
+                    // Clear form
+                    document.getElementById('updateTripForm').reset();
+                    
+                    showToast('Trip updated successfully!', 'success');
+                    loadTrips(); // Refresh the trips table
+                } else {
+                    throw new Error('Failed to update trip');
+                }
+            } catch (error) {
+                console.error('Error updating trip:', error);
+                showToast('Error updating trip', 'error');
             }
         }
         
-        // Route Stop Functions
-        function saveRouteStop() {
-            const routeStopRoute = document.getElementById('routeStopRoute').value;
-            const routeStopStop = document.getElementById('routeStopStop').value;
-            const stopOrder = document.getElementById('stopOrder').value;
+        async function updateRouteStop() {
+            const routeStopId = document.getElementById('updateRouteStopId').value || currentEditingRouteStopId;
+            const routeStopRoute = parseInt(document.getElementById('updateRouteStopRoute').value);
+            const routeStopStop = parseInt(document.getElementById('updateRouteStopStop').value);
+            const stopOrder = parseInt(document.getElementById('updateStopOrder').value);
+            
+            if (!routeStopId) {
+                showToast('Route Stop ID is missing!', 'error');
+                return;
+            }
             
             if (!routeStopRoute || !routeStopStop || !stopOrder) {
                 showToast('Please fill in all required fields!', 'error');
                 return;
             }
             
-            // API call will be added here
-            console.log('Saving route stop:', { routeStopRoute, routeStopStop, stopOrder });
-            
-            // Close modal
-            bootstrap.Modal.getInstance(document.getElementById('addRouteStopModal')).hide();
-            
-            // Clear form
-            document.getElementById('addRouteStopForm').reset();
-            
-            // Show success message
-            showToast('Route stop connection added successfully!', 'success');
-        }
-        
-        function editRouteStop(id) {
-            showToast('Edit route stop functionality will be implemented!', 'info');
-        }
-        
-        function deleteRouteStop(id) {
-            if (confirm('Are you sure you want to delete this route stop connection?')) {
-                showToast('Route stop connection deleted successfully!', 'success');
+            try {
+                showToast('Updating route stop...', 'info');
+                
+                const response = await fetch(`https://localhost:7007/api/routestop/${routeStopId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi'
+                    },
+                    body: JSON.stringify({
+                        id: parseInt(routeStopId),
+                        routeId: routeStopRoute,
+                        stopId: routeStopStop,
+                        order: stopOrder
+                    })
+                });
+                
+                if (response.ok) {
+                    // Close modal
+                    bootstrap.Modal.getInstance(document.getElementById('updateRouteStopModal')).hide();
+                    
+                    // Clear form
+                    document.getElementById('updateRouteStopForm').reset();
+                    
+                    showToast('Route stop updated successfully!', 'success');
+                    loadRouteStops(); // Refresh the route stops table
+                } else {
+                    throw new Error('Failed to update route stop');
+                }
+            } catch (error) {
+                console.error('Error updating route stop:', error);
+                showToast('Error updating route stop', 'error');
             }
         }
         
+        // Helper Functions for Dropdowns
+        async function loadRoutesForDropdown(selectId) {
+            try {
+                const response = await fetch('/AdminPanel/GetRoutes');
+                if (response.ok) {
+                    const routes = await response.json();
+                    const select = document.getElementById(selectId);
+                    
+                    // Clear existing options except the first one
+                    select.innerHTML = '<option value="">Select a route</option>';
+                    
+                    routes.forEach(route => {
+                        const option = document.createElement('option');
+                        option.value = route.id;
+                        option.textContent = route.name;
+                        select.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading routes for dropdown:', error);
+            }
+        }
+        
+        async function loadStopsForDropdown(selectId) {
+            try {
+                const response = await fetch('/AdminPanel/GetStops');
+                if (response.ok) {
+                    const stops = await response.json();
+                    const select = document.getElementById(selectId);
+                    
+                    // Clear existing options except the first one
+                    select.innerHTML = '<option value="">Select a stop</option>';
+                    
+                    stops.forEach(stop => {
+                        const option = document.createElement('option');
+                        option.value = stop.id;
+                        option.textContent = stop.name;
+                        select.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading stops for dropdown:', error);
+            }
+        }
+
         // Settings Functions
         function saveSettings() {
             const theme = document.querySelector('input[name="theme"]:checked')?.value;
@@ -839,6 +1533,171 @@
             toastElement.addEventListener('hidden.bs.toast', function () {
                 toastElement.remove();
             });
+        }
+        
+        // RBAC Menu Control - Backend'den gerçek izinleri çek ve uygula
+        async function initializeRBACMenus(tokenData) {
+            try {
+                console.log('=== RBAC MENU DEBUG START ===');
+                console.log('Initializing RBAC menus for user:', tokenData);
+                
+                const userRole = tokenData.role;
+                const userId = tokenData.userId || tokenData.id;
+                
+                console.log('User Role:', userRole, 'User ID:', userId);
+                
+                // Backend'den kullanıcının menü izinlerini al
+                const menuPermissions = await fetchUserMenuPermissions(userId, userRole);
+                console.log('Fetched menu permissions:', menuPermissions);
+
+                if (!menuPermissions || menuPermissions.length === 0) {
+                    console.warn('No menu permissions returned from backend');
+                }
+                
+                // Menü ID'leri ve Tab ID'leri eşleştirmesi
+                const menuTabMapping = {
+                    1: 'dashboard',         // Dashboard (sayfa, tab değil)
+                    3: 'routes-tab',        // Routes
+                    4: 'stops-tab',         // Stops  
+                    5: 'trips-tab',         // Trips
+                    11: 'routestops-tab'    // Route Stops
+                };
+                
+                // İzin verilen menü ID'lerini al (CanRead = true olanlar)
+                const allowedMenuIds = menuPermissions
+                    .filter(permission => permission.canRead === true)
+                    .map(permission => permission.menuId)
+                    .filter(id => id !== undefined && id !== 0);
+                    
+                console.log('Allowed menu IDs:', allowedMenuIds);
+                
+                // Tüm tab başlıklarını önce gizle (içerikleri Bootstrap yönetecek)
+                Object.entries(menuTabMapping).forEach(([menuId, tabId]) => {
+                    if (tabId !== 'dashboard') { // Dashboard tab değil, sayfa
+                        const tab = document.getElementById(tabId);
+                        if (tab) {
+                            const li = tab.closest('li');
+                            if (li) li.style.display = 'none';
+                        }
+                    }
+                });
+                
+                // İzin verilen menüleri göster (yalnızca tab başlığını göster)
+                Object.entries(menuTabMapping).forEach(([menuId, tabId]) => {
+                    if (tabId === 'dashboard') return;
+                    const tab = document.getElementById(tabId);
+                    if (!tab) return;
+                    const li = tab.closest('li');
+                    if (allowedMenuIds.includes(parseInt(menuId))) {
+                        if (li) li.style.display = 'block';
+                        console.log(`Menu ${menuId} (${tabId}) - ALLOWED`);
+                    } else {
+                        if (li) li.style.display = 'none';
+                        console.log(`Menu ${menuId} (${tabId}) - DENIED`);
+                    }
+                });
+                
+                // İlk görünür tab'ı aktif yap
+                const visibleTabs = Object.values(menuTabMapping)
+                    .filter(tabId => tabId !== 'dashboard')
+                    .map(tabId => document.getElementById(tabId))
+                    .filter(tab => tab && tab.style.display !== 'none');
+                    
+                if (visibleTabs.length > 0) {
+                    // Mevcut aktif tab/pane sınıflarını temizle
+                    document.querySelectorAll('#adminTabs .nav-link').forEach(tab => tab.classList.remove('active'));
+                    document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active', 'show'));
+
+                    // Bootstrap Tab API ile ilk görünür tab'ı aktif et
+                    try {
+                        const firstTabEl = visibleTabs[0];
+                        const tabInstance = bootstrap.Tab.getOrCreateInstance(firstTabEl);
+                        tabInstance.show();
+                        console.log('Activated first visible tab via Bootstrap:', firstTabEl.id);
+                    } catch (e) {
+                        console.warn('Bootstrap.Tab activation failed, falling back:', e);
+                        const targetId = visibleTabs[0].getAttribute('data-bs-target');
+                        if (targetId) {
+                            const targetPane = document.querySelector(targetId);
+                            if (targetPane) targetPane.classList.add('active', 'show');
+                            visibleTabs[0].classList.add('active');
+                        }
+                    }
+                }
+                
+                console.log('=== RBAC MENU DEBUG END ===');
+                
+            } catch (error) {
+                console.error('=== RBAC MENU ERROR ===');
+                console.error('Error initializing RBAC menus:', error);
+                hideAllMenus();
+            }
+        }
+        
+        // Tüm menüleri gizle (güvenlik fallback)
+        function hideAllMenus() {
+            const menuTabs = ['routes-tab', 'stops-tab', 'trips-tab', 'routestops-tab'];
+            const menuContents = ['routes', 'stops', 'trips', 'routestops'];
+            
+            menuTabs.forEach(tabId => {
+                const tab = document.getElementById(tabId);
+                if (tab) tab.style.display = 'none';
+            });
+            
+            menuContents.forEach(contentId => {
+                const content = document.getElementById(contentId);
+                if (content) content.style.display = 'none';
+            });
+            
+            console.log('All menus hidden for security');
+        }
+        
+        // Backend'den kullanıcının menü izinlerini al
+        async function fetchUserMenuPermissions(userId, roleId) {
+            try {
+                // RoleMenuPermission endpoint'ini kullan (direkt backend)
+                console.log('Fetching permissions from backend for roleId:', roleId);
+                const backendUrl = 'https://localhost:7007'; // Direkt backend
+                const response = await fetch(`${backendUrl}/api/RoleMenuPermission/GetPermissionByRoleId?roleId=${roleId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': '@ViewBag.ApiKey'
+                        // JWT token geçici olarak kaldırıldı, CORS testi için
+                    },
+                    mode: 'cors'
+                });
+                
+                if (response.ok) {
+                    const permissions = await response.json();
+                    console.log('Raw permissions from backend:', permissions);
+                    
+                    // Backend'den gelen format: [{ roleId, menuId, canRead, canCreate, canUpdate, canDelete, menuName, menuUrl, roleName }]
+                    // Frontend'de kullanılabilir format'a çevir
+                    const formattedPermissions = permissions.map(p => ({
+                        roleId: p.roleId,
+                        menuId: p.menuId,
+                        canRead: p.canRead,
+                        canCreate: p.canCreate,
+                        canUpdate: p.canUpdate,
+                        canDelete: p.canDelete,
+                        menuName: p.menuName,
+                        menuUrl: p.menuUrl,
+                        roleName: p.roleName
+                    }));
+                    
+                    console.log('Formatted permissions:', formattedPermissions);
+                    return formattedPermissions;
+                } else {
+                    console.error('Failed to fetch menu permissions, status:', response.status);
+                    const errorText = await response.text();
+                    console.error('Error response:', errorText);
+                    return [];
+                }
+            } catch (error) {
+                console.error('Error fetching menu permissions:', error);
+                return [];
+            }
         }
         
         // Tab change handler
@@ -1402,6 +2261,12 @@
                             </div>
                         </div>
                     </div>
+                    <hr/>
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h6 class="mb-0"><i class="fas fa-map-pin me-2"></i>Stops</h6>
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="addStopRow()"><i class="fas fa-plus"></i> Add Stop</button>
+                    </div>
+                    <div id="routeStopsRepeater" class="d-grid gap-2"></div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -1476,8 +2341,7 @@
                         <label for="tripRoute" class="form-label">Route *</label>
                         <select class="form-select" id="tripRoute" required>
                             <option value="">Select a route</option>
-                            <option value="1">Route A</option>
-                            <option value="2">Route B</option>
+                            <!-- Options will be loaded dynamically -->
                         </select>
                     </div>
                     <div class="row">
@@ -1533,16 +2397,14 @@
                         <label for="routeStopRoute" class="form-label">Route *</label>
                         <select class="form-select" id="routeStopRoute" required>
                             <option value="">Select a route</option>
-                            <option value="1">Route A</option>
-                            <option value="2">Route B</option>
+                            <!-- Options will be loaded dynamically -->
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="routeStopStop" class="form-label">Stop *</label>
                         <select class="form-select" id="routeStopStop" required>
                             <option value="">Select a stop</option>
-                            <option value="1">Central Station</option>
-                            <option value="2">Airport Terminal</option>
+                            <!-- Options will be loaded dynamically -->
                         </select>
                     </div>
                     <div class="mb-3">
@@ -1557,6 +2419,201 @@
                 </button>
                 <button type="button" class="btn btn-warning" onclick="saveRouteStop()">
                     <i class="fas fa-save"></i> Save Connection
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Route Modal -->
+<div class="modal fade" id="updateRouteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-edit"></i> Update Route
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateRouteForm">
+                    <input type="hidden" id="updateRouteId">
+                    <div class="mb-3">
+                        <label for="updateRouteName" class="form-label">Route Name *</label>
+                        <input type="text" class="form-control" id="updateRouteName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateRouteDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="updateRouteDescription" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="updateStartLocation" class="form-label">Start Location *</label>
+                                <input type="text" class="form-control" id="updateStartLocation" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="updateEndLocation" class="form-label">End Location *</label>
+                                <input type="text" class="form-control" id="updateEndLocation" required>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-info" onclick="updateRoute()">
+                    <i class="fas fa-save"></i> Update Route
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Stop Modal -->
+<div class="modal fade" id="updateStopModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title">
+                    <i class="fas fa-edit"></i> Update Stop
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateStopForm">
+                    <input type="hidden" id="updateStopId">
+                    <div class="mb-3">
+                        <label for="updateStopName" class="form-label">Stop Name *</label>
+                        <input type="text" class="form-control" id="updateStopName" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="updateStopLatitude" class="form-label">Latitude *</label>
+                                <input type="number" class="form-control" id="updateStopLatitude" step="0.000001" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="updateStopLongitude" class="form-label">Longitude *</label>
+                                <input type="number" class="form-control" id="updateStopLongitude" step="0.000001" required>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-warning" onclick="updateStop()">
+                    <i class="fas fa-save"></i> Update Stop
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Trip Modal -->
+<div class="modal fade" id="updateTripModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-edit"></i> Update Trip
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateTripForm">
+                    <input type="hidden" id="updateTripId">
+                    <div class="mb-3">
+                        <label for="updateTripRoute" class="form-label">Route *</label>
+                        <select class="form-select" id="updateTripRoute" required>
+                            <option value="">Select a route</option>
+                            <!-- Options will be loaded dynamically -->
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="updateStartTime" class="form-label">Start Time *</label>
+                                <input type="time" class="form-control" id="updateStartTime" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="updateEndTime" class="form-label">End Time *</label>
+                                <input type="time" class="form-control" id="updateEndTime" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateDayType" class="form-label">Day Type *</label>
+                        <select class="form-select" id="updateDayType" required>
+                            <option value="">Select day type</option>
+                            <option value="Hafta İçi">Hafta İçi</option>
+                            <option value="Hafta Sonu">Hafta Sonu</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-primary" onclick="updateTrip()">
+                    <i class="fas fa-save"></i> Update Trip
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Route Stop Modal -->
+<div class="modal fade" id="updateRouteStopModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-edit"></i> Update Route Stop
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateRouteStopForm">
+                    <input type="hidden" id="updateRouteStopId">
+                    <div class="mb-3">
+                        <label for="updateRouteStopRoute" class="form-label">Route *</label>
+                        <select class="form-select" id="updateRouteStopRoute" required>
+                            <option value="">Select a route</option>
+                            <!-- Options will be loaded dynamically -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateRouteStopStop" class="form-label">Stop *</label>
+                        <select class="form-select" id="updateRouteStopStop" required>
+                            <option value="">Select a stop</option>
+                            <!-- Options will be loaded dynamically -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="updateStopOrder" class="form-label">Order *</label>
+                        <input type="number" class="form-control" id="updateStopOrder" min="1" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-success" onclick="updateRouteStop()">
+                    <i class="fas fa-save"></i> Update Route Stop
                 </button>
             </div>
         </div>

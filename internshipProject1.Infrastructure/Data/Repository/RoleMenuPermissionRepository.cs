@@ -47,15 +47,29 @@ namespace internshipProject1.Infrastructure.Data.Repository
             return true;
         }
 
-        public Task<List<Menu>> GetAllowedMenusForRoleAsync(int roleId, CancellationToken cancellationToken)
+        public async Task<List<Menu>> GetAllowedMenusForRoleAsync(int roleId, CancellationToken cancellationToken)
         {
-            var menus = _context.RoleMenuPermission
-                .Where(rp => rp.RoleId == roleId)
+            var allowedMenus = await _context.RoleMenuPermission
+                .Include(rp => rp.Menu)
+                .Where(rp => rp.RoleId == roleId && rp.CanRead)
                 .Select(rp => rp.Menu)
-                .Include(m => m.SubMenus)
+                .Distinct()
                 .ToListAsync(cancellationToken);
-            return menus;
 
+            if (!allowedMenus.Any())
+            {
+                return new List<Menu>();
+            }   
+            var allowedMenuIds = allowedMenus.Select(m => m.Id).ToList();
+
+            var hierarchicalMenus = await _context.Menu
+                .Where(m => allowedMenuIds.Contains(m.Id))
+                .Include(m => m.SubMenus.Where(sm => allowedMenuIds.Contains(sm.Id)))
+                .Where(m => m.ParentMenuId == null)
+                .OrderBy(m => m.DisplayOrder)
+                .ToListAsync(cancellationToken);
+
+            return hierarchicalMenus;
         }
 
         public async Task<List<Menu>> GetMenusWithPermissionsForUserAsync(int userId, CancellationToken cancellationToken)
@@ -88,23 +102,31 @@ namespace internshipProject1.Infrastructure.Data.Repository
 
         public async Task<List<RoleMenuPermission>> GetPermissionByMenuIdAsync(int menuId, CancellationToken cancellationToken)
         {
-            var permission = await _context.RoleMenuPermission.Where(rp => rp.MenuId == menuId)
+            var permissions = await _context.RoleMenuPermission
+                .Include(rp => rp.Role) 
+                .Include(rp => rp.Menu) 
+                .Where(rp => rp.MenuId == menuId)
+                .OrderBy(rp => rp.RoleId)
                 .ToListAsync(cancellationToken);
-            if (permission == null || !permission.Any())
-            {
-                throw new KeyNotFoundException($"No permissions found for MenuId: {menuId}");
-            }
-            return permission;
-        }
 
-        public Task<List<RoleMenuPermission>> GetPermissionByRoleIdAsync(int roleId, CancellationToken cancellationToken)
+            if (permissions == null || !permissions.Any())
+            {
+                return new List<RoleMenuPermission>();
+            }
+
+            return permissions;
+        }
+        public async Task<List<RoleMenuPermission>> GetPermissionByRoleIdAsync(int roleId, CancellationToken cancellationToken)
         {
-            var permissions = _context.RoleMenuPermission
+            var permissions = await _context.RoleMenuPermission
+                .Include(rp => rp.Role)
+                .Include(rp => rp.Menu)
                 .Where(rp => rp.RoleId == roleId)
                 .ToListAsync(cancellationToken);
-            if (permissions == null)
-            { 
-                throw new KeyNotFoundException($"No permissions found for RoleId: {roleId}");
+                
+            if (!permissions.Any())
+            {
+                return new List<RoleMenuPermission>();
             }
             return permissions;
         }
@@ -115,6 +137,11 @@ namespace internshipProject1.Infrastructure.Data.Repository
                  .Where(ur => ur.UserId == userId)
                  .Select(ur => ur.RoleId)
                  .ToListAsync(cancellationToken);
+
+            if (userRoles == null || userRoles.Count == 0)
+            {
+                return false;
+            }
 
             var query = _context.RoleMenuPermission
                 .Where(rmp => userRoles.Contains(rmp.RoleId) && rmp.MenuId == menuId);
@@ -129,10 +156,10 @@ namespace internshipProject1.Infrastructure.Data.Repository
             };
         }
 
-        public Task<RoleMenuPermission> UpdatePermissionAsync(RoleMenuPermission permission, CancellationToken cancellationToken)
+        public async Task<RoleMenuPermission> UpdatePermissionAsync(RoleMenuPermission permission, CancellationToken cancellationToken)
         {
-            var existingPermission = _context.RoleMenuPermission
-                .FirstOrDefault(rp => rp.RoleId == permission.RoleId && rp.MenuId == permission.MenuId);
+            var existingPermission = await _context.RoleMenuPermission
+                .FirstOrDefaultAsync(rp => rp.RoleId == permission.RoleId && rp.MenuId == permission.MenuId, cancellationToken);
             if (existingPermission == null)
             { 
                 throw new KeyNotFoundException($"Permission not found for RoleId: {permission.RoleId} and MenuId: {permission.MenuId}");
@@ -142,8 +169,8 @@ namespace internshipProject1.Infrastructure.Data.Repository
             existingPermission.CanUpdate = permission.CanUpdate;
             existingPermission.CanDelete = permission.CanDelete;
             _context.RoleMenuPermission.Update(existingPermission);
-            _context.SaveChangesAsync(cancellationToken);
-            return Task.FromResult(existingPermission);
+            await _context.SaveChangesAsync(cancellationToken);
+            return existingPermission;
 
         }
     }

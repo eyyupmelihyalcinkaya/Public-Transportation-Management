@@ -9,12 +9,12 @@ namespace internshipproject1.Application.Features.RoleMenuPermission.Queries.Has
 {
     public class HasPermissionQueryRequest : IRequest<HasPermissionQueryResponse>
     {
-        public int RoleId { get; set; }
+        public int UserId { get; set; }
         public int MenuId { get; set; }
         public string PermissionType { get; set; }
-        public HasPermissionQueryRequest(int roleId, int menuId, string permissionType)
+        public HasPermissionQueryRequest(int userId, int menuId, string permissionType)
         {
-            RoleId = roleId;
+            UserId = userId;
             MenuId = menuId;
             PermissionType = permissionType;
         }

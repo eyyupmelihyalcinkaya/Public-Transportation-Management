@@ -6,6 +6,9 @@
 <div class="container-fluid mt-4">
     <!-- Hoş Geldin Mesajı -->
     <div class="row mb-4">
+        <div class="col-xl-12 mb-3">
+            <!-- RBAC: İzin tablosu kaldırıldı, menüler izinlere göre gizlenecek -->
+        </div>
         <div class="col-12">
             <div class="card glass-card">
                 <div class="card-body text-center">
@@ -112,7 +115,7 @@
                     <h5 class="card-title">Profil</h5>
                     <p class="card-text">Profil bilgilerinizi düzenleyin</p>
                     <div class="mt-auto">
-                        <a href="/User/Profile" class="btn btn-modern btn-primary btn-sm">
+                        <a href="/User/Profile" id="openProfileLink" class="btn btn-modern btn-primary btn-sm">
                             <i class="fas fa-edit"></i> Düzenle
                         </a>
                     </div>
@@ -183,38 +186,17 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <div class="activity-list">
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-credit-card text-success"></i>
-                            </div>
-                            <div class="activity-content">
-                                <h6>Kart Yüklendi</h6>
-                                <p class="text-muted">Ulaşım kartınıza ₺50 yüklendi</p>
-                                <small class="text-muted">2 saat önce</small>
-                            </div>
+                    <div class="activity-list" id="activityList">
+                        <!-- Yükleniyor mesajı -->
+                        <div class="text-center py-4" id="activityLoading">
+                            <i class="fas fa-spinner fa-spin text-primary"></i>
+                            <p class="text-muted mt-2">Son aktiviteleriniz yükleniyor...</p>
                         </div>
                         
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-bus text-info"></i>
-                            </div>
-                            <div class="activity-content">
-                                <h6>Otobüs Seyahati</h6>
-                                <p class="text-muted">Kadıköy - Beşiktaş otobüs seyahati tamamlandı</p>
-                                <small class="text-muted">1 gün önce</small>
-                            </div>
-                        </div>
-                        
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-subway text-warning"></i>
-                            </div>
-                            <div class="activity-content">
-                                <h6>Metrobüs Seyahati</h6>
-                                <p class="text-muted">Avcılar - Söğütlüçeşme metrobüs seyahati</p>
-                                <small class="text-muted">3 gün önce</small>
-                            </div>
+                        <!-- Aktivite bulunamadığında gösterilecek -->
+                        <div class="text-center py-4 d-none" id="noActivityMessage">
+                            <i class="fas fa-history text-muted"></i>
+                            <p class="text-muted mt-2">Henüz bir aktivite bulunmuyor.</p>
                         </div>
                     </div>
                 </div>
@@ -379,6 +361,105 @@
     </div>
 </div>
 
+<!-- Profil Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content glass-card profile-modal">
+            <div class="modal-header profile-header">
+                <h5 class="modal-title d-flex align-items-center gap-2">
+                    <i class="fas fa-user-cog"></i>
+                    Profilinizi Düzenleyin
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <div class="card profile-side h-100">
+                            <div class="card-body">
+                                <div class="text-center mb-3">
+                                    <div class="avatar-upload mx-auto mb-3">
+                                        <label for="avatarInput" class="avatar-label" title="Avatar yükle">
+                                            <input id="avatarInput" type="file" accept="image/*" hidden>
+                                            <img id="avatarPreview" src="/images/kart.png" alt="avatar" />
+                                            <span class="avatar-edit"><i class="fas fa-camera"></i></span>
+                                        </label>
+                                    </div>
+                                    <div class="profile-name" id="profileNamePreview">Kullanıcı Adı</div>
+                                    <div class="profile-email text-muted" id="profileEmailPreview">mail@example.com</div>
+                                </div>
+                                <div class="d-flex flex-wrap gap-2 justify-content-center">
+                                    <span class="badge rounded-pill bg-primary-subtle text-primary"><i class="fas fa-shield-alt me-1"></i> Passenger</span>
+                                    <span class="badge rounded-pill bg-success-subtle text-success"><i class="fas fa-check me-1"></i> Aktif</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <form id="profileForm" class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Ad</label>
+                                        <input type="text" id="pfFirstName" class="form-control form-modern" placeholder="Adınız">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Soyad</label>
+                                        <input type="text" id="pfLastName" class="form-control form-modern" placeholder="Soyadınız">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Kullanıcı Adı</label>
+                                        <input type="text" id="pfUserName" class="form-control form-modern" placeholder="Kullanıcı adınız">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">E-posta</label>
+                                        <input type="email" id="pfEmail" class="form-control form-modern" placeholder="ornek@mail.com">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Telefon</label>
+                                        <input type="tel" id="pfPhone" class="form-control form-modern" placeholder="05xx xxx xx xx">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Doğum Tarihi</label>
+                                        <input type="date" id="pfBirth" class="form-control form-modern">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label d-block">Öğrenci</label>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="pfIsStudent">
+                                            <label class="form-check-label" for="pfIsStudent">Evet</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12"><hr class="my-2"></div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Yeni Şifre</label>
+                                        <input type="password" id="pfNewPass" class="form-control form-modern" placeholder="Yeni şifre">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Şifre Tekrar</label>
+                                        <input type="password" id="pfNewPass2" class="form-control form-modern" placeholder="Yeni şifre tekrar">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <div class="text-muted small d-none d-sm-block"><i class="fas fa-lock"></i> Bilgileriniz güvenle saklanır</div>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-modern btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="button" class="btn btn-modern btn-primary" id="btnSaveProfile" onclick="saveProfile()">
+                        <i class="fas fa-save"></i> Kaydet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
 <style>
     .glass-card {
         background: rgba(255, 255, 255, 0.1);
@@ -387,6 +468,23 @@
         border-radius: 15px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     }
+
+    /* Profil modal modern stiller */
+    .profile-modal { border-radius: 16px; overflow: hidden; }
+    .profile-header { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: #fff; }
+    .profile-modal .btn-close { filter: invert(1); background: rgba(255,255,255,.3); border-radius: 50%; }
+    .profile-side .avatar-upload { width: 140px; height: 140px; position: relative; }
+    .profile-side .avatar-upload img { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255,255,255,.6); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+    .avatar-edit { position: absolute; bottom: 6px; right: 6px; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 999px; background: #4f46e5; color: #fff; border: 2px solid #fff; box-shadow: 0 6px 18px rgba(79, 70, 229, .4); }
+    .profile-name { font-weight: 700; font-size: 1.1rem; }
+    .form-modern { border-radius: 12px; border: 1px solid #e2e8f0; height: 42px; }
+    .form-modern:focus { box-shadow: 0 0 0 .2rem rgba(79,70,229,.25); border-color: #4f46e5; }
+
+    body.dark .profile-header { background: linear-gradient(135deg, #1e40af 0%, #5b21b6 100%); }
+    body.dark .profile-modal { background: rgba(15, 23, 42, .96); color: #e5e7eb; border: 1px solid rgba(255,255,255,.15); }
+    body.dark .form-modern { background: rgba(30,41,59,.85); border-color: rgba(148,163,184,.35); color: #e5e7eb; }
+    body.dark .form-modern::placeholder { color: #94a3b8; }
+    body.dark .form-modern:focus { box-shadow: 0 0 0 .25rem rgba(59,130,246,.25); border-color: #60a5fa; }
 
     .quick-action-card {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -1745,6 +1843,52 @@
 </style>
 
 <script>
+// Passenger izinlerini listele
+document.addEventListener('DOMContentLoaded', function() {
+  const tokenRaw = localStorage.getItem('token');
+  if (!tokenRaw) return;
+  const token = JSON.parse(tokenRaw);
+  const roleId = token.role || 3; // varsayılan Passenger
+  const gateway = '@ViewBag.GatewayUrl' || '';
+  const apiKey = '@ViewBag.ApiKey' || '';
+  const accessToken = token?.token?.accessToken || token?.accessToken || '';
+
+  async function headers(json=true){
+    const h = {'X-Api-Key': apiKey};
+    if (accessToken) h['Authorization'] = 'Bearer ' + accessToken;
+    if (json) h['Content-Type'] = 'application/json';
+    return h;
+  }
+
+  function applyVisibility(perms){
+    // MenuId -> Dashboard öğe seçicileri
+    const mapping = {
+      14: ['#showMyCardsBtn'],                    // My Cards
+      13: ['a[href="/User/VehicleTracking"]'],   // Vehicle Tracking
+      // Gerekirse diğer butonlar eklenir
+    };
+    Object.entries(mapping).forEach(([menuId, selectors]) => {
+      const allowed = perms.some(p => p.menuId === parseInt(menuId) && p.canRead);
+      selectors.forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => {
+          const container = el.closest('.col-md-6, .col-lg-3') || el.closest('.card');
+          if (container) container.style.display = allowed ? '' : 'none';
+        });
+      });
+    });
+  }
+
+  async function loadAndApply(){
+    try {
+      const res = await fetch(`${gateway}/api/RoleMenuPermission/GetPermissionByRoleId?roleId=${roleId}`, { headers: await headers(false) });
+      if (!res.ok){ console.warn('perm load failed', res.status); return; }
+      const data = await res.json();
+      applyVisibility(data);
+    } catch(e){ console.error(e); }
+  }
+
+  loadAndApply();
+});
     document.addEventListener('DOMContentLoaded', function() {
         if (window.updateNavbar) {
             window.updateNavbar();
@@ -1752,6 +1896,9 @@
 
         // Sayfa yüklendiğinde bakiye bilgisini al
         loadCardBalance();
+        
+        // Son aktiviteleri yükle
+        loadRecentActivities();
 
         // CSS stillerini zorla uygula
         setTimeout(() => {
@@ -1789,6 +1936,65 @@
 
         const cardAliasInput = document.getElementById('cardAlias');
         const previewCardAlias = document.getElementById('previewCardAlias');
+        // Profil modal açılışı
+        const profileModalEl = document.getElementById('profileModal');
+        const openProfileLink = document.getElementById('openProfileLink');
+        const profileModal = new bootstrap.Modal(profileModalEl);
+        if (openProfileLink) {
+            openProfileLink.addEventListener('click', function(e){ e.preventDefault(); profileModal.show(); });
+        }
+
+        // Profil verilerini doldur
+        try {
+            const tokenData = JSON.parse(localStorage.getItem('token') || '{}');
+            document.getElementById('profileNamePreview').textContent = tokenData.username || 'Kullanıcı Adı';
+            document.getElementById('profileEmailPreview').textContent = tokenData.email || 'mail@example.com';
+            document.getElementById('pfUserName').value = tokenData.username || '';
+            document.getElementById('pfEmail').value = tokenData.email || '';
+        } catch {}
+
+        // Profil detaylarını backend'den çek ve forma doldur
+        (async function fillProfileFromApi(){
+            try{
+                const tokenRaw = localStorage.getItem('token');
+                if (!tokenRaw) return;
+                const tokenData = JSON.parse(tokenRaw);
+                const gateway = '@ViewBag.GatewayUrl' || '';
+                const apiKey = '@ViewBag.ApiKey' || '';
+                const accessToken = tokenData?.token?.accessToken || tokenData?.accessToken || '';
+                const userId = tokenData?.userId || tokenData?.id || tokenData?.UserId;
+                if(!userId) return;
+                const res = await fetch(`${gateway}/api/Customer/CustomerByUserId?userId=${userId}`, {
+                    headers: { 'X-Api-Key': apiKey, ...(accessToken ? { 'Authorization': 'Bearer ' + accessToken } : {}) }
+                });
+                if(!res.ok) return;
+                const c = await res.json();
+                document.getElementById('pfFirstName').value = c.name || '';
+                document.getElementById('pfLastName').value  = c.surname || '';
+                document.getElementById('pfPhone').value     = c.phoneNumber || '';
+                if (c.dateOfBirth) document.getElementById('pfBirth').value = new Date(c.dateOfBirth).toISOString().slice(0,10);
+                const isStudentEl = document.getElementById('pfIsStudent');
+                if (isStudentEl) isStudentEl.checked = !!c.isStudent;
+                // sol özet
+                const composedName = [c.name, c.surname].filter(Boolean).join(' ');
+                if (composedName) document.getElementById('profileNamePreview').textContent = composedName;
+                if (c.email) document.getElementById('profileEmailPreview').textContent = c.email;
+            } catch(e){ console.warn('Profil getirilemedi', e); }
+        })();
+
+        // Avatar önizleme
+        const avatarInput = document.getElementById('avatarInput');
+        const avatarPreview = document.getElementById('avatarPreview');
+        if (avatarInput && avatarPreview) {
+            avatarInput.addEventListener('change', function(){
+                const file = this.files && this.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = e => avatarPreview.src = e.target.result;
+                reader.readAsDataURL(file);
+            });
+        }
+
 
         if(cardAliasInput && previewCardAlias) {
             cardAliasInput.addEventListener('input', function() {
@@ -1854,6 +2060,11 @@
 
                 // Bakiye bilgisini güncelle
                 updateCardBalance();
+                
+                // Aktiviteleri güncelle (yeni kart oluşturma işlemi için)
+                setTimeout(() => {
+                    loadRecentActivities();
+                }, 1000);
             } else {
                 const error = await addCardResponse.text();
                 console.error('AddCard request failed', error);
@@ -1931,6 +2142,9 @@
 
                 // Bakiye bilgisini güncelle
                 updateCardBalance();
+                
+                // Aktiviteleri güncelle
+                loadRecentActivities();
             } else {
                 const error = await paymentRequest.text();
                 console.error('Payment request failed', error);
@@ -1947,6 +2161,65 @@
             }
         }
     }
+        // Profil kaydetme (mock)
+        window.saveProfile = async function(){
+            const btn = document.getElementById('btnSaveProfile');
+            const original = btn.innerHTML;
+            try {
+                btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+                // Backend'e güncelleme isteği gönder
+                const tokenRaw = localStorage.getItem('token');
+                const tokenData = tokenRaw ? JSON.parse(tokenRaw) : {};
+                const gateway = '@ViewBag.GatewayUrl' || '';
+                const apiKey = '@ViewBag.ApiKey' || '';
+                const accessToken = tokenData?.token?.accessToken || tokenData?.accessToken || '';
+                // Customer Id'yi çekmek için önce userId ile müşteri al (gerekirse)
+                let customerId = null;
+                try{
+                    const userId = tokenData?.userId || tokenData?.id || tokenData?.UserId;
+                    if (userId) {
+                        const cRes = await fetch(`${gateway}/api/Customer/CustomerByUserId?userId=${userId}`, { headers: { 'X-Api-Key': apiKey, ...(accessToken ? { 'Authorization': 'Bearer ' + accessToken } : {}) }});
+                        if (cRes.ok){ const cJson = await cRes.json(); customerId = cJson?.id; }
+                    }
+                } catch {}
+
+                const first = document.getElementById('pfFirstName').value.trim();
+                const last  = document.getElementById('pfLastName').value.trim();
+                const uname = document.getElementById('pfUserName').value.trim();
+                const email = document.getElementById('pfEmail').value.trim();
+                const phone = document.getElementById('pfPhone').value.trim();
+                const birth = document.getElementById('pfBirth').value;
+                const isStudent = !!document.getElementById('pfIsStudent').checked;
+
+                if (customerId){
+                    const body = {
+                        id: customerId,
+                        name: first,
+                        surname: last,
+                        email: email,
+                        phoneNumber: phone,
+                        isStudent: isStudent,
+                        dateOfBirth: birth ? new Date(birth).toISOString() : null
+                    };
+                    const upRes = await fetch(`${gateway}/api/Customer`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json', 'X-Api-Key': apiKey, ...(accessToken ? { 'Authorization': 'Bearer ' + accessToken } : {}) },
+                        body: JSON.stringify(body)
+                    });
+                    if (!upRes.ok){
+                        const txt = await upRes.text();
+                        throw new Error(`Güncelleme başarısız: ${txt}`);
+                    }
+                }
+                document.getElementById('profileNamePreview').textContent = (first || '') + (last ? ' ' + last : '') || uname || 'Kullanıcı Adı';
+                document.getElementById('profileEmailPreview').textContent = email || 'mail@example.com';
+                alert('Profil bilgileriniz güncellendi');
+            } catch(e){
+                alert('Profil kaydedilemedi: ' + e.message);
+            } finally {
+                btn.disabled = false; btn.innerHTML = original;
+            }
+        }
         async function populateMyCards() {
             const modalBody = document.getElementById('myCardsModalBody');
             
@@ -2127,6 +2400,165 @@
         // Bakiye güncelleme fonksiyonu (kart yükleme işleminden sonra çağrılacak)
         window.updateCardBalance = function() {
             loadCardBalance();
+        }
+
+        // Son aktiviteleri yükle
+        async function loadRecentActivities() {
+            const activityList = document.getElementById('activityList');
+            const activityLoading = document.getElementById('activityLoading');
+            const noActivityMessage = document.getElementById('noActivityMessage');
+            
+            try {
+                const tokenData = JSON.parse(localStorage.getItem('token'));
+                if (!tokenData || !tokenData.email) {
+                    console.error('Kullanıcı bilgileri bulunamadı');
+                    showNoActivityMessage();
+                    return;
+                }
+
+                // Önce kullanıcının kartını bul
+                const cardResponse = await fetch(`https://localhost:7007/api/card/GetCardByCustomerEmail?email=${encodeURIComponent(tokenData.email)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi',
+                        'Authorization': 'Bearer melihin-muhtesem-otesi-apisi'
+                    }
+                });
+
+                if (!cardResponse.ok) {
+                    console.error('Kart bilgisi alınamadı');
+                    showNoActivityMessage();
+                    return;
+                }
+
+                const cardData = await cardResponse.json();
+                if (!cardData || !cardData.id) {
+                    console.log('Kullanıcının kartı bulunamadı');
+                    showNoActivityMessage();
+                    return;
+                }
+
+                // Kart ID'si ile işlemleri al
+                const transactionResponse = await fetch(`https://localhost:7007/api/CardTransaction/GetCardTransactionByCardId?cardId=${cardData.id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': 'melihin-muhtesem-otesi-apisi',
+                        'Authorization': 'Bearer melihin-muhtesem-otesi-apisi'
+                    }
+                });
+
+                if (transactionResponse.ok) {
+                    const transactions = await transactionResponse.json();
+                    console.log('İşlemler:', transactions);
+                    
+                    if (transactions && transactions.length > 0) {
+                        // Son 5 işlemi göster, tarihe göre sırala
+                        const recentTransactions = transactions
+                            .sort((a, b) => new Date(b.transactionDate) - new Date(a.transactionDate))
+                            .slice(0, 5);
+                        
+                        displayActivities(recentTransactions);
+                    } else {
+                        showNoActivityMessage();
+                    }
+                } else {
+                    console.error('İşlemler alınamadı');
+                    showNoActivityMessage();
+                }
+
+            } catch (error) {
+                console.error('Aktivite yükleme hatası:', error);
+                showNoActivityMessage();
+            }
+            
+            function showNoActivityMessage() {
+                activityLoading.classList.add('d-none');
+                noActivityMessage.classList.remove('d-none');
+            }
+        }
+
+        // Aktiviteleri görüntüle
+        function displayActivities(transactions) {
+            const activityList = document.getElementById('activityList');
+            const activityLoading = document.getElementById('activityLoading');
+            
+            // Loading mesajını gizle
+            activityLoading.classList.add('d-none');
+            
+            let activitiesHtml = '';
+            
+            transactions.forEach(transaction => {
+                const transactionDate = new Date(transaction.transactionDate);
+                const timeAgo = getTimeAgo(transactionDate);
+                
+                let icon, iconClass, title, description;
+                
+                // Transaction type'a göre ikon ve açıklama belirle
+                switch (transaction.transactionType) {
+                    case 0: // Bakiye yükleme
+                        icon = 'fas fa-credit-card';
+                        iconClass = 'text-success';
+                        title = 'Bakiye Yüklendi';
+                        description = `Kartınıza ₺${transaction.amount.toFixed(2)} yüklendi`;
+                        break;
+                    case 1: // Seyahat
+                        icon = 'fas fa-bus';
+                        iconClass = 'text-info';
+                        title = 'Seyahat';
+                        description = `₺${transaction.amount.toFixed(2)} ücret kesildi`;
+                        break;
+                    case 2: // İade
+                        icon = 'fas fa-undo';
+                        iconClass = 'text-warning';
+                        title = 'İade';
+                        description = `₺${transaction.amount.toFixed(2)} iade edildi`;
+                        break;
+                    default:
+                        icon = 'fas fa-exchange-alt';
+                        iconClass = 'text-primary';
+                        title = 'İşlem';
+                        description = `₺${transaction.amount.toFixed(2)} işlem`;
+                }
+                
+                activitiesHtml += `
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="${icon} ${iconClass}"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h6>${title}</h6>
+                            <p class="text-muted">${description}</p>
+                            <small class="text-muted">${timeAgo}</small>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            activityList.innerHTML = activitiesHtml;
+        }
+
+        // Zaman farkını hesapla (X dakika önce, X saat önce, vb.)
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diffInSeconds = Math.floor((now - date) / 1000);
+            
+            if (diffInSeconds < 60) {
+                return 'Az önce';
+            } else if (diffInSeconds < 3600) {
+                const minutes = Math.floor(diffInSeconds / 60);
+                return `${minutes} dakika önce`;
+            } else if (diffInSeconds < 86400) {
+                const hours = Math.floor(diffInSeconds / 3600);
+                return `${hours} saat önce`;
+            } else if (diffInSeconds < 2592000) {
+                const days = Math.floor(diffInSeconds / 86400);
+                return `${days} gün önce`;
+            } else {
+                const months = Math.floor(diffInSeconds / 2592000);
+                return `${months} ay önce`;
+            }
         }
 
         // Kart numarası kopyalama fonksiyonu
