@@ -11,6 +11,8 @@ namespace internshipproject1.Domain.Entities
     {
         public int Id { get; set; }
         public int CardId { get; set; }
+        public int UserId { get; set; }
+        public int CustomerId { get; set; }
         public DateTime TransactionDate { get; set; }
         public TransactionType TransactionType { get; set; }
         public decimal Amount { get; set; }

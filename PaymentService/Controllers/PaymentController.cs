@@ -34,11 +34,13 @@ namespace PaymentService.Controllers
                 }
                 var boardingEvent = new BoardingCompletedEvent
                 {
-                    CardId = result.CardId,
+                    CardNumber = result.CardNumber,
+                    UserId = result.UserId,
                     Amount = result.Amount,
                     TransactionType = result.TransactionType,
                     TransactionDate = result.TransactionDate,
-                    VehicleType = result.VehicleType
+                    VehicleType = result.VehicleType,
+                    isStudent = result.isStudent
                 };
 
                 _rabbitMqService.Publish(boardingEvent);

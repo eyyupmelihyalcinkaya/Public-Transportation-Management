@@ -10,6 +10,7 @@ namespace internshipproject1.Application.Features.Card.Queries.GetAllCards
     {
         public int Id { get; set; }
         public int CustomerId { get; set; }
+        public string CardNumber { get; set; }
         public decimal Balance { get; set; }
         public DateTime ExpirationDate { get; set; }
         public bool IsActive { get; set; }

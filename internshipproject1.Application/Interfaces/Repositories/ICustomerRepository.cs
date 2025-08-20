@@ -27,6 +27,9 @@ namespace internshipproject1.Application.Interfaces.Repositories
         public Task<IReadOnlyList<Customer>> GetAllInactiveCustomersAsync(CancellationToken cancellationToken); // query
         public Task<IReadOnlyList<Customer>> GetAllByIsStudentAsync(bool isStudent, CancellationToken cancellationToken); // query
         public Task<IReadOnlyList<Customer>> GetAllByNameAndSurnameAsync(string name, string surname,CancellationToken cancellationToken); // query
+        public Task<Customer> GetByUserIdAsync(int userId, CancellationToken cancellationToken); // query
+        public Task<bool> CustomerExistsByUserId(int userId, CancellationToken cancellationToken); // query
         Task<(IReadOnlyList<Customer> Items, int TotalCount)> GetPagedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
+        Task<ICollection<Card>> AddCardToListAsync(int customerId, Card card, CancellationToken cancellationToken);
     }
 }

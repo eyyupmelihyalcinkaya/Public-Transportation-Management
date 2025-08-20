@@ -28,7 +28,7 @@ namespace ApiGateway.Services
                     requestId, route.ServiceName, route.TargetUrl);
 
                 // Create the target URL
-                var targetUrl = $"{route.TargetUrl.TrimEnd('/')}{context.Request.Path.Value}";
+                var targetUrl = $"{route.TargetUrl.TrimEnd('/')}{route.Path}";
                 if (!string.IsNullOrEmpty(context.Request.QueryString.Value))
                 {
                     targetUrl += context.Request.QueryString.Value;

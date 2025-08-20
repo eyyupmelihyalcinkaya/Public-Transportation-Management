@@ -53,6 +53,12 @@ namespace internshipProject1.Infrastructure
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ICardRepository, CardRepository>();
             services.AddScoped<ICardTransaction, CardTransactionRepository>();
+
+            //RBAC Repositories
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+            services.AddScoped<IMenuRepository, MenuRepository>();
+            services.AddScoped<IRoleMenuPermission, RoleMenuPermissionRepository>();
             // Cache Service
             services.AddScoped<IRedisCacheService, RedisCacheService>();
 

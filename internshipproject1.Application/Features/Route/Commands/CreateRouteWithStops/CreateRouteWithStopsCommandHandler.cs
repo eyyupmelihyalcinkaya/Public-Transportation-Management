@@ -40,6 +40,12 @@ namespace internshipproject1.Application.Features.Route.Commands.CreateRouteWith
             {
                 throw new InvalidOperationException("Route creation failed. Please check the provided data.");
             }
+
+            if (newRoute.RouteStops == null)
+            {
+                throw new InvalidOperationException("Route was created but RouteStops collection is null.");
+            }
+
             var response = new CreateRouteWithStopsCommandResponse
             {
                 Id = newRoute.Id,
@@ -47,9 +53,9 @@ namespace internshipproject1.Application.Features.Route.Commands.CreateRouteWith
                 Stops = newRoute.RouteStops.Select(rs => new RouteStopCreateDTO
                 {
                     Id = rs.Id,
-                    StopName= rs.Stop.Name,
-                    Latitude = rs.Stop.Latitude,
-                    Longitude = rs.Stop.Longitude,
+                    StopName = rs.Stop?.Name ?? "Unknown",
+                    Latitude = rs.Stop?.Latitude ?? 0,
+                    Longitude = rs.Stop?.Longitude ?? 0,
                     Order = rs.Order
                 }).ToList(),
                 IsSuccess = true,

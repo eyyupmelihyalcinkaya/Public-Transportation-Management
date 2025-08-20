@@ -87,7 +87,7 @@ namespace ApiGateway.Services
         private string ConvertPathToRegex(string path)
         {
             // Convert path parameters to regex pattern
-            var pattern = Regex.Replace(path, @"\{[a-zA-Z0-9_]+\}", "([^/]+)");
+            var pattern = Regex.Replace(path, @"{([a-zA-Z0-9_]+)}", "(?<$1>[^/]+)");
             return $"^{pattern}/?$";
         }
 
@@ -103,10 +103,32 @@ namespace ApiGateway.Services
                 if (!route.IsActive) continue;
 
                 var regex = new Regex(route.Pattern, RegexOptions.IgnoreCase);
-                if (regex.IsMatch(path) && route.AllowedMethods.Contains(method, StringComparer.OrdinalIgnoreCase))
+                var match = regex.Match(path);
+
+                if (match.Success && route.AllowedMethods.Contains(method, StringComparer.OrdinalIgnoreCase))
                 {
                     _logger.LogInformation("Route found for path '{Path}'. Forwarding to {ServiceName}", path, route.ServiceName);
-                    return route;
+
+                    // Create a new ServiceRoute object with the resolved path
+                    var resolvedPath = route.Path;
+                    foreach (var groupName in regex.GetGroupNames())
+                    {
+                        if (match.Groups.ContainsKey(groupName) && match.Groups[groupName].Success)
+                        {
+                            resolvedPath = resolvedPath.Replace("{" + groupName + "}", match.Groups[groupName].Value);
+                        }
+                    }
+
+                    return new ServiceRoute
+                    {
+                        Path = resolvedPath,
+                        ServiceName = route.ServiceName,
+                        TargetUrl = route.TargetUrl,
+                        RequiresAuth = route.RequiresAuth,
+                        AllowedMethods = route.AllowedMethods,
+                        IsActive = route.IsActive,
+                        Pattern = route.Pattern
+                    };
                 }
             }
 

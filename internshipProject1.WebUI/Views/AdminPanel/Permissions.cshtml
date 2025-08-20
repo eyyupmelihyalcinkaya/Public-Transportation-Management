@@ -1,0 +1,360 @@
+@{
+    ViewData["Title"] = "Permission Management";
+}
+
+@section Styles {
+    <style>
+        /* Color tokens (light/dark uyumlu) */
+        :root {
+            --card-border: rgba(108,117,125,.15);
+            --soft-primary-bg: rgba(13,110,253,.08);
+            --soft-primary-border: rgba(13,110,253,.15);
+            --muted: #6c757d;
+            --thead-bg: #f8f9fa;
+            --perm-yes-bg: rgba(25,135,84,.12);
+            --perm-yes-text: #198754;
+            --perm-no-bg: rgba(108,117,125,.12);
+            --perm-no-text: #6c757d;
+        }
+        body.dark {
+            --card-border: rgba(173,181,189,.25);
+            --soft-primary-bg: rgba(13,110,253,.12);
+            --soft-primary-border: rgba(13,110,253,.25);
+            --muted: #adb5bd;
+            --thead-bg: rgba(255,255,255,.04);
+            --perm-yes-bg: rgba(25,135,84,.25);
+            --perm-yes-text: #5dd39e;
+            --perm-no-bg: rgba(108,117,125,.25);
+            --perm-no-text: #c2c7cf;
+        }
+
+        /* Container */
+        .perm-page .page-header {
+            background: linear-gradient(135deg, var(--soft-primary-bg), rgba(13,110,253,0));
+            border: 1px solid var(--soft-primary-border);
+            border-radius: 14px;
+            padding: 16px 18px;
+        }
+        .perm-page .page-title { display: flex; align-items: center; gap: 10px; }
+        .perm-page .page-title i { font-size: 20px; }
+        .perm-page .subtle-muted { color: var(--muted); }
+
+        /* Controls card */
+        .perm-page .controls-card { border-radius: 14px; border: 1px solid var(--card-border); }
+        .perm-page .form-label { font-weight: 600; font-size: .9rem; }
+        .perm-page .btn-icon { display: inline-flex; align-items: center; gap: 6px; }
+        .perm-page .form-select, .perm-page .form-control { color: inherit; background-clip: padding-box; }
+
+        /* Modern select (light/dark uyumlu) */
+        .perm-page .select-wrap { position: relative; }
+        .perm-page .select-wrap > i { position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: .95rem; pointer-events: none; }
+        .perm-page .select-modern {
+            appearance: none; -webkit-appearance: none; -moz-appearance: none;
+            padding-left: 2.25rem; padding-right: 2.25rem; height: 42px;
+            border-radius: 12px; border: 1px solid var(--card-border);
+            background-color: #ffffff; color: inherit;
+            background-repeat: no-repeat; background-position: right .8rem center; background-size: 14px 14px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="%236c757d"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.17l3.71-2.94a.75.75 0 111.02 1.1l-4.22 3.34a.75.75 0 01-.94 0L5.21 8.33a.75.75 0 01.02-1.12z"/></svg>');
+            transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+        }
+        .perm-page .select-modern:hover { border-color: rgba(13,110,253,.45); }
+        .perm-page .select-modern:focus { box-shadow: 0 0 0 .2rem rgba(13,110,253,.25); border-color: rgba(13,110,253,.75); }
+        body.dark .perm-page .select-modern {
+            background-color: rgba(255,255,255,.06);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="%23cbd5e1"><path d="M5.23 7.21a.75.75 0 011.06.02L10 10.17l3.71-2.94a.75.75 0 111.02 1.1l-4.22 3.34a.75.75 0 01-.94 0L5.21 8.33a.75.75 0 01.02-1.12z"/></svg>');
+            color-scheme: dark;
+        }
+        body.dark .perm-page .select-modern:focus { box-shadow: 0 0 0 .25rem rgba(13,110,253,.35); }
+
+        /* Native dropdown (option list) koyu tema – tarayıcı uyumlu en iyi çaba */
+        body.dark .perm-page .select-modern option,
+        body.dark .perm-page .select-modern optgroup {
+            background-color: #0f172a; /* slate-900 */
+            color: #e2e8f0;           /* slate-200 */
+        }
+        body.dark .perm-page .select-modern option:checked {
+            background-color: #2563eb; /* primary highlight */
+            color: #ffffff;
+        }
+        /* Firefox seçili vurgusu için */
+        @@-moz-document url-prefix() {
+            body.dark .perm-page .select-modern:focus option:checked { background-color: #2563eb; }
+        }
+
+        /* Table */
+        .perm-page .table thead th { position: sticky; top: 0; z-index: 1; background: var(--thead-bg); }
+        .perm-page .table-hover tbody tr:hover { background: rgba(13,110,253,.06); }
+        .perm-page .table td, .perm-page .table th { vertical-align: middle; }
+        .perm-page .badge-role { font-weight: 600; letter-spacing: .2px; }
+        .perm-page .perm-badge { display: inline-flex; align-items: center; gap: .4rem; padding: .25rem .5rem; border-radius: 999px; font-weight: 600; font-size: .8rem; }
+        .perm-page .perm-yes { background: var(--perm-yes-bg); color: var(--perm-yes-text); }
+        .perm-page .perm-no  { background: var(--perm-no-bg); color: var(--perm-no-text); }
+
+        /* Switches */
+        .perm-page .form-switch .form-check-input { cursor: pointer; }
+        .perm-page .form-switch .form-check-input:focus { box-shadow: 0 0 0 .2rem rgba(13,110,253,.25); }
+
+        /* Dark theme hover tune */
+        body.dark .perm-page .table-hover tbody tr:hover { background: rgba(13,110,253,.18); }
+    </style>
+}
+
+<div class="container-fluid perm-page">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="page-title">
+                        <i class="fas fa-user-shield text-primary"></i>
+                        <div>
+                            <div class="h5 mb-1">Permission Management</div>
+                            <div class="subtle-muted">Sadece SuperAdmin erişebilir</div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span id="summaryText" class="badge bg-primary-subtle text-primary badge-role px-3 py-2">–</span>
+                        <button class="btn btn-outline-secondary btn-sm btn-icon" id="btn-refresh"><i class="fas fa-sync-alt"></i><span>Yenile</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3 controls-card shadow-sm">
+                <div class="card-body">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-3">
+                            <label class="form-label">Rol Seç</label>
+                            <div class="select-wrap">
+                                <i class="fas fa-user-shield"></i>
+                                <select id="roleSelect" class="form-select select-modern"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label">Menü</label>
+                            <div class="select-wrap">
+                                <i class="fas fa-th-list"></i>
+                                <select id="menuSelect" class="form-select select-modern"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label d-block">İzinler</label>
+                            <div class="row g-2">
+                                <div class="col-6 col-lg-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="permRead">
+                                        <label class="form-check-label" for="permRead">Read</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="permCreate">
+                                        <label class="form-check-label" for="permCreate">Create</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="permUpdate">
+                                        <label class="form-check-label" for="permUpdate">Update</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="permDelete">
+                                        <label class="form-check-label" for="permDelete">Delete</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 d-flex gap-2">
+                        <button class="btn btn-primary btn-sm btn-icon" id="btn-save"><i class="fas fa-save"></i><span>Kaydet</span></button>
+                        <button class="btn btn-danger btn-sm btn-icon" id="btn-remove"><i class="fas fa-trash"></i><span>Kaldır</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <span class="d-inline-flex align-items-center gap-2"><i class="fas fa-list text-secondary"></i> <span>Rol Bazlı İzinler</span></span>
+                    <small class="text-muted"></small>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 110px">Rol</th>
+                                    <th>Menü</th>
+                                    <th style="width: 80px" class="text-center">Read</th>
+                                    <th style="width: 80px" class="text-center">Create</th>
+                                    <th style="width: 80px" class="text-center">Update</th>
+                                    <th style="width: 80px" class="text-center">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody id="permTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            const gateway = '@ViewBag.GatewayUrl' || '';
+            const apiKey = '@ViewBag.ApiKey' || '';
+            const token = JSON.parse(localStorage.getItem('token') || '{}');
+            const accessToken = token?.token?.accessToken || token?.accessToken || '';
+
+            // SuperAdmin guard (frontend)
+            if ((token?.role ?? 0) !== 1) {
+                alert('Bu sayfaya sadece SuperAdmin erişebilir.');
+                window.location.href = '/AdminPanel/AdminMainPage';
+                return;
+            }
+
+            const els = {
+                roleSelect: document.getElementById('roleSelect'),
+                menuSelect: document.getElementById('menuSelect'),
+                read: document.getElementById('permRead'),
+                create: document.getElementById('permCreate'),
+                update: document.getElementById('permUpdate'),
+                del: document.getElementById('permDelete'),
+                tableBody: document.getElementById('permTableBody'),
+                save: document.getElementById('btn-save'),
+                remove: document.getElementById('btn-remove'),
+                refresh: document.getElementById('btn-refresh'),
+                summary: document.getElementById('summaryText')
+            };
+
+            function headers(json = true) {
+                const h = { 'X-Api-Key': apiKey };
+                if (accessToken) h['Authorization'] = 'Bearer ' + accessToken;
+                if (json) h['Content-Type'] = 'application/json';
+                return h;
+            }
+
+            async function fetchJson(url, opts = {}) {
+                const res = await fetch(url, { ...opts, headers: { ...headers(), ...(opts.headers || {}) } });
+                if (!res.ok) {
+                    const txt = await res.text();
+                    throw new Error(`HTTP ${res.status} - ${txt}`);
+                }
+                return res.json();
+            }
+
+            async function loadRoles() {
+                // Basit: seed edilen roller (sabit)
+                const roles = [
+                    { id: 1, name: 'SuperAdmin' },
+                    { id: 2, name: 'Admin' },
+                    { id: 3, name: 'Passenger' }
+                ];
+                els.roleSelect.innerHTML = roles.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+            }
+
+            async function loadMenus() {
+                // Tüm menüler (backend’de /api/rolemenu/GetAllowedMenusForRole rol filtresi var; burada tümünü listeler gibi düşün)
+                // Gerekirse ayrı MenuController endpoint’i eklenebilir, şimdilik izin tablosu üzerinden role=1 çekilebilir
+                const perms = await fetchJson(`${gateway}/api/RoleMenuPermission/GetPermissionByRoleId?roleId=1`);
+                const menuMap = new Map();
+                perms.forEach(p => {
+                    menuMap.set(p.menuId, { id: p.menuId, name: p.menuName || `Menu ${p.menuId}` });
+                });
+                const menus = Array.from(menuMap.values()).sort((a, b) => a.id - b.id);
+                els.menuSelect.innerHTML = menus.map(m => `<option value="${m.id}">${m.name}</option>`).join('');
+            }
+
+            function permBadge(flag, label) {
+                return `<span class="perm-badge ${flag ? 'perm-yes' : 'perm-no'}">` +
+                    `<i class="fas ${flag ? 'fa-check-circle' : 'fa-minus-circle'}"></i>` +
+                    `<span>${flag ? 'Var' : 'Yok'}</span>` +
+                    `</span>`;
+            }
+
+            async function loadPermissionsForRole(roleId) {
+                const data = await fetchJson(`${gateway}/api/RoleMenuPermission/GetPermissionByRoleId?roleId=${roleId}`);
+                els.summary.textContent = `${data.length} izin listelendi`;
+                els.tableBody.innerHTML = data.map(p => `
+                    <tr data-menu-id="${p.menuId}" data-read="${!!p.canRead}" data-create="${!!p.canCreate}" data-update="${!!p.canUpdate}" data-delete="${!!p.canDelete}">
+                        <td>${p.roleName || ('Role ' + p.roleId)}</td>
+                        <td>${p.menuName || ('Menu ' + p.menuId)}</td>
+                        <td class="text-center">${permBadge(p.canRead, 'Read')}</td>
+                        <td class="text-center">${permBadge(p.canCreate, 'Create')}</td>
+                        <td class="text-center">${permBadge(p.canUpdate, 'Update')}</td>
+                        <td class="text-center">${permBadge(p.canDelete, 'Delete')}</td>
+                    </tr>
+                `).join('');
+            }
+
+            function currentInputs() {
+                return {
+                    roleId: parseInt(els.roleSelect.value),
+                    menuId: parseInt(els.menuSelect.value),
+                    canRead: !!els.read.checked,
+                    canCreate: !!els.create.checked,
+                    canUpdate: !!els.update.checked,
+                    canDelete: !!els.del.checked,
+                };
+            }
+
+            async function savePermission() {
+                const body = currentInputs();
+                await fetchJson(`${gateway}/api/RoleMenuPermission`, {
+                    method: 'PUT',
+                    body: JSON.stringify(body)
+                });
+                await loadPermissionsForRole(body.roleId);
+            }
+
+            async function removePermission() {
+                const body = currentInputs();
+                const url = `${gateway}/api/RoleMenuPermission?roleId=${body.roleId}&menuId=${body.menuId}`;
+                const res = await fetch(url, { method: 'DELETE', headers: headers(false) });
+                if (!res.ok) {
+                    const txt = await res.text();
+                    throw new Error(`HTTP ${res.status} - ${txt}`);
+                }
+                await loadPermissionsForRole(body.roleId);
+            }
+
+            els.save.addEventListener('click', async () => {
+                try { await savePermission(); alert('İzin kaydedildi'); } catch (e) { alert(e.message); }
+            });
+            els.remove.addEventListener('click', async () => {
+                try { await removePermission(); alert('İzin kaldırıldı'); } catch (e) { alert(e.message); }
+            });
+            els.refresh.addEventListener('click', async () => {
+                try { await loadPermissionsForRole(parseInt(els.roleSelect.value)); } catch (e) { alert(e.message); }
+            });
+            els.roleSelect.addEventListener('change', async () => {
+                await loadPermissionsForRole(parseInt(els.roleSelect.value));
+            });
+            els.menuSelect.addEventListener('change', async () => {
+                // Tablo satırından mevcut değerleri inputlara taşı (data-attr üzerinden)
+                const tr = els.tableBody.querySelector(`tr[data-menu-id="${els.menuSelect.value}"]`);
+                if (tr) {
+                    els.read.checked = String(tr.dataset.read) === 'true';
+                    els.create.checked = String(tr.dataset.create) === 'true';
+                    els.update.checked = String(tr.dataset.update) === 'true';
+                    els.del.checked = String(tr.dataset.delete) === 'true';
+                }
+            });
+
+            // init
+            (async function init() {
+                try {
+                    await loadRoles();
+                    await loadMenus();
+                    await loadPermissionsForRole(1);
+                } catch (e) {
+                    console.error(e);
+                    alert('Veriler yüklenemedi: ' + e.message);
+                }
+            })();
+        })();
+    </script>
+}
+
+

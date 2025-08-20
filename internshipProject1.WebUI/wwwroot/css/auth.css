@@ -1,0 +1,610 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    /* Universal */
+    --font-family: 'Inter', sans-serif;
+    --transition-speed: 0.3s;
+
+    /* Light Theme */
+    --bg-light: #f4f7fc;
+    --card-bg-light: #ffffff;
+    --text-primary-light: #1a202c;
+    --text-secondary-light: #718096;
+    --input-bg-light: #edf2f7;
+    --input-border-light: #e2e8f0;
+    --input-focus-border-light: #4a90e2;
+    --btn-bg-light: #4a90e2;
+    --btn-hover-bg-light: #357abd;
+    --link-light: #4a90e2;
+    --separator-light: #e2e8f0;
+    --welcome-panel-bg-light: #e3eaf8;
+    --welcome-text-light: #2d3748;
+
+    /* Dark Theme */
+    --bg-dark: #1a202c;
+    --card-bg-dark: #2d3748;
+    --text-primary-dark: #e2e8f0;
+    --text-secondary-dark: #a0aec0;
+    --input-bg-dark: #1a202c;
+    --input-border-dark: #4a5568;
+    --input-focus-border-dark: #63b3ed;
+    --btn-bg-dark: #63b3ed;
+    --btn-hover-bg-dark: #4299e1;
+    --link-dark: #63b3ed;
+    --separator-dark: #4a5568;
+    --welcome-panel-bg-dark: #222b3b;
+    --welcome-text-dark: #cbd5e0;
+}
+
+/* Base Body Styles */
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-light);
+    color: var(--text-primary-light);
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+    margin: 0;
+    overflow-x: hidden; /* Sadece yatay scroll'u engelle */
+    overflow-y: auto; /* Dikey scroll'a izin ver */
+}
+
+/* Main Auth Container - Split Screen */
+.auth-wrapper {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden; /* Container içinde scroll'u kontrol et */
+}
+
+.auth-form-container {
+    width: 50%;
+    display: flex;
+    align-items: flex-start; /* Üstten başla */
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: var(--card-bg-light);
+    transition: background-color var(--transition-speed) ease;
+    max-height: 100vh; /* Maksimum yükseklik */
+}
+
+.auth-form-content {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Register form için daha geniş max-width */
+.register-form-content {
+    max-width: 500px;
+}
+
+.auth-welcome-panel {
+    width: 50%;
+    background-color: var(--welcome-panel-bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    transition: background-color var(--transition-speed) ease;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23dbeafe" fill-opacity="0.5" d="M0,192L48,176C96,160,192,128,288,133.3C384,139,480,181,576,186.7C672,192,768,160,864,144C960,128,1056,128,1152,149.3C1248,171,1344,213,1392,234.7L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+    background-size: cover;
+    background-position: bottom;
+    min-height: 100vh;
+}
+
+.welcome-content h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--welcome-text-light);
+    margin-bottom: 1rem;
+}
+
+.welcome-content p {
+    font-size: 1.2rem;
+    color: var(--welcome-text-light);
+    max-width: 450px;
+}
+
+/* Register sayfası için welcome content boyutları */
+.register-form-content ~ .auth-welcome-panel .welcome-content h1 {
+    font-size: 2.5rem;
+}
+
+.register-form-content ~ .auth-welcome-panel .welcome-content p {
+    font-size: 1.1rem;
+    max-width: 400px;
+}
+
+/* Form Styles */
+.auth-form-content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary-light);
+    margin-bottom: 0.5rem;
+}
+
+.auth-form-content .auth-subtitle {
+    color: var(--text-secondary-light);
+    margin-bottom: 2.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Register form için daha kompakt spacing */
+.register-form-content .form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary-light);
+}
+
+/* Register form için label boyutları */
+.register-form-content .form-group label {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--input-border-light);
+    background-color: var(--input-bg-light);
+    color: var(--text-primary-light);
+    font-size: 1rem;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    box-sizing: border-box;
+}
+
+/* Register form için input boyutları */
+.register-form-content .form-group input {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--input-focus-border-light);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--btn-bg-light);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+    margin-top: 1rem;
+}
+
+/* Register form için buton boyutları */
+.register-form-content .auth-btn {
+    padding: 12px;
+    font-size: 0.95rem;
+}
+
+.auth-btn:hover {
+    background-color: var(--btn-hover-bg-light);
+    transform: translateY(-2px);
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 2rem;
+    color: var(--text-secondary-light);
+}
+
+.auth-footer a {
+    color: var(--link-light);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+.form-group.remember-me {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+    padding: 8px 0;
+    border-radius: 6px;
+    transition: all var(--transition-speed) ease;
+}
+
+.form-group.remember-me:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+}
+
+.form-group.remember-me input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--btn-bg-light);
+    border-radius: 4px;
+    transition: all var(--transition-speed) ease;
+}
+
+.form-group.remember-me label {
+    margin: 0;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-secondary-light);
+    transition: all var(--transition-speed) ease;
+}
+
+.form-group.remember-me:hover label {
+    color: var(--text-primary-light);
+}
+
+.form-group.remember-me:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(0, 123, 255, 0.1);
+}
+
+.form-group.remember-me input[type="checkbox"]:checked + label {
+    color: var(--btn-bg-light);
+    font-weight: 600;
+}
+
+/* Checkbox wrapper stilleri */
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-secondary-light);
+    transition: color var(--transition-speed) ease;
+}
+
+.checkbox-wrapper:hover {
+    color: var(--text-primary-light);
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    margin-right: 8px;
+    width: auto;
+    margin-bottom: 0;
+}
+
+.checkbox-wrapper .checkmark {
+    display: none; /* Custom checkmark kullanmıyorsak gizle */
+}
+.checkbox-btn {
+    padding: 10px 20px;
+    background-color: var(--input-bg-light);
+    border: 1px solid var(--input-border-light);
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    color: var(--text-secondary-light);
+    font-weight: 500;
+    transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
+}
+.checkbox-btn:hover {
+    background-color: var(--input-border-light);
+}
+#rememberMe:checked + .checkbox-btn {
+    background-color: var(--btn-bg-light);
+    border-color: var(--btn-bg-light);
+    color: white;
+}
+/* Register Specific */
+.register-form-content {
+    max-width: 600px; /* Wider for more fields */
+    max-height: 90vh; /* Ekran yüksekliğinin %90'ı */
+    overflow-y: auto; /* Dikey scroll ekle */
+    padding: 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+/* Register form için daha kompakt gap */
+.register-form-content .form-row {
+    gap: 1.2rem;
+}
+
+/* Register form container için scroll düzenlemeleri */
+.auth-form-container {
+    overflow-y: auto;
+    max-height: 100vh;
+    padding: 20px;
+}
+
+/* Register form content için padding */
+.register-form-content {
+    padding: 0;
+}
+
+/* Register form content için iç padding */
+.register-form-content > * {
+    padding: 0;
+}
+
+/* Register form content için margin */
+.register-form-content > * {
+    margin: 0;
+}
+
+/* Register form content için h2 margin */
+.register-form-content h2 {
+    margin-bottom: 0.5rem;
+}
+
+/* Register form content için p margin */
+.register-form-content p {
+    margin-bottom: 1.5rem;
+}
+
+/* Register form content için form margin */
+.register-form-content form {
+    margin: 0;
+}
+
+/* Register form content için div margin */
+.register-form-content div {
+    margin: 0;
+}
+
+/* Register form içeriği için daha kompakt spacing */
+.register-form-content .form-group {
+    margin-bottom: 1rem;
+}
+
+.register-form-content h2 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.register-form-content .auth-subtitle {
+    margin-bottom: 1.5rem;
+}
+
+/* Register form için özel spacing */
+.register-form-content .form-row .form-group {
+    margin-bottom: 1rem;
+}
+
+.register-form-content .auth-btn {
+    margin-top: 1.5rem;
+}
+
+.register-form-content .auth-footer {
+    margin-top: 1.5rem;
+}
+
+/* Alert mesajları için özel stiller */
+.register-form-content .alert {
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border: none;
+    padding: 12px 16px;
+    font-weight: 500;
+}
+
+.register-form-content .alert-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border-left: 4px solid #dc3545;
+}
+
+.register-form-content .alert-success {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+    border-left: 4px solid #28a745;
+}
+
+/* Dark theme alert stilleri */
+body.dark .register-form-content .alert-danger {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #ff6b7a;
+    border-left-color: #ff6b7a;
+}
+
+body.dark .register-form-content .alert-success {
+    background-color: rgba(40, 167, 69, 0.2);
+    color: #32d74b;
+    border-left-color: #32d74b;
+}
+
+/* Responsive düzenlemeler */
+@media (max-width: 768px) {
+    .register-form-content {
+        max-width: 100%;
+        padding: 15px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .auth-form-container {
+        padding: 15px;
+    }
+}
+
+/* Dark Theme Adjustments */
+body.dark {
+    background-color: var(--bg-dark);
+    color: var(--text-primary-dark);
+}
+body.dark .auth-form-container { background-color: var(--card-bg-dark); }
+body.dark .auth-welcome-panel {
+    background-color: var(--welcome-panel-bg-dark);
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%231a202c" fill-opacity="0.8" d="M0,192L48,176C96,160,192,128,288,133.3C384,139,480,181,576,186.7C672,192,768,160,864,144C960,128,1056,128,1152,149.3C1248,171,1344,213,1392,234.7L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+}
+body.dark .welcome-content h1, body.dark .welcome-content p { color: var(--welcome-text-dark); }
+body.dark .auth-form-content h2 { color: var(--text-primary-dark); }
+body.dark .auth-form-content .auth-subtitle { color: var(--text-secondary-dark); }
+body.dark .form-group label { color: var(--text-secondary-dark); }
+body.dark .form-group input {
+    border-color: var(--input-border-dark);
+    background-color: var(--input-bg-dark);
+    color: var(--text-primary-dark);
+}
+body.dark .form-group input:focus {
+    border-color: var(--input-focus-border-dark);
+    box-shadow: 0 0 0 3px rgba(99, 179, 237, 0.2);
+}
+body.dark .auth-btn { background-color: var(--btn-bg-dark); }
+body.dark .auth-btn:hover { background-color: var(--btn-hover-bg-dark); }
+body.dark .auth-footer { color: var(--text-secondary-dark); }
+body.dark .auth-footer a { color: var(--link-dark); }
+
+body.dark .checkbox-btn {
+    background-color: var(--input-bg-dark);
+    border-color: var(--input-border-dark);
+    color: var(--text-secondary-dark);
+}
+
+body.dark #rememberMe:checked + .checkbox-btn {
+    background-color: var(--btn-bg-dark);
+    border-color: var(--btn-bg-dark);
+    color: white;
+}
+
+/* Dark theme checkbox wrapper */
+body.dark .checkbox-wrapper {
+    color: var(--text-secondary-dark);
+}
+
+body.dark .checkbox-wrapper:hover {
+    color: var(--text-primary-dark);
+}
+
+/* Dark theme remember-me stilleri */
+body.dark .form-group.remember-me:hover {
+    background-color: rgba(100, 200, 255, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(100, 200, 255, 0.2);
+}
+
+body.dark .form-group.remember-me input[type="checkbox"] {
+    accent-color: var(--btn-bg-dark);
+}
+
+body.dark .form-group.remember-me label {
+    color: var(--text-secondary-dark);
+}
+
+body.dark .form-group.remember-me:hover label {
+    color: var(--text-primary-dark);
+}
+
+body.dark .form-group.remember-me:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(100, 200, 255, 0.2);
+}
+
+body.dark .form-group.remember-me input[type="checkbox"]:checked + label {
+    color: var(--btn-bg-dark);
+    font-weight: 600;
+}
+
+/* Login form için remember-me özel stilleri */
+.auth-form-content .form-group.remember-me {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.auth-form-content .form-group.remember-me input[type="checkbox"] {
+    transform: scale(1.1);
+}
+
+.auth-form-content .form-group.remember-me label {
+    font-size: 0.95rem;
+}
+
+/* Remember me focus stilleri */
+.form-group.remember-me input[type="checkbox"]:focus {
+    outline: 2px solid var(--input-focus-border-light);
+    outline-offset: 2px;
+}
+
+.form-group.remember-me input[type="checkbox"]:focus + label {
+    color: var(--text-primary-light);
+}
+
+/* Dark theme focus stilleri */
+body.dark .form-group.remember-me input[type="checkbox"]:focus {
+    outline-color: var(--input-focus-border-dark);
+}
+
+body.dark .form-group.remember-me input[type="checkbox"]:focus + label {
+    color: var(--text-primary-dark);
+}
+/* Responsive */
+@media (max-width: 992px) {
+    .auth-wrapper {
+        flex-direction: column;
+        min-height: auto;
+    }
+    .auth-form-container, .auth-welcome-panel {
+        width: 100%;
+    }
+    .auth-welcome-panel {
+        min-height: 250px;
+        order: -1; /* Show welcome panel on top on mobile */
+    }
+    .auth-form-container {
+        padding: 15px;
+        max-height: none;
+        overflow-y: visible;
+    }
+    .register-form-content {
+        max-height: none;
+        overflow-y: visible;
+    }
+}
+
+@media (max-width: 768px) {
+    .auth-wrapper {
+        min-height: auto;
+    }
+    .auth-form-container {
+        padding: 10px;
+    }
+    .register-form-content {
+        padding: 15px;
+    }
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    /* Mobilde remember-me stilleri */
+    .form-group.remember-me {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .form-group.remember-me input[type="checkbox"] {
+        transform: scale(1.2);
+    }
+    
+    .form-group.remember-me label {
+        font-size: 0.9rem;
+    }
+}

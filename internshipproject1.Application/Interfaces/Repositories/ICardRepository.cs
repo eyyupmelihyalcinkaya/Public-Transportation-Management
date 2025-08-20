@@ -34,5 +34,9 @@ namespace internshipproject1.Application.Interfaces.Repositories
         Task<Card> DecreaseBalanceAsync(int cardId,decimal amount, CancellationToken cancellationToken);
         Task<IEnumerable<Card>> GetCardsOrderedByBalanceAsync(CancellationToken cancellationToken); //query
         Task<IEnumerable<Card>> GetCardsByBalanceRangeAsync(decimal minRange, decimal maxRange, CancellationToken cancellationToken); //query
+        Task<Card> GetCardIdByCardNumber(string cardNumber, CancellationToken cancellationToken);
+        Task<decimal> GetBalanceByCardNumberAsync(string cardNumber, CancellationToken cancellationToken);
+        Task<Card> GetCardByCustomerEmail(string email, CancellationToken cancellationToken);
+    
     }
 }

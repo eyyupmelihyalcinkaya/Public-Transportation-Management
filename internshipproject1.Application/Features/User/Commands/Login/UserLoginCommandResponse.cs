@@ -12,7 +12,9 @@ namespace internshipproject1.Application.Features.User.Commands.Login
     {
         public int Id { get; set; }
         public string UserName { get; set; }
-        public UserRole Role { get; set; }
+        public string Email { get; set; }
+        public int Role { get; set; }
+        public List<string> RoleNames { get; set; } = new List<string>();
         public string Message { get; set; } = string.Empty;
         public Token Token { get; set; }
     }

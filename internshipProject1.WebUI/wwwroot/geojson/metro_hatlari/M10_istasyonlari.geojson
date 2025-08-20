@@ -1,0 +1,9 @@
+{
+"type": "FeatureCollection",
+"name": "M10_istasyonlari",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "ISTASYON": "Kaynarca Merkez", "PROJE_ADI": "M10 Pendik - SGH Metro Hattı, Pendik - Fevzi Çakmak Etabı", "PROJE_ASAMA": "İnşaat Aşamasında", "HAT_TURU": "Metro", "MUDURLUK": "Anadolu Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.2607292243, 40.879097186700001 ] } },
+{ "type": "Feature", "properties": { "ISTASYON": "Pendik", "PROJE_ADI": "M10 Pendik - SGH Metro Hattı, Pendik - Fevzi Çakmak Etabı", "PROJE_ASAMA": "İnşaat Aşamasında", "HAT_TURU": "Metro", "MUDURLUK": "Anadolu Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.231243344, 40.880783998799998 ] } }
+]
+}

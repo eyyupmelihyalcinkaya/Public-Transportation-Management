@@ -30,8 +30,9 @@ namespace PaymentService.Migrations
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<int>("CardId")
-                        .HasColumnType("int");
+                    b.Property<string>("CardNumber")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -43,8 +44,14 @@ namespace PaymentService.Migrations
                     b.Property<int>("TransactionType")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("VehicleType")
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("isStudent")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 

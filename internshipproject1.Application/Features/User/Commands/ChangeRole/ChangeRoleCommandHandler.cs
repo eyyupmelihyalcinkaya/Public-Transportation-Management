@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace internshipproject1.Application.Features.User.Commands.ChangeRole
-{
+{/*
     public class ChangeRoleCommandHandler : IRequestHandler<ChangeRoleCommandRequest,ChangeRoleCommandResponse>
     {
         private readonly IUserRepository _userRepository;
@@ -43,5 +43,5 @@ namespace internshipproject1.Application.Features.User.Commands.ChangeRole
                 Message = $"Role Changed Successfully ! {user.userName}'s New Role is : {roleString}"
             };
         }
-    }
+    }*/
 }
