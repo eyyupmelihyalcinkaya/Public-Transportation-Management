@@ -201,7 +201,6 @@ namespace internshipProject1.Infrastructure.Data.Services
 
                         }
                         
-
                         // Mesajı acknowledge et (dispose kontrolü ile)
                         if (!_disposed && _channel != null && _channel.IsOpen)
                         {

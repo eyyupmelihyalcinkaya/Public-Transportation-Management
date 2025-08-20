@@ -17,11 +17,15 @@ namespace internshipproject1.Application.Features.User.Commands.Register
     {
         private readonly IPasswordHashingService _passwordHashingService;
         private readonly IUserRepository _userRepository;
-    
-        public UserRegisterHandler(IPasswordHashingService passwordHashingService, IUserRepository userRepository)
+        private readonly ICustomerRepository _customerRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
+
+        public UserRegisterHandler(IPasswordHashingService passwordHashingService, IUserRepository userRepository, ICustomerRepository customerRepository, IUserRoleRepository userRoleRepository)
         {
             _passwordHashingService = passwordHashingService;
             _userRepository = userRepository;
+            _customerRepository = customerRepository;
+            _userRoleRepository = userRoleRepository;
         }
         public async Task<UserRegisterCommandResponse> Handle(UserRegisterCommand command, CancellationToken cancellationToken)
         {
@@ -32,17 +36,40 @@ namespace internshipproject1.Application.Features.User.Commands.Register
             var user = new internshipproject1.Domain.Entities.User
             {
                 userName = command.userName,
-                Role = UserRole.User,
+               // Role = UserRole.User,
                 passwordHash = hash,
                 passwordSalt = salt
             };
             await _userRepository.AddAsync(user, cancellationToken);
+            // Yeni kullanıcıya default Passenger (3) rolünü ata
+            await _userRoleRepository.AssignToRoleAsync(user.Id, 3, cancellationToken);
+            var customer = new Domain.Entities.Customer
+            {
+                Name = command.Name,
+                Surname = command.Surname,
+                Email = command.Email,
+                PhoneNumber = command.PhoneNumber,
+                IsStudent = command.IsStudent,
+                DateOfBirth = command.DateOfBirth,
+                IsDeleted = false,
+                UserId = user.Id
+            };
+            await _customerRepository.AddAsync(customer, cancellationToken);
+
             return new UserRegisterCommandResponse { 
             
                 Id = user.Id,
                 UserName = user.userName,
-                Role = UserRole.User,
+            //    Role = UserRole.User,
+                Email = customer.Email,
+                Name = customer.Name,
+                Surname = customer.Surname,
+                PhoneNumber = customer.PhoneNumber,
+                IsStudent = customer.IsStudent,
+                DateOfBirth = customer.DateOfBirth,
+                IsDeleted = customer.IsDeleted,
                 Message = $"Register Successfully ! Welcome {user.userName} !"
+                
             };
         }
 

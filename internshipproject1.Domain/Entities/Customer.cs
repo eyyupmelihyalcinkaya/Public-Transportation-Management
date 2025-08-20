@@ -16,6 +16,9 @@ namespace internshipproject1.Domain.Entities
         public bool IsStudent { get; set; }
         public DateTime DateOfBirth { get; set; }
         public Card Card { get; set; }
+        public ICollection<Card> CardList { get; set; }
         public bool IsDeleted { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

@@ -4,10 +4,10 @@ namespace PaymentService.Features.Queries.GetByCardId
 {
     public class GetByCardIdQueryRequest : IRequest<GetByCardIdQueryResponse>
     {
-        public int CardId { get; set; }
-        public GetByCardIdQueryRequest(int cardId)
+        public string CardNumber { get; set; }
+        public GetByCardIdQueryRequest(string CardNumber)
         {
-            CardId = cardId;
+            CardNumber = CardNumber;
         }
     }
 }

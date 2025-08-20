@@ -86,9 +86,17 @@
       "CreateBoardingTransactionCommandRequest": {
         "type": "object",
         "properties": {
-          "cardId": {
+          "cardNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
             "type": "integer",
             "format": "int32"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
           },
           "amount": {
             "type": "number",
@@ -105,6 +113,9 @@
             "type": "string",
             "nullable": true
           },
+          "isStudent": {
+            "type": "boolean"
+          },
           "status": {
             "type": "string",
             "nullable": true
@@ -114,9 +125,9 @@
       },
       "TransactionType": {
         "enum": [
-          0,
           1,
-          2
+          2,
+          3
         ],
         "type": "integer",
         "format": "int32"

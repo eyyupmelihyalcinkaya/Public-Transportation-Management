@@ -1,0 +1,11 @@
+{
+"type": "FeatureCollection",
+"name": "M6_istasyonlari",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "ISTASYON": "Etiler", "PROJE_ADI": "M6 Levent - Boğaziçi Ünv./Hisarüstü Metro Hattı", "PROJE_ASAMA": "Mevcut Hattaki İstasyon", "HAT_TURU": "Metro", "MUDURLUK": "Avrupa Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.037540781499999, 41.082343546099999 ] } },
+{ "type": "Feature", "properties": { "ISTASYON": "Levent", "PROJE_ADI": "M6 Levent - Boğaziçi Ünv./Hisarüstü Metro Hattı", "PROJE_ASAMA": "Mevcut Hattaki İstasyon", "HAT_TURU": "Metro", "MUDURLUK": "Avrupa Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.014527146300001, 41.075508474800003 ] } },
+{ "type": "Feature", "properties": { "ISTASYON": "Rumeli Hisarüstü", "PROJE_ADI": "M6 Levent - Boğaziçi Ünv./Hisarüstü Metro Hattı", "PROJE_ASAMA": "Mevcut Hattaki İstasyon", "HAT_TURU": "Metro", "MUDURLUK": "Avrupa Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.045571052500001, 41.085351248199999 ] } },
+{ "type": "Feature", "properties": { "ISTASYON": "Nispetiye", "PROJE_ADI": "M6 Levent - Boğaziçi Ünv./Hisarüstü Metro Hattı", "PROJE_ASAMA": "Mevcut Hattaki İstasyon", "HAT_TURU": "Metro", "MUDURLUK": "Avrupa Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.024249017500001, 41.077310679699998 ] } }
+]
+}

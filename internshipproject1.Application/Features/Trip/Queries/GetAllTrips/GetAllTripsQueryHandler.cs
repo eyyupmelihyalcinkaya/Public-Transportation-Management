@@ -20,10 +20,7 @@ namespace internshipproject1.Application.Features.Trip.Queries.GetAllTrips
         public async Task<List<GetAllTripsQueryResponse>> Handle(GetAllTripsQueryRequest request, CancellationToken cancellationToken)
         {
             var trips = await _tripRepository.GetAllAsync(cancellationToken);
-            if (trips == null || !trips.Any())
-            {
-                throw new KeyNotFoundException("No trips found.");
-            }
+            // Return empty list instead of throwing exception when no trips found
             var listedTrips = trips.Select( t=> new GetAllTripsQueryResponse
             {
                 Id = t.Id,

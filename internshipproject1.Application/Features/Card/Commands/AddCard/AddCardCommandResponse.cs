@@ -10,6 +10,7 @@ namespace internshipproject1.Application.Features.Card.Commands.AddCard
     {
         public int Id { get; set; }
         public int CustomerId { get; set; }
+        public string CardNumber { get; set; }
         public string Message { get; set; }
         public bool Success { get; set; }
     }

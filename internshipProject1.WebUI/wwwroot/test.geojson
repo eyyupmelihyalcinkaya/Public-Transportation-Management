@@ -1,0 +1,21 @@
+{
+  "type": "FeatureCollection",
+  "name": "test_stations",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ISTASYON": "Test İstasyonu",
+        "PROJE_ADI": "Test Hattı",
+        "HAT_TURU": "Test",
+        "MUDURLUK": "Test Müdürlüğü"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [28.9784, 41.0082]
+      }
+    }
+  ]
+}
+
+

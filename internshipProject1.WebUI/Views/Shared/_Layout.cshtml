@@ -9,6 +9,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
+
     <!-- Site CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/internshipProject1.WebUI.styles.css" asp-append-version="true" />
@@ -18,6 +19,425 @@
 
     <!-- Page specific styles -->
     @await RenderSectionAsync("Styles", required: false)
+    
+    <!-- Logout Modal Styles -->
+    <style>
+        /* Modern navbar & dropdown improvements */
+        .glass-navbar { backdrop-filter: saturate(180%) blur(10px); background: rgba(255,255,255,.78) !important; }
+        body.dark .glass-navbar { background: rgba(17,19,27,.66) !important; border-bottom: 1px solid rgba(255,255,255,.08); }
+
+        .dropdown-menu { border-radius: 12px; border: 1px solid rgba(0,0,0,.06); box-shadow: 0 14px 40px rgba(0,0,0,.18); backdrop-filter: saturate(160%) blur(8px); }
+        body.dark .dropdown-menu { background: rgba(22,24,33,.96); border-color: rgba(255,255,255,.10); }
+        .dropdown-item { border-radius: 8px; transition: background-color .12s, color .12s; }
+        .dropdown-item i { width: 18px; opacity: .9; }
+        .dropdown-item:focus, .dropdown-item:hover { background-color: rgba(13,110,253,.12); color: #0d6efd; }
+        body.dark .dropdown-item { color: #e9ecef; }
+        body.dark .dropdown-item:hover { background-color: rgba(13,110,253,.24); color: #fff; }
+        body.dark .dropdown-divider { border-top-color: rgba(255,255,255,.08); }
+
+        .btn-auth.btn-profile { background: linear-gradient(135deg, rgba(13,110,253,.10), rgba(13,110,253,0)); border: 1px solid rgba(13,110,253,.22); color: #0d6efd; }
+        body.dark .btn-auth.btn-profile { background: linear-gradient(135deg, rgba(13,110,253,.20), rgba(13,110,253,0)); border: 1px solid rgba(255,255,255,.14); color: #e9ecef; }
+
+        /* ============ LOGOUT MODAL KOYU TEMA DESTEĞİ ============ */
+        
+        /* Logout Modal Koyu Tema */
+        body.dark #logoutModal .modal-content {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+            border: 1px solid #334155 !important;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        body.dark #logoutModal .modal-header {
+            background: linear-gradient(135deg, #1e40af 0%, #5b21b6 100%) !important;
+            border-bottom: 1px solid #334155 !important;
+            border-radius: 12px 12px 0 0 !important;
+            color: white !important;
+            padding: 1.25rem 1.5rem !important;
+        }
+        
+        body.dark #logoutModal .modal-title {
+            color: white !important;
+            font-weight: 600 !important;
+            font-size: 1.25rem !important;
+        }
+        
+        body.dark #logoutModal .btn-close {
+            background: rgba(255, 255, 255, 0.2) !important;
+            border-radius: 50% !important;
+            padding: 0.5rem !important;
+            transition: all 0.3s ease !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+            position: relative !important;
+            width: 35px !important;
+            height: 35px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        body.dark #logoutModal .btn-close::before {
+            content: '' !important;
+            position: absolute !important;
+            width: 14px !important;
+            height: 2px !important;
+            background: white !important;
+            transform: rotate(45deg) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        body.dark #logoutModal .btn-close::after {
+            content: '' !important;
+            position: absolute !important;
+            width: 14px !important;
+            height: 2px !important;
+            background: white !important;
+            transform: rotate(-45deg) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        body.dark #logoutModal .btn-close:hover {
+            background: rgba(255, 255, 255, 0.3) !important;
+            transform: scale(1.1) rotate(90deg) !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        body.dark #logoutModal .btn-close:hover::before,
+        body.dark #logoutModal .btn-close:hover::after {
+            background: white !important;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5) !important;
+        }
+        
+        body.dark #logoutModal .modal-body {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+            padding: 1.5rem !important;
+            font-size: 1.1rem !important;
+            text-align: center !important;
+        }
+        
+        body.dark #logoutModal .modal-footer {
+            background: #1e293b !important;
+            border-top: 1px solid #334155 !important;
+            padding: 1rem 1.5rem !important;
+            border-radius: 0 0 12px 12px !important;
+        }
+        
+        body.dark #logoutModal .btn-secondary {
+            background: #6c757d !important;
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 0.5rem 1rem !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
+            color: white !important;
+        }
+        
+        body.dark #logoutModal .btn-secondary:hover {
+            background: #5a6268 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        body.dark #logoutModal .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 0.5rem 1rem !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
+            color: white !important;
+        }
+        
+        body.dark #logoutModal .btn-danger:hover {
+            background: linear-gradient(135deg, #c82333 0%, #bd2130 100%) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
+        }
+        
+        /* Logout Modal Açık Tema (Default) */
+        #logoutModal .modal-content {
+            border: none !important;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+        }
+        
+        #logoutModal .modal-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+            border: none !important;
+            border-radius: 12px 12px 0 0 !important;
+            padding: 1.25rem 1.5rem !important;
+            color: white !important;
+        }
+        
+        #logoutModal .modal-title {
+            color: white !important;
+            font-weight: 600 !important;
+            font-size: 1.25rem !important;
+        }
+        
+        #logoutModal .btn-close {
+            background: rgba(255, 255, 255, 0.2) !important;
+            border-radius: 50% !important;
+            padding: 0.5rem !important;
+            transition: all 0.3s ease !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+            position: relative !important;
+            width: 35px !important;
+            height: 35px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        #logoutModal .btn-close::before {
+            content: '' !important;
+            position: absolute !important;
+            width: 14px !important;
+            height: 2px !important;
+            background: white !important;
+            transform: rotate(45deg) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        #logoutModal .btn-close::after {
+            content: '' !important;
+            position: absolute !important;
+            width: 14px !important;
+            height: 2px !important;
+            background: white !important;
+            transform: rotate(-45deg) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        #logoutModal .btn-close:hover {
+            background: rgba(255, 255, 255, 0.3) !important;
+            transform: scale(1.1) rotate(90deg) !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        #logoutModal .btn-close:hover::before,
+        #logoutModal .btn-close:hover::after {
+            background: white !important;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5) !important;
+        }
+        
+        #logoutModal .modal-body {
+            padding: 1.5rem !important;
+            font-size: 1.1rem !important;
+            text-align: center !important;
+            color: #495057 !important;
+        }
+        
+        #logoutModal .modal-footer {
+            border: none !important;
+            padding: 1rem 1.5rem !important;
+            background: #f8f9fa !important;
+            border-radius: 0 0 12px 12px !important;
+        }
+        
+        #logoutModal .btn-secondary {
+            background: #6c757d !important;
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 0.5rem 1rem !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
+            color: white !important;
+        }
+        
+        #logoutModal .btn-secondary:hover {
+            background: #5a6268 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        #logoutModal .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 0.5rem 1rem !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
+            color: white !important;
+        }
+        
+        #logoutModal .btn-danger:hover {
+            background: linear-gradient(135deg, #c82333 0%, #bd2130 100%) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
+        }
+        
+        /* ============ LOGOUT PROCESS PAGE STYLES ============ */
+        
+        /* Logout Process Page Koyu Tema */
+        body.dark .logout-process-card {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+            border: 1px solid #334155 !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        body.dark .logout-process-card .card-body {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+        }
+        
+        body.dark .logout-process-card .card-title {
+            color: #3b82f6 !important;
+        }
+        
+        body.dark .logout-process-card .card-text {
+            color: #9ca3af !important;
+        }
+        
+        body.dark .logout-process-card .spinner-border {
+            color: #3b82f6 !important;
+        }
+        
+        /* Tüm card'ları koyu tema için override et */
+        body.dark .card {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+            border: 1px solid #334155 !important;
+        }
+        
+        body.dark .card-body {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+        }
+        
+        body.dark .card-title {
+            color: #3b82f6 !important;
+        }
+        
+        body.dark .card-text {
+            color: #9ca3af !important;
+        }
+        
+        body.dark .text-primary {
+            color: #3b82f6 !important;
+        }
+        
+        body.dark .text-muted {
+            color: #9ca3af !important;
+        }
+        
+        /* En güçlü selector'lar */
+        body.dark .container .card,
+        body.dark .container-fluid .card,
+        body.dark .row .card,
+        body.dark .col-md-6 .card {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+            border: 1px solid #334155 !important;
+        }
+        
+        body.dark .container .card-body,
+        body.dark .container-fluid .card-body,
+        body.dark .row .card-body,
+        body.dark .col-md-6 .card-body {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+        }
+        
+        body.dark .container .card-title,
+        body.dark .container-fluid .card-title,
+        body.dark .row .card-title,
+        body.dark .col-md-6 .card-title {
+            color: #3b82f6 !important;
+        }
+        
+        body.dark .container .card-text,
+        body.dark .container-fluid .card-text,
+        body.dark .row .card-text,
+        body.dark .col-md-6 .card-text {
+            color: #9ca3af !important;
+        }
+        
+        /* EN AGRESİF SELECTOR'LAR - TÜM OLASILIKLARI KAPSA */
+        body.dark .container,
+        body.dark .container-fluid,
+        body.dark .row,
+        body.dark .col-md-6,
+        body.dark .col,
+        body.dark .col-md-6 .card,
+        body.dark .container .card,
+        body.dark .row .card,
+        body.dark .container-fluid .card,
+        body.dark .col .card,
+        body.dark .card,
+        body.dark .card-body,
+        body.dark .container .card-body,
+        body.dark .row .card-body,
+        body.dark .col-md-6 .card-body,
+        body.dark .container-fluid .card-body,
+        body.dark .col .card-body {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+            border-color: #334155 !important;
+        }
+        
+        /* TÜM TEXT RENKLERİNİ OVERRIDE ET */
+        body.dark .text-primary,
+        body.dark .card-title,
+        body.dark .container .card-title,
+        body.dark .row .card-title,
+        body.dark .col-md-6 .card-title,
+        body.dark .container-fluid .card-title,
+        body.dark .col .card-title,
+        body.dark h4.text-primary,
+        body.dark .card h4,
+        body.dark .card-body h4 {
+            color: #3b82f6 !important;
+        }
+        
+        body.dark .text-muted,
+        body.dark .card-text,
+        body.dark .container .card-text,
+        body.dark .row .card-text,
+        body.dark .col-md-6 .card-text,
+        body.dark .container-fluid .card-text,
+        body.dark .col .card-text,
+        body.dark .card p,
+        body.dark .card-body p {
+            color: #9ca3af !important;
+        }
+        
+        /* SPINNER RENGİ */
+        body.dark .spinner-border.text-primary,
+        body.dark .text-primary.spinner-border {
+            color: #3b82f6 !important;
+        }
+        
+        /* SHADOW OVERRIDE */
+        body.dark .shadow-sm {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        /* Logout Process Page Açık Tema */
+        .logout-process-card {
+            border: none !important;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+        }
+        
+        .logout-process-card .card-title {
+            color: #4f46e5 !important;
+            font-weight: 600 !important;
+        }
+        
+        .logout-process-card .card-text {
+            color: #6c757d !important;
+        }
+        
+        .logout-process-card .spinner-border {
+            color: #4f46e5 !important;
+        }
+    </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <!-- Background overlay -->
@@ -47,6 +467,12 @@
                         <li class="nav-item" id="navbar-admin-link" style="display: none;">
                             <a class="nav-link text-dark" asp-area="" asp-controller="AdminPanel" asp-action="AdminMainPage">
                                 <i class="fas fa-cogs"></i> Admin Panel
+                            </a>
+                        </li>
+                        <!-- Permission Management - Sadece SuperAdmin (role=1) için görünür -->
+                        <li class="nav-item" id="navbar-permissions-link" style="display: none;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="AdminPanel" asp-action="Permissions">
+                                <i class="fas fa-user-shield"></i> Permissions
                             </a>
                         </li>
                         <!-- User Panel - Sadece User rolündeki kullanıcılar için görünür -->
@@ -84,6 +510,12 @@
                                         <i class="fas fa-tachometer-alt"></i> Admin Panel
                                     </a>
                                 </li>
+                                <!-- Permission Management - Sadece SuperAdmin için görünür -->
+                                <li id="dropdown-permissions-link" style="display: none;">
+                                    <a class="dropdown-item" href="/AdminPanel/Permissions">
+                                        <i class="fas fa-user-shield"></i> Permissions
+                                    </a>
+                                </li>
                                 <li>
                                     <a class="dropdown-item" href="/User/Dashboard">
                                         <i class="fas fa-tachometer-alt"></i> Kullanıcı Paneli
@@ -101,7 +533,7 @@
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
-                                    <a class="dropdown-item" href="#" onclick="logout()">
+                                    <a class="dropdown-item logout-link" href="#" onclick="logout()">
                                         <i class="fas fa-sign-out-alt"></i> Çıkış Yap
                                     </a>
                                 </li>
@@ -124,7 +556,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted mt-5" style="position: relative; z-index: 1; background-color: #f8f9fa;">
+    <footer class="border-top footer text-muted mt-5" style="position: relative; z-index: 1;">
         <div class="container">
             <div class="row py-3">
                 <div class="col-md-6">
@@ -152,7 +584,7 @@
 
     <!-- Auth kontrolü -->
     <script>
-                function updateNavbar() {
+        function updateNavbar() {
             // Token kontrolü
             const token = localStorage.getItem('token');
             const authButtons = document.getElementById('auth-buttons');
@@ -191,13 +623,14 @@
                         usernameDisplay.textContent = tokenData.username;
                     }
 
-                    // Rol kontrolü - Sadece Admin (role === 1) için Admin Panel göster
+                    // Rol kontrolü - hem primary id hem isim bazlı kontrol
                     const userRole = tokenData.role;
+                    const roleNames = tokenData.roleNames || [];
                     console.log('User role:', userRole);
                     console.log('User role type:', typeof userRole);
                     console.log('Is admin?', userRole === 1);
 
-                    if (userRole === 1) {
+                    if (userRole === 1 || roleNames.includes('Admin') || roleNames.includes('SuperAdmin')) {
                         // Admin kullanıcı - Admin Panel linklerini göster, User Panel linklerini gizle
                         console.log('Admin user - showing admin links, hiding user links');
                         if (navbarAdminLink) {
@@ -207,6 +640,17 @@
                             console.log('Navbar admin link set to block');
                         } else {
                             console.log('navbarAdminLink element not found!');
+                        }
+                        // SuperAdmin için Permissions linkini göster
+                        const navbarPermLink = document.getElementById('navbar-permissions-link');
+                        const dropdownPermLink = document.getElementById('dropdown-permissions-link');
+                        const isSuperAdmin = userRole === 1 || roleNames.includes('SuperAdmin');
+                        if (isSuperAdmin) {
+                            if (navbarPermLink) { navbarPermLink.style.display = 'block'; navbarPermLink.classList.add('d-block'); navbarPermLink.classList.remove('d-none'); }
+                            if (dropdownPermLink) { dropdownPermLink.style.display = 'block'; dropdownPermLink.classList.add('d-block'); dropdownPermLink.classList.remove('d-none'); }
+                        } else {
+                            if (navbarPermLink) { navbarPermLink.style.display = 'none'; navbarPermLink.classList.add('d-none'); navbarPermLink.classList.remove('d-block'); }
+                            if (dropdownPermLink) { dropdownPermLink.style.display = 'none'; dropdownPermLink.classList.add('d-none'); dropdownPermLink.classList.remove('d-block'); }
                         }
                         if (dropdownAdminLink) {
                             dropdownAdminLink.style.display = 'block !important';
@@ -316,11 +760,21 @@
 
         // Logout fonksiyonu
         function logout() {
-            if (confirm('Çıkış yapmak istediğinize emin misiniz?')) {
-                localStorage.removeItem('token');
-                window.location.href = '/Account/Logout';
-            }
+            // Modal'ı aç
+            const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+            logoutModal.show();
         }
+        
+        // Modal açıldığında confirm butonuna event listener ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+            if (confirmLogoutBtn) {
+                confirmLogoutBtn.addEventListener('click', function() {
+                    localStorage.removeItem('token');
+                    window.location.href = '/Account/Logout';
+                });
+            }
+        });
 
         // Profile sayfası göster
         function showProfile() {
@@ -345,5 +799,24 @@
     <!-- Page specific scripts -->
     @await RenderSectionAsync("Scripts", required: false)
     @RenderSection("Modals", required: false)
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Çıkış Onayı</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Çıkış yapmak istediğinize emin misiniz?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-danger" id="confirmLogoutBtn">Çıkış Yap</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

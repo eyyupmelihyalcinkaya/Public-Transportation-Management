@@ -42,20 +42,23 @@ namespace internshipProject1.WebUI.Controllers
                 var token = jsonData.ContainsKey("Token") ? jsonData["Token"].ToString() : "";
                 var username = jsonData.ContainsKey("Username") ? jsonData["Username"].ToString() : "";
                 var role = jsonData.ContainsKey("Role") ? jsonData["Role"].ToString() : "";
+                var userId = jsonData.ContainsKey("UserId") ? jsonData["UserId"].ToString() : "";
                 Console.WriteLine($"DEBUG - Parsed Token: {token?.Substring(0, Math.Min(20, token?.Length ?? 0))}...");
                 Console.WriteLine($"DEBUG - Parsed Username: {username}");
                 Console.WriteLine($"DEBUG - Parsed Role: {role}");
+                Console.WriteLine($"DEBUG - Parsed UserId: {userId}");
 
-                if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(username))
+                if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(userId))
                 {
-                    Console.WriteLine("DEBUG - Token or username is empty");
-                    return Json(new { success = false, error = "Token or username is empty" });
+                    Console.WriteLine("DEBUG - Token, username, or userId is empty");
+                    return Json(new { success = false, error = "Token, username, or userId is empty" });
                 }
                 
                 // Session'a token ve kullanıcı bilgilerini kaydet
                 HttpContext.Session.SetString("UserToken", token);
                 HttpContext.Session.SetString("username", username);
                 HttpContext.Session.SetString("userRole", role);
+                HttpContext.Session.SetString("userId", userId);
 
 
                 Console.WriteLine($"DEBUG - Session UserToken set: {HttpContext.Session.GetString("UserToken")?.Substring(0, Math.Min(20, HttpContext.Session.GetString("UserToken")?.Length ?? 0))}...");
@@ -70,7 +73,16 @@ namespace internshipProject1.WebUI.Controllers
                     Expires = DateTimeOffset.Now.AddHours(1)
                 });
                 
-                Console.WriteLine("DEBUG - Cookie UserToken set successfully");
+                // Role bilgisini de cookie'ye kaydet
+                Response.Cookies.Append("userRole", role, new CookieOptions
+                {
+                    HttpOnly = false, // JavaScript'ten erişilebilir olması için
+                    Secure = false, // Development için false
+                    SameSite = SameSiteMode.Lax,
+                    Expires = DateTimeOffset.Now.AddHours(1)
+                });
+                
+                Console.WriteLine("DEBUG - Cookie UserToken and userRole set successfully");
                 
                 return Json(new { success = true, message = "Session and cookie set successfully" });
             }
@@ -94,6 +106,7 @@ namespace internshipProject1.WebUI.Controllers
             // Session ve cookie'yi temizle
             HttpContext.Session.Clear();
             Response.Cookies.Delete("UserToken");
+            Response.Cookies.Delete("userRole");
             
             // Logout sayfasına yönlendir (JavaScript ile localStorage temizlemek için)
             return View("LogoutProcess");

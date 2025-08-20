@@ -4,6 +4,7 @@ using internshipproject1.Application.Features.Customer.Commands.UpdateCustomer;
 using internshipproject1.Application.Features.Customer.Queries.GetAllCustomers;
 using internshipproject1.Application.Features.Customer.Queries.GetCustomerByEmail;
 using internshipproject1.Application.Features.Customer.Queries.GetCustomerById;
+using internshipproject1.Application.Features.Customer.Queries.GetCustomerByUserId;
 using internshipproject1.Application.Features.Customer.Queries.GetInactiveCustomers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -102,7 +103,16 @@ namespace internshipProject1.WebAPI.Controllers
 
         }
 
-
+        [HttpGet("CustomerByUserId")]
+        public async Task<ActionResult> GetCustomerByUserId([FromQuery] int userId)
+        { 
+            var customer = await _mediator.Send(new GetCustomerByUserIdQueryRequest(userId));
+            if (customer == null)
+            {
+                return NotFound($"Customer with User ID {userId} not found.");
+            }
+            return Ok(customer);
+        }
 
         [HttpPost]
         public async Task<ActionResult> CreateNewCustomer([FromBody] CreateCustomerCommandRequest request)

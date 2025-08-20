@@ -10,6 +10,7 @@ namespace internshipproject1.Application.Interfaces.Repositories
     public interface IUserRepository : IGenericRepository<User>
     {
         Task<User> GetByIdAsync(int id,CancellationToken cancellationToken);
+        Task<User> GetByIdWithCustomerAsync(int id, CancellationToken cancellationToken);
         Task<User> GetByUsernameAsync(string username, CancellationToken cancellationToken);
         Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken);
         Task<User> AddAsync(User user,CancellationToken cancellationToken);

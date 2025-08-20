@@ -1,2 +1,71 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+*.log
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio 2019 - 2022
 .vs/
-22.07rapor.txt
+.vscode/
+*.code-workspace
+
+# Rider
+.idea/
+*.sln.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+project.lock.json
+project.assets.json
+*.vspscc
+*.vssscc
+*.psess
+
+# Test results
+TestResults/
+*.VisualState.xml
+*.vsp
+*.vspx
+*.sap
+*.scc
+*.cache
+*.coverage
+*.coveragexml
+
+# Entity Framework
+Migrations/
+
+# Others
+_ReSharper*/
+*.DotSettings.user
+*.sdf
+*.dbmdl
+*.bak
+*.tmp
+*.tmp_proj
+*.log
+*.tlog
+*.patch
+
+# Ignore Copilot experimental folders if any
+**/Copilot*/
+
+# Local history
+.history/
+
+# JetBrains Rider
+.idea/
+*.sln.iml

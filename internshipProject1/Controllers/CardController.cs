@@ -3,6 +3,9 @@ using internshipproject1.Application.Features.Card.Commands.DeleteCard;
 using internshipproject1.Application.Features.Card.Commands.UpdateCard;
 using internshipproject1.Application.Features.Card.Queries.GetAllActiveCards;
 using internshipproject1.Application.Features.Card.Queries.GetAllCards;
+using internshipproject1.Application.Features.Card.Queries.GetBalanceByCardNumber;
+using internshipproject1.Application.Features.Card.Queries.GetBalanceById;
+using internshipproject1.Application.Features.Card.Queries.GetCardByCustomerEmail;
 using internshipproject1.Application.Features.Card.Queries.GetCardById;
 using internshipproject1.Application.Features.Card.Queries.IsCardExist;
 using MediatR;
@@ -15,7 +18,9 @@ namespace internshipProject1.WebAPI.Controllers
     public class CardController : ControllerBase
     {
         private readonly IMediator _mediator;
-
+        //TODO: Card oluşturulunca CardList'e eklenecek 06.08.2025
+        //TODO: Kartlarım kısmı CardList'i gösterecek, Bunun için endpoint yazılacak 06.08.2025
+        //TODO: RBAC yapısı oluşturulacak.
         public CardController(IMediator mediator)
         {
             _mediator = mediator;
@@ -42,7 +47,16 @@ namespace internshipProject1.WebAPI.Controllers
             }
             return Ok(activeCards);
         }
-
+        [HttpGet("GetCardByCustomerEmail")]
+        public async Task<ActionResult> GetCardByCustomerEmail([FromQuery] string email)
+        {
+            var card = await _mediator.Send(new GetCardByCustomerEmailQueryRequest(email));
+            if (card == null)
+            {
+                return NotFound();
+            }
+            return Ok(card);
+        }
         [HttpGet("GetById")]
         public async Task<ActionResult> GetCardById([FromQuery] int id)
         { 
@@ -53,7 +67,26 @@ namespace internshipProject1.WebAPI.Controllers
             }
             return Ok(card);
         }
-
+        [HttpGet("GetBalanceByCardID")]
+        public async Task<ActionResult> GetBalanceById([FromQuery] int id)
+        {
+            var balance = await _mediator.Send(new GetBalanceByIdQueryRequest(id));
+            if (balance == null)
+            {
+                return NotFound("Card Not Found");
+            }
+            return Ok(balance);
+        }
+        [HttpGet("GetBalanceByCardNumber")]
+        public async Task<ActionResult> GetBalanceByCardNumber([FromQuery] string cardNumber)
+        { 
+            var balance = await _mediator.Send(new GetBalanceByCardNumberQueryRequest(cardNumber));
+            if (balance == null)
+            { 
+                return NotFound();
+            }
+            return Ok(balance); 
+        }
         [HttpGet("InactiveCards")]
         public async Task<ActionResult> GetInactiveCards()
         { 

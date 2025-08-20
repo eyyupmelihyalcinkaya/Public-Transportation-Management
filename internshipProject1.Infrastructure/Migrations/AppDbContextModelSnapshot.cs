@@ -33,7 +33,14 @@ namespace internshipProject1.Infrastructure.Migrations
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("CardNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("CustomerId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CustomerId1")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("ExpirationDate")
@@ -47,7 +54,9 @@ namespace internshipProject1.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId")
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("CustomerId1")
                         .IsUnique();
 
                     b.ToTable("Card");
@@ -70,6 +79,9 @@ namespace internshipProject1.Infrastructure.Migrations
                     b.Property<int>("CardId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
@@ -80,6 +92,9 @@ namespace internshipProject1.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("TransactionType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("VehicleType")
@@ -128,9 +143,459 @@ namespace internshipProject1.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
                     b.ToTable("Customer");
+                });
+
+            modelBuilder.Entity("internshipproject1.Domain.Entities.Menu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("ParentMenuId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentMenuId");
+
+                    b.ToTable("Menu");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DisplayOrder = 1,
+                            Name = "Dashboard",
+                            Url = "/dashboard"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DisplayOrder = 2,
+                            Name = "Users",
+                            Url = "/users"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DisplayOrder = 3,
+                            Name = "Routes",
+                            Url = "/routes"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DisplayOrder = 4,
+                            Name = "Stops",
+                            Url = "/stops"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DisplayOrder = 5,
+                            Name = "Trips",
+                            Url = "/trips"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            DisplayOrder = 6,
+                            Name = "Cards",
+                            Url = "/cards"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            DisplayOrder = 7,
+                            Name = "Customers",
+                            Url = "/customers"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            DisplayOrder = 8,
+                            Name = "Settings",
+                            Url = "/settings"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            DisplayOrder = 9,
+                            Name = "Role Management",
+                            Url = "/role-management"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            DisplayOrder = 10,
+                            Name = "Card Transactions",
+                            Url = "/card-transactions"
+                        });
+                });
+
+            modelBuilder.Entity("internshipproject1.Domain.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "God Mode",
+                            Name = "SuperAdmin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Admin - Yönetici",
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "End User - Yolcu",
+                            Name = "Passenger"
+                        });
+                });
+
+            modelBuilder.Entity("internshipproject1.Domain.Entities.RoleMenuPermission", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MenuId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("CanCreate")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanRead")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanUpdate")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("RoleId", "MenuId");
+
+                    b.HasIndex("MenuId");
+
+                    b.ToTable("RoleMenuPermission");
+
+                    b.HasData(
+                        new
+                        {
+                            RoleId = 1,
+                            MenuId = 1,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            MenuId = 2,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            MenuId = 3,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            MenuId = 4,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            MenuId = 5,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            MenuId = 6,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            MenuId = 7,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            MenuId = 8,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            MenuId = 9,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            MenuId = 10,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            MenuId = 1,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            MenuId = 2,
+                            CanCreate = false,
+                            CanDelete = false,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            MenuId = 3,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            MenuId = 4,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            MenuId = 5,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            MenuId = 6,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            MenuId = 7,
+                            CanCreate = false,
+                            CanDelete = false,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            MenuId = 8,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            MenuId = 9,
+                            CanCreate = false,
+                            CanDelete = false,
+                            CanRead = true,
+                            CanUpdate = false
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            MenuId = 10,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            MenuId = 1,
+                            CanCreate = false,
+                            CanDelete = false,
+                            CanRead = false,
+                            CanUpdate = false
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            MenuId = 2,
+                            CanCreate = false,
+                            CanDelete = false,
+                            CanRead = false,
+                            CanUpdate = false
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            MenuId = 3,
+                            CanCreate = false,
+                            CanDelete = false,
+                            CanRead = false,
+                            CanUpdate = false
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            MenuId = 4,
+                            CanCreate = false,
+                            CanDelete = false,
+                            CanRead = false,
+                            CanUpdate = false
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            MenuId = 5,
+                            CanCreate = false,
+                            CanDelete = false,
+                            CanRead = false,
+                            CanUpdate = false
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            MenuId = 6,
+                            CanCreate = true,
+                            CanDelete = false,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            MenuId = 7,
+                            CanCreate = false,
+                            CanDelete = false,
+                            CanRead = false,
+                            CanUpdate = false
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            MenuId = 8,
+                            CanCreate = false,
+                            CanDelete = false,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            MenuId = 9,
+                            CanCreate = true,
+                            CanDelete = true,
+                            CanRead = true,
+                            CanUpdate = true
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            MenuId = 10,
+                            CanCreate = false,
+                            CanDelete = false,
+                            CanRead = true,
+                            CanUpdate = false
+                        });
                 });
 
             modelBuilder.Entity("internshipproject1.Domain.Entities.RouteStop", b =>
@@ -260,9 +725,6 @@ namespace internshipProject1.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
-
                     b.Property<byte[]>("passwordHash")
                         .IsRequired()
                         .HasColumnType("bytea");
@@ -284,13 +746,32 @@ namespace internshipProject1.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("internshipproject1.Domain.Entities.UserRoles", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRoles");
+                });
+
             modelBuilder.Entity("internshipproject1.Domain.Entities.Card", b =>
                 {
                     b.HasOne("internshipproject1.Domain.Entities.Customer", "Customer")
-                        .WithOne("Card")
-                        .HasForeignKey("internshipproject1.Domain.Entities.Card", "CustomerId")
+                        .WithMany("CardList")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("internshipproject1.Domain.Entities.Customer", null)
+                        .WithOne("Card")
+                        .HasForeignKey("internshipproject1.Domain.Entities.Card", "CustomerId1");
 
                     b.Navigation("Customer");
                 });
@@ -304,6 +785,44 @@ namespace internshipProject1.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Card");
+                });
+
+            modelBuilder.Entity("internshipproject1.Domain.Entities.Customer", b =>
+                {
+                    b.HasOne("internshipproject1.Domain.Entities.User", "User")
+                        .WithOne("Customer")
+                        .HasForeignKey("internshipproject1.Domain.Entities.Customer", "UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("internshipproject1.Domain.Entities.Menu", b =>
+                {
+                    b.HasOne("internshipproject1.Domain.Entities.Menu", "ParentMenu")
+                        .WithMany("SubMenus")
+                        .HasForeignKey("ParentMenuId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ParentMenu");
+                });
+
+            modelBuilder.Entity("internshipproject1.Domain.Entities.RoleMenuPermission", b =>
+                {
+                    b.HasOne("internshipproject1.Domain.Entities.Menu", "Menu")
+                        .WithMany("RoleMenuPermissions")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("internshipproject1.Domain.Entities.Role", "Role")
+                        .WithMany("RoleMenuPermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Menu");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("internshipproject1.Domain.Entities.RouteStop", b =>
@@ -345,6 +864,25 @@ namespace internshipProject1.Infrastructure.Migrations
                     b.Navigation("Route");
                 });
 
+            modelBuilder.Entity("internshipproject1.Domain.Entities.UserRoles", b =>
+                {
+                    b.HasOne("internshipproject1.Domain.Entities.Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("internshipproject1.Domain.Entities.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("internshipproject1.Domain.Entities.Card", b =>
                 {
                     b.Navigation("CardTransactions");
@@ -354,6 +892,22 @@ namespace internshipProject1.Infrastructure.Migrations
                 {
                     b.Navigation("Card")
                         .IsRequired();
+
+                    b.Navigation("CardList");
+                });
+
+            modelBuilder.Entity("internshipproject1.Domain.Entities.Menu", b =>
+                {
+                    b.Navigation("RoleMenuPermissions");
+
+                    b.Navigation("SubMenus");
+                });
+
+            modelBuilder.Entity("internshipproject1.Domain.Entities.Role", b =>
+                {
+                    b.Navigation("RoleMenuPermissions");
+
+                    b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("internshipproject1.Domain.Entities.RouteToCreate", b =>
@@ -371,6 +925,11 @@ namespace internshipProject1.Infrastructure.Migrations
             modelBuilder.Entity("internshipproject1.Domain.Entities.User", b =>
                 {
                     b.Navigation("CreatedRoutes");
+
+                    b.Navigation("Customer")
+                        .IsRequired();
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

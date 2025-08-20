@@ -35,7 +35,7 @@ namespace internshipProject1.Infrastructure.Data.Repository
             if(user == null)
             {
                 throw new ArgumentNullException(nameof(user));
-            }
+            }/*
             if (user.Role == UserRole.User)
             {
                 user.Role = UserRole.Admin;
@@ -47,7 +47,7 @@ namespace internshipProject1.Infrastructure.Data.Repository
             else
             {
                 throw new InvalidOperationException("Invalid user role.");
-            }
+            }*/
             await _dbContext.SaveChangesAsync(cancellationToken);
             return user;
         }
@@ -126,6 +126,17 @@ namespace internshipProject1.Infrastructure.Data.Repository
         Task IGenericRepository<User>.UpdateAsync(User entity, CancellationToken cancellationToken)
         {
             return UpdateAsync(entity,cancellationToken);
+        }
+        public Task<User> GetByIdWithCustomerAsync(int id, CancellationToken cancellationToken)
+        { 
+            var user = _dbContext.Users
+                .Include(u => u.Customer)
+                .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
+            if (user == null)
+            { 
+                throw new ArgumentNullException(nameof(user));
+            }
+            return user;
         }
     }
 }

@@ -49,11 +49,8 @@ namespace internshipProject1.Infrastructure.Data.Repository
         public async Task<IReadOnlyList<Trip>> GetAllAsync(CancellationToken cancellationToken)
         {
             var trip = await _dbContext.Trip.ToListAsync(cancellationToken);
-            if (trip == null || !trip.Any())
-            {
-                throw new KeyNotFoundException("No trips found.");
-            }
-            return trip;
+            // Return empty list instead of throwing exception when no trips found
+            return trip ?? new List<Trip>();
         }
 
         public async Task<Trip> AddAsync(Trip trip, CancellationToken cancellationToken)

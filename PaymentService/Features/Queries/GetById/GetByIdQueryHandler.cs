@@ -22,8 +22,8 @@ namespace PaymentService.Features.Queries.GetById
             }
             var response = new GetByIdQueryResponse
             {
-                Id = boardingTransaction.Id,
-                CardId = boardingTransaction.CardId,
+                Id = request.Id,
+                CardNumber = boardingTransaction.CardNumber,
                 Amount = boardingTransaction.Amount,
                 Balance = boardingTransaction.Balance,
                 TransactionDate = boardingTransaction.TransactionDate,
