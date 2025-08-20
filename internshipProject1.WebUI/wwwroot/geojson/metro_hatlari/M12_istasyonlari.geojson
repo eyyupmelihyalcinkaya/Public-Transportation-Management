@@ -1,0 +1,18 @@
+{
+"type": "FeatureCollection",
+"name": "M12_istasyonlari",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "ISTASYON": "Göztepe 60. Yıl Parkı", "PROJE_ADI": "M12 Göztepe-Ümraniye Metro Hattı", "PROJE_ASAMA": "İnşaat Aşamasında", "HAT_TURU": "Metro", "MUDURLUK": "Anadolu Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.056647631400001, 40.9696400909 ] } },
+{ "type": "Feature", "properties": { "ISTASYON": "Çarşı", "PROJE_ADI": "M12 Göztepe-Ümraniye Metro Hattı", "PROJE_ASAMA": "İnşaat Aşamasında", "HAT_TURU": "Metro", "MUDURLUK": "Anadolu Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.096970124199999, 41.026945029 ] } },
+{ "type": "Feature", "properties": { "ISTASYON": "Atakent", "PROJE_ADI": "M12 Göztepe-Ümraniye Metro Hattı", "PROJE_ASAMA": "İnşaat Aşamasında", "HAT_TURU": "Metro", "MUDURLUK": "Anadolu Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.1018263781, 41.016029436099998 ] } },
+{ "type": "Feature", "properties": { "ISTASYON": "Yeni Sahra", "PROJE_ADI": "M12 Göztepe-Ümraniye Metro Hattı", "PROJE_ASAMA": "İnşaat Aşamasında", "HAT_TURU": "Metro", "MUDURLUK": "Anadolu Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.092139142200001, 40.984938194400002 ] } },
+{ "type": "Feature", "properties": { "ISTASYON": "Finans Merkezi", "PROJE_ADI": "M12 Göztepe-Ümraniye Metro Hattı", "PROJE_ASAMA": "İnşaat Aşamasında", "HAT_TURU": "Metro", "MUDURLUK": "Anadolu Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.1108510159, 40.999300230599999 ] } },
+{ "type": "Feature", "properties": { "ISTASYON": "Sahrayıcedit", "PROJE_ADI": "M12 Göztepe-Ümraniye Metro Hattı", "PROJE_ASAMA": "İnşaat Aşamasında", "HAT_TURU": "Metro", "MUDURLUK": "Anadolu Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.077135021, 40.979953921700002 ] } },
+{ "type": "Feature", "properties": { "ISTASYON": "SBÜ Hastanesi", "PROJE_ADI": "M12 Göztepe-Ümraniye Metro Hattı", "PROJE_ASAMA": "İnşaat Aşamasında", "HAT_TURU": "Metro", "MUDURLUK": "Anadolu Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.101967605799999, 41.030515661400003 ] } },
+{ "type": "Feature", "properties": { "ISTASYON": "Site", "PROJE_ADI": "M12 Göztepe-Ümraniye Metro Hattı", "PROJE_ASAMA": "İnşaat Aşamasında", "HAT_TURU": "Metro", "MUDURLUK": "Anadolu Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.112904630900001, 41.008340223899999 ] } },
+{ "type": "Feature", "properties": { "ISTASYON": "Ataşehir", "PROJE_ADI": "M12 Göztepe-Ümraniye Metro Hattı", "PROJE_ASAMA": "İnşaat Aşamasında", "HAT_TURU": "Metro", "MUDURLUK": "Anadolu Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.104065695, 40.990637412799998 ] } },
+{ "type": "Feature", "properties": { "ISTASYON": "Göztepe", "PROJE_ADI": "M12 Göztepe-Ümraniye Metro Hattı", "PROJE_ASAMA": "İnşaat Aşamasında", "HAT_TURU": "Metro", "MUDURLUK": "Anadolu Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.066289602800001, 40.978350200100003 ] } },
+{ "type": "Feature", "properties": { "ISTASYON": "Kazım Karabekir", "PROJE_ADI": "M12 Göztepe-Ümraniye Metro Hattı", "PROJE_ASAMA": "İnşaat Aşamasında", "HAT_TURU": "Metro", "MUDURLUK": "Anadolu Yakası Raylı Sistemler Müdürlüğü" }, "geometry": { "type": "Point", "coordinates": [ 29.0987977614, 41.042728400100003 ] } }
+]
+}

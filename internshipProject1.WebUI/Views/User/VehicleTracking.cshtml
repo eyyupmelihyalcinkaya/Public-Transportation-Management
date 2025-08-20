@@ -3,6 +3,14 @@
     Layout = "_Layout";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+}
+
+@section Scripts {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+}
+
 <div class="container-fluid mt-4">
     <!-- Başlık -->
     <div class="row mb-4">
@@ -96,19 +104,17 @@
     <div class="row mb-4" id="trackingMap" style="display: none;">
         <div class="col-12">
             <div class="card glass-card">
-                <div class="card-header">
-                    <h5 class="mb-0">
-                        <i class="fas fa-map-marker-alt text-danger"></i>
-                        Gerçek Zamanlı Takip
-                    </h5>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                                            <h5 class="mb-0">
+                            <i class="fas fa-map-marker-alt text-danger"></i>
+                            Seçilen Rota Takibi
+                        </h5>
+                        <div class="text-muted">
+                            <small>Seçilen rotanın durakları ve güzergahı gösterilmektedir</small>
+                        </div>
                 </div>
                 <div class="card-body">
-                    <div id="map" style="height: 400px; background: #f8f9fa; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-                        <div class="text-center">
-                            <i class="fas fa-map text-muted" style="font-size: 3rem;"></i>
-                            <p class="text-muted mt-2">Harita yükleniyor...</p>
-                        </div>
-                    </div>
+                    <div id="map" style="height: 500px; background: #f8f9fa; border-radius: 10px;"></div>
                 </div>
             </div>
         </div>
@@ -459,14 +465,81 @@
         background: rgba(13, 110, 253, 0.2);
         border-color: #0d6efd;
     }
+
+    /* Harita popup stilleri */
+    .popup-content {
+        min-width: 200px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .popup-content h6 {
+        margin-bottom: 0.5rem;
+        color: #333;
+        font-weight: 600;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 0.25rem;
+    }
+
+    .popup-content p {
+        font-size: 0.85rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .popup-content p:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Leaflet popup özelleştirme */
+    .leaflet-popup-content-wrapper {
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .leaflet-popup-tip {
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* OSM Ray çizgileri için stiller */
+    .osm-railway {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+    }
+
+    .osm-railway:hover {
+        filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.4));
+    }
+
+    /* Loading indicator for OSM data */
+    .route-loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px 25px;
+        border-radius: 8px;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(5px);
+    }
+
+    .route-loading i {
+        margin-right: 10px;
+        color: #007bff;
+    }
 </style>
 
 <script>
     let selectedVehicleType = '';
     let selectedRoute = '';
+    let map = null;
+    let routesData = [];
+    let currentRouteLayer = null;
 
-    // Araç türü seçimi
-    function selectVehicleType(type) {
+    // Araç türü seçimi - global scope'ta
+    window.selectVehicleType = function(type) {
         selectedVehicleType = type;
         
         // Tüm kartların seçimini kaldır
@@ -484,35 +557,106 @@
         loadRoutes(type);
     }
 
-    // Hatları yükle
-    function loadRoutes(vehicleType) {
+    // API'den rotaları yükle
+    async function loadRoutes(vehicleType) {
         const routeList = document.getElementById('routeList');
-        routeList.innerHTML = '';
+        routeList.innerHTML = '<div class="col-12 text-center"><i class="fas fa-spinner fa-spin"></i> Rotalar yükleniyor...</div>';
         
-        const routes = getRoutesByType(vehicleType);
-        
-        routes.forEach(route => {
-            const routeCard = document.createElement('div');
-            routeCard.className = 'col-md-6 col-lg-4 mb-3';
-            routeCard.innerHTML = `
-                <div class="route-card" onclick="selectRoute('${route.id}')">
-                    <div class="d-flex align-items-center">
-                        <div class="me-3">
-                            <i class="fas fa-route text-primary"></i>
-                        </div>
-                        <div>
-                            <h6 class="mb-1">${route.name}</h6>
-                            <small class="text-muted">${route.description}</small>
+        try {
+            const response = await fetch('/User/GetPublicRoutes?page=1&pageSize=100');
+            if (!response.ok) {
+                throw new Error('Rotalar yüklenemedi');
+            }
+            
+            const allRoutes = await response.json();
+            routesData = allRoutes;
+            
+            // Seçilen araç türüne göre filtreleme
+            const filteredRoutes = filterRoutesByType(allRoutes, vehicleType);
+            
+            routeList.innerHTML = '';
+            
+            if (filteredRoutes.length === 0) {
+                routeList.innerHTML = `
+                    <div class="col-12 text-center text-muted">
+                        <i class="fas fa-info-circle mb-2"></i>
+                        <p>Bu araç türü için rota bulunamadı</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredRoutes.forEach(route => {
+                const routeCard = document.createElement('div');
+                routeCard.className = 'col-md-6 col-lg-4 mb-3';
+                routeCard.innerHTML = `
+                    <div class="route-card" onclick="selectRoute('${route.id}')">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="fas fa-route text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">${route.name}</h6>
+                                <small class="text-muted">${route.startLocation} - ${route.endLocation}</small>
+                                <br>
+                                <small class="text-info">${getRouteTypeIcon(route.name)} ${getRouteTypeText(route.name)}</small>
+                            </div>
                         </div>
                     </div>
+                `;
+                routeList.appendChild(routeCard);
+            });
+        } catch (error) {
+            console.error('Rota yükleme hatası:', error);
+            routeList.innerHTML = `
+                <div class="col-12 text-center text-danger">
+                    <i class="fas fa-exclamation-triangle mb-2"></i>
+                    <p>Rotalar yüklenirken hata oluştu</p>
                 </div>
             `;
-            routeList.appendChild(routeCard);
+        }
+    }
+
+    // Rota türüne göre filtreleme
+    function filterRoutesByType(routes, vehicleType) {
+        return routes.filter(route => {
+            const routeName = route.name.toLowerCase();
+            switch (vehicleType) {
+                case 'bus':
+                    return routeName.includes('otobüs') || routeName.includes('bus') || 
+                           (!routeName.includes('metro') && !routeName.includes('tramvay') && !routeName.includes('metrobüs'));
+                case 'metro':
+                    return routeName.includes('metro') && !routeName.includes('metrobüs');
+                case 'tram':
+                    return routeName.includes('tramvay') || routeName.includes('tram');
+                case 'metrobus':
+                    return routeName.includes('metrobüs') || routeName.includes('metrobus');
+                default:
+                    return true;
+            }
         });
     }
 
+    // Rota türü ikonunu belirle
+    function getRouteTypeIcon(routeName) {
+        const name = routeName.toLowerCase();
+        if (name.includes('metro') && !name.includes('metrobüs')) return '<i class="fas fa-train"></i>';
+        if (name.includes('tramvay') || name.includes('tram')) return '<i class="fas fa-tram"></i>';
+        if (name.includes('metrobüs') || name.includes('metrobus')) return '<i class="fas fa-subway"></i>';
+        return '<i class="fas fa-bus"></i>';
+    }
+
+    // Rota türü metnini belirle
+    function getRouteTypeText(routeName) {
+        const name = routeName.toLowerCase();
+        if (name.includes('metro') && !name.includes('metrobüs')) return 'Metro';
+        if (name.includes('tramvay') || name.includes('tram')) return 'Tramvay';
+        if (name.includes('metrobüs') || name.includes('metrobus')) return 'Metrobüs';
+        return 'Otobüs';
+    }
+
     // Hat seçimi
-    function selectRoute(routeId) {
+    window.selectRoute = async function(routeId) {
         selectedRoute = routeId;
         
         // Tüm hat kartlarının seçimini kaldır
@@ -528,9 +672,146 @@
         document.getElementById('vehicleList').style.display = 'block';
         document.getElementById('stopInfo').style.display = 'block';
         
+        // Haritayı başlat
+        initializeMap();
+        
+        // Seçilen rotayı haritada göster
+        await loadRouteOnMap(routeId);
+        
         // Araçları ve durakları yükle
         loadVehicles(routeId);
         loadStops(routeId);
+    }
+
+    // Seçilen rotayı haritada göster
+    async function loadRouteOnMap(routeId) {
+        try {
+            // Önceki rota layer'ını temizle
+            if (currentRouteLayer) {
+                map.removeLayer(currentRouteLayer);
+            }
+
+            // Rota durakları verilerini al
+            const response = await fetch(`/User/GetPublicRouteStops?routeId=${routeId}&page=1&pageSize=100`);
+            if (!response.ok) {
+                console.error('API Response Error:', response.status, response.statusText);
+                const errorText = await response.text();
+                console.error('Error details:', errorText);
+                throw new Error(`Rota durakları alınamadı (${response.status}): ${errorText}`);
+            }
+
+            const stops = await response.json();
+            console.log('Rota durakları:', stops);
+            console.log('🔍 Stop sayısı:', stops?.length || 0);
+            console.log('🔍 Rota ID:', routeId);
+            console.log('🔍 Rota bilgisi:', route);
+
+            if (stops && stops.length > 0) {
+                // Rota bilgisini bul
+                const route = routesData.find(r => r.id == routeId);
+                const routeType = getRouteTypeFromName(route?.name || '');
+                const routeColor = getRouteColor(routeType);
+
+                // Yeni layer grup oluştur
+                currentRouteLayer = L.layerGroup();
+
+                // Durakları sırala
+                const sortedStops = stops.sort((a, b) => (a.order || 0) - (b.order || 0));
+
+                // Koordinatları topla
+                const coordinates = [];
+                
+                // Durakları haritaya ekle
+                console.log('🚏 Stop marker\'ları ekleniyor, toplam:', sortedStops.length);
+                sortedStops.forEach((stop, index) => {
+                    console.log(`🚏 Stop ${index + 1}:`, {
+                        name: stop.name,
+                        lat: stop.latitude,
+                        lng: stop.longitude,
+                        order: stop.order
+                    });
+                    
+                    if (stop.latitude && stop.longitude) {
+                        const lat = parseFloat(stop.latitude);
+                        const lng = parseFloat(stop.longitude);
+                        
+                        if (isNaN(lat) || isNaN(lng)) {
+                            console.warn(`⚠️ Stop ${index + 1} koordinatları geçersiz:`, lat, lng);
+                            return;
+                        }
+                        
+                        coordinates.push([lat, lng]);
+
+                        // Durak marker'ı oluştur
+                        const marker = L.circleMarker([lat, lng], {
+                            radius: 8,
+                            fillColor: routeColor,
+                            color: '#ffffff',
+                            weight: 2,
+                            opacity: 1,
+                            fillOpacity: 0.9
+                        });
+
+                        // Popup ekle
+                        marker.bindPopup(`
+                            <div class="popup-content">
+                                <h6>${getRouteTypeIcon(route?.name || '')} ${stop.name || 'Durak ' + (index + 1)}</h6>
+                                <p class="mb-1"><strong>Sıra:</strong> ${stop.order || index + 1}</p>
+                                <p class="mb-1"><strong>Rota:</strong> ${route?.name || 'Bilinmiyor'}</p>
+                                <p class="mb-0"><strong>Konum:</strong> ${lat.toFixed(6)}, ${lng.toFixed(6)}</p>
+                            </div>
+                        `);
+
+                        currentRouteLayer.addLayer(marker);
+                        console.log(`✅ Stop ${index + 1} marker\'ı eklendi:`, stop.name);
+                    } else {
+                        console.warn(`⚠️ Stop ${index + 1} koordinatları eksik:`, stop);
+                    }
+                });
+
+                // OSM ray + Backend stop hibrit sistemi
+                if (coordinates.length > 1) {
+                    await createRealRoutePolyline(coordinates, routeType, routeColor, route, stops);
+                }
+
+                // Layer'ı haritaya ekle
+                currentRouteLayer.addTo(map);
+
+                // Haritayı rota sınırlarına otomatik fit et
+                if (coordinates.length > 0) {
+                    const group = new L.featureGroup(currentRouteLayer.getLayers());
+                    map.fitBounds(group.getBounds().pad(0.1));
+                }
+
+            } else {
+                console.warn('Bu rota için durak bulunamadı');
+                alert('Bu rota için durak bilgisi bulunamadı');
+            }
+
+        } catch (error) {
+            console.error('Rota harita yükleme hatası:', error);
+            alert('Rota haritada gösterilirken hata oluştu: ' + error.message);
+        }
+    }
+
+    // Rota türünü belirle
+    function getRouteTypeFromName(routeName) {
+        const name = routeName.toLowerCase();
+        if (name.includes('metro') && !name.includes('metrobüs')) return 'metro';
+        if (name.includes('tramvay') || name.includes('tram')) return 'tram';
+        if (name.includes('metrobüs') || name.includes('metrobus')) return 'metrobus';
+        return 'bus';
+    }
+
+    // Rota türüne göre renk belirle
+    function getRouteColor(routeType) {
+        const colors = {
+            'metro': '#dc3545',    // Kırmızı
+            'tram': '#17a2b8',     // Turkuaz
+            'metrobus': '#28a745', // Yeşil
+            'bus': '#007bff'       // Mavi
+        };
+        return colors[routeType] || colors.bus;
     }
 
     // Araç türüne göre hatları getir
@@ -628,10 +909,623 @@
         return statusTexts[status] || status;
     }
 
+
+
+    // Haritayı başlat
+    function initializeMap() {
+        if (map) {
+            map.remove();
+        }
+        
+        // İstanbul koordinatları
+        map = L.map('map').setView([41.0082, 28.9784], 11);
+        
+        // OpenStreetMap tile layer ekle
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        
+        // Eski checkbox event listener'ları kaldır (artık kullanmıyoruz)
+        // Yeni sistemde sadece seçilen rota gösteriliyor
+    }
+
+
+
     // Sayfa yüklendiğinde navbar'ı güncelle
     document.addEventListener('DOMContentLoaded', function() {
         if (window.updateNavbar) {
             window.updateNavbar();
         }
     });
+
+    // OSM Ray + Backend Stop Hibrit Sistem
+    async function createRealRoutePolyline(coordinates, routeType, routeColor, route, stops) {
+        console.log('🚇 OSM ray + Backend stop hibrit sistemi başlatılıyor...', route?.name);
+        
+        try {
+            // Loading göster
+            showRouteLoading(true);
+            
+            // 1. Rota ismine göre OSM'den ray verisi al
+            const osmRailway = await getOSMRailwayByRouteName(route?.name, routeType);
+            
+            if (osmRailway && osmRailway.length > 0) {
+                console.log('✅ OSM\'den ray alındı:', osmRailway.length, 'nokta');
+                
+                // 2. OSM ray çizgisini çiz (ince çizgiler)
+                const railwayLine = L.polyline(osmRailway, {
+                    color: routeColor,
+                    weight: routeType === 'metro' ? 3 : routeType === 'tram' ? 2.5 : 2,
+                    opacity: 0.8,
+                    smoothFactor: 1,
+                    className: `route-line-${routeType} osm-railway`
+                });
+
+                railwayLine.bindPopup(`
+                    <div class="popup-content">
+                        <h6>${getRouteTypeIcon(route?.name || '')} ${route?.name || 'Rota'}</h6>
+                        <p class="mb-1"><strong>Veri Kaynağı:</strong> OpenStreetMap</p>
+                        <p class="mb-1"><strong>Ray Noktaları:</strong> ${osmRailway.length}</p>
+                        <p class="mb-1"><strong>Backend Stopları:</strong> ${stops?.length || coordinates.length}</p>
+                        <p class="mb-0"><strong>Sistem:</strong> OSM Ray + Backend Stop</p>
+                    </div>
+                `);
+
+                // Hover efektleri kaldırıldı - çizgi kalınlaşmasın
+                
+                currentRouteLayer.addLayer(railwayLine);
+                console.log('✅ OSM ray çizgisi haritaya eklendi!');
+                
+                // 3. Backend stoplarını ray üzerine yerleştir (mevcut marker sistemi kullanılacak)
+                console.log('📍 Backend stopları ray üzerine yerleştirilecek');
+                
+            } else {
+                console.log('⚠️ OSM\'den ray bulunamadı, sadece duraklar gösterilecek');
+            }
+            
+        } catch (error) {
+            console.error('❌ OSM-Backend hibrit sistem hatası:', error);
+            console.log('⚠️ Hata durumunda sadece durak noktaları gösterilecek');
+        } finally {
+            showRouteLoading(false);
+        }
+    }
+
+    // Loading indicator fonksiyonu
+    function showRouteLoading(show) {
+        const mapContainer = document.getElementById('trackingMap');
+        let loadingDiv = document.getElementById('route-loading');
+        
+        if (show) {
+            if (!loadingDiv) {
+                loadingDiv = document.createElement('div');
+                loadingDiv.id = 'route-loading';
+                loadingDiv.className = 'route-loading';
+                loadingDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> OSM\'den ray verisi alınıyor...';
+                mapContainer.appendChild(loadingDiv);
+            }
+            loadingDiv.style.display = 'block';
+        } else {
+            if (loadingDiv) {
+                loadingDiv.style.display = 'none';
+            }
+        }
+    }
+
+
+
+    // Rota ismine göre OSM'den ray verisi al (hızlı fallback ile)
+    async function getOSMRailwayByRouteName(routeName, routeType) {
+        console.log('🔍 OSM ray verisi aranıyor:', routeName, routeType);
+        
+        if (!routeName) {
+            console.log('⚠️ Rota ismi yok, OSM sorgusu yapılamıyor');
+            return null;
+        }
+        
+        // Timeout süresini artır
+        const timeoutPromise = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('OSM timeout')), 20000)
+        );
+        
+        try {
+            // Rota ismine göre arama terimleri oluştur
+            const searchTerms = generateOSMSearchTerms(routeName, routeType);
+            const railwayTypes = getRailwayTypesForRoute(routeType);
+            
+            console.log('🔎 OSM arama terimleri:', searchTerms);
+            console.log('🚂 Ray tipleri:', railwayTypes);
+            
+            // Hızlı sorgu oluştur
+            const query = buildAdvancedOverpassQuery(routeName, routeType, searchTerms, railwayTypes);
+            
+            console.log('📡 OSM sorgusu başlatılıyor (20 saniye timeout)');
+            
+            const overpassUrl = 'https://overpass-api.de/api/interpreter';
+            
+            // Race condition: 20 saniye timeout vs API çağrısı
+            const fetchPromise = fetch(overpassUrl, {
+                method: 'POST',
+                body: query,
+                headers: { 'Content-Type': 'text/plain' }
+            });
+            
+            const response = await Promise.race([fetchPromise, timeoutPromise]);
+            
+            if (!response.ok) {
+                throw new Error(`Overpass API error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('📊 OSM yanıtı:', data.elements?.length || 0, 'element');
+            console.log('🔍 OSM raw data:', data);
+            
+            if (data.elements && data.elements.length > 0) {
+                // İlk relation'ı al (sorgu zaten sadece relation döndürüyor)
+                const railway = data.elements[0];
+                
+                console.log('✅ OSM ray bulundu:', {
+                    name: railway.tags?.name || 'İsimsiz',
+                    type: railway.type,
+                    id: railway.id,
+                    tags: railway.tags,
+                    hasGeometry: !!railway.geometry,
+                    hasMembers: !!railway.members,
+                    memberCount: railway.members?.length || 0
+                });
+                
+                const coordinates = extractCoordinatesFromOSMElement(railway);
+                if (coordinates && coordinates.length > 0) {
+                    console.log('✅ OSM ray koordinatları:', coordinates.length, 'nokta');
+                    console.log('📍 İlk 3 koordinat:', coordinates.slice(0, 3));
+                    console.log('📍 Son 3 koordinat:', coordinates.slice(-3));
+                    return coordinates;
+                } else {
+                    console.error('❌ Koordinat çıkarma başarısız:', railway);
+                }
+            }
+            
+            console.log('⚠️ OSM\'den bu rota için ray bulunamadı');
+            return null;
+            
+        } catch (error) {
+            if (error.message === 'OSM timeout') {
+                console.warn('⏰ OSM sorgusu 20 saniyede timeout oldu');
+            } else {
+                console.error('❌ OSM ray verisi alma hatası:', error);
+            }
+            
+            // Fallback: Çok basit sorgu dene
+            return await trySimpleFallbackQuery(routeName, routeType);
+        }
+    }
+    
+    // Çok basit fallback sorgusu
+    async function trySimpleFallbackQuery(routeName, routeType) {
+        try {
+            console.log('🔄 Basit fallback sorgusu deneniyor...');
+            
+            let simpleQuery = `
+                [out:json][timeout:8][bbox:40.8,28.7,41.3,29.3];
+                (
+            `;
+            
+            if (routeType === 'metro') {
+                simpleQuery += `way["railway"="subway"];`;
+            } else if (routeType === 'tram') {
+                simpleQuery += `way["railway"="tram"];`;
+            } else {
+                simpleQuery += `relation["route"="bus"];`;
+            }
+            
+            simpleQuery += `
+                );
+                out geom;
+            `;
+            
+            const response = await fetch('https://overpass-api.de/api/interpreter', {
+                method: 'POST',
+                body: simpleQuery,
+                headers: { 'Content-Type': 'text/plain' }
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data.elements && data.elements.length > 0) {
+                    console.log('✅ Fallback sorgusu başarılı:', data.elements.length, 'element');
+                    
+                    // En uzun geometry'ye sahip way'i bul
+                    let bestElement = null;
+                    let maxGeometryLength = 0;
+                    
+                    data.elements.forEach((element, index) => {
+                        const geometryLength = element.geometry?.length || 0;
+                        console.log(`🔍 Element ${index + 1}: ${element.type} ${element.id}, geometry: ${geometryLength} nokta, name: ${element.tags?.name || 'İsimsiz'}`);
+                        
+                        if (geometryLength > maxGeometryLength) {
+                            maxGeometryLength = geometryLength;
+                            bestElement = element;
+                        }
+                    });
+                    
+                    if (bestElement) {
+                        console.log('🎯 En uzun element seçildi:', bestElement.id, 'geometry:', maxGeometryLength, 'nokta');
+                        return extractCoordinatesFromOSMElement(bestElement);
+                    } else {
+                        // Fallback: ilk elementi al
+                        const firstElement = data.elements[0];
+                        return extractCoordinatesFromOSMElement(firstElement);
+                    }
+                }
+            }
+            
+            console.log('❌ Fallback sorgusu da başarısız');
+            return null;
+            
+        } catch (error) {
+            console.error('❌ Fallback sorgusu hatası:', error);
+            return null;
+        }
+    }
+    
+    // Rota ismine göre OSM arama terimleri oluştur
+    function generateOSMSearchTerms(routeName, routeType) {
+        const terms = [];
+        const name = routeName.toLowerCase();
+        
+        // Rota ismini olduğu gibi ekle
+        terms.push(routeName);
+        
+        if (routeType === 'metro') {
+            // Metro hatları için özel terimler
+            if (name.includes('m1')) terms.push('M1', 'M1A', 'M1B', 'Yenikapı', 'Havalimanı');
+            if (name.includes('m2')) terms.push('M2', 'Hacıosman', 'Yenikapı', 'Şişhane');
+            if (name.includes('m3')) terms.push('M3', 'Kirazlı', 'Bakırköy');
+            if (name.includes('m4')) terms.push('M4', 'Kadıköy', 'Tavşantepe');
+            if (name.includes('m5')) terms.push('M5', 'Üsküdar', 'Çekmeköy');
+            if (name.includes('m6')) terms.push('M6', 'Levent', 'Boğaziçi');
+            if (name.includes('m7')) terms.push('M7', 'Kabataş', 'Mecidiyeköy');
+            
+            // Genel metro terimleri
+            if (name.includes('metro')) terms.push('Metro', 'İstanbul Metro');
+        } else if (routeType === 'tram') {
+            // Tramvay hatları
+            if (name.includes('t1')) terms.push('T1', 'Bağcılar', 'Kabataş');
+            if (name.includes('t4')) terms.push('T4', 'Topkapı', 'Mescid-i Selam');
+            if (name.includes('t5')) terms.push('T5', 'Alibeyköy', 'Cibali');
+            
+            if (name.includes('tramvay')) terms.push('Tramvay', 'Tram');
+        } else if (routeType === 'metrobus') {
+            terms.push('Metrobüs', 'BRT', 'Avcılar', 'Söğütlüçeşme');
+        }
+        
+        return [...new Set(terms)]; // Duplicate'leri kaldır
+    }
+    
+    // Rota tipine göre OSM railway tiplerini belirle
+    function getRailwayTypesForRoute(routeType) {
+        const types = {
+            'metro': ['subway', 'metro'],
+            'tram': ['tram', 'light_rail'],
+            'metrobus': ['busway', 'bus'],
+            'bus': ['bus']
+        };
+        return types[routeType] || ['bus'];
+    }
+    
+    // Bu fonksiyon artık gerekli değil - overpass sorgusu zaten spesifik sonuç döndürüyor
+    
+    // OSM elementinden koordinatları çıkar (sadece ana ray çizgisi)
+    function extractCoordinatesFromOSMElement(element) {
+        console.log('🔧 Koordinat çıkarma başlıyor:', element.type, element.id);
+        const coordinates = [];
+        
+        if (element.type === 'relation' && element.members) {
+            console.log('📋 Relation işleniyor, member sayısı:', element.members.length);
+            
+            // Sadece ana ray çizgilerini al (platform, stop vs. hariç)
+            const railwayMembers = element.members.filter(member => {
+                // Sadece way tipindeki ve ray rolündeki member'ları al
+                if (member.type !== 'way') return false;
+                
+                // Role kontrolü - sadece ray çizgilerini al
+                const role = member.role || '';
+                if (role === 'platform' || role === 'stop' || role.includes('platform')) {
+                    return false;
+                }
+                
+                // Geometry var mı kontrol et
+                return !!member.geometry && member.geometry.length > 0;
+            });
+            
+            console.log('🛤️ Filtrelenmiş ray member sayısı:', railwayMembers.length);
+            
+            // Way member'larını sıralı şekilde birleştir (tam rotayı kapsasın)
+            console.log('🔧 Way member\'ları sıralı birleştiriliyor...');
+            
+            // Önce tüm way geometrilerini topla
+            const wayGeometries = [];
+            railwayMembers.forEach((member, index) => {
+                const geometryLength = member.geometry?.length || 0;
+                console.log(`👥 Ray Member ${index + 1}:`, {
+                    role: member.role || 'boş',
+                    geometryLength: geometryLength,
+                    id: member.ref
+                });
+                
+                if (member.geometry && member.geometry.length > 0) {
+                    const memberCoords = [];
+                    member.geometry.forEach(point => {
+                        if (point.lat && point.lon) {
+                            memberCoords.push([point.lat, point.lon]);
+                        }
+                    });
+                    if (memberCoords.length > 0) {
+                        wayGeometries.push({
+                            id: member.ref,
+                            coords: memberCoords,
+                            length: memberCoords.length
+                        });
+                    }
+                }
+            });
+            
+            console.log('📊 Toplanan way sayısı:', wayGeometries.length);
+            
+            // Way'leri sıralı birleştir
+            if (wayGeometries.length > 0) {
+                // İlk way'i ekle
+                coordinates.push(...wayGeometries[0].coords);
+                console.log('🚀 İlk way eklendi:', wayGeometries[0].coords.length, 'nokta');
+                
+                let usedWays = [0];
+                let currentEnd = wayGeometries[0].coords[wayGeometries[0].coords.length - 1];
+                
+                // Geriye kalan way'leri sırayla bağla
+                while (usedWays.length < wayGeometries.length) {
+                    let bestMatch = -1;
+                    let bestDistance = Infinity;
+                    let shouldReverse = false;
+                    
+                    for (let i = 0; i < wayGeometries.length; i++) {
+                        if (usedWays.includes(i)) continue;
+                        
+                        const way = wayGeometries[i];
+                        const wayStart = way.coords[0];
+                        const wayEnd = way.coords[way.coords.length - 1];
+                        
+                        // Mesafeleri hesapla
+                        const distToStart = Math.abs(currentEnd[0] - wayStart[0]) + Math.abs(currentEnd[1] - wayStart[1]);
+                        const distToEnd = Math.abs(currentEnd[0] - wayEnd[0]) + Math.abs(currentEnd[1] - wayEnd[1]);
+                        
+                        if (distToStart < bestDistance) {
+                            bestDistance = distToStart;
+                            bestMatch = i;
+                            shouldReverse = false;
+                        }
+                        
+                        if (distToEnd < bestDistance) {
+                            bestDistance = distToEnd;
+                            bestMatch = i;
+                            shouldReverse = true;
+                        }
+                    }
+                    
+                    if (bestMatch !== -1) {
+                        const nextWay = wayGeometries[bestMatch];
+                        let nextCoords = [...nextWay.coords];
+                        
+                        if (shouldReverse) {
+                            nextCoords.reverse();
+                        }
+                        
+                        // İlk noktayı atlayarak ekle (çakışmayı önle)
+                        coordinates.push(...nextCoords.slice(1));
+                        currentEnd = nextCoords[nextCoords.length - 1];
+                        usedWays.push(bestMatch);
+                        
+                        console.log(`🔗 Way ${bestMatch + 1} bağlandı (${shouldReverse ? 'ters' : 'düz'}):`, nextCoords.length - 1, 'yeni nokta');
+                    } else {
+                        console.warn('⚠️ Bağlanabilecek way bulunamadı, kalan way\'ler ekleniyor');
+                        // Kalan way'leri olduğu gibi ekle
+                        for (let i = 0; i < wayGeometries.length; i++) {
+                            if (!usedWays.includes(i)) {
+                                coordinates.push(...wayGeometries[i].coords);
+                                usedWays.push(i);
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            
+            console.log('🔗 Sıralı way birleştirme tamamlandı, toplam nokta:', coordinates.length);
+            
+            // Eğer hiç ray member'ı yoksa tüm member'ları dene
+            if (coordinates.length === 0) {
+                console.warn('⚠️ Ray member\'larında koordinat yok, tüm member\'ları deneniyor');
+                element.members.forEach(member => {
+                    if (member.geometry) {
+                        member.geometry.forEach(point => {
+                            if (point.lat && point.lon) {
+                                coordinates.push([point.lat, point.lon]);
+                            }
+                        });
+                    }
+                });
+            }
+        } else if (element.geometry) {
+            console.log('🛤️ Way işleniyor, geometri uzunluğu:', element.geometry.length);
+            
+            // Way geometrisinden koordinatları al
+            element.geometry.forEach(point => {
+                if (point.lat && point.lon) {
+                    coordinates.push([point.lat, point.lon]);
+                }
+            });
+        } else {
+            console.warn('⚠️ Element\'te ne geometry ne de members var:', element);
+        }
+        
+        console.log('📊 Çıkarılan koordinat sayısı:', coordinates.length);
+        
+        if (coordinates.length === 0) {
+            console.error('❌ Hiç koordinat çıkarılamadı!');
+            return [];
+        }
+        
+        // İlk ve son nokta aynıysa son noktayı kaldır (circle olmasın)
+        if (coordinates.length > 2) {
+            const firstPoint = coordinates[0];
+            const lastPoint = coordinates[coordinates.length - 1];
+            
+            if (firstPoint && lastPoint && 
+                Math.abs(firstPoint[0] - lastPoint[0]) < 0.0001 && 
+                Math.abs(firstPoint[1] - lastPoint[1]) < 0.0001) {
+                
+                console.log('🔄 İlk ve son nokta aynı, döngü kırılıyor');
+                coordinates.pop(); // Son noktayı kaldır
+            }
+        }
+        
+        console.log('✅ Final koordinat sayısı:', coordinates.length);
+        return coordinates;
+    }
+    
+    // Basit ve spesifik Overpass sorgu oluşturucu
+    function buildAdvancedOverpassQuery(routeName, routeType, searchTerms, railwayTypes) {
+        const name = routeName.toLowerCase();
+        
+        // Rota türü ve ref'i belirle
+        let routeTag = 'bus';  // default
+        let railwayTag = null;
+        let routeRef = null;
+        
+        if (routeType === 'metro') {
+            routeTag = 'subway';
+            railwayTag = 'subway';
+            routeRef = extractMetroRef(name);
+        } else if (routeType === 'tram') {
+            routeTag = 'tram';
+            railwayTag = 'tram';
+            routeRef = extractTramRef(name);
+        }
+        
+        // Basit ve direkt sorgu - sadece relation (sizin örneğiniz gibi)
+        let query = `
+            [out:json][timeout:60];
+            area["name"="İstanbul"]->.searchArea;
+        `;
+        
+        if (routeRef) {
+            // Spesifik ref ile sadece relation
+            query += `relation["route"="${routeTag}"]["ref"="${routeRef}"](area.searchArea);`;
+        } else {
+            // Genel arama - sadece relation
+            if (railwayTag) {
+                query += `relation["route"="${routeTag}"](area.searchArea);`;
+            } else {
+                query += `relation["route"="bus"]["operator"~"İETT|IETT",i](area.searchArea);`;
+            }
+        }
+        
+        query += `out geom;`;
+        
+        console.log('🔧 Oluşturulan sorgu:');
+        console.log('📝 Rota ismi:', routeName);
+        console.log('🚂 Rota türü:', routeType);
+        console.log('🏷️ Çıkarılan ref:', routeRef);
+        console.log('📋 Final sorgu:', query);
+        return query;
+    }
+    
+    // Metro hat referansını çıkar (M1, M2, vb.)
+    function extractMetroRef(routeName) {
+        const metroMatch = routeName.match(/m(\d+[a-z]?)/i);
+        if (metroMatch) {
+            return 'M' + metroMatch[1].toUpperCase();
+        }
+        
+        // Alternatif formatlar
+        if (routeName.includes('yenikapı') && routeName.includes('havalimanı')) return 'M1A';
+        if (routeName.includes('yenikapı') && routeName.includes('kirazlı')) return 'M1B';
+        if (routeName.includes('hacıosman')) return 'M2';
+        if (routeName.includes('kirazlı') && routeName.includes('bakırköy')) return 'M3';
+        if (routeName.includes('kadıköy')) return 'M4';
+        if (routeName.includes('üsküdar')) return 'M5';
+        if (routeName.includes('levent')) return 'M6';
+        if (routeName.includes('kabataş') && routeName.includes('mecidiyeköy')) return 'M7';
+        
+        return null;
+    }
+    
+    // Tramvay hat referansını çıkar (T1, T4, vb.)
+    function extractTramRef(routeName) {
+        const tramMatch = routeName.match(/t(\d+)/i);
+        if (tramMatch) {
+            return 'T' + tramMatch[1];
+        }
+        
+        // Alternatif formatlar
+        if (routeName.includes('bağcılar') && routeName.includes('kabataş')) return 'T1';
+        if (routeName.includes('topkapı')) return 'T4';
+        if (routeName.includes('alibeyköy')) return 'T5';
+        
+        return null;
+    }
+
+    // Test fonksiyonları - OSM Ray + Backend Stop hibrit sistem
+    window.testOSMRouting = async function(routeName = 'M2 Metro Hattı', routeType = 'metro') {
+        console.log('🧪 OSM ray test başlıyor...', routeName, routeType);
+        
+        const result = await getOSMRailwayByRouteName(routeName, routeType);
+        
+        if (result && result.length > 0) {
+            console.log('✅ OSM ray test başarılı!', result.length, 'koordinat alındı');
+            console.log('📊 İlk 5 koordinat:', result.slice(0, 5));
+            return result;
+        } else {
+            console.log('❌ OSM ray test başarısız!');
+            return null;
+        }
+    };
+
+    window.testHybridRoute = async function(routeName = 'Test Metro', routeType = 'metro') {
+        console.log('🧪 Hibrit sistem test başlıyor...', routeName, routeType);
+        
+        if (!map) {
+            console.log('❌ Önce haritayı başlatın!');
+            return;
+        }
+        
+        // Test için basit durak koordinatları
+        const testStops = [
+            { name: 'Test Durağı 1', latitude: 41.0082, longitude: 28.9784, order: 1 },
+            { name: 'Test Durağı 2', latitude: 41.0055, longitude: 29.0095, order: 2 },
+            { name: 'Test Durağı 3', latitude: 41.0351, longitude: 28.9857, order: 3 }
+        ];
+        
+        const testCoords = testStops.map(stop => [stop.latitude, stop.longitude]);
+        
+        await createRealRoutePolyline(testCoords, routeType, '#dc3545', { name: routeName }, testStops);
+    };
+
+    // Gelişmiş sorgu test fonksiyonu
+    window.testAdvancedQuery = function(routeName = 'M4', routeType = 'metro') {
+        console.log('🔧 Gelişmiş sorgu test ediliyor...', routeName, routeType);
+        
+        const searchTerms = generateOSMSearchTerms(routeName, routeType);
+        const railwayTypes = getRailwayTypesForRoute(routeType);
+        const query = buildAdvancedOverpassQuery(routeName, routeType, searchTerms, railwayTypes);
+        
+        console.log('📋 Oluşturulan sorgu:');
+        console.log(query);
+        
+        // Overpass Turbo linkini oluştur
+        const encodedQuery = encodeURIComponent(query);
+        const overpassTurboUrl = `https://overpass-turbo.eu/?Q=${encodedQuery}`;
+        console.log('🔗 Overpass Turbo linki:', overpassTurboUrl);
+        
+        return { query, overpassTurboUrl };
+    };
 </script> 

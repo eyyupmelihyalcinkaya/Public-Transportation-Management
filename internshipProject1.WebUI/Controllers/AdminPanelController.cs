@@ -258,7 +258,13 @@ namespace internshipProject1.WebUI.Controllers
 
         // RouteStops API Proxy
         [HttpGet]
-        public async Task<IActionResult> GetRouteStops(int page = 1, int pageSize = 10)
+        public async Task<IActionResult> GetRouteStops(int routeId, int page = 1, int pageSize = 100)
+        {
+            return await ProxyApiRequest($"/api/routes/{routeId}/stops?page={page}&pageSize={pageSize}");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllRouteStops(int page = 1, int pageSize = 10)
         {
             return await ProxyApiRequest($"/api/routestop/GetAll?page={page}&pageSize={pageSize}");
         }

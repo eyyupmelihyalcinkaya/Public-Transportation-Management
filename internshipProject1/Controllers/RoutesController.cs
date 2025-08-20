@@ -13,6 +13,8 @@ namespace internshipProject1.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+    //TODO: Login Register kısmında şifre gösterme butonu eklenecek.
     public class RoutesController : ControllerBase
     {
         private readonly IMediator _mediator;

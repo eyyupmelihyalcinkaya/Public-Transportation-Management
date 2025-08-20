@@ -213,7 +213,7 @@
         // Route Stops için parametreli yükleme
         async function loadRouteStops() {
             try {
-                const response = await fetch(`/AdminPanel/GetRouteStops?page=${routeStopsPage}&pageSize=${routeStopsPageSize}`);
+                const response = await fetch(`/AdminPanel/GetAllRouteStops?page=${routeStopsPage}&pageSize=${routeStopsPageSize}`);
                 if (response.ok) {
                     const data = await response.json();
                     updateRouteStopsTable(data.items || data);
@@ -222,6 +222,7 @@
                     showToast('Failed to load route stops', 'error');
                 }
             } catch (error) {
+                console.error('Error loading route stops:', error);
                 showToast('Connection error while loading route stops', 'error');
             }
         }
@@ -1713,6 +1714,495 @@
     
     <!-- AdminPanel özel JavaScript dosyası -->
     <script src="~/js/adminpanelscript.js" asp-append-version="true"></script>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Admin Panel Harita Fonksiyonları -->
+    <script>
+        let adminMap = null;
+        let adminMetroStationsLayer = null;
+        let adminTramStationsLayer = null;
+
+        // Admin panel haritasını başlat
+        function initializeAdminMap() {
+            if (adminMap) {
+                adminMap.remove();
+            }
+            
+            // İstanbul koordinatları
+            adminMap = L.map('adminMap').setView([41.0082, 28.9784], 11);
+            
+            // OpenStreetMap tile layer ekle
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(adminMap);
+            
+            // Metro ve tramvay istasyonlarını yükle
+            setTimeout(() => {
+                loadAdminMetroStations();
+                loadAdminTramStations();
+            }, 500);
+            
+            // Checkbox event listeners
+            document.getElementById('adminShowMetroStations').addEventListener('change', toggleAdminMetroStations);
+            document.getElementById('adminShowTramStations').addEventListener('change', toggleAdminTramStations);
+        }
+
+        // Admin panel metro istasyonlarını yükle
+        async function loadAdminMetroStations() {
+            try {
+                adminMetroStationsLayer = L.layerGroup().addTo(adminMap);
+                
+                // Tüm metro hatlarını yükle
+                const metroLines = [
+                    'M1A_istasyonlari', 'M1B_istasyonlari', 'M2_istasyonlari', 'M3_istasyonlari',
+                    'M4_istasyonlari', 'M5_istasyonlari', 'M6_istasyonlari', 'M7_istasyonlari',
+                    'M8_istasyonlari', 'M9_istasyonlari', 'M10_istasyonlari', 'M11_istasyonlari', 'M12_istasyonlari'
+                ];
+                
+                for (const line of metroLines) {
+                    try {
+                        console.log(`Admin Metro hattı yükleniyor: ${line}`);
+                        const response = await fetch(`/geojson/metro_hatlari/${line}.geojson`);
+                        console.log(`Admin Response status for ${line}:`, response.status);
+                        if (response.ok) {
+                            const geoJsonData = await response.json();
+                            console.log(`Admin GeoJSON data loaded for ${line}:`, geoJsonData.features.length, 'features');
+                            
+                            L.geoJSON(geoJsonData, {
+                                pointToLayer: function(feature, latlng) {
+                                    return L.circleMarker(latlng, {
+                                        radius: 8,
+                                        fillColor: '#007bff',
+                                        color: '#0056b3',
+                                        weight: 2,
+                                        opacity: 1,
+                                        fillOpacity: 0.8
+                                    });
+                                },
+                                onEachFeature: function(feature, layer) {
+                                    if (feature.properties && feature.properties.ISTASYON) {
+                                        layer.bindPopup(`
+                                            <div class="popup-content">
+                                                <h6><i class="fas fa-train text-primary"></i> ${feature.properties.ISTASYON}</h6>
+                                                <p class="mb-1"><strong>Hat:</strong> ${feature.properties.PROJE_ADI || 'Bilinmiyor'}</p>
+                                                <p class="mb-1"><strong>Tür:</strong> ${feature.properties.HAT_TURU}</p>
+                                                <p class="mb-0"><strong>Müdürlük:</strong> ${feature.properties.MUDURLUK || 'Bilinmiyor'}</p>
+                                            </div>
+                                        `);
+                                    }
+                                }
+                            }).addTo(adminMetroStationsLayer);
+                        } else {
+                            console.error(`Admin HTTP Error ${response.status} for ${line}:`, response.statusText);
+                        }
+                    } catch (error) {
+                        console.error(`Admin Metro hattı yüklenemedi: ${line}`, error);
+                    }
+                }
+            } catch (error) {
+                console.error('Admin metro istasyonları yüklenirken hata:', error);
+            }
+        }
+
+        // Admin panel tramvay istasyonlarını yükle
+        async function loadAdminTramStations() {
+            try {
+                adminTramStationsLayer = L.layerGroup().addTo(adminMap);
+                
+                // Tüm tramvay hatlarını yükle
+                const tramLines = ['T1_istasyonlari', 'T3_istasyonlari', 'T4_istasyonlari', 'T5_istasyonlari'];
+                
+                for (const line of tramLines) {
+                    try {
+                        console.log(`Admin Tramvay hattı yükleniyor: ${line}`);
+                        const response = await fetch(`/geojson/tramvay_hatlari/${line}.geojson`);
+                        console.log(`Admin Response status for ${line}:`, response.status);
+                        if (response.ok) {
+                            const geoJsonData = await response.json();
+                            console.log(`Admin GeoJSON data loaded for ${line}:`, geoJsonData.features.length, 'features');
+                            
+                            L.geoJSON(geoJsonData, {
+                                pointToLayer: function(feature, latlng) {
+                                    return L.circleMarker(latlng, {
+                                        radius: 8,
+                                        fillColor: '#17a2b8',
+                                        color: '#138496',
+                                        weight: 2,
+                                        opacity: 1,
+                                        fillOpacity: 0.8
+                                    });
+                                },
+                                onEachFeature: function(feature, layer) {
+                                    if (feature.properties && feature.properties.ISTASYON) {
+                                        layer.bindPopup(`
+                                            <div class="popup-content">
+                                                <h6><i class="fas fa-tram text-info"></i> ${feature.properties.ISTASYON}</h6>
+                                                <p class="mb-1"><strong>Hat:</strong> ${feature.properties.PROJE_ADI || 'Bilinmiyor'}</p>
+                                                <p class="mb-1"><strong>Tür:</strong> ${feature.properties.HAT_TURU}</p>
+                                                <p class="mb-0"><strong>Müdürlük:</strong> ${feature.properties.MUDURLUK || 'Bilinmiyor'}</p>
+                                            </div>
+                                        `);
+                                    }
+                                }
+                            }).addTo(adminTramStationsLayer);
+                        } else {
+                            console.error(`Admin HTTP Error ${response.status} for ${line}:`, response.statusText);
+                        }
+                    } catch (error) {
+                        console.error(`Admin Tramvay hattı yüklenemedi: ${line}`, error);
+                    }
+                }
+            } catch (error) {
+                console.error('Admin tramvay istasyonları yüklenirken hata:', error);
+            }
+        }
+
+        // Admin metro istasyonlarını göster/gizle
+        function toggleAdminMetroStations() {
+            const checkbox = document.getElementById('adminShowMetroStations');
+            if (adminMetroStationsLayer) {
+                if (checkbox.checked) {
+                    adminMap.addLayer(adminMetroStationsLayer);
+                } else {
+                    adminMap.removeLayer(adminMetroStationsLayer);
+                }
+            }
+        }
+
+        // Admin tramvay istasyonlarını göster/gizle
+        function toggleAdminTramStations() {
+            const checkbox = document.getElementById('adminShowTramStations');
+            if (adminTramStationsLayer) {
+                if (checkbox.checked) {
+                    adminMap.addLayer(adminTramStationsLayer);
+                } else {
+                    adminMap.removeLayer(adminTramStationsLayer);
+                }
+            }
+        }
+
+        // Sayfa yüklendiğinde haritayı başlat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Diğer başlatma kodları...
+            
+            // Admin haritasını başlat
+            setTimeout(function() {
+                initializeAdminMap();
+            }, 1000); // Sayfa tamamen yüklendikten sonra haritayı başlat
+
+            // Modern modal functionality
+            initializeModernModal();
+        });
+
+        // Modern Modal Functions
+        let currentStep = 1;
+        let selectedRouteType = '';
+
+        function initializeModernModal() {
+            // Route type selection
+            document.querySelectorAll('.route-type-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.route-type-option').forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedRouteType = this.dataset.type;
+                });
+            });
+
+            // Step navigation
+            const nextBtn = document.getElementById('nextStepBtn');
+            const prevBtn = document.getElementById('prevStepBtn');
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function() {
+                    if (validateCurrentStep()) {
+                        nextStep();
+                    }
+                });
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function() {
+                    prevStep();
+                });
+            }
+
+            // Modal reset when closed
+            const modal = document.getElementById('addRouteModal');
+            if (modal) {
+                modal.addEventListener('hidden.bs.modal', function() {
+                    resetModal();
+                });
+            }
+        }
+
+        function nextStep() {
+            if (currentStep < 3) {
+                document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
+
+                currentStep++;
+
+                document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.add('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+
+                updateStepNavigation();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+
+                currentStep--;
+
+                document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.add('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('completed');
+
+                updateStepNavigation();
+            }
+        }
+
+        function updateStepNavigation() {
+            const nextBtn = document.getElementById('nextStepBtn');
+            const prevBtn = document.getElementById('prevStepBtn');
+            const saveBtn = document.getElementById('saveRouteBtn');
+
+            if (currentStep === 1) {
+                prevBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = 'flex';
+            }
+
+            if (currentStep === 3) {
+                nextBtn.style.display = 'none';
+                saveBtn.style.display = 'flex';
+            } else {
+                nextBtn.style.display = 'flex';
+                saveBtn.style.display = 'none';
+            }
+        }
+
+        function validateCurrentStep() {
+            const currentStepContent = document.querySelector(`.step-content[data-step="${currentStep}"]`);
+            const requiredFields = currentStepContent.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+
+            if (currentStep === 1 && !selectedRouteType) {
+                showToast('Lütfen bir rota türü seçin', 'warning');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                showToast('Lütfen tüm gerekli alanları doldurun', 'error');
+            }
+
+            return isValid;
+        }
+
+        function resetModal() {
+            currentStep = 1;
+            selectedRouteType = '';
+
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active', 'completed');
+            });
+            document.querySelectorAll('.step-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            document.querySelector('.step[data-step="1"]').classList.add('active');
+            document.querySelector('.step-content[data-step="1"]').classList.add('active');
+
+            document.getElementById('addRouteForm').reset();
+            document.querySelectorAll('.route-type-option').forEach(opt => opt.classList.remove('selected'));
+
+            updateStepNavigation();
+
+            document.getElementById('routeStopsRepeater').innerHTML = '';
+            document.getElementById('emptyStopsMessage').style.display = 'block';
+        }
+
+        // Enhanced addStopRow function for modern modal
+        function addStopRow() {
+            const container = document.getElementById('routeStopsRepeater');
+            const emptyMessage = document.getElementById('emptyStopsMessage');
+            const stopIndex = container.children.length;
+
+            const stopRow = document.createElement('div');
+            stopRow.className = 'stop-row';
+            stopRow.innerHTML = `
+                <div class="stop-item">
+                    <div class="row align-items-center">
+                        <div class="col-md-1">
+                            <div class="stop-order-container">
+                                <div class="stop-order-label">SIRA</div>
+                                <div class="stop-number">${stopIndex + 1}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="text" class="form-control modern-input" 
+                                       placeholder="Durak Adı" required>
+                                <label>Durak Adı *</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-map-pin"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="number" class="form-control modern-input" 
+                                       step="0.000001" placeholder="Enlem" required>
+                                <label>Enlem *</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-location-dot"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating">
+                                <input type="number" class="form-control modern-input" 
+                                       step="0.000001" placeholder="Boylam" required>
+                                <label>Boylam *</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-location-dot"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="removeStopRow(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.appendChild(stopRow);
+            emptyMessage.style.display = 'none';
+
+            // Add animation
+            stopRow.style.animation = 'fadeInUp 0.3s ease';
+        }
+
+        function removeStopRow(button) {
+            const stopRow = button.closest('.stop-row');
+            const container = document.getElementById('routeStopsRepeater');
+            const emptyMessage = document.getElementById('emptyStopsMessage');
+
+            // Add remove animation
+            stopRow.style.animation = 'fadeOutDown 0.3s ease';
+            
+            setTimeout(() => {
+                stopRow.remove();
+                
+                // Update stop numbers
+                const remainingStops = container.querySelectorAll('.stop-number');
+                remainingStops.forEach((stopNum, index) => {
+                    stopNum.textContent = index + 1;
+                });
+
+                // Show empty message if no stops
+                if (container.children.length === 0) {
+                    emptyMessage.style.display = 'block';
+                }
+            }, 300);
+        }
+
+        // Enhanced saveRoute function for modern modal
+        async function saveRoute() {
+            if (!validateCurrentStep()) {
+                return;
+            }
+
+            const formData = {
+                name: document.getElementById('routeName').value,
+                description: document.getElementById('routeDescription').value,
+                startLocation: document.getElementById('startLocation').value,
+                endLocation: document.getElementById('endLocation').value,
+                routeType: selectedRouteType,
+                stops: []
+            };
+
+            // Collect stops data
+            const stopRows = document.querySelectorAll('#routeStopsRepeater .stop-row');
+            stopRows.forEach((row, index) => {
+                const inputs = row.querySelectorAll('input');
+                formData.stops.push({
+                    name: inputs[0].value,
+                    latitude: parseFloat(inputs[1].value),
+                    longitude: parseFloat(inputs[2].value),
+                    order: index + 1
+                });
+            });
+
+            try {
+                // Show loading state
+                const saveBtn = document.getElementById('saveRouteBtn');
+                const originalText = saveBtn.innerHTML;
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
+                saveBtn.disabled = true;
+
+                const tokenStr = localStorage.getItem('token');
+                const token = tokenStr ? JSON.parse(tokenStr) : {};
+                const createdById = parseInt(token.userId || token.id || 1) || 1;
+
+                const payload = {
+                    "routeName": formData.name,
+                    "description": formData.description || "string",
+                    "startLocation": formData.startLocation,
+                    "endLocation": formData.endLocation,
+                    "createdById": createdById,
+                    "stops": formData.stops.map(stop => ({
+                        "stopName": stop.name,
+                        "stopId": 0,
+                        "latitude": stop.latitude,
+                        "longitude": stop.longitude,
+                        "order": stop.order
+                    }))
+                };
+
+                const response = await fetch('https://localhost:7007/api/routes/CreateRouteWithStops', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    showToast('Rota başarıyla eklendi!', 'success');
+                    bootstrap.Modal.getInstance(document.getElementById('addRouteModal')).hide();
+                    loadRoutes(); // Refresh routes table
+                } else {
+                    throw new Error('Failed to save route');
+                }
+            } catch (error) {
+                console.error('Error saving route:', error);
+                showToast('Rota kaydedilirken hata oluştu', 'error');
+            } finally {
+                // Reset button state
+                const saveBtn = document.getElementById('saveRouteBtn');
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }
+        }
+    </script>
 }
 
 <div class="container-fluid">
@@ -1795,6 +2285,33 @@
                                     <i class="fas fa-link"></i>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transportation Network Map -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                <i class="fas fa-map text-primary"></i> Ulaşım Ağı Haritası
+                            </h5>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <input type="checkbox" class="btn-check" id="adminShowMetroStations" autocomplete="off" checked>
+                                <label class="btn btn-outline-primary" for="adminShowMetroStations">
+                                    <i class="fas fa-train"></i> Metro İstasyonları
+                                </label>
+                                
+                                <input type="checkbox" class="btn-check" id="adminShowTramStations" autocomplete="off" checked>
+                                <label class="btn btn-outline-info" for="adminShowTramStations">
+                                    <i class="fas fa-tram"></i> Tramvay İstasyonları
+                                </label>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="adminMap" style="height: 500px; background: #f8f9fa; border-radius: 10px;"></div>
                         </div>
                     </div>
                 </div>
@@ -2227,55 +2744,179 @@
 </div>
 
 @section Modals {
-<!-- Add Route Modal -->
+<!-- Add Route Modal - Modern Design -->
 <div class="modal fade" id="addRouteModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title">
-                    <i class="fas fa-plus"></i> Add New Route
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modern-modal-content">
+            <!-- Modern Header with Gradient -->
+            <div class="modal-header modern-modal-header">
+                <div class="modal-title-container">
+                    <div class="modal-icon-wrapper">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <div>
+                        <h4 class="modal-title mb-0">Yeni Rota Ekle</h4>
+                        <p class="modal-subtitle mb-0">Toplu taşıma rotası oluşturun</p>
+                    </div>
+                </div>
+                <button type="button" class="btn-close modern-btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
-            <div class="modal-body">
+            
+            <!-- Modern Body with Steps -->
+            <div class="modal-body modern-modal-body">
+                <!-- Progress Steps -->
+                <div class="progress-steps mb-4">
+                    <div class="step active" data-step="1">
+                        <div class="step-icon"><i class="fas fa-info-circle"></i></div>
+                        <span class="step-label">Temel Bilgiler</span>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <span class="step-label">Konum Bilgileri</span>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-icon"><i class="fas fa-map-pin"></i></div>
+                        <span class="step-label">Duraklar</span>
+                    </div>
+                </div>
+
                 <form id="addRouteForm">
-                    <div class="mb-3">
-                        <label for="routeName" class="form-label">Route Name *</label>
-                        <input type="text" class="form-control" id="routeName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="routeDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="routeDescription" rows="3"></textarea>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
+                    <!-- Step 1: Basic Information -->
+                    <div class="step-content active" data-step="1">
+                        <div class="form-section">
+                            <h6 class="section-title">
+                                <i class="fas fa-info-circle text-primary"></i>
+                                Temel Bilgiler
+                            </h6>
+                            
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control modern-input" id="routeName" placeholder="Rota Adı" required>
+                                <label for="routeName">Rota Adı *</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-route"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control modern-input" id="routeDescription" placeholder="Açıklama" rows="3" style="height: 100px;"></textarea>
+                                <label for="routeDescription">Açıklama</label>
+                                <div class="input-icon">
+                                    <i class="fas fa-align-left"></i>
+                                </div>
+                            </div>
+
+                            <!-- Route Type Selection -->
                             <div class="mb-3">
-                                <label for="startLocation" class="form-label">Start Location *</label>
-                                <input type="text" class="form-control" id="startLocation" required>
+                                <label class="form-label section-label">Rota Türü *</label>
+                                <div class="route-type-selector">
+                                    <div class="route-type-option" data-type="bus">
+                                        <i class="fas fa-bus"></i>
+                                        <span>Otobüs</span>
+                                    </div>
+                                    <div class="route-type-option" data-type="metro">
+                                        <i class="fas fa-train"></i>
+                                        <span>Metro</span>
+                                    </div>
+                                    <div class="route-type-option" data-type="tram">
+                                        <i class="fas fa-tram"></i>
+                                        <span>Tramvay</span>
+                                    </div>
+                                    <div class="route-type-option" data-type="metrobus">
+                                        <i class="fas fa-subway"></i>
+                                        <span>Metrobüs</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="endLocation" class="form-label">End Location *</label>
-                                <input type="text" class="form-control" id="endLocation" required>
+                    </div>
+
+                    <!-- Step 2: Location Information -->
+                    <div class="step-content" data-step="2">
+                        <div class="form-section">
+                            <h6 class="section-title">
+                                <i class="fas fa-map-marker-alt text-success"></i>
+                                Konum Bilgileri
+                            </h6>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control modern-input" id="startLocation" placeholder="Başlangıç Lokasyonu" required>
+                                        <label for="startLocation">Başlangıç Lokasyonu *</label>
+                                        <div class="input-icon">
+                                            <i class="fas fa-play text-success"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control modern-input" id="endLocation" placeholder="Bitiş Lokasyonu" required>
+                                        <label for="endLocation">Bitiş Lokasyonu *</label>
+                                        <div class="input-icon">
+                                            <i class="fas fa-stop text-danger"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Stops -->
+                    <div class="step-content" data-step="3">
+                        <div class="form-section">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <h6 class="section-title mb-0">
+                                    <i class="fas fa-map-pin text-warning"></i>
+                                    Duraklar
+                                </h6>
+                                <button type="button" class="btn btn-modern btn-add-stop" onclick="addStopRow()">
+                                    <i class="fas fa-plus"></i>
+                                    Durak Ekle
+                                </button>
+                            </div>
+                            
+                            <div class="stops-container">
+                                <div id="routeStopsRepeater" class="stops-list"></div>
+                                <div class="empty-stops-message" id="emptyStopsMessage">
+                                    <i class="fas fa-map-pin mb-2"></i>
+                                    <p>Henüz durak eklenmedi</p>
+                                    <small class="text-muted">Rotanıza durak eklemek için "Durak Ekle" butonunu kullanın</small>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <hr/>
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <h6 class="mb-0"><i class="fas fa-map-pin me-2"></i>Stops</h6>
-                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="addStopRow()"><i class="fas fa-plus"></i> Add Stop</button>
-                    </div>
-                    <div id="routeStopsRepeater" class="d-grid gap-2"></div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-times"></i> Cancel
-                </button>
-                <button type="button" class="btn btn-primary" onclick="saveRoute()">
-                    <i class="fas fa-save"></i> Save Route
-                </button>
+            
+            <!-- Modern Footer with Step Navigation -->
+            <div class="modal-footer modern-modal-footer">
+                <div class="step-navigation">
+                    <button type="button" class="btn btn-modern btn-secondary" id="prevStepBtn" style="display: none;">
+                        <i class="fas fa-arrow-left"></i>
+                        Önceki
+                    </button>
+                    
+                    <div class="footer-buttons">
+                        <button type="button" class="btn btn-modern btn-cancel" data-bs-dismiss="modal">
+                            <i class="fas fa-times"></i>
+                            İptal
+                        </button>
+                        
+                        <button type="button" class="btn btn-modern btn-primary" id="nextStepBtn">
+                            Sonraki
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                        
+                        <button type="button" class="btn btn-modern btn-success" id="saveRouteBtn" onclick="saveRoute()" style="display: none;">
+                            <i class="fas fa-save"></i>
+                            Rotayı Kaydet
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -2707,6 +3348,7 @@
 
 
 @section Styles {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         .card {
             transition: transform 0.2s ease-in-out;
@@ -2789,6 +3431,574 @@
         }
 
         /* Modern modal stilleri artık adminpanel.css dosyasında tanımlı */
+
+        /* Harita popup stilleri */
+        .popup-content {
+            min-width: 220px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .popup-content h6 {
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.25rem;
+        }
+
+        .popup-content p {
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .popup-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Leaflet popup özelleştirme */
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .leaflet-popup-tip {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Modern Modal Styles */
+        .modern-modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .modern-modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 2rem 2rem 1.5rem;
+            position: relative;
+        }
+
+        .modern-modal-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-title-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .modal-icon-wrapper {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-icon-wrapper i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .modern-modal-header h4 {
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .modal-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .modern-btn-close {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .modern-btn-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .modern-modal-body {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Progress Steps */
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            right: 25px;
+            height: 2px;
+            background: #e9ecef;
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            background: #e9ecef;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .step.active .step-icon {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: rgba(102, 126, 234, 0.3);
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .step.completed .step-icon {
+            background: #28a745;
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #6c757d;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .step.active .step-label {
+            color: #495057;
+            font-weight: 600;
+        }
+
+        /* Form Sections */
+        .form-section {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 1rem;
+        }
+
+        /* Modern Input Styles */
+        .modern-input {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 0.75rem 3rem 0.75rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .modern-input:focus {
+            background: rgba(255, 255, 255, 1);
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .form-floating .modern-input:focus ~ label {
+            color: #667eea;
+        }
+
+        .form-floating > .input-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-size: 1rem;
+            z-index: 4;
+            transition: all 0.3s ease;
+        }
+
+        .form-floating:focus-within > .input-icon {
+            color: #667eea;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Route Type Selector */
+        .route-type-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .route-type-option {
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .route-type-option:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .route-type-option.selected {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .route-type-option i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .route-type-option span {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Step Content */
+        .step-content {
+            display: none;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+                    @@keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @@keyframes fadeOutDown {
+                from {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+            }
+
+        /* Stops Container */
+        .stops-container {
+            min-height: 200px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            padding: 1rem;
+            backdrop-filter: blur(10px);
+            border: 2px dashed rgba(102, 126, 234, 0.3);
+        }
+
+        .empty-stops-message {
+            text-align: center;
+            color: #6c757d;
+            padding: 2rem;
+        }
+
+        .empty-stops-message i {
+            font-size: 3rem;
+            color: #dee2e6;
+        }
+
+        .stops-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Modern Footer */
+        .modern-modal-footer {
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            padding: 1.5rem 2rem;
+        }
+
+        .step-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .footer-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-left: auto;
+        }
+
+        /* Modern Buttons */
+        .btn-modern {
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-modern.btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-modern.btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-modern.btn-success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .btn-modern.btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        }
+
+        .btn-modern.btn-secondary {
+            background: rgba(108, 117, 125, 0.9);
+            color: white;
+        }
+
+        .btn-modern.btn-secondary:hover {
+            background: rgba(108, 117, 125, 1);
+            transform: translateY(-2px);
+        }
+
+        .btn-modern.btn-cancel {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+            border: 2px solid rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-modern.btn-cancel:hover {
+            background: #dc3545;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-add-stop {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            color: white;
+            border: none;
+        }
+
+        .btn-add-stop:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+        }
+
+        /* Stop Row Styles */
+        .stop-item {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .stop-item:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .stop-number {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border: 3px solid rgba(102, 126, 234, 0.2);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            margin: 0 auto;
+        }
+
+        .stop-number:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .stop-order-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stop-order-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .modern-modal-header {
+                padding: 1.5rem 1rem 1rem;
+            }
+
+            .modern-modal-body {
+                padding: 1rem;
+            }
+
+            .modal-title-container {
+                gap: 0.5rem;
+            }
+
+            .modal-icon-wrapper {
+                width: 40px;
+                height: 40px;
+            }
+
+            .modern-modal-header h4 {
+                font-size: 1.2rem;
+            }
+
+            .route-type-selector {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+
+            .progress-steps {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .progress-steps::before {
+                display: none;
+            }
+
+            .step {
+                flex-direction: row;
+                width: 100%;
+                justify-content: flex-start;
+                text-align: left;
+            }
+
+            .footer-buttons {
+                flex-direction: column;
+                width: 100%;
+                gap: 0.5rem;
+            }
+
+            .step-navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .stop-number {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
             
             </style>
     
