@@ -49,7 +49,7 @@ namespace internshipProject1.Infrastructure.Data.Services
             }
             //TODO : Burada bi dümen çevirip dto içine userID'yi vermem lazım. --- Bİ DÜMEN YAPTIM
 
-            //TODO: Burada ikinci bi dümen şart oldu, bizim card ID'lerden baaaaazıları araaazi olmuş onları cardnumber yapacaz. --- BABA İKİNCİ DÜMENİ DE YAPTI AMMMMMINA KODUM KODUN
+            //TODO: Burada ikinci bi dümen şart oldu, bizim card ID'lerden baaaaazıları araaazi olmuş onları cardnumber yapacaz. --- BABA İKİNCİ DÜMENİ DE YAPTI
 
             if (card == null)
             {
@@ -121,6 +121,7 @@ namespace internshipProject1.Infrastructure.Data.Services
                         break;
                     }
                     card = await _cardRepository.DecreaseBalanceAsync(CardId, dto.Amount, cancellationToken);
+                    
                     var WithdrawTransaction = new CardTransaction
                     {
                         Amount = dto.Amount,
