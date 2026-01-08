@@ -16,7 +16,7 @@ JWT kimlik doğrulaması ile toplu taşıma rotaları, durakları ve seferleri y
 ```bash
 # Clone repository / Projeyi klonla
 git clone <repository-url>
-cd internshipProject1
+cd Public-Transportation-Management
 
 # Configure database in appsettings.json / Veritabanını yapılandır
 # Update connection string / Bağlantı stringini güncelle
@@ -117,7 +117,7 @@ Update `appsettings.json`:
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Port=5432;Database=internshipProject1;Username=postgres;Password=your_password;"
+    "DefaultConnection": "Host=localhost;Port=5432;Database=Public-Transportation-Management;Username=postgres;Password=your_password;"
   },
   "Token": {
     "SecurityKey": "your-secret-key",
