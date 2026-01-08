@@ -1714,184 +1714,10 @@
     
     <!-- AdminPanel özel JavaScript dosyası -->
     <script src="~/js/adminpanelscript.js" asp-append-version="true"></script>
-    
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    
-    <!-- Admin Panel Harita Fonksiyonları -->
+
     <script>
-        let adminMap = null;
-        let adminMetroStationsLayer = null;
-        let adminTramStationsLayer = null;
-
-        // Admin panel haritasını başlat
-        function initializeAdminMap() {
-            if (adminMap) {
-                adminMap.remove();
-            }
-            
-            // İstanbul koordinatları
-            adminMap = L.map('adminMap').setView([41.0082, 28.9784], 11);
-            
-            // OpenStreetMap tile layer ekle
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(adminMap);
-            
-            // Metro ve tramvay istasyonlarını yükle
-            setTimeout(() => {
-                loadAdminMetroStations();
-                loadAdminTramStations();
-            }, 500);
-            
-            // Checkbox event listeners
-            document.getElementById('adminShowMetroStations').addEventListener('change', toggleAdminMetroStations);
-            document.getElementById('adminShowTramStations').addEventListener('change', toggleAdminTramStations);
-        }
-
-        // Admin panel metro istasyonlarını yükle
-        async function loadAdminMetroStations() {
-            try {
-                adminMetroStationsLayer = L.layerGroup().addTo(adminMap);
-                
-                // Tüm metro hatlarını yükle
-                const metroLines = [
-                    'M1A_istasyonlari', 'M1B_istasyonlari', 'M2_istasyonlari', 'M3_istasyonlari',
-                    'M4_istasyonlari', 'M5_istasyonlari', 'M6_istasyonlari', 'M7_istasyonlari',
-                    'M8_istasyonlari', 'M9_istasyonlari', 'M10_istasyonlari', 'M11_istasyonlari', 'M12_istasyonlari'
-                ];
-                
-                for (const line of metroLines) {
-                    try {
-                        console.log(`Admin Metro hattı yükleniyor: ${line}`);
-                        const response = await fetch(`/geojson/metro_hatlari/${line}.geojson`);
-                        console.log(`Admin Response status for ${line}:`, response.status);
-                        if (response.ok) {
-                            const geoJsonData = await response.json();
-                            console.log(`Admin GeoJSON data loaded for ${line}:`, geoJsonData.features.length, 'features');
-                            
-                            L.geoJSON(geoJsonData, {
-                                pointToLayer: function(feature, latlng) {
-                                    return L.circleMarker(latlng, {
-                                        radius: 8,
-                                        fillColor: '#007bff',
-                                        color: '#0056b3',
-                                        weight: 2,
-                                        opacity: 1,
-                                        fillOpacity: 0.8
-                                    });
-                                },
-                                onEachFeature: function(feature, layer) {
-                                    if (feature.properties && feature.properties.ISTASYON) {
-                                        layer.bindPopup(`
-                                            <div class="popup-content">
-                                                <h6><i class="fas fa-train text-primary"></i> ${feature.properties.ISTASYON}</h6>
-                                                <p class="mb-1"><strong>Hat:</strong> ${feature.properties.PROJE_ADI || 'Bilinmiyor'}</p>
-                                                <p class="mb-1"><strong>Tür:</strong> ${feature.properties.HAT_TURU}</p>
-                                                <p class="mb-0"><strong>Müdürlük:</strong> ${feature.properties.MUDURLUK || 'Bilinmiyor'}</p>
-                                            </div>
-                                        `);
-                                    }
-                                }
-                            }).addTo(adminMetroStationsLayer);
-                        } else {
-                            console.error(`Admin HTTP Error ${response.status} for ${line}:`, response.statusText);
-                        }
-                    } catch (error) {
-                        console.error(`Admin Metro hattı yüklenemedi: ${line}`, error);
-                    }
-                }
-            } catch (error) {
-                console.error('Admin metro istasyonları yüklenirken hata:', error);
-            }
-        }
-
-        // Admin panel tramvay istasyonlarını yükle
-        async function loadAdminTramStations() {
-            try {
-                adminTramStationsLayer = L.layerGroup().addTo(adminMap);
-                
-                // Tüm tramvay hatlarını yükle
-                const tramLines = ['T1_istasyonlari', 'T3_istasyonlari', 'T4_istasyonlari', 'T5_istasyonlari'];
-                
-                for (const line of tramLines) {
-                    try {
-                        console.log(`Admin Tramvay hattı yükleniyor: ${line}`);
-                        const response = await fetch(`/geojson/tramvay_hatlari/${line}.geojson`);
-                        console.log(`Admin Response status for ${line}:`, response.status);
-                        if (response.ok) {
-                            const geoJsonData = await response.json();
-                            console.log(`Admin GeoJSON data loaded for ${line}:`, geoJsonData.features.length, 'features');
-                            
-                            L.geoJSON(geoJsonData, {
-                                pointToLayer: function(feature, latlng) {
-                                    return L.circleMarker(latlng, {
-                                        radius: 8,
-                                        fillColor: '#17a2b8',
-                                        color: '#138496',
-                                        weight: 2,
-                                        opacity: 1,
-                                        fillOpacity: 0.8
-                                    });
-                                },
-                                onEachFeature: function(feature, layer) {
-                                    if (feature.properties && feature.properties.ISTASYON) {
-                                        layer.bindPopup(`
-                                            <div class="popup-content">
-                                                <h6><i class="fas fa-tram text-info"></i> ${feature.properties.ISTASYON}</h6>
-                                                <p class="mb-1"><strong>Hat:</strong> ${feature.properties.PROJE_ADI || 'Bilinmiyor'}</p>
-                                                <p class="mb-1"><strong>Tür:</strong> ${feature.properties.HAT_TURU}</p>
-                                                <p class="mb-0"><strong>Müdürlük:</strong> ${feature.properties.MUDURLUK || 'Bilinmiyor'}</p>
-                                            </div>
-                                        `);
-                                    }
-                                }
-                            }).addTo(adminTramStationsLayer);
-                        } else {
-                            console.error(`Admin HTTP Error ${response.status} for ${line}:`, response.statusText);
-                        }
-                    } catch (error) {
-                        console.error(`Admin Tramvay hattı yüklenemedi: ${line}`, error);
-                    }
-                }
-            } catch (error) {
-                console.error('Admin tramvay istasyonları yüklenirken hata:', error);
-            }
-        }
-
-        // Admin metro istasyonlarını göster/gizle
-        function toggleAdminMetroStations() {
-            const checkbox = document.getElementById('adminShowMetroStations');
-            if (adminMetroStationsLayer) {
-                if (checkbox.checked) {
-                    adminMap.addLayer(adminMetroStationsLayer);
-                } else {
-                    adminMap.removeLayer(adminMetroStationsLayer);
-                }
-            }
-        }
-
-        // Admin tramvay istasyonlarını göster/gizle
-        function toggleAdminTramStations() {
-            const checkbox = document.getElementById('adminShowTramStations');
-            if (adminTramStationsLayer) {
-                if (checkbox.checked) {
-                    adminMap.addLayer(adminTramStationsLayer);
-                } else {
-                    adminMap.removeLayer(adminTramStationsLayer);
-                }
-            }
-        }
-
-        // Sayfa yüklendiğinde haritayı başlat
+        // Sayfa yüklendiğinde modern modal functionality'yi başlat
         document.addEventListener('DOMContentLoaded', function() {
-            // Diğer başlatma kodları...
-            
-            // Admin haritasını başlat
-            setTimeout(function() {
-                initializeAdminMap();
-            }, 1000); // Sayfa tamamen yüklendikten sonra haritayı başlat
-
             // Modern modal functionality
             initializeModernModal();
         });
@@ -2285,33 +2111,6 @@
                                     <i class="fas fa-link"></i>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Transportation Network Map -->
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">
-                                <i class="fas fa-map text-primary"></i> Ulaşım Ağı Haritası
-                            </h5>
-                            <div class="btn-group btn-group-sm" role="group">
-                                <input type="checkbox" class="btn-check" id="adminShowMetroStations" autocomplete="off" checked>
-                                <label class="btn btn-outline-primary" for="adminShowMetroStations">
-                                    <i class="fas fa-train"></i> Metro İstasyonları
-                                </label>
-                                
-                                <input type="checkbox" class="btn-check" id="adminShowTramStations" autocomplete="off" checked>
-                                <label class="btn btn-outline-info" for="adminShowTramStations">
-                                    <i class="fas fa-tram"></i> Tramvay İstasyonları
-                                </label>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div id="adminMap" style="height: 500px; background: #f8f9fa; border-radius: 10px;"></div>
                         </div>
                     </div>
                 </div>
@@ -2811,10 +2610,6 @@
                             <div class="mb-3">
                                 <label class="form-label section-label">Rota Türü *</label>
                                 <div class="route-type-selector">
-                                    <div class="route-type-option" data-type="bus">
-                                        <i class="fas fa-bus"></i>
-                                        <span>Otobüs</span>
-                                    </div>
                                     <div class="route-type-option" data-type="metro">
                                         <i class="fas fa-train"></i>
                                         <span>Metro</span>
@@ -2822,10 +2617,6 @@
                                     <div class="route-type-option" data-type="tram">
                                         <i class="fas fa-tram"></i>
                                         <span>Tramvay</span>
-                                    </div>
-                                    <div class="route-type-option" data-type="metrobus">
-                                        <i class="fas fa-subway"></i>
-                                        <span>Metrobüs</span>
                                     </div>
                                 </div>
                             </div>
@@ -3348,7 +3139,6 @@
 
 
 @section Styles {
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         .card {
             transition: transform 0.2s ease-in-out;
@@ -3431,40 +3221,6 @@
         }
 
         /* Modern modal stilleri artık adminpanel.css dosyasında tanımlı */
-
-        /* Harita popup stilleri */
-        .popup-content {
-            min-width: 220px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        .popup-content h6 {
-            margin-bottom: 0.5rem;
-            color: #333;
-            font-weight: 600;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 0.25rem;
-        }
-
-        .popup-content p {
-            font-size: 0.85rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .popup-content p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Leaflet popup özelleştirme */
-        .leaflet-popup-content-wrapper {
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .leaflet-popup-tip {
-            background: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
 
         /* Modern Modal Styles */
         .modern-modal-content {

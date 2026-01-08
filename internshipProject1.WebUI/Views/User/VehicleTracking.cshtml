@@ -21,7 +21,7 @@
                         <i class="fas fa-bus text-primary"></i>
                         Araç Takip Sistemi
                     </h2>
-                    <p class="card-text text-muted">Otobüs, metrobüs, metro ve diğer toplu taşıma araçlarını gerçek zamanlı takip edin</p>
+                    <p class="card-text text-muted">Metro ve tramvay araçlarını gerçek zamanlı takip edin</p>
                 </div>
             </div>
         </div>
@@ -39,25 +39,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <div class="vehicle-type-card modern-card" onclick="selectVehicleType('bus')">
-                                <div class="vehicle-icon">
-                                    <i class="fas fa-bus text-primary"></i>
-                                </div>
-                                <h6>Otobüs</h6>
-                                <small class="text-muted">Şehir içi otobüsler</small>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="vehicle-type-card modern-card" onclick="selectVehicleType('metrobus')">
-                                <div class="vehicle-icon">
-                                    <i class="fas fa-subway text-success"></i>
-                                </div>
-                                <h6>Metrobüs</h6>
-                                <small class="text-muted">Metrobüs hatları</small>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-6 mb-3">
                             <div class="vehicle-type-card modern-card" onclick="selectVehicleType('metro')">
                                 <div class="vehicle-icon">
                                     <i class="fas fa-train text-warning"></i>
@@ -66,7 +48,7 @@
                                 <small class="text-muted">Metro hatları</small>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-6 mb-3">
                             <div class="vehicle-type-card modern-card" onclick="selectVehicleType('tram')">
                                 <div class="vehicle-icon">
                                     <i class="fas fa-train text-info"></i>
@@ -105,13 +87,45 @@
         <div class="col-12">
             <div class="card glass-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                                            <h5 class="mb-0">
+                    <div>
+                        <h5 class="mb-0">
                             <i class="fas fa-map-marker-alt text-danger"></i>
                             Seçilen Rota Takibi
                         </h5>
                         <div class="text-muted">
                             <small>Seçilen rotanın durakları ve güzergahı gösterilmektedir</small>
                         </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <!-- Araç Simülasyon Kontrolleri -->
+                        <div class="btn-group" role="group" id="simulationControls" style="display: none;">
+                            <button class="btn btn-success btn-sm" id="startSimulation" onclick="startVehicleSimulation()">
+                                <i class="fas fa-play"></i> Başlat
+                            </button>
+                            <button class="btn btn-danger btn-sm" id="stopSimulation" onclick="stopVehicleSimulation()" style="display: none;">
+                                <i class="fas fa-stop"></i> Durdur
+                            </button>
+                        </div>
+                        <div class="dropdown" id="simulationSettings" style="display: none;">
+                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-cog"></i> Ayarlar
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><h6 class="dropdown-header">Simülasyon Hızı</h6></li>
+                                <li><a class="dropdown-item" href="#" onclick="setSimulationSpeed(1)">1x Normal</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="setSimulationSpeed(2)">2x Hızlı</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="setSimulationSpeed(5)">5x Çok Hızlı</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><h6 class="dropdown-header">Durak Bekleme</h6></li>
+                                <li><a class="dropdown-item" href="#" onclick="setStopDuration(2)">2 saniye</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="setStopDuration(5)">5 saniye</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="setStopDuration(10)">10 saniye</a></li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-outline-primary btn-sm" onclick="refreshMap()">
+                            <i class="fas fa-sync-alt"></i> Yenile
+                        </button>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div id="map" style="height: 500px; background: #f8f9fa; border-radius: 10px;"></div>
@@ -147,25 +161,6 @@
                                 <!-- Araçlar dinamik olarak yüklenecek -->
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Durak Bilgileri -->
-    <div class="row mb-4" id="stopInfo" style="display: none;">
-        <div class="col-12">
-            <div class="card glass-card">
-                <div class="card-header">
-                    <h5 class="mb-0">
-                        <i class="fas fa-map-pin text-warning"></i>
-                        Durak Bilgileri
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="row" id="stopList">
-                        <!-- Duraklar dinamik olarak yüklenecek -->
                     </div>
                 </div>
             </div>
@@ -670,7 +665,6 @@
         // Takip sayfalarını göster
         document.getElementById('trackingMap').style.display = 'block';
         document.getElementById('vehicleList').style.display = 'block';
-        document.getElementById('stopInfo').style.display = 'block';
         
         // Haritayı başlat
         initializeMap();
@@ -678,9 +672,8 @@
         // Seçilen rotayı haritada göster
         await loadRouteOnMap(routeId);
         
-        // Araçları ve durakları yükle
+        // Araçları yükle
         loadVehicles(routeId);
-        loadStops(routeId);
     }
 
     // Seçilen rotayı haritada göster
@@ -701,14 +694,11 @@
             }
 
             const stops = await response.json();
-            console.log('Rota durakları:', stops);
-            console.log('🔍 Stop sayısı:', stops?.length || 0);
-            console.log('🔍 Rota ID:', routeId);
-            console.log('🔍 Rota bilgisi:', route);
-
+            // Rota yüklendi
             if (stops && stops.length > 0) {
                 // Rota bilgisini bul
                 const route = routesData.find(r => r.id == routeId);
+                // Rota bilgisi alındı
                 const routeType = getRouteTypeFromName(route?.name || '');
                 const routeColor = getRouteColor(routeType);
 
@@ -722,15 +712,7 @@
                 const coordinates = [];
                 
                 // Durakları haritaya ekle
-                console.log('🚏 Stop marker\'ları ekleniyor, toplam:', sortedStops.length);
                 sortedStops.forEach((stop, index) => {
-                    console.log(`🚏 Stop ${index + 1}:`, {
-                        name: stop.name,
-                        lat: stop.latitude,
-                        lng: stop.longitude,
-                        order: stop.order
-                    });
-                    
                     if (stop.latitude && stop.longitude) {
                         const lat = parseFloat(stop.latitude);
                         const lng = parseFloat(stop.longitude);
@@ -763,7 +745,7 @@
                         `);
 
                         currentRouteLayer.addLayer(marker);
-                        console.log(`✅ Stop ${index + 1} marker\'ı eklendi:`, stop.name);
+                        // Stop marker eklendi
                     } else {
                         console.warn(`⚠️ Stop ${index + 1} koordinatları eksik:`, stop);
                     }
@@ -866,39 +848,6 @@
         });
     }
 
-    // Durakları yükle
-    function loadStops(routeId) {
-        const stopList = document.getElementById('stopList');
-        stopList.innerHTML = '';
-        
-        // Örnek durak verileri
-        const stops = [
-            { name: 'Kadıköy', nextVehicle: '5 dk', status: 'active' },
-            { name: 'Beşiktaş', nextVehicle: '10 dk', status: 'active' },
-            { name: 'Ortaköy', nextVehicle: '15 dk', status: 'delayed' },
-            { name: 'Taksim', nextVehicle: '20 dk', status: 'active' }
-        ];
-        
-        stops.forEach(stop => {
-            const stopItem = document.createElement('div');
-            stopItem.className = 'col-md-6 col-lg-3 mb-3';
-            stopItem.innerHTML = `
-                <div class="stop-item ${stop.status === 'active' ? 'active' : ''}">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="mb-1">${stop.name}</h6>
-                            <small class="text-muted">Sonraki araç: ${stop.nextVehicle}</small>
-                        </div>
-                        <div>
-                            <span class="vehicle-status status-${stop.status}">${getStatusText(stop.status)}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            stopList.appendChild(stopItem);
-        });
-    }
-
     // Durum metnini getir
     function getStatusText(status) {
         const statusTexts = {
@@ -940,7 +889,7 @@
 
     // OSM Ray + Backend Stop Hibrit Sistem
     async function createRealRoutePolyline(coordinates, routeType, routeColor, route, stops) {
-        console.log('🚇 OSM ray + Backend stop hibrit sistemi başlatılıyor...', route?.name);
+        // OSM ray sistemi başlatılıyor
         
         try {
             // Loading göster
@@ -950,9 +899,7 @@
             const osmRailway = await getOSMRailwayByRouteName(route?.name, routeType);
             
             if (osmRailway && osmRailway.length > 0) {
-                console.log('✅ OSM\'den ray alındı:', osmRailway.length, 'nokta');
-                
-                // 2. OSM ray çizgisini çiz (ince çizgiler)
+                // OSM ray çizgisini çiz
                 const railwayLine = L.polyline(osmRailway, {
                     color: routeColor,
                     weight: routeType === 'metro' ? 3 : routeType === 'tram' ? 2.5 : 2,
@@ -970,14 +917,8 @@
                         <p class="mb-0"><strong>Sistem:</strong> OSM Ray + Backend Stop</p>
                     </div>
                 `);
-
-                // Hover efektleri kaldırıldı - çizgi kalınlaşmasın
                 
                 currentRouteLayer.addLayer(railwayLine);
-                console.log('✅ OSM ray çizgisi haritaya eklendi!');
-                
-                // 3. Backend stoplarını ray üzerine yerleştir (mevcut marker sistemi kullanılacak)
-                console.log('📍 Backend stopları ray üzerine yerleştirilecek');
                 
             } else {
                 console.log('⚠️ OSM\'den ray bulunamadı, sadece duraklar gösterilecek');
@@ -1528,4 +1469,942 @@
         
         return { query, overpassTurboUrl };
     };
+
+    // ==================== ÇOK ARAÇLI SİMÜLASYON SİSTEMİ ====================
+    
+    // Çoklu araç simülasyon sistemi
+    let multiVehicleSimulation = {
+        isRunning: false,
+        vehicles: [], // Aktif araçlar
+        routeCoordinates: [],
+        stopCoordinates: [], // Gerçek durak koordinatları
+        routeType: 'bus',
+        routeName: '',
+        maxVehicles: 5,
+        minVehicles: 3,
+        speed: 0.5,
+        vehicleIntervals: [], // Her araç için ayrı interval
+        hasShownStartNotification: false // Başlangıç bildirimi gösterildi mi?
+    };
+
+    // Çoklu araç simülasyonunu başlat - Geliştirilmiş durak sistemi
+    window.startVehicleSimulation = function() {
+        if (!currentRouteLayer || !map) {
+            alert('Önce bir rota seçin!');
+            return;
+        }
+
+        // Rota koordinatlarını al
+        const routeCoordinates = extractRouteCoordinates();
+        if (!routeCoordinates || routeCoordinates.length < 2) {
+            alert('Rota koordinatları bulunamadı!');
+            return;
+        }
+
+        // Gerçek durak koordinatlarını al
+        const stopCoordinates = extractStopCoordinates();
+        if (!stopCoordinates || stopCoordinates.length < 2) {
+            console.warn('Durak koordinatları bulunamadı, rota boyunca durak noktaları oluşturulacak');
+        }
+
+        // Simülasyon verilerini ayarla
+        multiVehicleSimulation.routeCoordinates = routeCoordinates;
+        multiVehicleSimulation.stopCoordinates = stopCoordinates || [];
+        multiVehicleSimulation.isRunning = true;
+        multiVehicleSimulation.routeType = getCurrentRouteType();
+        multiVehicleSimulation.routeName = getCurrentRouteName();
+
+        // Mevcut araçları temizle
+        clearAllVehicles();
+
+        // Rastgele sayıda araç oluştur (3-5 arası)
+        const vehicleCount = Math.floor(Math.random() * (multiVehicleSimulation.maxVehicles - multiVehicleSimulation.minVehicles + 1)) + multiVehicleSimulation.minVehicles;
+        createMultipleVehicles(vehicleCount);
+
+        // UI güncellemeleri
+        updateSimulationUI();
+        showSimulationControls(true);
+
+        // Her araç için ayrı animasyon başlat (asenkron hareket)
+        startIndividualVehicleAnimations();
+        
+        // Başlangıç bilgisi
+        console.log('🚀 Araç simülasyonu başlatıldı:', {
+            routeType: multiVehicleSimulation.routeType,
+            routeName: multiVehicleSimulation.routeName,
+            vehicleCount: vehicleCount,
+            routeCoordinates: routeCoordinates.length,
+            stopCoordinates: multiVehicleSimulation.stopCoordinates.length
+        });
+        
+        // Toast bildirimi (sadece simülasyon başlatıldığında, bir kez)
+        if (!multiVehicleSimulation.hasShownStartNotification) {
+            showToastNotification(
+                'Simülasyon Başlatıldı', 
+                `${vehicleCount} araç ${multiVehicleSimulation.routeName} rotasında hareket etmeye başladı.`, 
+                'success'
+            );
+            multiVehicleSimulation.hasShownStartNotification = true;
+        }
+    };
+
+    // Simülasyonu durdur (sadece durdur, pause yok)
+    window.stopVehicleSimulation = function() {
+        multiVehicleSimulation.isRunning = false;
+
+        // Tüm araç interval'larını durdur
+        multiVehicleSimulation.vehicleIntervals.forEach(interval => {
+            if (interval) clearInterval(interval);
+        });
+        multiVehicleSimulation.vehicleIntervals = [];
+
+        // Tüm araçları temizle
+        clearAllVehicles();
+
+        // UI güncellemeleri
+        updateSimulationUI();
+        showSimulationControls(false);
+        
+        // Simülasyon durdurma bildirimi (sadece bir kez)
+        showToastNotification(
+            'Simülasyon Durduruldu', 
+            'Araç simülasyonu durduruldu.', 
+            'warning'
+        );
+    };
+
+    // Pause fonksiyonunu kaldırdık (sürekli çalışacak)
+    window.pauseVehicleSimulation = function() {
+        // Bu fonksiyon artık kullanılmıyor
+    };
+
+    // Simülasyon hızını ayarla
+    window.setSimulationSpeed = function(speed) {
+        multiVehicleSimulation.speed = speed;
+    };
+
+    // Durak bekleme süresini ayarla (artık kullanılmıyor - random)
+    window.setStopDuration = function(duration) {
+        // Artık random 15-30 saniye kullanıyoruz
+    };
+
+    // Mevcut rota türünü al
+    function getCurrentRouteType() {
+        if (!selectedRoute || !routesData) return 'bus';
+        const route = routesData.find(r => r.id == selectedRoute);
+        return getRouteTypeFromName(route?.name || '');
+    }
+
+    // Mevcut rota ismini al
+    function getCurrentRouteName() {
+        if (!selectedRoute || !routesData) return '';
+        const route = routesData.find(r => r.id == selectedRoute);
+        return route?.name || '';
+    }
+
+    // Tüm araçları temizle
+    function clearAllVehicles() {
+        // Araç interval'larını durdur
+        multiVehicleSimulation.vehicleIntervals.forEach(interval => {
+            if (interval) clearInterval(interval);
+        });
+        multiVehicleSimulation.vehicleIntervals = [];
+        
+        // Araç marker'larını kaldır
+        multiVehicleSimulation.vehicles.forEach(vehicle => {
+            if (vehicle.marker) {
+                map.removeLayer(vehicle.marker);
+            }
+        });
+        multiVehicleSimulation.vehicles = [];
+    }
+
+    // Çoklu araç oluştur
+    function createMultipleVehicles(count) {
+        const routeLength = multiVehicleSimulation.routeCoordinates.length;
+        const spacing = Math.floor(routeLength / count);
+
+        for (let i = 0; i < count; i++) {
+            const startIndex = (i * spacing) % routeLength;
+            const vehicle = createSingleVehicle(i + 1, startIndex);
+            multiVehicleSimulation.vehicles.push(vehicle);
+        }
+    }
+
+    // Tek araç oluştur
+    function createSingleVehicle(id, startIndex) {
+        const position = multiVehicleSimulation.routeCoordinates[startIndex];
+        const vehicleIcon = getVehicleIcon(multiVehicleSimulation.routeType);
+        
+        const marker = L.marker(position, { 
+            icon: vehicleIcon,
+            zIndexOffset: 1000 + id
+        }).addTo(map);
+
+        const vehicle = {
+            id: id,
+            marker: marker,
+            currentIndex: startIndex,
+            isAtStop: false,
+            stopEndTime: 0,
+            status: 'moving',
+            speed: 'Normal',
+            nextStop: getNextStopName(startIndex),
+            interval: null, // Her araç için ayrı interval
+            lastUpdateTime: Date.now(), // Son güncelleme zamanı
+            direction: 1, // 1: ileri, -1: geri
+            isReversing: false, // Geri dönüş modunda mı?
+            hasShownStopNotification: false, // Durak bildirimi gösterildi mi?
+            lastStopIndex: -1 // Son durduğu durak indeksi
+        };
+
+        // Popup ekle (sadece tıklama ile açılsın)
+        updateVehiclePopup(vehicle);
+        
+        return vehicle;
+    }
+
+    // Araç türüne göre ikon al
+        function getVehicleIcon(routeType) {
+        const icons = {
+            'metro': '<i class="fas fa-train"></i>',
+            'tram': '<i class="fas fa-subway"></i>',
+            'metrobus': '<i class="fas fa-bus"></i>',
+            'bus': '<i class="fas fa-bus-simple"></i>'
+        };
+
+        const colors = {
+            'metro': '#dc3545',
+            'tram': '#17a2b8',
+            'metrobus': '#28a745',
+            'bus': '#007bff'
+        };
+
+        const icon = icons[routeType] || '<i class="fas fa-bus"></i>';
+        const color = colors[routeType] || '#007bff';
+
+        return L.divIcon({
+            html: `
+                <div style="
+                    background: ${color};
+                    color: white;
+                    border-radius: 50%;
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: 2px solid white;
+                    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+                    font-size: 16px;
+                ">
+                    ${icon}
+                </div>
+            `,
+            className: 'vehicle-marker',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+    }
+
+
+    // Mevcut durak ismini al
+    function getCurrentStopName(currentIndex) {
+        if (multiVehicleSimulation.stopCoordinates.length === 0) {
+            return 'Bilinmiyor';
+        }
+        
+        const currentPosition = multiVehicleSimulation.routeCoordinates[currentIndex];
+        const nearestStopIndex = findNearestStopIndex(currentPosition);
+        
+        // Durak isimleri
+        const stopNames = [
+            'Başlangıç', 'Merkez', 'Köprü', 'İstasyon', 'Terminal',
+            'Pazar', 'Hastane', 'Üniversite', 'Alışveriş', 'Park',
+            'Meydan', 'Cami', 'Okul', 'Belediye', 'Gar',
+            'Havalimanı', 'Liman', 'Fabrika', 'Depo', 'Son Durak'
+        ];
+        
+        return stopNames[Math.min(nearestStopIndex, stopNames.length - 1)];
+    }
+
+    // Sonraki durak ismini al
+    function getNextStopName(currentIndex) {
+        if (multiVehicleSimulation.stopCoordinates.length === 0) {
+            return 'Bilinmiyor';
+        }
+        
+        const currentPosition = multiVehicleSimulation.routeCoordinates[currentIndex];
+        const nearestStopIndex = findNearestStopIndex(currentPosition);
+        
+        // Durak isimleri
+        const stopNames = [
+            'Başlangıç', 'Merkez', 'Köprü', 'İstasyon', 'Terminal',
+            'Pazar', 'Hastane', 'Üniversite', 'Alışveriş', 'Park',
+            'Meydan', 'Cami', 'Okul', 'Belediye', 'Gar',
+            'Havalimanı', 'Liman', 'Fabrika', 'Depo', 'Son Durak'
+        ];
+        
+        // Yön durumuna göre sonraki durak
+        if (multiVehicleSimulation.vehicles.length > 0) {
+            const vehicle = multiVehicleSimulation.vehicles.find(v => v.currentIndex === currentIndex);
+            if (vehicle && vehicle.direction === -1) {
+                // Geri gidiyorsa önceki durak
+                const nextStopIndex = Math.max(0, nearestStopIndex - 1);
+                return stopNames[Math.min(nextStopIndex, stopNames.length - 1)];
+            }
+        }
+        
+        // İleri gidiyorsa sonraki durak
+        const nextStopIndex = Math.min(nearestStopIndex + 1, stopNames.length - 1);
+        return stopNames[nextStopIndex];
+    }
+
+    // En yakın durak indeksini bul
+    function findNearestStopIndex(position) {
+        if (multiVehicleSimulation.stopCoordinates.length === 0) {
+            return 0;
+        }
+        
+        let nearestIndex = 0;
+        let minDistance = Infinity;
+        
+        multiVehicleSimulation.stopCoordinates.forEach((stop, index) => {
+            const [stopLat, stopLng] = stop;
+            const latDiff = Math.abs(position[0] - stopLat);
+            const lngDiff = Math.abs(position[1] - stopLng);
+            const distance = latDiff + lngDiff; // Manhattan distance
+            
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestIndex = index;
+            }
+        });
+        
+        return nearestIndex;
+    }
+
+    // Rota koordinatlarını çıkar
+    function extractRouteCoordinates() {
+        const coordinates = [];
+        
+        if (currentRouteLayer) {
+            currentRouteLayer.eachLayer(layer => {
+                // OSM ray çizgisini bul
+                if (layer instanceof L.Polyline && layer.options.className && layer.options.className.includes('osm-railway')) {
+                    const latLngs = layer.getLatLngs();
+                    
+                    // Polyline koordinatlarını düz array'e dönüştür
+                    if (Array.isArray(latLngs) && latLngs.length > 0) {
+                        latLngs.forEach(latLng => {
+                            if (latLng.lat && latLng.lng) {
+                                coordinates.push([latLng.lat, latLng.lng]);
+                            }
+                        });
+                    }
+                    return; // İlk OSM ray çizgisini bulduk, yeter
+                }
+                
+                // Eğer OSM ray yoksa, durak marker'larını kullan (fallback)
+                if (layer instanceof L.Marker && coordinates.length === 0) {
+                    const latLng = layer.getLatLng();
+                    coordinates.push([latLng.lat, latLng.lng]);
+                }
+            });
+        }
+
+        // Eğer hiç koordinat bulamadıysak, durak marker'larını topla
+        if (coordinates.length === 0 && currentRouteLayer) {
+            const stopMarkers = [];
+            
+            currentRouteLayer.eachLayer(layer => {
+                if (layer instanceof L.Marker) {
+                    const latLng = layer.getLatLng();
+                    stopMarkers.push([latLng.lat, latLng.lng]);
+                }
+            });
+            
+            // Durakları sırala (latitude'e göre basit sıralama)
+            stopMarkers.sort((a, b) => a[0] - b[0]);
+            coordinates.push(...stopMarkers);
+        }
+        
+        return coordinates;
+    }
+
+    // Gerçek durak koordinatlarını çıkar - Geliştirilmiş durak algılama
+    function extractStopCoordinates() {
+        const stopCoords = [];
+        
+        if (currentRouteLayer) {
+            currentRouteLayer.eachLayer(layer => {
+                // Sadece durak marker'larını al (circle marker'lar)
+                if (layer instanceof L.CircleMarker) {
+                    const latLng = layer.getLatLng();
+                    stopCoords.push([latLng.lat, latLng.lng]);
+                    
+                    // Durak bilgisini konsola yazdır
+                    console.log('🚏 Durak bulundu:', {
+                        lat: latLng.lat,
+                        lng: latLng.lng,
+                        popup: layer.getPopup()?.getContent() || 'Bilinmiyor'
+                    });
+                }
+            });
+        }
+        
+        console.log('📍 Gerçek durak koordinatları:', stopCoords.length, 'durak');
+        
+        // Eğer durak bulunamadıysa, rota koordinatlarından durak noktaları oluştur
+        if (stopCoords.length === 0) {
+            console.warn('⚠️ Hiç durak bulunamadı, rota koordinatlarından durak noktaları oluşturuluyor');
+            const routeCoords = extractRouteCoordinates();
+            if (routeCoords.length > 0) {
+                // Rota boyunca eşit aralıklarla durak noktaları oluştur
+                const stopCount = Math.min(10, Math.floor(routeCoords.length / 5));
+                for (let i = 0; i < stopCount; i++) {
+                    const index = Math.floor((i / (stopCount - 1)) * (routeCoords.length - 1));
+                    stopCoords.push(routeCoords[index]);
+                }
+                console.log('🔄 Oluşturulan durak noktaları:', stopCoords.length);
+            }
+        }
+        
+        return stopCoords;
+    }
+
+    // Global animasyon döngüsünü başlat - ARTIK KULLANILMIYOR
+    // function startGlobalAnimation() {
+    //     const interval = 1000 / multiVehicleSimulation.speed;
+    //     multiVehicleSimulation.globalInterval = setInterval(() => {
+    //         updateAllVehicles();
+    //         updateVehicleList();
+    //     }, interval);
+    // }
+
+    // Tüm araçları güncelle - ARTIK KULLANILMIYOR
+    // function updateAllVehicles() {
+    //     if (!multiVehicleSimulation.isRunning) return;
+    //     multiVehicleSimulation.vehicles.forEach(vehicle => {
+    //         updateSingleVehicle(vehicle);
+    //     });
+    // }
+
+    // Tek aracı güncelle
+    function updateSingleVehicle(vehicle) {
+        const now = Date.now();
+        
+        // Durakta bekliyorsa
+        if (vehicle.isAtStop) {
+            if (now >= vehicle.stopEndTime) {
+                vehicle.isAtStop = false;
+                vehicle.status = vehicle.isReversing ? 'reversing' : 'moving';
+                
+                // Yön durumuna göre ikon ayarla
+                if (vehicle.isReversing) {
+                    vehicle.marker.setIcon(getReverseVehicleIcon(multiVehicleSimulation.routeType));
+                } else {
+                    vehicle.marker.setIcon(getVehicleIcon(multiVehicleSimulation.routeType));
+                }
+            } else {
+                return; // Hala bekliyor
+            }
+        }
+
+        // Hareket et
+        const totalCoords = multiVehicleSimulation.routeCoordinates.length;
+        const stepSize = Math.max(1, Math.floor(totalCoords / 200)); // Daha küçük adımlar
+        
+        // Yön kontrolü - geri dönüş sistemi
+        if (vehicle.direction === 1) {
+            // İleri hareket
+            vehicle.currentIndex += stepSize;
+            
+            // Rotanın sonuna geldi mi?
+            if (vehicle.currentIndex >= totalCoords - 1) {
+                vehicle.currentIndex = totalCoords - 1;
+                vehicle.direction = -1; // Geri dönüş başlat
+                vehicle.isReversing = true;
+                vehicle.status = 'reversing';
+                
+                // Geri dönüş ikonu
+                const reverseIcon = getReverseVehicleIcon(multiVehicleSimulation.routeType);
+                vehicle.marker.setIcon(reverseIcon);
+            }
+        } else {
+            // Geri hareket
+            vehicle.currentIndex -= stepSize;
+            
+            // Rotanın başına geldi mi?
+            if (vehicle.currentIndex <= 0) {
+                vehicle.currentIndex = 0;
+                vehicle.direction = 1; // İleri hareket başlat
+                vehicle.isReversing = false;
+                vehicle.status = 'moving';
+                
+                // Normal ikon
+                vehicle.marker.setIcon(getVehicleIcon(multiVehicleSimulation.routeType));
+            }
+        }
+        
+        const nextPosition = multiVehicleSimulation.routeCoordinates[vehicle.currentIndex];
+        vehicle.marker.setLatLng(nextPosition);
+        vehicle.nextStop = getNextStopName(vehicle.currentIndex);
+        vehicle.lastUpdateTime = now;
+
+        // Sadece gerçek duraklarda durma kontrolü - Geliştirilmiş durak algılama
+        if (multiVehicleSimulation.stopCoordinates.length > 0) {
+            const isNearStop = checkIfNearStop(nextPosition);
+            if (isNearStop && !vehicle.isAtStop) {
+                startStopWait(vehicle);
+            }
+        } else {
+            // Eğer durak koordinatları yoksa, rota boyunca belirli noktalarda dur
+            const totalCoords = multiVehicleSimulation.routeCoordinates.length;
+            const stopInterval = Math.floor(totalCoords / 8); // 8 durak noktası
+            
+            if (stopInterval > 0 && vehicle.currentIndex % stopInterval === 0 && !vehicle.isAtStop) {
+                // Rota boyunca eşit aralıklarla durma
+                startStopWait(vehicle);
+            }
+        }
+
+        updateVehiclePopup(vehicle);
+    }
+
+    // Durak bekleme başlat - Geliştirilmiş durak bekleme sistemi
+    function startStopWait(vehicle) {
+        // Aynı durakta tekrar durma kontrolü
+        const currentStopIndex = findNearestStopIndex(multiVehicleSimulation.routeCoordinates[vehicle.currentIndex]);
+        if (vehicle.lastStopIndex === currentStopIndex) {
+            return; // Aynı durakta tekrar durma
+        }
+        
+        vehicle.isAtStop = true;
+        vehicle.status = 'at_stop';
+        vehicle.lastStopIndex = currentStopIndex;
+        
+        // Her durakta 20-40 saniye arası random bekleme (daha gerçekçi)
+        const waitTime = (20 + Math.random() * 20) * 1000;
+        vehicle.stopEndTime = Date.now() + waitTime;
+
+        // Durakta bekleyen ikon (yön durumuna göre)
+        let waitingIcon;
+        if (vehicle.isReversing) {
+            waitingIcon = getWaitingReverseVehicleIcon(multiVehicleSimulation.routeType);
+        } else {
+            waitingIcon = getWaitingVehicleIcon(multiVehicleSimulation.routeType);
+        }
+        vehicle.marker.setIcon(waitingIcon);
+        
+        // Durak bilgisini güncelle
+        vehicle.nextStop = getCurrentStopName(vehicle.currentIndex);
+        
+        // Durakta durma bilgisini konsola yazdır (sadece debug için)
+        if (console.log) {
+            console.log('🛑 Araç #' + vehicle.id + ' durağa geldi:', {
+                currentStop: getCurrentStopName(vehicle.currentIndex),
+                waitTime: Math.round(waitTime / 1000) + ' saniye',
+                position: multiVehicleSimulation.routeCoordinates[vehicle.currentIndex]
+            });
+        }
+        
+        // Toast bildirimi göster (sadece önemli duraklarda)
+        const currentStopName = getCurrentStopName(vehicle.currentIndex);
+        if (currentStopName.includes('Başlangıç') || currentStopName.includes('Son Durak') || 
+            currentStopName.includes('Merkez') || currentStopName.includes('Terminal')) {
+            showToastNotification(
+                'Araç Durağa Geldi', 
+                `Araç #${vehicle.id} ${currentStopName} durağında ${Math.round(waitTime / 1000)} saniye bekleyecek.`, 
+                'info'
+            );
+        }
+    }
+
+    // Durakta bekleyen araç ikonu
+    function getWaitingVehicleIcon(routeType) {
+        const icons = {
+            'metro': '<i class="fas fa-train"></i>',
+            'tram': '<i class="fas fa-subway"></i>',
+            'metrobus': '<i class="fas fa-bus"></i>',
+            'bus': '<i class="fas fa-bus-simple"></i>'
+        };
+
+        const icon = icons[routeType] || '🚌';
+
+        return L.divIcon({
+            html: `
+                <div style="
+                    background: #ffc107;
+                    color: white;
+                    border-radius: 50%;
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: 2px solid white;
+                    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+                    font-size: 14px;
+                    animation: pulse 2s infinite;
+                ">
+                    ${icon}
+                </div>
+            `,
+            className: 'vehicle-marker waiting',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+    }
+
+    // Araç popup'ını güncelle
+    function updateVehiclePopup(vehicle) {
+        let statusText = 'Hareket halinde';
+        let directionText = 'İleri';
+        
+        if (vehicle.isAtStop) {
+            statusText = 'Durakta';
+        } else if (vehicle.isReversing) {
+            statusText = 'Geri dönüş';
+            directionText = 'Geri';
+        }
+        
+        const remainingTime = vehicle.isAtStop ? 
+            Math.ceil((vehicle.stopEndTime - Date.now()) / 1000) : 0;
+
+        // Mevcut durak bilgisi
+        const currentStop = getCurrentStopName(vehicle.currentIndex);
+
+        vehicle.marker.setPopupContent(`
+            <div class="popup-content">
+                <h6>Araç #${vehicle.id}</h6>
+                <p class="mb-1"><strong>Durum:</strong> ${statusText}</p>
+                <p class="mb-1"><strong>Yön:</strong> ${directionText}</p>
+                <p class="mb-1"><strong>Hız:</strong> ${vehicle.speed}</p>
+                <p class="mb-1"><strong>Mevcut Durak:</strong> ${currentStop}</p>
+                <p class="mb-1"><strong>Sonraki Durak:</strong> ${vehicle.nextStop}</p>
+                ${vehicle.isAtStop ? `<p class="mb-0"><strong>Kalan Süre:</strong> ${remainingTime}s</p>` : ''}
+            </div>
+        `);
+    }
+
+    // Dinamik araç listesini güncelle
+    function updateVehicleList() {
+        const vehicleTable = document.querySelector('#vehicleList tbody');
+        if (!vehicleTable) return;
+
+        vehicleTable.innerHTML = '';
+
+        multiVehicleSimulation.vehicles.forEach(vehicle => {
+            const row = document.createElement('tr');
+            
+            let statusClass = 'text-success';
+            let statusText = 'Hareket halinde';
+            
+            if (vehicle.isAtStop) {
+                statusClass = 'text-warning';
+                statusText = 'Durakta';
+            } else if (vehicle.isReversing) {
+                statusClass = 'text-info';
+                statusText = 'Geri dönüş';
+            }
+            
+            const eta = vehicle.isAtStop ? 
+                Math.ceil((vehicle.stopEndTime - Date.now()) / 1000) + ' sn' : 
+                '2-5 dk';
+
+            // Mevcut durak bilgisi
+            const currentStop = getCurrentStopName(vehicle.currentIndex);
+
+            row.innerHTML = `
+                <td>Araç #${vehicle.id}</td>
+                <td>${multiVehicleSimulation.routeName}</td>
+                <td>${currentStop}</td>
+                <td>${vehicle.speed}</td>
+                <td><span class="badge ${statusClass}">${statusText}</span></td>
+                <td>${eta}</td>
+            `;
+            vehicleTable.appendChild(row);
+        });
+    }
+
+    // Simülasyon kontrolleri UI güncellemeleri
+    function updateSimulationUI() {
+        const startBtn = document.getElementById('startSimulation');
+        const stopBtn = document.getElementById('stopSimulation');
+
+        if (!startBtn || !stopBtn) return; // Elementler yoksa çık
+
+        if (multiVehicleSimulation.isRunning) {
+            startBtn.style.display = 'none';
+            stopBtn.style.display = 'inline-block';
+        } else {
+            startBtn.style.display = 'inline-block';
+            stopBtn.style.display = 'none';
+        }
+    }
+
+    // Simülasyon kontrollerini göster/gizle
+    function showSimulationControls(show) {
+        const controls = document.getElementById('simulationControls');
+        const settings = document.getElementById('simulationSettings');
+        
+        if (show) {
+            controls.style.display = 'block';
+            settings.style.display = 'block';
+        } else {
+            controls.style.display = 'none';
+            settings.style.display = 'none';
+        }
+    }
+
+    // Bu fonksiyon artık kullanılmıyor (sürekli döngü)
+
+    // Toast bildirim sistemi - Geliştirilmiş (daha az popup)
+    function showToastNotification(title, message, type = 'info') {
+        // Toast container'ı oluştur (yoksa)
+        let toastContainer = document.getElementById('toast-container');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.id = 'toast-container';
+            toastContainer.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 10000;
+                max-width: 350px;
+            `;
+            document.body.appendChild(toastContainer);
+        }
+
+        // Aynı mesajın tekrar gösterilmesini engelle
+        const existingToasts = toastContainer.querySelectorAll('.toast-message');
+        for (let existingToast of existingToasts) {
+            if (existingToast.textContent === message) {
+                return; // Aynı mesaj zaten gösteriliyor
+            }
+        }
+
+        // Toast element'i oluştur
+        const toast = document.createElement('div');
+        const toastId = 'toast-' + Date.now();
+        toast.id = toastId;
+        
+        const bgColor = {
+            'success': '#28a745',
+            'info': '#17a2b8',
+            'warning': '#ffc107',
+            'error': '#dc3545'
+        }[type] || '#17a2b8';
+
+        toast.innerHTML = `
+            <div class="toast-message" style="
+                background: white;
+                border-left: 4px solid ${bgColor};
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                margin-bottom: 10px;
+                padding: 16px;
+                position: relative;
+                animation: slideIn 0.3s ease-out;
+            ">
+                <button onclick="closeToast('${toastId}')" style="
+                    position: absolute;
+                    top: 8px;
+                    right: 8px;
+                    background: none;
+                    border: none;
+                    font-size: 18px;
+                    color: #6c757d;
+                    cursor: pointer;
+                    padding: 0;
+                    width: 24px;
+                    height: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                ">&times;</button>
+                <h6 style="margin: 0 20px 8px 0; color: ${bgColor}; font-weight: 600;">${title}</h6>
+                <p style="margin: 0; color: #6c757d; font-size: 14px;">${message}</p>
+            </div>
+        `;
+
+        // CSS animasyonu ekle (yoksa)
+        if (!document.getElementById('toast-animations')) {
+            const style = document.createElement('style');
+            style.id = 'toast-animations';
+            style.textContent = `
+                @@keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @@keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+                @@keyframes pulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.1); }
+                    100% { transform: scale(1); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        toastContainer.appendChild(toast);
+
+        // 3 saniye sonra otomatik kapat (daha kısa süre)
+        setTimeout(() => {
+            closeToast(toastId);
+        }, 3000);
+    }
+
+    // Toast kapatma fonksiyonu
+    window.closeToast = function(toastId) {
+        const toast = document.getElementById(toastId);
+        if (toast) {
+            toast.style.animation = 'slideOut 0.3s ease-in';
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 300);
+        }
+    };
+
+    // Rota seçildiğinde otomatik simülasyon başlat
+    const originalSelectRoute = window.selectRoute;
+    window.selectRoute = async function(routeId) {
+        await originalSelectRoute(routeId);
+        
+        // 2 saniye sonra otomatik simülasyon başlat
+        setTimeout(() => {
+            showSimulationControls(true);
+            updateSimulationUI();
+            startVehicleSimulation(); // Otomatik başlat
+        }, 2000);
+    };
+
+    // Her araç için ayrı animasyon başlat (asenkron hareket)
+    function startIndividualVehicleAnimations() {
+        multiVehicleSimulation.vehicles.forEach((vehicle, index) => {
+            // Her araç için farklı hız (0.8x - 1.2x arası)
+            const vehicleSpeed = multiVehicleSimulation.speed * (0.8 + Math.random() * 0.4);
+            const interval = 1000 / vehicleSpeed;
+            
+            // Araç için interval başlat
+            const vehicleInterval = setInterval(() => {
+                if (!multiVehicleSimulation.isRunning) {
+                    clearInterval(vehicleInterval);
+                    return;
+                }
+                
+                updateSingleVehicle(vehicle);
+                updateVehicleList(); // Araç listesini güncelle
+            }, interval);
+            
+            // Interval'ı kaydet
+            vehicle.interval = vehicleInterval;
+            multiVehicleSimulation.vehicleIntervals.push(vehicleInterval);
+        });
+    }
+
+    // Geri dönüş araç ikonu
+    function getReverseVehicleIcon(routeType) {
+        const icons = {
+            'metro': '<i class="fas fa-train"></i>',
+            'tram': '<i class="fas fa-subway"></i>',
+            'metrobus': '<i class="fas fa-bus"></i>',
+            'bus': '<i class="fas fa-bus-simple"></i>'
+        };
+
+        const icon = icons[routeType] || '🚌';
+
+        return L.divIcon({
+            html: `
+                <div style="
+                    background: #6f42c1;
+                    color: white;
+                    border-radius: 50%;
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: 2px solid white;
+                    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+                    font-size: 14px;
+                    animation: pulse 1.5s infinite;
+                ">
+                    ${icon}
+                </div>
+            `,
+            className: 'vehicle-marker reverse',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+    }
+
+    // Geri dönüş durumunda bekleyen araç ikonu
+    function getWaitingReverseVehicleIcon(routeType) {
+        const icons = {
+            'metro': '<i class="fas fa-train"></i>',
+            'tram': '<i class="fas fa-subway"></i>',
+            'metrobus': '<i class="fas fa-bus"></i>',
+            'bus': '<i class="fas fa-bus-simple"></i>'
+        };
+
+        const icon = icons[routeType] || '🚌';
+
+        return L.divIcon({
+            html: `
+                <div style="
+                    background: #6f42c1;
+                    color: white;
+                    border-radius: 50%;
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: 2px solid white;
+                    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+                    font-size: 14px;
+                    animation: pulse 1.5s infinite;
+                ">
+                    ${icon}
+                </div>
+            `,
+            className: 'vehicle-marker waiting reverse',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+    }
+
+    // Araç bir durağa yakın mı kontrol et - Geliştirilmiş durak algılama
+    function checkIfNearStop(position) {
+        const stopRadius = 0.0005; // Yaklaşık 50 metre (daha hassas durak algılama)
+        
+        return multiVehicleSimulation.stopCoordinates.some(stop => {
+            const [stopLat, stopLng] = stop;
+            const latDiff = Math.abs(position[0] - stopLat);
+            const lngDiff = Math.abs(position[1] - stopLng);
+            
+            // Hem latitude hem longitude farkı küçükse durağa yakın
+            const isNearStop = latDiff < stopRadius && lngDiff < stopRadius;
+            
+            if (isNearStop) {
+                console.log('🚏 Durak algılandı:', {
+                    vehiclePosition: position,
+                    stopPosition: [stopLat, stopLng],
+                    latDiff: latDiff,
+                    lngDiff: lngDiff,
+                    radius: stopRadius
+                });
+            }
+            
+            return isNearStop;
+        });
+    }
+
 </script> 

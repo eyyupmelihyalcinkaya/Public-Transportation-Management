@@ -3,12 +3,52 @@
   "WorkspaceRootPath": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.infrastructure\\data\\services\\paymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|solutionrelative:internshipproject1.infrastructure\\data\\services\\paymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\paymentservice\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|solutionrelative:paymentservice\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6644F89B-A846-46A3-9949-1E862E5C3469}|ApiGateway\\ApiGateway.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\apigateway\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6644F89B-A846-46A3-9949-1E862E5C3469}|ApiGateway\\ApiGateway.csproj|solutionrelative:apigateway\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\paymentservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9EF49AE9-AB9C-48A7-BC48-2D3CE4758763}|PaymentService\\PaymentService.csproj|solutionrelative:paymentservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.webui\\views\\user\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|solutionrelative:internshipproject1.webui\\views\\user\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.webui\\views\\adminpanel\\adminmainpage.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|solutionrelative:internshipproject1.webui\\views\\adminpanel\\adminmainpage.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.webui\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|solutionrelative:internshipproject1.webui\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.webui\\views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|solutionrelative:internshipproject1.webui\\views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.webui\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|solutionrelative:internshipproject1.webui\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.webui\\views\\user\\vehicletracking.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{FC38DBBD-C0BE-452B-8242-C3DBEF18DC73}|internshipProject1.WebUI\\internshipProject1.WebUI.csproj|solutionrelative:internshipproject1.webui\\views\\user\\vehicletracking.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.WebAPI.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1\\controllers\\routescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63CD5736-C110-4027-BF2D-281B9A48DE75}|internshipProject1\\internshipProject1.WebAPI.csproj|solutionrelative:internshipproject1\\controllers\\routescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.application\\registration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9AAD99B-1965-4A95-BBA1-E982E699CF48}|internshipproject1.Application\\internshipproject1.Application.csproj|solutionrelative:internshipproject1.application\\registration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|c:\\users\\melih\\desktop\\asis\\gitlab\\project1\\internshipproject1\\internshipproject1.infrastructure\\registration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{094E8C1C-9B47-42FF-BA05-2E77F0FDC19F}|internshipProject1.Infrastructure\\internshipProject1.Infrastructure.csproj|solutionrelative:internshipproject1.infrastructure\\registration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,28 +71,156 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "VehicleTracking.cshtml",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\User\\VehicleTracking.cshtml",
-              "RelativeDocumentMoniker": "internshipProject1.WebUI\\Views\\User\\VehicleTracking.cshtml",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\User\\VehicleTracking.cshtml",
-              "RelativeToolTip": "internshipProject1.WebUI\\Views\\User\\VehicleTracking.cshtml",
-              "ViewState": "AgIAAHEDAAAAAAAAAAAAwKMEAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-08-19T16:19:10.527Z",
+              "Title": "PaymentService.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Services\\PaymentService.cs",
+              "RelativeDocumentMoniker": "internshipProject1.Infrastructure\\Data\\Services\\PaymentService.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Data\\Services\\PaymentService.cs",
+              "RelativeToolTip": "internshipProject1.Infrastructure\\Data\\Services\\PaymentService.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAIAwwCEAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T00:53:08.684Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "RoutesController.cs",
-              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1\\Controllers\\RoutesController.cs",
-              "RelativeDocumentMoniker": "internshipProject1\\Controllers\\RoutesController.cs",
-              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1\\Controllers\\RoutesController.cs",
-              "RelativeToolTip": "internshipProject1\\Controllers\\RoutesController.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAYwBAAAABEAAAAAAAAAA==",
+              "Title": "PaymentController.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Controllers\\PaymentController.cs",
+              "RelativeDocumentMoniker": "PaymentService\\Controllers\\PaymentController.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Controllers\\PaymentController.cs",
+              "RelativeToolTip": "PaymentService\\Controllers\\PaymentController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAlwBoAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-12T13:39:56.973Z",
+              "WhenOpened": "2025-08-21T00:37:51.032Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Program.cs",
+              "RelativeDocumentMoniker": "PaymentService\\Program.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\PaymentService\\Program.cs",
+              "RelativeToolTip": "PaymentService\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T00:37:48.235Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\ApiGateway\\appsettings.json",
+              "RelativeDocumentMoniker": "ApiGateway\\appsettings.json",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\ApiGateway\\appsettings.json",
+              "RelativeToolTip": "ApiGateway\\appsettings.json",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-21T00:36:47.639Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\User\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "internshipProject1.WebUI\\Views\\User\\Dashboard.cshtml",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\User\\Dashboard.cshtml",
+              "RelativeToolTip": "internshipProject1.WebUI\\Views\\User\\Dashboard.cshtml",
+              "ViewState": "AgIAAE0KAAAAAAAAAAAAwFsKAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-21T00:23:44.989Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AdminMainPage.cshtml",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\AdminPanel\\AdminMainPage.cshtml",
+              "RelativeDocumentMoniker": "internshipProject1.WebUI\\Views\\AdminPanel\\AdminMainPage.cshtml",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\AdminPanel\\AdminMainPage.cshtml",
+              "RelativeToolTip": "internshipProject1.WebUI\\Views\\AdminPanel\\AdminMainPage.cshtml",
+              "ViewState": "AgIAAMsHAAAAAAAAAADwv+8HAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-20T23:41:54.992Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "internshipProject1.WebUI\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "internshipProject1.WebUI\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAGQBAAAAAAAAAAAAAHwBAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-20T23:20:49.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\Account\\Register.cshtml",
+              "RelativeDocumentMoniker": "internshipProject1.WebUI\\Views\\Account\\Register.cshtml",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\Account\\Register.cshtml",
+              "RelativeToolTip": "internshipProject1.WebUI\\Views\\Account\\Register.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-20T23:16:08.948Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "internshipProject1.WebUI\\Views\\Account\\Login.cshtml",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "internshipProject1.WebUI\\Views\\Account\\Login.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABIAAACGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-20T23:14:53.951Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "VehicleTracking.cshtml",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\User\\VehicleTracking.cshtml",
+              "RelativeDocumentMoniker": "internshipProject1.WebUI\\Views\\User\\VehicleTracking.cshtml",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.WebUI\\Views\\User\\VehicleTracking.cshtml",
+              "RelativeToolTip": "internshipProject1.WebUI\\Views\\User\\VehicleTracking.cshtml",
+              "ViewState": "AgIAADgJAAAAAAAAAAAAwDEJAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-20T19:04:40.785Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Registration.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Registration.cs",
+              "RelativeDocumentMoniker": "internshipproject1.Application\\Registration.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipproject1.Application\\Registration.cs",
+              "RelativeToolTip": "internshipproject1.Application\\Registration.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-20T18:41:03.149Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Registration.cs",
+              "DocumentMoniker": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Registration.cs",
+              "RelativeDocumentMoniker": "internshipProject1.Infrastructure\\Registration.cs",
+              "ToolTip": "C:\\Users\\Melih\\Desktop\\Asis\\gitLAB\\project1\\internshipproject1\\internshipProject1.Infrastructure\\Registration.cs",
+              "RelativeToolTip": "internshipProject1.Infrastructure\\Registration.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-20T18:39:57.934Z"
             }
           ]
         }

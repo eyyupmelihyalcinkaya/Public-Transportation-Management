@@ -298,6 +298,65 @@ body {
     font-weight: 500;
     transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
 }
+
+/* Parola göster/gizle butonu stilleri */
+.password-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-container input {
+    padding-right: 45px; /* Buton için yer aç */
+    width: 100%;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    color: var(--text-secondary-light);
+    transition: all var(--transition-speed) ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.password-toggle-btn:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: var(--btn-bg-light);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.password-toggle-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.password-toggle-btn i {
+    font-size: 16px;
+    transition: all var(--transition-speed) ease;
+}
+
+.password-toggle-btn:hover i {
+    transform: scale(1.1);
+}
+
+/* Dark tema için parola butonu */
+body.dark .password-toggle-btn {
+    color: var(--text-secondary-dark);
+}
+
+body.dark .password-toggle-btn:hover {
+    background-color: rgba(99, 179, 237, 0.1);
+    color: var(--btn-bg-dark);
+}
 .checkbox-btn:hover {
     background-color: var(--input-border-light);
 }
